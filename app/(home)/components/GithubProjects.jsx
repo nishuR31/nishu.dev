@@ -33,10 +33,6 @@ const languageColors = {
     Java: '#b07219',
     'C#': '#178600',
     PHP: '#4F5D95',
-    Ruby: '#701516',
-    Go: '#00ADD8',
-    Swift: '#ffac45',
-    Kotlin: '#F18E33',
     Rust: '#dea584',
 };
 
