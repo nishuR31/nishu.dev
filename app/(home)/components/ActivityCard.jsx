@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
@@ -42,7 +43,7 @@ const ActivityCard = ({
   const progressPercentage = (currentProgress / duration) * 100;
 
   return (
-    <div className="bg-secondary/10 border-[1.8px] border-zinc-900/70 p-4 rounded-xl backdrop-blur-sm hover:bg-secondary/20 transition-all duration-300">
+    <div className="bg-secondary/10 border-[1.7px] border-zinc-900/70 p-4 rounded-xl backdrop-blur-sm hover:bg-secondary/20 transition-all duration-300">
       <div className="flex items-center gap-2 mb-4 pb-2 border-b border-zinc-800/50">
         {Icon}
         <span className="text-sm font-medium tracking-wide">{title}</span>
