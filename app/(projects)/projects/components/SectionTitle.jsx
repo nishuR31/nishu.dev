@@ -48,14 +48,14 @@ const SectionTitle = () => (
 
     <div className="flex items-center gap-6 pt-2 overflow-x-auto pb-2 scrollbar-hide">
       <div className="space-y-1 flex-shrink-0">
-        <span className="text-xl sm:text-2xl font-bold text-primary">50+</span>
+        <span className="text-xl sm:text-2xl font-bold text-primary">5+</span>
         <p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
           Projects Completed
         </p>
       </div>
       <div className="w-px h-8 sm:h-10 bg-primary/10 flex-shrink-0" />
       <div className="space-y-1 flex-shrink-0">
-        <span className="text-xl sm:text-2xl font-bold text-primary">1+</span>
+        <span className="text-xl sm:text-2xl font-bold text-primary">0</span>
         <p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
           Years Experience
         </p>
