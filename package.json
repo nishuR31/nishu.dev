@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "rm -rf .next && next dev",
-    "di": "rm -rf .next &&  npx concurrently \"npm run dev\" \"npm run worker\"",
-    "build": "next build && npm run worker",
+    "di": " npx concurrently \"npm run dev\" \"npm run worker\"",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "worker": "node worker/mail-worker.js"
