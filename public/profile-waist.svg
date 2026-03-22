@@ -1,0 +1,81 @@
+<svg width="640" height="900" viewBox="0 0 640 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Waist-length human placeholder">
+  <style>
+    .idle-float {
+      transform-origin: 320px 520px;
+      animation: idleFloat 4.6s ease-in-out infinite;
+    }
+
+    .head-nod {
+      transform-origin: 320px 280px;
+      animation: headNod 3.2s ease-in-out infinite;
+    }
+
+    .hair-sway {
+      transform-origin: 320px 260px;
+      animation: hairSway 2.8s ease-in-out infinite;
+    }
+
+    .ghost-overlap {
+      opacity: 0.14;
+      animation: overlapShift 2.7s ease-in-out infinite;
+    }
+
+    @keyframes idleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes headNod {
+      0%, 100% { transform: rotate(0deg) translateY(0px); }
+      50% { transform: rotate(-1.2deg) translateY(-2px); }
+    }
+
+    @keyframes hairSway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(1.6deg); }
+    }
+
+    @keyframes overlapShift {
+      0%, 100% { transform: translate(0px, 0px); }
+      50% { transform: translate(2px, -2px); }
+    }
+  </style>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1D4ED8"/>
+      <stop offset="45%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4C7A1"/>
+      <stop offset="100%" stop-color="#D19A6A"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#374151"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="900" rx="44" fill="url(#bg)"/>
+
+  <g class="idle-float">
+    <path class="ghost-overlap" d="M182 604c0-104 62-172 138-172h0c76 0 138 68 138 172v158H182V604z" fill="#9CA3AF"/>
+
+    <g class="head-nod">
+      <circle cx="320" cy="280" r="116" fill="url(#skin)"/>
+    </g>
+
+    <path d="M182 604c0-104 62-172 138-172h0c76 0 138 68 138 172v158H182V604z" fill="url(#shirt)"/>
+    <path d="M228 754c24-34 58-53 92-53s68 19 92 53" stroke="#6B7280" stroke-width="18" stroke-linecap="round"/>
+
+    <g class="head-nod">
+      <path class="hair-sway" d="M193 282c7-78 60-132 127-132 70 0 122 51 128 128-40-22-76-31-117-26-43 6-84 28-138 30z" fill="#111827"/>
+      <circle cx="275" cy="286" r="8" fill="#111827"/>
+      <circle cx="365" cy="286" r="8" fill="#111827"/>
+      <path d="M270 335c13 13 31 20 50 20s37-7 50-20" stroke="#111827" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <ellipse cx="320" cy="866" rx="180" ry="26" fill="rgba(0,0,0,0.22)"/>
+</svg>

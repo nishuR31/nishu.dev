@@ -1,22 +1,50 @@
-"use client"
-import React from 'react'
-import HeroSection from './components/HeroSection'
-import GithubProjects from './components/GithubProjects'
-import SkillsSection from './components/Skills'
-import ExperienceSection from './components/Experience'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { HiArrowRight } from 'react-icons/hi'
+"use client";
+import React from "react";
+import HeroSection from "./components/HeroSection";
+import GithubProjects from "./components/GithubProjects";
+import SkillsSection from "./components/Skills";
+import ExperienceSection from "./components/Experience";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import RevealOnScroll from "@/components/ui/reveal-on-scroll";
+import { config } from "@/config";
 
 const Home = () => {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: config.developer.name,
+    jobTitle: config.developer.role,
+    description: config.developer.bio,
+    email: config.developer.email,
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: config.developer.location,
+    },
+    url: "https://nishu.portfolio.vercel.app",
+  };
+
   return (
     <div>
-      <HeroSection />
-      <ExperienceSection />
-      <GithubProjects />
-      <SkillsSection />
-      
-      {/* Contact Button Section */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+
+      <RevealOnScroll>
+        <HeroSection />
+      </RevealOnScroll>
+      <RevealOnScroll delay={80}>
+        <ExperienceSection />
+      </RevealOnScroll>
+      <RevealOnScroll delay={120}>
+        <GithubProjects />
+      </RevealOnScroll>
+      <RevealOnScroll delay={160}>
+        <SkillsSection />
+      </RevealOnScroll>
+
       <section className="py-16 pb-24">
         <div className="container mx-auto px-6">
           <motion.div
@@ -30,17 +58,17 @@ const Home = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full glass-panel text-card-foreground text-sm font-medium transition-all duration-300 hover-lift"
               >
                 <span>Get In Touch</span>
-                <HiArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.button>
             </Link>
           </motion.div>
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

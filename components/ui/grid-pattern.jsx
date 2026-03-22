@@ -15,13 +15,14 @@ export function GridPattern({
   const id = useId();
 
   return (
-    (<svg
+    <svg
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 -z-10 h-full w-full fill-gray-400/30 stroke-gray-600/10",
-        className
+        className,
       )}
-      {...props}>
+      {...props}
+    >
       <defs>
         <pattern
           id={id}
@@ -29,11 +30,13 @@ export function GridPattern({
           height={height}
           patternUnits="userSpaceOnUse"
           x={x}
-          y={y}>
+          y={y}
+        >
           <path
             d={`M.5 ${height}V.5H${width}`}
             fill="none"
-            strokeDasharray={strokeDasharray} />
+            strokeDasharray={strokeDasharray}
+          />
         </pattern>
       </defs>
       <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${id})`} />
@@ -46,11 +49,12 @@ export function GridPattern({
               width={width - 1}
               height={height - 1}
               x={x * width + 1}
-              y={y * height + 1} />
+              y={y * height + 1}
+            />
           ))}
         </svg>
       )}
-    </svg>)
+    </svg>
   );
 }
 

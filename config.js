@@ -1,157 +1,242 @@
-import { FaDiscord, FaGithub, FaMapPin } from "react-icons/fa";
-import { HiCode, HiCube, HiDatabase, HiMail, HiBriefcase } from "react-icons/hi";
-
 export const config = {
-    developer: {
-        name: "Huzaif",
+  developer: {
+    name: "Nishan Rajak",
+    shortName: "Nishu",
+    role: "Backend-Focused Software Engineering Student",
+    tagline: "Scalable APIs, secure auth, and modular backend systems.",
+    bio: "Backend-focused software engineering student specializing in scalable REST API architecture, authentication systems, and modular backend design with performance-conscious routing, middleware orchestration, and robust error handling.",
+    location: "Raghunathpur, West Bengal",
+    email: "nishan.developer.dev@gmail.com",
+  },
+  social: {
+    github: "nishuR31",
+    discord: "#",
+  },
+  NAV_ITEMS: [
+    { href: "/projects", label: "Projects" },
+    { href: "/contact", label: "Contact" },
+  ],
+  recentTracks: true, // Enable/disable Spotify recent tracks
+  projects: [
+    {
+      id: 1,
+      title: "Devclip Hub",
+      description:
+        "Developer-focused utility hub with modular frontend architecture and productivity-driven tooling.",
+      image: "/projects/project-1.webp",
+      technologies: ["Next.js", "React", "JavaScript", "TailwindCSS", "UI/UX"],
+      github: "https://github.com/nishuR31/devclip-hub",
+      demo: "https://devclip-hub.vercel.app",
     },
-    social: {
-        github: "huzaifahmedz",
-        discord: "#"
+    {
+      id: 2,
+      title: "Gh Control",
+      description:
+        "Power-user GitHub command center with repo, PR, webhook, and job controls in one dashboard.",
+      image: "/projects/project-2.webp",
+      technologies: [
+        "Next.js",
+        "Node.js",
+        "MongoDB",
+        "Redis",
+        "BullMQ",
+        "REST API",
+      ],
+      github: "https://github.com/nishuR31/ghControl",
+      demo: "https://gh-control-nishu.vercel.app",
     },
-    NAV_ITEMS: [
-        { href: '/projects', label: 'Projects' },
-        { href: '/contact', label: 'Contact' }
-    ],
-    recentTracks: true, // Enable/disable Spotify recent tracks
-    projects: [
-        {
-            id: 1,
-            title: "AI-Powered Code Review Assistant",
-            description: "An intelligent code review platform that uses machine learning to analyze pull requests, detect bugs, suggest optimizations, and enforce coding standards. Features real-time collaboration, automated testing integration, and comprehensive security scanning.",
-            image: "/projects/project-1.webp",
-            technologies: ["Python", "TensorFlow", "React", "FastAPI", "PostgreSQL", "Docker"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 2,
-            title: "Real-time Collaborative Whiteboard",
-            description: "A next-generation collaborative whiteboard platform with infinite canvas, real-time synchronization, and advanced drawing tools. Supports video conferencing, screen sharing, and export to multiple formats. Built for remote teams and educators.",
-            image: "/projects/project-2.webp",
-            technologies: ["TypeScript", "WebRTC", "Socket.io", "Canvas API", "Node.js", "Redis"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 3,
-            title: "Blockchain Voting System",
-            description: "A secure, transparent, and decentralized voting platform built on Ethereum. Features smart contract-based voting, anonymous ballots, real-time result tracking, and immutable audit trails. Ensures election integrity through cryptographic verification.",
-            image: "/projects/project-3.webp",
-            technologies: ["Solidity", "Web3.js", "React", "Ethereum", "IPFS", "MetaMask"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 4,
-            title: "Cloud Infrastructure Dashboard",
-            description: "A comprehensive cloud management platform for monitoring, managing, and optimizing multi-cloud infrastructure. Features real-time metrics, cost analysis, automated scaling, and security compliance monitoring across AWS, Azure, and GCP.",
-            image: "/projects/project-4.webp",
-            technologies: ["Go", "Kubernetes", "Grafana", "Prometheus", "Terraform", "React"],
-            github: "#",
-            demo: "#"
-        },
-        {
-            id: 5,
-            title: "Neural Network Visualizer",
-            description: "An interactive web application for visualizing, training, and experimenting with neural networks. Features drag-and-drop architecture builder, real-time training visualization, model comparison tools, and export capabilities for production deployment.",
-            image: "/projects/project-5.webp",
-            technologies: ["Python", "TensorFlow.js", "D3.js", "Next.js", "WebGL", "TypeScript"],
-            github: "#",
-            demo: "#"
-        }
- 
-    ],
-    skills: [
-        {
-            title: "Frontend",
-            icon: <HiCode />,
-            description: "Modern web interfaces",
-            bgClass: "bg-blue-500/10",
-            iconClass: "text-blue-500",
-            skills: [
-                { name: "Next.js 15", level: "Advanced", hot: true },
-                { name: "React", level: "Advanced" },
-                { name: "TailwindCSS", level: "Expert" },
-                { name: "JavaScript", level: "Advanced" },
-                { name: "Framer Motion", level: "Intermediate" }
-            ]
-        },
-        {
-            title: "Backend",
-            icon: <HiDatabase />,
-            description: "Server & Database",
-            bgClass: "bg-emerald-500/10",
-            iconClass: "text-emerald-500",
-            skills: [
-                { name: "Node.js", level: "Advanced", hot: true },
-                { name: "MongoDB", level: "Advanced" },
-                { name: "Express.js", level: "Advanced", hot: true }
-            ]
-        },
-        {
-            title: "Programs & Tools",
-            icon: <HiCube />,
-            description: "Development & Productivity Tools",
-            bgClass: "bg-orange-500/10",
-            iconClass: "text-orange-500",
-            skills: [
-                { name: "VS Code", level: "Expert", hot: true },
-                { name: "Postman", level: "Advanced" },
-                { name: "Photoshop", level: "Intermediate" },
-                { name: "Git", level: "Advanced" }
-            ]
-        }
-    ],
-    experiences: [
-        {
-            position: "Frontend Developer",
-            company: "SelectSkillSet",
-            period: "2024 - Present",
-            location: "Remote",
-            description: "Developing modern, responsive frontend applications with focus on user experience and performance. Working with cutting-edge technologies to build scalable web solutions.",
-            responsibilities: [
-                "Building responsive and interactive user interfaces using React and Next.js",
-                "Implementing modern UI/UX designs with TailwindCSS and Framer Motion",
-                "Optimizing application performance and ensuring cross-browser compatibility",
-                "Collaborating with design and backend teams to deliver high-quality features"
-            ],
-            technologies: ["React", "Next.js", "TailwindCSS", "JavaScript", "Framer Motion", "TypeScript"]
-        },
-        {
-            position: "Full Stack Developer",
-            company: "Tekisky",
-            period: "2023 - 2024",
-            location: "Remote",
-            description: "Developed and maintained full-stack web applications, working on both frontend and backend systems. Collaborated with cross-functional teams to deliver robust software solutions.",
-            responsibilities: [
-                "Developed and maintained full-stack web applications using React, Node.js, and MongoDB",
-                "Implemented RESTful APIs and integrated third-party services",
-                "Built responsive user interfaces and optimized application performance",
-                "Worked on database design and backend architecture"
-            ],
-            technologies: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "MERN Stack"]
-        }
-    ],
-    contactInfo: [
-     
-        {
-            icon: <FaGithub className="w-5 h-5" />,
-            label: "GitHub",
-            value: "@huzaifahmedz",
-            link: `https://github.com/huzaifahmedz`
-        },
-        {
-            icon: <HiMail className="w-5 h-5" />,
-            label: "Email",
-            value: "dev.huzaif@gmail.com",
-            link: "mailto:dev.huzaif@gmail.com"
-        },
-        {
-            icon: <FaMapPin className="w-5 h-5" />,
-            label: "Location",
-            value: "India",
-            link: null
-        }
-    ]
-}
+    {
+      id: 3,
+      title: "Baksy",
+      description:
+        "Product-focused full-stack application with scalable backend and polished frontend experiences.",
+      image: "/projects/project-3.webp",
+      technologies: [
+        "React",
+        "Node.js",
+        "Express",
+        "JavaScript",
+        "MongoDB",
+        "API",
+      ],
+      github: "https://github.com/nishuR31/baksy",
+      demo: "https://baksy.vercel.app",
+    },
+    {
+      id: 4,
+      title: "Lunarity",
+      description:
+        "Experimental project focused on modern UI systems, interaction polish, and modular architecture.",
+      image: "/projects/project-4.webp",
+      technologies: [
+        "TypeScript",
+        "React",
+        "Next.js",
+        "TailwindCSS",
+        "Animation",
+      ],
+      github: "https://github.com/nishuR31/lunarity",
+      demo: "https://lunarity-xi.vercel.app",
+    },
+    {
+      id: 5,
+      title: "FocusMode",
+      description:
+        "Focus and productivity tracking system designed to reduce interruptions and improve workflow quality.",
+      image: "/projects/project-5.webp",
+      technologies: [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "State Management",
+        "UX",
+      ],
+      github: "https://github.com/nishuR31/focusMode",
+      demo: "https://focus-mode-on.vercel.app",
+    },
+    {
+      id: 6,
+      title: "Beat",
+      description:
+        "Interactive modern web app with strong visual identity and responsive component architecture.",
+      image: "/projects/project-1.webp",
+      technologies: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "TailwindCSS",
+        "Animation",
+      ],
+      github: "https://github.com/nishuR31/beat",
+      demo: "https://beat-xi.vercel.app",
+    },
+  ],
+  skills: [
+    {
+      title: "Frontend",
+      iconKey: "frontend",
+      description: "Modern web interfaces",
+      bgClass: "bg-blue-500/10",
+      iconClass: "text-blue-500",
+      skills: [
+        { name: "React", level: "Intermediate" },
+        { name: "HTML", level: "Advanced" },
+        { name: "TailwindCSS", level: "Advanced" },
+        { name: "JavaScript", level: "Advanced", hot: true },
+        { name: "TypeScript", level: "Advanced", hot: true },
+      ],
+    },
+    {
+      title: "Backend",
+      iconKey: "backend",
+      description: "APIs, architecture, and auth",
+      bgClass: "bg-emerald-500/10",
+      iconClass: "text-emerald-500",
+      skills: [
+        { name: "Node.js", level: "Advanced", hot: true },
+        { name: "Express.js", level: "Advanced", hot: true },
+        { name: "REST APIs", level: "Advanced", hot: true },
+        { name: "MVC Architecture", level: "Advanced", hot: true },
+        { name: "JWT Authentication", level: "Advanced", hot: true },
+        { name: "Mongoose", level: "Intermediate" },
+        { name: "Error Handling", level: "Advanced" },
+      ],
+    },
+    {
+      title: "Databases & Tools",
+      iconKey: "tools",
+      description: "Data and workflow stack",
+      bgClass: "bg-orange-500/10",
+      iconClass: "text-orange-500",
+      skills: [
+        { name: "MongoDB", level: "Advanced", hot: true },
+        { name: "MySQL", level: "Intermediate" },
+        { name: "Postman", level: "Advanced", hot: true },
+        { name: "Git", level: "Intermediate" },
+        { name: "GitHub", level: "Advanced" },
+        { name: "VS Code", level: "Advanced" },
+        { name: "Python", level: "Intermediate" },
+        { name: "SQL", level: "Intermediate" },
+      ],
+    },
+  ],
+  experiences: [
+    {
+      position: "Backend Development Practice",
+      company: "Self-driven Engineering Track",
+      period: "Ongoing",
+      location: "Remote",
+      description:
+        "Building production-structured backend systems with modular architecture, secure auth, and scalable API workflows.",
+      responsibilities: [
+        "Architected RESTful APIs using modular MVC structure and layered middleware pipelines",
+        "Implemented secure authentication flows using JWT, cookies, and protected route authorization",
+        "Designed centralized error-handling utilities to improve API reliability and debugging efficiency",
+        "Optimized API testing workflows and request validation using Postman collections",
+        "Applied Git-based version control strategies for scalable project structuring",
+      ],
+      technologies: ["Node.js", "Express", "JWT", "MongoDB", "Postman", "Git"],
+    },
+    {
+      position: "B.Tech Computer Science Engineering",
+      company: "ICFAI University Jharkhand",
+      period: "2023 - 2027",
+      location: "Jharkhand, India",
+      description:
+        "Undergraduate engineering program with focus on software engineering, system design, data structures, and backend development.",
+      responsibilities: [
+        "Focused on core computer science and software engineering principles",
+        "Applied OOP and data structure concepts in practical projects",
+        "Built multiple backend and full-stack projects with scalable architecture",
+      ],
+      technologies: [
+        "Data Structures",
+        "OOP",
+        "JavaScript",
+        "TypeScript",
+        "Node.js",
+      ],
+    },
+  ],
+  contactInfo: [
+    {
+      iconKey: "github",
+      label: "GitHub",
+      value: "@nishuR31",
+      link: `https://github.com/nishuR31`,
+    },
+    {
+      iconKey: "mail",
+      label: "Email",
+      value: "nishan.developer.dev@gmail.com",
+      link: "mailto:nishan.developer.dev@gmail.com",
+    },
+    {
+      iconKey: "map-pin",
+      label: "Location",
+      value: "Raghunathpur, West Bengal",
+      link: null,
+    },
+    {
+      iconKey: "briefcase",
+      label: "LinkedIn",
+      value: "linkedin.com/in/your-id",
+      link: "https://linkedin.com/in/your-id",
+    },
+  ],
+  additionalProjects: [
+    "FocusMode — Productivity interface",
+    "GitHub Recap Tool — Data summarization utility",
+    "HBday — Cron-based email automation",
+    "Gitignore Generator — Developer utility tool",
+    "Interruption — Focus tracking system",
+    "ProjectNexus — Modular backend architecture experiment",
+    "SportsSpirit — TypeScript project",
+  ],
+  strengths: [
+    "System architecture thinking",
+    "Clean code practices",
+    "API design and optimization",
+    "Analytical problem-solving",
+  ],
+};

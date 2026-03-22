@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 body {
-  background-color: #0a0a0a;
-  color: #fff;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {
@@ -64,24 +68,132 @@ body {
 @layer base {
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(
+        circle at 15% 20%,
+        rgba(139, 92, 246, 0.12),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 85% 80%,
+        rgba(34, 211, 238, 0.12),
+        transparent 30%
+      );
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
   }
 }
 
+@layer components {
+  .glass-panel {
+    @apply border border-input text-card-foreground backdrop-blur-md shadow-xl;
+    background-color: hsl(var(--card) / 0.55);
+  }
+
+  .glass-panel-strong {
+    @apply border border-input text-card-foreground backdrop-blur-xl shadow-2xl;
+    background-color: hsl(var(--card) / 0.72);
+  }
+
+  .floating-gravity {
+    animation: float-gravity 7s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl;
+  }
+
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms ease,
+      transform 700ms ease;
+  }
+
+  .reveal-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-season="winter"] body {
+  background-image:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(56, 189, 248, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(148, 163, 184, 0.16),
+      transparent 35%
+    );
+}
+
+[data-season="spring"] body {
+  background-image:
+    radial-gradient(
+      circle at 15% 25%,
+      rgba(52, 211, 153, 0.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 75%,
+      rgba(236, 72, 153, 0.12),
+      transparent 30%
+    );
+}
+
+[data-season="summer"] body {
+  background-image:
+    radial-gradient(
+      circle at 22% 18%,
+      rgba(251, 191, 36, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 78% 78%,
+      rgba(249, 115, 22, 0.14),
+      transparent 35%
+    );
+}
+
+[data-season="autumn"] body {
+  background-image:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(249, 115, 22, 0.15),
+      transparent 32%
+    ),
+    radial-gradient(circle at 85% 78%, rgba(234, 88, 12, 0.14), transparent 32%);
+}
+
 ::-webkit-scrollbar {
-  width: 5px
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #222121;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555
+  background: #555;
+}
+
+a,
+button {
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    background-color 220ms ease;
 }
 
 @keyframes shiny-sweep {
@@ -90,6 +202,66 @@ body {
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+@keyframes float-gravity {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-6px) translateX(2px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(0);
+  }
+  75% {
+    transform: translateY(-4px) translateX(-2px);
+  }
+}
+
+html[data-motion="off"] * {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-pointer="coarse"] .floating-gravity {
+  animation-duration: 10s;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      circle at 18% 24%,
+      rgba(59, 130, 246, 0.1),
+      transparent 30%
+    ),
+    radial-gradient(circle at 84% 78%, rgba(236, 72, 153, 0.1), transparent 34%);
+  animation: bg-breathe 9s ease-in-out infinite;
+}
+
+@keyframes bg-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+@media (max-width: 768px) {
+  body::before {
+    opacity: 0.65;
+    animation-duration: 13s;
   }
 }
 
