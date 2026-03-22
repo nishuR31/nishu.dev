@@ -139,13 +139,14 @@ const HeroSection = () => {
               {[0, 1, 2].map((layer) => {
                 const frameIndex = (activeFrame + layer) % photoFrames.length;
                 return (
-                  <img
+                  <Image
                     key={layer}
                     src={photoFrames[frameIndex]}
                     alt={`${config.developer.name} profile frame ${frameIndex + 1}`}
                     onError={(e) => {
                       e.currentTarget.src = "/profile-waist.svg";
                     }}
+                    fill
                     className="absolute inset-0 w-full h-full object-cover outline outline-1 outline-primary/25 transition-all duration-700"
                     style={{
                       opacity:

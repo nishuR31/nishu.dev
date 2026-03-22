@@ -12,9 +12,10 @@ export const ProjectCard = ({ project, index }) => (
   >
     <div className="sm:w-1/3">
       <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-        <img
+        <Image
           src={project.image}
           alt={project.title}
+          fill
           loading="lazy"
           className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
         />
