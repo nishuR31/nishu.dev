@@ -111,7 +111,7 @@ const ContactButton = ({ isMobile = false, onLinkClick }) => (
   >
     {!isMobile && <ThemeToggle />}
     <Link
-      href={"https://github.com/nishuR31/newportfolio"}
+      href={"https://github.com/nishuR31/nishu.dev"}
       target="_blank"
       className={isMobile ? "w-full" : ""}
     >
