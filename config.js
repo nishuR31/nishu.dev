@@ -220,8 +220,8 @@ export const config = {
     {
       iconKey: "briefcase",
       label: "LinkedIn",
-      value: "linkedin.com/in/your-id",
-      link: "https://linkedin.com/in/your-id",
+      value: "linkedin.com/in/nishan-rajak-98b2ab3b8",
+      link: "https://linkedin.com/in/nishan-rajak-98b2ab3b8",
     },
   ],
   additionalProjects: [
