@@ -4,13 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "rm -rf .next && next dev",
-    "go":"node index.js",
-    "di": " npx concurrently \"npm run dev\" \"npm run worker\"",
+    "next": "rm -rf .next && next dev",
+    "dev": " npx concurrently \"npm run next\" \"npm run server\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "worker": "node worker/mail-worker.js"
+    "server": "node server/server.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -18,6 +17,7 @@
     "bullmq": "^5.71.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cors": "^2.8.6",
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",

@@ -15,10 +15,14 @@ const contactIconMap = {
   briefcase: Briefcase,
 };
 
+// Prefer explicit public URL; fallback to localhost for local testing
+const endpoint = "http://localhost:4000/sendmail";
+// process.env.NEXT_PUBLIC_BACKEND || "http://localhost:4000/sendmail";
+
 const ContactPage = () => {
   const handleSubmit = async (formData) => {
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
