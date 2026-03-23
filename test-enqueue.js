@@ -1,5 +1,5 @@
 import { enqueueContactMail } from "./lib/mail-queue.js";
-
+import "dotenv/config";
 async function run() {
   console.log("Enqueuing test mail...");
   const job = await enqueueContactMail({

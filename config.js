@@ -10,12 +10,13 @@ export const config = {
     about: [
       "I am a passionate software engineering student with a strong focus on backend system architecture and clean, modular code.",
       "My journey began with a fascination for how data flows behind the scenes, leading me to deeply explore RESTful APIs, authentication protocols, and database optimization.",
-      "When I'm not writing code, I enjoy breaking down complex problems and continuously learning about modern infrastructure to build high-performance applications."
+      "When I'm not writing code, I enjoy breaking down complex problems and continuously learning about modern infrastructure to build high-performance applications.",
     ],
   },
   social: {
     github: "nishuR31",
     discord: "#",
+    linkedin: "nishan-rajak-98b2ab3b8",
   },
   NAV_ITEMS: [
     { href: "/projects", label: "Projects" },
