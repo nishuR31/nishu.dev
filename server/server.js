@@ -13,7 +13,7 @@ app.get("/health", (req, res) => {
     env: process.env.NODE_ENV || "unknown",
   });
 });
-
+console.log(process.env.MAIL_APP_PASSWORD, process.env.MAIL_TO);
 app.post("/sendmail", async (req, res) => {
   const { name, email, message } = req.body || {};
   if (!name || !email || !message) {
