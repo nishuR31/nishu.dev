@@ -35,6 +35,7 @@ async function publishHeartbeat() {
 const worker = new Worker(
   CONTACT_MAIL_QUEUE_NAME,
   async (job) => {
+    console.log(`Worker got Job:${JSON.stringify(job)}`);
     if (job.name !== "contact-message") {
       return;
     }

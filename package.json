@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "rm -rf .next && next dev",
+    "go":"node index.js",
     "di": " npx concurrently \"npm run dev\" \"npm run worker\"",
     "build": "next build",
     "start": "next start",
