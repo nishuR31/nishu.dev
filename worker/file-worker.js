@@ -12,24 +12,8 @@ const worker = new Worker(
     const { name, email, message } = job.data;
 
     try {
-      let autoRes = await sendAutoResponderEmail({ name, email });
-      let res = await sendContactEmail({ name, email, message });
-      console.log(
-        {
-          AutoMailResponse: {
-            msgTime: autoRes.messageTime,
-            amsgSize: autoRes.messageSize,
-            response: autoRes.response,
-          },
-        },
-        {
-          MailResponse: {
-            msgTime: res.messageTime,
-            amsgSize: res.messageSize,
-            response: res.response,
-          },
-        },
-      );
+      await sendAutoResponderEmail({ name, email });
+      await sendContactEmail({ name, email, message });
     } catch (err) {
       throw err; // allow BullMQ to mark job failed
     }
