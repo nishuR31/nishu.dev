@@ -16,7 +16,9 @@ const contactIconMap = {
 };
 
 // Prefer explicit public URL; fallback to localhost for local testing
-const endpoint = "http://localhost:4000/sendmail";
+const endpoint =
+  process.env.NEXT_PUBLIC_BACKEND + "/sendmail" ||
+  "http://localhost:4000/sendmail";
 // process.env.NEXT_PUBLIC_BACKEND || "http://localhost:4000/sendmail";
 
 const ContactPage = () => {
