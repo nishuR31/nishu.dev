@@ -43,15 +43,22 @@ export default function SystemStatusPage() {
 
   const fetchHealth = async () => {
     try {
+      setLoading(true);
       setError("");
-      const response = await fetch("/api/health", { cache: "no-store" });
-      const json = await response.json();
-      if (!response.ok && !json) {
-        throw new Error("Health endpoint failed");
+      const healthUrl =
+        process.env.NEXT_PUBLIC_BACKEND + "/health" ||
+        `http://localhost:${process.env.PORT}/health`;
+      const response = await fetch(healthUrl, { cache: "no-store" });
+      const json = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(
+          json?.error || `Health check failed (${response.status})`,
+        );
       }
-      setData(json);
+      setData(json || null);
     } catch (err) {
-      setError(err.message || "Failed to fetch health status");
+      setData(null);
+      setError(err?.message || String(err) || "Failed to fetch health status");
     } finally {
       setLoading(false);
     }
@@ -65,48 +72,54 @@ export default function SystemStatusPage() {
 
   const cards = useMemo(() => {
     if (!data?.systems) return [];
+    const apiOk = Boolean(data?.systems?.api?.ok);
+    const redisOk = Boolean(data?.systems?.redis?.ok);
+    const queueOk = Boolean(data?.systems?.queue?.ok);
+    const workerOk = Boolean(data?.systems?.workerHeartbeat?.ok);
+    const mailOk = Boolean(data?.systems?.mailConfig?.ok);
+
     return [
       {
         title: "API",
         icon: Server,
-        ok: data.systems.api?.ok,
-        details: "Core API route is reachable",
+        ok: apiOk,
+        details: data?.systems?.api?.message || "Core API route is reachable",
       },
       {
         title: "Redis",
         icon: Database,
-        ok: data.systems.redis?.ok,
+        ok: redisOk,
         details:
-          data.systems.redis?.message ||
-          data.systems.redis?.status ||
+          data?.systems?.redis?.message ||
+          data?.systems?.redis?.status ||
           "Unavailable",
       },
       {
         title: "Queue",
         icon: Activity,
-        ok: data.systems.queue?.ok,
+        ok: queueOk,
         details:
-          data.systems.queue?.ok ?
-            `waiting ${data.systems.queue.counts.waiting}, active ${data.systems.queue.counts.active}, failed ${data.systems.queue.counts.failed}`
-          : data.systems.queue?.message || "Unavailable",
+          queueOk ?
+            `waiting ${data?.systems?.queue?.counts?.waiting || 0}, active ${data?.systems?.queue?.counts?.active || 0}, failed ${data?.systems?.queue?.counts?.failed || 0}`
+          : data?.systems?.queue?.message || "Unavailable",
       },
       {
         title: "Mail Worker",
         icon: Bot,
-        ok: data.systems.workerHeartbeat?.ok,
+        ok: workerOk,
         details:
-          data.systems.workerHeartbeat?.online ?
-            `online • pid ${data.systems.workerHeartbeat.pid} • last seen ${Math.floor((data.systems.workerHeartbeat.lastSeenMs || 0) / 1000)}s ago`
-          : data.systems.workerHeartbeat?.message || "offline",
+          data?.systems?.workerHeartbeat?.online ?
+            `online • pid ${data?.systems?.workerHeartbeat?.pid || "?"} • last seen ${Math.floor((data?.systems?.workerHeartbeat?.lastSeenMs || 0) / 1000)}s ago`
+          : data?.systems?.workerHeartbeat?.message || "offline",
       },
       {
         title: "Mail Config",
         icon: Mail,
-        ok: data.systems.mailConfig?.ok,
+        ok: mailOk,
         details:
-          data.systems.mailConfig?.ok ?
+          mailOk ?
             "All required env vars are present"
-          : `Missing: ${(data.systems.mailConfig?.missing || []).join(", ")}`,
+          : `Missing: ${(data?.systems?.mailConfig?.missing || []).join(", ")}`,
       },
     ];
   }, [data]);
