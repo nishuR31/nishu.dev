@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRedisConnection } from "@/lib/redis";
-import { contactMailQueue } from "@/lib/mail-queue";
+import { getContactMailQueue } from "@/lib/mail-queue";
 
 export const runtime = "nodejs";
 
@@ -26,6 +26,7 @@ async function checkRedis() {
 
 async function checkQueue() {
   try {
+    const contactMailQueue = getContactMailQueue();
     const counts = await contactMailQueue.getJobCounts(
       "waiting",
       "active",
