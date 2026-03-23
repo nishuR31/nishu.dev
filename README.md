@@ -1,4 +1,4 @@
-# NewPortfolio
+# My Portfolio
 
 ![Build](https://img.shields.io/github/actions/workflow/status/nishuR31/newportfolio/ci.yml?branch=main)
 ![Last Commit](https://img.shields.io/github/last-commit/nishuR31/newportfolio)
