@@ -2,7 +2,10 @@ import "dotenv/config";
 import { Worker } from "bullmq";
 import { CONTACT_MAIL_QUEUE_NAME } from "../lib/mail-queue.js";
 import { getRedisConnection, createRedisConnection } from "../lib/redis.js";
-import { sendContactEmail, sendAutoResponderEmail } from "../lib/mailer.js";
+import {
+  _sendContactEmailLogged as sendContactEmail,
+  sendAutoResponderEmail,
+} from "../lib/mailer.js";
 
 const redis = getRedisConnection();
 const HEARTBEAT_KEY =
@@ -42,7 +45,9 @@ const worker = new Worker(
 
     await sendContactEmail(job.data);
     await sendAutoResponderEmail(job.data);
-    console.log(`[Mail Worker] Sent contact mail and auto-reply for job ${job.id}`);
+    console.log(
+      `[Mail Worker] Sent contact mail and auto-reply for job ${job.id}`,
+    );
   },
   {
     connection: createRedisConnection(),
