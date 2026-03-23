@@ -4,6 +4,7 @@ import HeroSection from "./components/HeroSection";
 import GithubProjects from "./components/GithubProjects";
 import SkillsSection from "./components/Skills";
 import ExperienceSection from "./components/Experience";
+import AboutSection from "./components/About";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -36,6 +37,9 @@ const Home = () => {
         <HeroSection />
       </RevealOnScroll>
       <RevealOnScroll delay={80}>
+        <AboutSection />
+      </RevealOnScroll>
+      <RevealOnScroll delay={120}>
         <ExperienceSection />
       </RevealOnScroll>
       <RevealOnScroll delay={120}>

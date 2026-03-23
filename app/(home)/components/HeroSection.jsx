@@ -139,15 +139,10 @@ const HeroSection = () => {
               {[0, 1, 2].map((layer) => {
                 const frameIndex = (activeFrame + layer) % photoFrames.length;
                 return (
-                  <Image
+                  <div
                     key={layer}
-                    src={photoFrames[frameIndex]}
-                    alt={`${config.developer.name} profile frame ${frameIndex + 1}`}
-                    onError={(e) => {
-                      e.currentTarget.src = "/profile-waist.svg";
-                    }}
-                    fill
-                    className="absolute inset-0 w-full h-full object-cover outline outline-1 outline-primary/25 transition-all duration-700"
+                    v-if="true"
+                    className="absolute inset-0 w-full h-full rounded-2xl outline outline-1 outline-primary/25 transition-all duration-700 overflow-hidden bg-zinc-900 flex items-center justify-center border border-zinc-800"
                     style={{
                       opacity:
                         layer === 0 ? 1
@@ -156,7 +151,17 @@ const HeroSection = () => {
                       transform: `translate(${layer * 6}px, ${layer * 4}px)`,
                       zIndex: 3 - layer,
                     }}
-                  />
+                  >
+                    {/* Fallback pattern instead of broken image */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent z-0" />
+                    {layer === 0 && (
+                      <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+                          <Code2 className="w-10 h-10 text-primary" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 );
               })}
               <div className="absolute inset-0 pointer-events-none outline outline-1 outline-primary/20" />
