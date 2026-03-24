@@ -9,9 +9,9 @@ import { itemAnimation } from "./Animations";
 export const ProjectCard = ({ project, index }) => (
   <motion.div
     variants={itemAnimation}
-    className="group flex flex-col sm:flex-row items-stretch gap-6 bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl transition-colors duration-300"
+    className="group flex flex-col sm:flex-row lg:flex-row items-stretch gap-6 bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl transition-colors duration-300"
   >
-    <div className="sm:w-1/3">
+    <div className="md:w-1/3 lg:w-1/2">
       <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
         <Image
           src={project.image}
@@ -24,7 +24,7 @@ export const ProjectCard = ({ project, index }) => (
       </div>
     </div>
 
-    <div className="sm:w-2/3 flex flex-col justify-between py-2">
+    <div className="md:w-2/3 lg:w-1/2 flex flex-col justify-between py-2">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-primary">

@@ -40,6 +40,7 @@ export const metadata = {
   publisher: "Nishan Rajak",
   applicationName: "Nishan Portfolio",
   category: "technology",
+
   referrer: "origin-when-cross-origin",
   formatDetection: {
     email: true,
@@ -69,6 +70,12 @@ export const metadata = {
     type: "website",
     images: [
       {
+        url: "/homepage.png",
+        width: 1200,
+        height: 630,
+        alt: "Homepage preview - Nishan Rajak Portfolio",
+      },
+      {
         url: "/logo.png",
         width: 1200,
         height: 630,
@@ -81,7 +88,7 @@ export const metadata = {
     title: "Nishan Rajak | Backend Engineer Portfolio",
     description:
       "Backend-focused portfolio with projects, experience, and interactive UI by Nishan Rajak.",
-    images: ["/logo.png"],
+    images: ["/homepage.png", "/logo.png"],
     creator: "@nishuR31",
   },
   icons: {
@@ -89,6 +96,10 @@ export const metadata = {
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
+};
+
+export const viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }) {

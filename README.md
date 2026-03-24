@@ -2,6 +2,8 @@
 
 ![logo](public/logo.png)
 
+![Homepage preview](public/homepage.png)
+
 ![Build](https://img.shields.io/github/actions/workflow/status/nishuR31/nishu.dev/ci.yml?branch=main)
 ![Last Commit](https://img.shields.io/github/last-commit/nishuR31/nishu.dev)
 ![Node](https://img.shields.io/badge/Node-%3E%3D16-339933?style=flat-square&logo=node.js&logoColor=white)
@@ -74,7 +76,3 @@ I also help with frontend tasks such as component-level UI polish, responsive la
 - GitHub: [https://github.com/nishuR31](https://github.com/nishuR31)
 - LinkedIn: [https://linkedin.com/in/nishan-rajak-98b2ab3b8](https://linkedin.com/in/nishan-rajak-98b2ab3b8)
 - Email: [nishan.developer.dev@gmail.com](nishan.developer.dev@gmail.com)
-
----
-
-_I will add a preview image at `public/preview.png` when ready._

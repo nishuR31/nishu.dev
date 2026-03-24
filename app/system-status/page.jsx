@@ -46,7 +46,7 @@ export default function SystemStatusPage() {
       setLoading(true);
       setError("");
       const healthBase =
-        process.env.NEXT_PUBLIC_HEALTH_URL || `http://localhost:4000`;
+        process.env.NEXT_PUBLIC_BACKEND || `http://localhost:4000`;
       const start = Date.now();
 
       const backendResp = await fetch(`${healthBase}/health`, {

@@ -29,7 +29,7 @@ const itemAnimation = {
 const AboutSection = () => {
   return (
     <section className="py-24 relative overflow-hidden" id="about">
-      <div className=" mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           variants={containerAnimation}
           initial="hidden"
@@ -86,7 +86,7 @@ const AboutSection = () => {
             {/* Visual Element / Glass Card */}
             <motion.div
               variants={itemAnimation}
-              className="relative aspect-square md:aspect-auto md:h-full min-h-[400px]"
+              className="relative aspect-square md:aspect-auto md:h-full md:min-h-[400px]"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-3xl blur-2xl" />
               <div className="relative h-full flex flex-col justify-between glass-panel rounded-3xl p-8 border border-zinc-800/60 overflow-hidden group">
@@ -108,7 +108,7 @@ const AboutSection = () => {
                     <h3 className="text-xl font-bold text-foreground mb-2">
                       Core Philosophy
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                    <p className="text-muted-foreground text-sm leading-relaxed break-words">
                       Writing scalable systems means planning for tomorrow while
                       delivering functional excellence today. Modularity,
                       security, and clean code are at the heart of everything I
