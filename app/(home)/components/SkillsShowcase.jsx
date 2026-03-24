@@ -2,38 +2,75 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Atom, Code2, Database, Github, Server, Wind } from "lucide-react";
+import {
+  Atom,
+  Monitor,
+  Antenna,
+  Code2,
+  Database,
+  Github,
+  Pyramid,
+  Server,
+  Wind,
+  Globe,
+  Paintbrush,
+} from "lucide-react";
 
 const skills = [
   {
     name: "React.js",
     icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1",
   },
   {
     name: "Express",
     icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2",
   },
   {
     name: "MongoDB",
     icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 sm:row-span-2 row-span-1",
+    size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2",
   },
   {
     name: "Node.js",
     icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-2 sm:col-span-1 md:col-span-2 row-span-1",
+    size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1",
   },
   {
     name: "GitHub",
     icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2",
   },
   {
     name: "Tailwind",
-    icon: <Wind className="w-5 h-5 sm:w-6 sm:h-6" />,
-    size: "col-span-1 row-span-1",
+    icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2",
+  },
+  {
+    name: "Postman",
+    icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1",
+  },
+  {
+    name: "Prisma",
+    icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2",
+  },
+  {
+    name: "Vs Code",
+    icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2",
+  },
+  {
+    name: "Vercel",
+    icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    name: "Render",
+    icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />,
+    size: "sm:col-span-3 sm:row-span-1 md:col-span-1 md:row-span-1",
   },
 ];
 

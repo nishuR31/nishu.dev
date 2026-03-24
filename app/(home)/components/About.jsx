@@ -29,7 +29,7 @@ const itemAnimation = {
 const AboutSection = () => {
   return (
     <section className="py-24 relative overflow-hidden" id="about">
-      <div className="container mx-auto px-6 relative z-10">
+      <div className=" mx-auto px-6 relative z-10">
         <motion.div
           variants={containerAnimation}
           initial="hidden"
@@ -73,7 +73,9 @@ const AboutSection = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary">{config.projects.length}+</div>
+                  <div className="text-3xl font-bold text-primary">
+                    {config.projects.length}+
+                  </div>
                   <div className="text-sm font-medium text-muted-foreground mt-1">
                     Projects
                   </div>

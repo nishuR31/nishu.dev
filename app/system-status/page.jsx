@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import {
-  Activity,
   AlertTriangle,
-  Bot,
   CheckCircle2,
   Clock3,
   Database,
-  Mail,
   RefreshCcw,
   Server,
+  Settings2,
 } from "lucide-react";
 
 function formatUptime(seconds) {
@@ -40,22 +38,63 @@ export default function SystemStatusPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const startRef = useRef(null);
+  const [uptimeSeconds, setUptimeSeconds] = useState(0);
 
   const fetchHealth = async () => {
     try {
       setLoading(true);
       setError("");
-      const healthUrl =
-        process.env.NEXT_PUBLIC_BACKEND + "/health" ||
-        `http://localhost:${process.env.PORT}/health`;
-      const response = await fetch(healthUrl, { cache: "no-store" });
-      const json = await response.json().catch(() => null);
-      if (!response.ok) {
+      const healthBase =
+        process.env.NEXT_PUBLIC_HEALTH_URL || `http://localhost:4000`;
+      const start = Date.now();
+
+      const backendResp = await fetch(`${healthBase}/health`, {
+        cache: "no-store",
+      });
+      const backendJson =
+        backendResp.ok ? await backendResp.json().catch(() => null) : null;
+
+      const redisResp = await fetch(`${healthBase}/redis`, {
+        cache: "no-store",
+      }).catch(() => null);
+      const redisJson =
+        redisResp && redisResp.ok ?
+          await redisResp.json().catch(() => null)
+        : null;
+
+      const configResp = await fetch(`${healthBase}/config`, {
+        cache: "no-store",
+      }).catch(() => null);
+      const configJson =
+        configResp && configResp.ok ?
+          await configResp.json().catch(() => null)
+        : null;
+
+      const responseTimeMs = Date.now() - start;
+
+      if (!backendResp || !backendResp.ok) {
         throw new Error(
-          json?.error || `Health check failed (${response.status})`,
+          `Health endpoint returned ${backendResp ? backendResp.status : "no-response"}`,
+        );
+      } else if (!configResp || !configResp.ok) {
+        throw new Error(
+          `Health endpoint returned ${configResp ? configResp.status : "no-response"}`,
+        );
+      } else if (!redisResp || !redisResp.ok) {
+        throw new Error(
+          `Health endpoint returned ${redisResp ? redisResp.status : "no-response"}`,
         );
       }
-      setData(json || null);
+
+      setData({
+        backendJson,
+        redisJson,
+        configJson,
+        responseTimeMs,
+        timestamp: Date.now(),
+        uptimeSeconds: uptimeSeconds,
+      });
     } catch (err) {
       setData(null);
       setError(err?.message || String(err) || "Failed to fetch health status");
@@ -65,123 +104,142 @@ export default function SystemStatusPage() {
   };
 
   useEffect(() => {
+    // run immediately, then poll every 10 min
     fetchHealth();
-    const interval = setInterval(fetchHealth, 10000);
+    const interval = setInterval(fetchHealth, 1000 * 10 * 60);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // initialize start timestamp in localStorage if missing
+    try {
+      const stored = Number(localStorage.getItem("uptime"));
+      if (!stored || Number.isNaN(stored)) {
+        const now = Date.now();
+        localStorage.setItem("uptime", String(now));
+        startRef.current = now;
+      } else {
+        startRef.current = stored;
+      }
+    } catch (e) {
+      // localStorage may be unavailable; fallback to now
+      startRef.current = Date.now();
+    }
+
+    // update uptime every second
+    const tick = () => {
+      const start = startRef.current || Date.now();
+      setUptimeSeconds(Math.floor((Date.now() - start) / 1000));
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, []);
 
   const cards = useMemo(() => {
-    if (!data?.systems) return [];
-    const apiOk = Boolean(data?.systems?.api?.ok);
-    const redisOk = Boolean(data?.systems?.redis?.ok);
-    const queueOk = Boolean(data?.systems?.queue?.ok);
-    const workerOk = Boolean(data?.systems?.workerHeartbeat?.ok);
-    const mailOk = Boolean(data?.systems?.mailConfig?.ok);
+    if (!data) return [];
+    const backendOK = Boolean(data?.backendJson?.success);
+    const redisOk = Boolean(data?.redisJson?.success);
+    const configOk = Boolean(data?.configJson?.success);
 
     return [
       {
-        title: "API",
+        title: "Backend",
         icon: Server,
-        ok: apiOk,
-        details: data?.systems?.api?.message || "Core API route is reachable",
+        ok: backendOK,
+        details:
+          data?.backendJson?.message ||
+          data?.backendJson?.status ||
+          "Core Mail API route is reachable",
       },
       {
         title: "Redis",
         icon: Database,
         ok: redisOk,
         details:
-          data?.systems?.redis?.message ||
-          data?.systems?.redis?.status ||
-          "Unavailable",
+          data?.redisJson?.message ||
+          data?.redisJson?.status ||
+          "Redis available",
       },
       {
-        title: "Queue",
-        icon: Activity,
-        ok: queueOk,
+        title: "Configurations",
+        icon: Settings2,
+        ok: configOk,
         details:
-          queueOk ?
-            `waiting ${data?.systems?.queue?.counts?.waiting || 0}, active ${data?.systems?.queue?.counts?.active || 0}, failed ${data?.systems?.queue?.counts?.failed || 0}`
-          : data?.systems?.queue?.message || "Unavailable",
-      },
-      {
-        title: "Mail Worker",
-        icon: Bot,
-        ok: workerOk,
-        details:
-          data?.systems?.workerHeartbeat?.online ?
-            `online • pid ${data?.systems?.workerHeartbeat?.pid || "?"} • last seen ${Math.floor((data?.systems?.workerHeartbeat?.lastSeenMs || 0) / 1000)}s ago`
-          : data?.systems?.workerHeartbeat?.message || "offline",
-      },
-      {
-        title: "Mail Config",
-        icon: Mail,
-        ok: mailOk,
-        details:
-          mailOk ?
+          configOk ?
             "All required env vars are present"
           : `Missing: ${(data?.systems?.mailConfig?.missing || []).join(", ")}`,
       },
     ];
   }, [data]);
 
+  const allOk = Boolean(
+    data?.backendJson?.success &&
+    data?.redisJson?.success &&
+    data?.configJson?.success,
+  );
+
   return (
     <section className="py-20 min-h-[calc(100vh-160px)]">
-      <div className="container mx-auto px-6 max-w-5xl space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="container max-w-5xl px-6 mx-auto space-y-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-primary">
+            <h1 className="text-3xl font-bold md:text-4xl text-primary">
               System Status
             </h1>
-            <p className="text-muted-foreground mt-2">
-              Live health checks for API, Redis, queue, and mail setup.
+            <p className="mt-2 text-muted-foreground">
+              Live health checks for API, Redis, and configuration setup.
             </p>
           </div>
           <button
             onClick={fetchHealth}
-            className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-4 py-2 text-sm hover:border-primary/40 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm text-center transition-colors border rounded-full border-border/70 bg-card hover:border-primary/40"
           >
-            <RefreshCcw className="w-4 h-4" />
+            <RefreshCcw className="w-4 h-4 hover:animate-spin" />
             Refresh
           </button>
         </div>
 
         {loading && (
-          <p className="text-muted-foreground">Checking systems...</p>
+          <p className="p-5 text-center rounded-md text-muted-foreground bg-green-500/10">
+            Checking systems...
+          </p>
         )}
         {error && (
-          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-400 text-sm">
+          <div className="p-4 text-sm text-red-400 border rounded-xl border-red-500/30 bg-red-500/10">
             {error}
           </div>
         )}
 
         {data && (
           <>
-            <div className="flex flex-wrap gap-3 items-center">
+            <div className="flex flex-wrap items-center gap-3">
               <StatusChip
-                ok={data.ok}
+                ok={allOk}
                 label={data.ok ? "All Systems Operational" : "Issues Detected"}
               />
               <StatusChip
-                ok={true}
-                label={`Uptime: ${formatUptime(data.uptimeSeconds || 0)}`}
+                ok={allOk}
+                label={`Uptime: ${formatUptime(uptimeSeconds)}`}
               />
               <StatusChip
-                ok={true}
+                ok={allOk}
                 label={`Response: ${data.responseTimeMs}ms`}
               />
               <StatusChip
-                ok={true}
+                ok={allOk}
                 label={`Checked: ${new Date(data.timestamp).toLocaleTimeString()}`}
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {cards.map((card) => {
                 const Icon = card.icon;
                 return (
                   <div
                     key={card.title}
-                    className="rounded-2xl border border-border/70 bg-card/70 p-5 backdrop-blur-sm"
+                    className="p-5 border rounded-2xl border-border/70 bg-card/70 backdrop-blur-sm"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
@@ -200,14 +258,14 @@ export default function SystemStatusPage() {
               })}
             </div>
 
-            <div className="rounded-2xl border border-border/70 bg-card/70 p-5 text-sm text-muted-foreground">
+            <div className="p-5 text-sm border rounded-2xl border-border/70 bg-card/70 text-muted-foreground">
               <div className="flex items-center gap-2 mb-2">
                 <Clock3 className="w-4 h-4" />
                 <span className="font-medium text-foreground">
                   Live Monitoring
                 </span>
               </div>
-              Auto-refresh runs every 10 seconds while this page is open.
+              Auto-refresh runs every 10 minutes while this page is open.
             </div>
           </>
         )}

@@ -65,12 +65,12 @@ const FEATURED_REPOS = [
 
 const getProjectSize = (index) => {
   const sizes = [
-    "col-span-2 sm:col-span-1 md:col-span-2 row-span-1", // First project - wide
-    "col-span-1 sm:row-span-2 row-span-1", // Second project - tall
-    "col-span-1 row-span-1", // Third project - normal
-    "col-span-1 row-span-1", // Fourth project - normal
-    "col-span-1 row-span-1", // Fifth project - normal
-    "col-span-1 row-span-1", // Sixth project - normal
+    "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", // First project - wide
+    "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", // First project - wide
+    "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", // First project - wide
+    "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", // First project - wide
+    "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", // First project - wide
+    "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", // First project - wide
   ];
   return sizes[index % sizes.length];
 };

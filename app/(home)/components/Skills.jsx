@@ -56,6 +56,7 @@ const SkillCard = ({ skill, bgClass }) => {
       "bg-blue-500/10": "from-blue-500/80 to-blue-500",
       "bg-emerald-500/10": "from-emerald-500/80 to-emerald-500",
       "bg-orange-500/10": "from-orange-500/80 to-orange-500",
+      "bg-red-500/10": "from-red-500/80 to-red-500",
     }[bgClass] || "from-primary/80 to-primary";
 
   return (
