@@ -2,8 +2,8 @@
 
 ![logo](public/logo.png)
 
-![Build](https://img.shields.io/github/actions/workflow/status/nishuR31/newportfolio/ci.yml?branch=main)
-![Last Commit](https://img.shields.io/github/last-commit/nishuR31/newportfolio)
+![Build](https://img.shields.io/github/actions/workflow/status/nishuR31/nishu.dev/ci.yml?branch=main)
+![Last Commit](https://img.shields.io/github/last-commit/nishuR31/nishu.dev)
 ![Node](https://img.shields.io/badge/Node-%3E%3D16-339933?style=flat-square&logo=node.js&logoColor=white)
 
 ---
