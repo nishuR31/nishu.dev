@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import "dotenv/config";
 import nodemailer from "nodemailer";
-import fs from "fs";
 
 const user = process.env.MAIL_USER;
 const pass = process.env.MAIL_APP_PASSWORD;
@@ -32,7 +31,7 @@ async function run() {
       from: user,
       to: process.env.MAIL_TO || user,
       subject: "Portfolio SMTP test",
-      text: `This is a test email sent at ${new Date().toISOString()}`,
+      text: `This is a test email sent at ${new Date().toLocaleString()}`,
     });
 
     console.log(

@@ -15,28 +15,51 @@ const worker = new Worker(
   async (job) => {
     const { name, email, message } = job.data || {};
 
-    try {
-      const autoRes = await _sendAutoResponderLogged({ name, email });
-      console.log(
-        "[Worker] auto-responder result:",
-        autoRes && (autoRes.response || autoRes.messageId) ?
-          autoRes.response || autoRes.messageId
-        : JSON.stringify(autoRes),
-      );
+    const nodeEnv = process.env.NODE_ENV || "development";
 
+    try {
+      const start = Date.now();
+
+      const autoRes = await _sendAutoResponderLogged({ name, email });
+      const autoDuration = Date.now() - start;
+
+      // Log durations in dev for debugging; in prod only log if unusually slow
+      if (nodeEnv !== "production") {
+        console.log(
+          "[Worker] auto-responder result:",
+          autoRes && (autoRes.response || autoRes.messageId) ?
+            autoRes.response || autoRes.messageId
+          : JSON.stringify(autoRes),
+          "durationMs:",
+          autoDuration,
+        );
+      } else if (autoDuration > 10000) {
+        console.warn("[Worker] auto-responder slow durationMs:", autoDuration);
+      }
+
+      const startContact = Date.now();
       const contactRes = await _sendContactEmailLogged({
         name,
         email,
         message,
       });
-      console.log(
-        "[Worker] contact-mail result:",
-        contactRes && (contactRes.response || contactRes.messageId) ?
-          contactRes.response || contactRes.messageId
-        : JSON.stringify(contactRes),
-      );
+      const contactDuration = Date.now() - startContact;
+
+      if (nodeEnv !== "production") {
+        console.log(
+          "[Worker] contact-mail result:",
+          contactRes && (contactRes.response || contactRes.messageId) ?
+            contactRes.response || contactRes.messageId
+          : JSON.stringify(contactRes),
+          "durationMs:",
+          contactDuration,
+        );
+      } else if (contactDuration > 10000) {
+        console.warn("[Worker] contact-mail slow durationMs:", contactDuration);
+      }
     } catch (err) {
-      throw err; // allow BullMQ to mark job failed
+      // allow BullMQ to mark job failed, but avoid noisy file writes in prod
+      throw err;
     }
   },
   { connection },
@@ -61,15 +84,23 @@ worker.on("completed", (job) => {
 });
 
 worker.on("failed", (job, err) => {
+  const nodeEnv = process.env.NODE_ENV || "development";
   console.error("Job failed:", job?.id, err && err.message ? err.message : err);
   try {
     if (job && job.data) {
-      logFailedMail(job.data, err).catch((e) =>
-        console.error(
-          "[FailedMailLogger] error:",
-          e && e.message ? e.message : e,
-        ),
-      );
+      // In production avoid writing files; log concise details instead (handled by logger)
+      if (nodeEnv === "production") {
+        // failed-mail-logger will short-circuit file writes in prod; call it so prod logs go through a single place
+        logFailedMail(job.data, err).catch(() => {});
+      } else {
+        // In dev keep the file-based record and print verbose errors
+        logFailedMail(job.data, err).catch((e) =>
+          console.error(
+            "[FailedMailLogger] error:",
+            e && e.message ? e.message : e,
+          ),
+        );
+      }
     }
   } catch (e) {
     console.error(

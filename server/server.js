@@ -1,4 +1,4 @@
-import { enqueueContactMail } from "../lib/mail-queue.js";
+import { enqueueContactMail, getContactMailQueue } from "../lib/mail-queue.js";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -64,10 +64,12 @@ app.post("/sendmail", async (req, res) => {
   }
 
   try {
-    enqueueContactMail({ name, email, message });
-    return res
-      .status(202)
-      .json({ enqueued: true, createdAt: new Date().toISOString() });
+    let enqueue = await enqueueContactMail({ name, email, message });
+    return res.status(202).json({
+      message: enqueue,
+      enqueued: true,
+      createdAt: new Date().toLocaleString(),
+    });
   } catch (err) {
     console.error("[Express] contact enqueue failed:", err?.message || err);
     return res.status(500).json({ error: err?.message || "enqueue-failed" });
@@ -91,7 +93,93 @@ app.get("/test", async (req, res) => {
 
   return res
     .status(202)
-    .json({ enqueued: true, createdAt: new Date().toISOString() });
+    .json({ enqueued: true, createdAt: new Date().toLocaleString() });
+});
+
+// Return current job counts and sample job data for debugging queue processing
+app.get("/jobs", async (req, res) => {
+  try {
+    const queue = getContactMailQueue();
+    const counts = await queue.getJobCounts();
+
+    // helper to serialise jobs into JSON-safe objects
+    async function sampleJobs(statuses, limit = 20) {
+      try {
+        const jobs = await queue.getJobs(statuses, 0, limit - 1);
+        return jobs.map((j) => ({
+          id: j.id,
+          name: j.name,
+          data: j.data,
+          attemptsMade: j.attemptsMade,
+          opts: j.opts,
+          timestamp: j.timestamp,
+          processedOn: j.processedOn || null,
+          finishedOn: j.finishedOn || null,
+        }));
+      } catch (e) {
+        return { error: (e && e.message) || String(e) };
+      }
+    }
+
+    const waiting = await sampleJobs(["waiting", "paused"], 20);
+    const active = await sampleJobs(["active"], 20);
+    const delayed = await sampleJobs(["delayed"], 20);
+    const failed = await sampleJobs(["failed"], 20);
+
+    res.status(200).json({
+      success: true,
+      counts,
+      samples: { waiting, active, delayed, failed },
+      env: process.env.NODE_ENV || "unknown",
+    });
+  } catch (err) {
+    console.error(
+      "[Server] /jobs error:",
+      err && err.message ? err.message : err,
+    );
+    res
+      .status(500)
+      .json({ error: err && err.message ? err.message : String(err) });
+  }
+});
+
+// Clear failed jobs (up to a reasonable limit) to free queue space
+// Use GET so callers can trigger without a request body
+app.get("/jobs/clear-failed", async (req, res) => {
+  try {
+    const queue = getContactMailQueue();
+    const failedJobs = await queue.getJobs(["failed"], 0, 99);
+    let removed = 0;
+    const removedIds = [];
+
+    for (const j of failedJobs) {
+      try {
+        // ensure we have a Job instance to call remove()
+        const job = await queue.getJob(j.id || j.jobId || j);
+        if (job && typeof job.remove === "function") {
+          await job.remove();
+          removed++;
+          removedIds.push(String(j.id || j.jobId || j));
+        }
+      } catch (e) {
+        console.error(
+          "[Server] failed to remove job:",
+          j.id || j.jobId || j,
+          e && e.message ? e.message : e,
+        );
+      }
+    }
+
+    res.status(200).json({ success: true, removed, removedIds });
+  } catch (err) {
+    console.error(
+      "[Server] /jobs/clear-failed error:",
+      err && err.message ? err.message : err,
+    );
+    res
+      .status(500)
+      .json({ error: err && err.message ? err.message : String(err) });
+  }
 });
 
 const PORT = process.env.PORT || 4001;
