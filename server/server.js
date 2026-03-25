@@ -264,4 +264,4 @@ app.all("/*spalt", (req, res) => {
 
 const PORT = process.env.PORT || 4001;
 import "../worker/file-worker.js";
-app.listen(PORT, () => console.log(`[Express] listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`[Express] listening on port ${PORT} `));
