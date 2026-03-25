@@ -4,16 +4,27 @@ import {
   _sendContactEmailLogged,
   _sendAutoResponderLogged,
 } from "../lib/mailer.js";
-import { CONTACT_MAIL_QUEUE_NAME } from "../lib/mail-queue.js";
-import { getRedisConnection } from "../lib/redis.js";
+import {
+  CONTACT_MAIL_QUEUE_NAME,
+  FAIL_RETRY_QUEUE_NAME,
+  getFailRetryQueue,
+} from "../lib/mail-queue.js";
+import { getRedisConnection1, getRedisConnection2 } from "../lib/redis.js";
 import { logFailedMail } from "../lib/failed-mail-logger.js";
 
-const connection = getRedisConnection();
+const connection = getRedisConnection1();
+const connectionRetry = getRedisConnection2();
 
 const worker = new Worker(
   CONTACT_MAIL_QUEUE_NAME,
   async (job) => {
-    const { name, email, message } = job.data || {};
+    const { name, email, message, forceFail } = job.data || {};
+
+    // Support a test flag to force a job failure for diagnostics.
+    if (forceFail) {
+      console.log(`[Worker] forced-fail flag detected for job ${job.id}`);
+      throw new Error("forced failure (test)");
+    }
 
     const nodeEnv = process.env.NODE_ENV || "development";
 
@@ -105,6 +116,44 @@ worker.on("failed", (job, err) => {
   } catch (e) {
     console.error(
       "[FailedMailLogger] unexpected error:",
+      e && e.message ? e.message : e,
+    );
+  }
+  // if the job exhausted retries (or reached threshold), forward to fail-retry queue
+  try {
+    const attempts = job?.attemptsMade || 0;
+    const FORWARD_THRESHOLD = 3;
+    if (attempts >= FORWARD_THRESHOLD) {
+      // create a new job on the fail-retry queue carrying original data + metadata
+      const payload = {
+        ...job.data,
+        originalJobId: job.id,
+        failedReason: err && err.message ? err.message : String(err),
+        forwardedAt: new Date().toLocaleString(),
+      };
+      // fire-and-forget the enqueue to avoid blocking the failed handler
+      (async () => {
+        try {
+          const fq = getFailRetryQueue();
+          const newJob = await fq.add(FAIL_RETRY_QUEUE_NAME, payload, {
+            attempts: 5,
+            removeOnComplete: true,
+            removeOnFail: true,
+          });
+          console.log(
+            `[Worker] forwarded failed job ${job.id} to fail-retry queue as ${newJob.id}`,
+          );
+        } catch (e) {
+          console.error(
+            "[Worker] error forwarding to fail-retry queue:",
+            e && e.message ? e.message : e,
+          );
+        }
+      })();
+    }
+  } catch (e) {
+    console.error(
+      "[Worker] fail-retry forward check error:",
       e && e.message ? e.message : e,
     );
   }

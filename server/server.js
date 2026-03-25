@@ -1,9 +1,13 @@
-import { enqueueContactMail, getContactMailQueue } from "../lib/mail-queue.js";
+import {
+  enqueueContactMail,
+  getContactMailQueue,
+  getFailRetryQueue,
+} from "../lib/mail-queue.js";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { redisPing } from "../lib/redis.js";
+import { redisPing1, redisPing2, redisPing } from "../lib/redis.js";
 console.log("BOOTING SERVER...");
 const app = express();
 app.use(morgan("dev"));
@@ -21,23 +25,25 @@ app.get("/health", (req, res) => {
   });
 });
 app.get("/config", (req, res) => {
+  // Require both Redis URLs (1 and 2) and essential mail/port configs
   if (
-    !process.env.REDIS_URL ??
-    !process.env.NEXT_PUBLIC_PORT ??
-    !process.env.PORT ??
-    !process.env.MAIL_USE ??
-    !process.env.MAIL_APP_PASSWORD ??
+    !process.env.REDIS_URL1 ||
+    !process.env.REDIS_URL2 ||
+    !process.env.NEXT_PUBLIC_PORT ||
+    !process.env.PORT ||
+    !process.env.MAIL_USE ||
+    !process.env.MAIL_APP_PASSWORD ||
     !process.env.MAIL_TO
   ) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Configs are misconfigured",
-      success: !true,
+      success: false,
       code: 400,
       env: process.env.NODE_ENV || "unknown",
     });
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: "Configs are configured",
     success: true,
     code: 200,
@@ -45,12 +51,30 @@ app.get("/config", (req, res) => {
   });
 });
 
+app.get("/redis1", async (req, res) => {
+  let response = await redisPing1();
+  res.status(200).json({
+    message: response ? "Redis1 server up" : "Redis1 server might be down",
+    code: response ? 200 : 400,
+    success: response ? true : false,
+    env: process.env.NODE_ENV || "unknown",
+  });
+});
+app.get("/redis2", async (req, res) => {
+  let response = await redisPing2();
+  res.status(200).json({
+    message: response ? "Redis2 server up" : "Redis2 server might be down",
+    code: response ? 200 : 400,
+    success: response ? true : false,
+    env: process.env.NODE_ENV || "unknown",
+  });
+});
 app.get("/redis", async (req, res) => {
   let response = await redisPing();
   res.status(200).json({
-    message: response ?? "Redis might be down",
-    code: 200,
-    success: true,
+    message: response ? "Redis servers up" : "Redis servers might be down",
+    code: response ? 200 : 400,
+    success: response ? true : false,
     env: process.env.NODE_ENV || "unknown",
   });
 });
@@ -97,7 +121,54 @@ app.get("/test", async (req, res) => {
 });
 
 // Return current job counts and sample job data for debugging queue processing
-app.get("/jobs", async (req, res) => {
+app.get("/jobs2", async (req, res) => {
+  try {
+    const queue = getFailRetryQueue();
+    const counts = await queue.getJobCounts();
+
+    // helper to serialise jobs into JSON-safe objects
+    async function sampleJobs(statuses, limit = 20) {
+      try {
+        const jobs = await queue.getJobs(statuses, 0, limit - 1);
+        return jobs.map((j) => ({
+          id: j.id,
+          name: j.name,
+          data: j.data,
+          attemptsMade: j.attemptsMade,
+          opts: j.opts,
+          timestamp: j.timestamp,
+          processedOn: j.processedOn || null,
+          finishedOn: j.finishedOn || null,
+        }));
+      } catch (e) {
+        return { error: (e && e.message) || String(e) };
+      }
+    }
+
+    const waiting = await sampleJobs(["waiting", "paused"], 20);
+    const active = await sampleJobs(["active"], 20);
+    const delayed = await sampleJobs(["delayed"], 20);
+    const failed = await sampleJobs(["failed"], 20);
+
+    res.status(200).json({
+      success: true,
+      counts,
+      samples: { waiting, active, delayed, failed },
+      env: process.env.NODE_ENV || "unknown",
+    });
+  } catch (err) {
+    console.error(
+      "[Server] /jobs2 error:",
+      err && err.message ? err.message : err,
+    );
+    res
+      .status(500)
+      .json({ error: err && err.message ? err.message : String(err) });
+  }
+});
+
+// Return current job counts and sample job data for debugging queue processing
+app.get("/jobs1", async (req, res) => {
   try {
     const queue = getContactMailQueue();
     const counts = await queue.getJobCounts();
@@ -134,7 +205,7 @@ app.get("/jobs", async (req, res) => {
     });
   } catch (err) {
     console.error(
-      "[Server] /jobs error:",
+      "[Server] /jobs2 error:",
       err && err.message ? err.message : err,
     );
     res
@@ -145,9 +216,11 @@ app.get("/jobs", async (req, res) => {
 
 // Clear failed jobs (up to a reasonable limit) to free queue space
 // Use GET so callers can trigger without a request body
-app.get("/jobs/clear-failed", async (req, res) => {
+app.get("/jobs/:i/clear-failed", async (req, res) => {
   try {
-    const queue = getContactMailQueue();
+    let { i } = req.params;
+
+    const queue = i == +1 ? getContactMailQueue() : getFailRetryQueue();
     const failedJobs = await queue.getJobs(["failed"], 0, 99);
     let removed = 0;
     const removedIds = [];
@@ -173,13 +246,20 @@ app.get("/jobs/clear-failed", async (req, res) => {
     res.status(200).json({ success: true, removed, removedIds });
   } catch (err) {
     console.error(
-      "[Server] /jobs/clear-failed error:",
+      `[Server] /jobs/${i}/clear-failed error:`,
       err && err.message ? err.message : err,
     );
     res
       .status(500)
       .json({ error: err && err.message ? err.message : String(err) });
   }
+});
+
+app.all("/*spalt", (req, res) => {
+  res.status(400).json({
+    message: "Route not available",
+    route: req.hostname + req.originalUrl,
+  });
 });
 
 const PORT = process.env.PORT || 4001;

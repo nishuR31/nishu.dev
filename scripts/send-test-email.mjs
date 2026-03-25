@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
   auth: { user, pass },
 });
 
-async function run() {
+export default async function run() {
   try {
     await transporter.verify();
     console.log("[Test] transporter verified");

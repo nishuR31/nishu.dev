@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
   auth: { user, pass },
 });
 
-async function run() {
-  console.log(`[Test] starting send at ${new Date().toISOString()}`);
+export default async function run() {
+  console.log(`[Test] starting send at ${new Date().toLocaleString()}`);
   const start = Date.now();
 
   try {
@@ -51,5 +51,3 @@ async function run() {
     process.exit(1);
   }
 }
-
-run();
