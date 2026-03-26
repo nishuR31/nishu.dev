@@ -29,7 +29,6 @@ app.get("/config", (req, res) => {
   const required = [
     "REDIS_URL1",
     "REDIS_URL2",
-    "NEXT_PUBLIC_PORT",
     "PORT",
     "MAIL_USER",
     "MAIL_APP_PASSWORD",
