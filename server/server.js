@@ -1,5 +1,5 @@
-import { fireContactAndAutoMail } from "../lib/mailer.js";
-import { fireContactAndAutoEmail } from "../lib/resend.js";
+import { fireContactAndAutoMail, sendContactEmail } from "../lib/mailer.js";
+import { fireContactAndAutoEmail, sendResendEmail } from "../lib/resend.js";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -145,6 +145,76 @@ app.post("/resend", (req, res) => {
     return res.status(500).json({
       error: err?.message || String(err),
     });
+  }
+});
+
+// ========================
+// 📩 NODEMAILER SYNC (for debugging delivery)
+// ========================
+app.post("/sendmail-sync", async (req, res) => {
+  const { name, email, message } = req.body || {};
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ error: "name, email and message are required" });
+  }
+
+  try {
+    const result = await sendContactEmail({
+      name,
+      email,
+      message,
+      submittedAt: new Date().toLocaleString(),
+    });
+    return res
+      .status(200)
+      .json({ sent: true, provider: "nodemailer", info: result });
+  } catch (err) {
+    console.error(
+      "[Express] sendmail-sync failed:",
+      err && err.message ? err.message : err,
+    );
+    return res
+      .status(500)
+      .json({
+        error: err && err.message ? err.message : String(err),
+        stack: err && err.stack ? err.stack : undefined,
+      });
+  }
+});
+
+// ========================
+// 🚀 RESEND SYNC (for debugging delivery)
+// ========================
+app.post("/resend-sync", async (req, res) => {
+  const { name, email, message } = req.body || {};
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ error: "name, email and message are required" });
+  }
+
+  try {
+    const result = await sendResendEmail({
+      name,
+      email,
+      message,
+      submittedAt: new Date().toLocaleString(),
+    });
+    return res
+      .status(200)
+      .json({ sent: true, provider: "resend", info: result });
+  } catch (err) {
+    console.error(
+      "[Express] resend-sync failed:",
+      err && err.message ? err.message : err,
+    );
+    return res
+      .status(500)
+      .json({
+        error: err && err.message ? err.message : String(err),
+        stack: err && err.stack ? err.stack : undefined,
+      });
   }
 });
 
