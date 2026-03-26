@@ -127,15 +127,7 @@ const Header = () => {
           <Navigation />
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
-            <Link
-              href={"https://github.com/nishuR31/nishu.dev"}
-              target="_blank"
-              className="hidden md:inline"
-            >
-              <Button className="rounded-2xl font-semibold bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3">
-                Repo Inside!
-              </Button>
-            </Link>
+           
           </div>
 
           {/* Mobile Menu Button */}
