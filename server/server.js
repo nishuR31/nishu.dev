@@ -3,6 +3,7 @@ import {
   getContactMailQueue,
   getFailRetryQueue,
 } from "../lib/mail-queue.js";
+import { renderContactHtml, getLogoPath } from "../lib/mailer.js";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -98,6 +99,112 @@ app.post("/sendmail", async (req, res) => {
   } catch (err) {
     console.error("[Express] contact enqueue failed:", err?.message || err);
     return res.status(500).json({ error: err?.message || "enqueue-failed" });
+  }
+});
+
+// POST /postemail - send immediately via SendGrid (mirrors /sendmail but calls SendGrid)
+app.post("/postemail", async (req, res) => {
+  const { name, email, message } = req.body || {};
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ error: "name, email and message are required" });
+  }
+
+  const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+  const SENDGRID_FROM = process.env.SENDGRID_FROM;
+  const MAIL_TO = process.env.MAIL_TO;
+
+  if (!SENDGRID_API_KEY || !SENDGRID_FROM || !MAIL_TO) {
+    const missing = [
+      !SENDGRID_API_KEY && "SENDGRID_API_KEY",
+      !SENDGRID_FROM && "SENDGRID_FROM",
+      !MAIL_TO && "MAIL_TO",
+    ].filter(Boolean);
+    console.error("[Express] /postemail missing env:", missing);
+    if (process.env.NODE_ENV === "production") {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+    return res
+      .status(500)
+      .json({ error: `Missing env: ${missing.join(", ")}` });
+  }
+
+  try {
+    // build HTML using the same template as nodemailer
+    const html = renderContactHtml({ name, email, message });
+
+    // include inline logo (base64) if available
+    const attachments = [];
+    try {
+      const logoPath = getLogoPath();
+      const fs = await import("fs/promises");
+      const buf = await fs.readFile(logoPath);
+      const b64 = buf.toString("base64");
+      attachments.push({
+        content: b64,
+        filename: "logo.png",
+        type: "image/png",
+        disposition: "inline",
+        content_id: "app-logo",
+      });
+    } catch (e) {
+      // non-fatal; continue without inline image
+      console.warn(
+        "[Express] /postemail could not read logo for inline attachment:",
+        e && e.message ? e.message : e,
+      );
+    }
+
+    const payload = {
+      personalizations: [
+        {
+          to: [{ email: MAIL_TO }],
+          subject: `Website contact from ${name}`,
+        },
+      ],
+      from: { email: SENDGRID_FROM },
+      content: [
+        {
+          type: "text/html",
+          value: html,
+        },
+      ],
+      attachments,
+    };
+
+    const resp = await fetch("https://api.sendgrid.com/v3/mail/send", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${SENDGRID_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (resp.status === 202) {
+      return res.status(202).json({ sent: true, provider: "sendgrid" });
+    }
+
+    const text = await resp.text();
+    console.error("[Express] /postemail sendgrid error:", resp.status, text);
+    if (process.env.NODE_ENV === "production") {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+    return res
+      .status(500)
+      .json({ error: `sendgrid-failed: ${resp.status} ${text}` });
+  } catch (err) {
+    console.error(
+      "[Express] /postemail exception:",
+      err && err.message ? err.message : err,
+    );
+    if (process.env.NODE_ENV === "production") {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+    return res
+      .status(500)
+      .json({ error: err && err.message ? err.message : String(err) });
   }
 });
 
