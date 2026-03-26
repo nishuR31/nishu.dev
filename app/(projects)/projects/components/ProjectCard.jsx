@@ -9,22 +9,23 @@ import { itemAnimation } from "./Animations";
 export const ProjectCard = ({ project, index }) => (
   <motion.div
     variants={itemAnimation}
-    className="group flex flex-col sm:flex-row lg:flex-row items-stretch gap-6 bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl transition-colors duration-300"
+    className="flex flex-col items-stretch gap-6 p-4 transition-colors duration-300 group sm:flex-row lg:flex-row bg-secondary/5 hover:bg-secondary/10 rounded-xl"
   >
     <div className="md:w-1/3 lg:w-1/2">
-      <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+      <div className="relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[3/2] rounded-lg overflow-hidden">
         <Image
           src={project.image}
           alt={project.title}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading="lazy"
-          className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
+          className="object-cover w-full h-full transition-transform duration-300 transform group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+        <div className="absolute inset-0 transition-colors duration-300 bg-black/40 group-hover:bg-black/20" />
       </div>
     </div>
 
-    <div className="md:w-2/3 lg:w-1/2 flex flex-col justify-between py-2">
+    <div className="flex flex-col justify-between py-2 md:w-2/3 lg:w-1/2">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-primary">
@@ -52,12 +53,20 @@ export const ProjectCard = ({ project, index }) => (
       </div>
 
       <div className="flex items-center gap-3 pt-4">
-        <Button size="sm" className="rounded-full h-8 px-4 text-xs" asChild>
+        <Button size="sm" className="h-8 px-4 text-xs rounded-full" asChild>
           <a
             href={project.demo}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2"
+            onClick={(e) => {
+              // prefer window.open for mobile browsers — keep href as fallback
+              try {
+                window.open(project.demo, "_blank", "noopener,noreferrer");
+              } catch (err) {
+                // let the anchor fallback navigate
+              }
+            }}
           >
             Live Demo
             <ExternalLink className="w-3 h-3" />

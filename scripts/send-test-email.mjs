@@ -46,5 +46,3 @@ export default async function run() {
     process.exit(1);
   }
 }
-
-run();

@@ -15,11 +15,16 @@ const contactIconMap = {
   briefcase: Briefcase,
 };
 
-// Prefer explicit public URL; fallback to localhost for local testing
-const endpoint =
-  process.env.NEXT_PUBLIC_BACKEND + "/sendmail" ||
-  "http://localhost:4000/sendmail";
-// process.env.NEXT_PUBLIC_BACKEND || "http://localhost:4000/sendmail";
+// Build the send endpoint based on environment (dev vs prod)
+const envNode =
+  process.env.NEXT_PUBLIC_NODE_ENV || process.env.NODE_ENV || "production";
+const isDev = /dev(elopment)?/i.test(envNode);
+const defaultLocal = "http://localhost:4000";
+const backendBase =
+  isDev ?
+    process.env.NEXT_PUBLIC_BACKEND_DEV || defaultLocal
+  : process.env.NEXT_PUBLIC_BACKEND || defaultLocal;
+const endpoint = `${backendBase.replace(/\/$/, "")}/sendmail`;
 
 const ContactPage = () => {
   const handleSubmit = async (formData) => {

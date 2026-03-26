@@ -25,29 +25,31 @@ app.get("/health", (req, res) => {
   });
 });
 app.get("/config", (req, res) => {
-  // Require both Redis URLs (1 and 2) and essential mail/port configs
-  if (
-    !process.env.REDIS_URL1 ||
-    !process.env.REDIS_URL2 ||
-    !process.env.NEXT_PUBLIC_PORT ||
-    !process.env.PORT ||
-    !process.env.MAIL_USE ||
-    !process.env.MAIL_APP_PASSWORD ||
-    !process.env.MAIL_TO
-  ) {
-    return res.status(400).json({
-      message: "Configs are misconfigured",
-      success: false,
-      code: 400,
-      env: process.env.NODE_ENV || "unknown",
-    });
-  }
+  // Check required env vars and report which are missing so the UI can display details
+  const required = [
+    "REDIS_URL1",
+    "REDIS_URL2",
+    "NEXT_PUBLIC_PORT",
+    "PORT",
+    "MAIL_USER",
+    "MAIL_APP_PASSWORD",
+    "MAIL_TO",
+  ];
+
+  const missing = required.filter((k) => !process.env[k]);
+
+  const ok = missing.length === 0;
 
   return res.status(200).json({
-    message: "Configs are configured",
-    success: true,
-    code: 200,
+    message: ok ? "Configs are configured" : "Configs are misconfigured",
+    success: ok,
+    code: ok ? 200 : 200,
     env: process.env.NODE_ENV || "unknown",
+    systems: {
+      mailConfig: {
+        missing,
+      },
+    },
   });
 });
 

@@ -45,8 +45,18 @@ export default function SystemStatusPage() {
     try {
       setLoading(true);
       setError("");
+      // Choose backend base URL based on environment.
+      // If NEXT_PUBLIC_NODE_ENV (or NODE_ENV) indicates development, prefer local backend.
+      const envNode =
+        process.env.NEXT_PUBLIC_NODE_ENV ||
+        process.env.NODE_ENV ||
+        "production";
+      const isDev = /dev(elopment)?/i.test(envNode);
+      const defaultLocal = "http://localhost:4000";
       const healthBase =
-        process.env.NEXT_PUBLIC_BACKEND || `http://localhost:4000`;
+        isDev ?
+          process.env.NEXT_PUBLIC_BACKEND_DEV || defaultLocal
+        : process.env.NEXT_PUBLIC_BACKEND || defaultLocal;
       const start = Date.now();
 
       const backendResp = await fetch(`${healthBase}/health`, {
@@ -152,6 +162,7 @@ export default function SystemStatusPage() {
           data?.backendJson?.message ||
           data?.backendJson?.status ||
           "Core Mail API route is reachable",
+        raw: data?.backendJson,
       },
       {
         title: "Redis",
@@ -161,6 +172,7 @@ export default function SystemStatusPage() {
           data?.redisJson?.message ||
           data?.redisJson?.status ||
           "Redis available",
+        raw: data?.redisJson,
       },
       {
         title: "Configurations",
@@ -170,6 +182,7 @@ export default function SystemStatusPage() {
           configOk ?
             "All required env vars are present"
           : `Missing: ${(data?.systems?.mailConfig?.missing || []).join(", ")}`,
+        raw: data?.configJson,
       },
     ];
   }, [data]);
@@ -253,6 +266,15 @@ export default function SystemStatusPage() {
                     <p className="text-sm text-muted-foreground">
                       {card.details}
                     </p>
+                    {/* show error/debug details when not ok; otherwise show brief success note */}
+                    {!card.ok ?
+                      <pre className="p-3 mt-3 overflow-auto text-xs text-red-400 rounded bg-red-500/5">
+                        {JSON.stringify(card.raw || {}, null, 2)}
+                      </pre>
+                    : <div className="mt-3 text-xs text-emerald-400">
+                        No issues detected — operational.
+                      </div>
+                    }
                   </div>
                 );
               })}
