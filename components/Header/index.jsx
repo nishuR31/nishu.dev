@@ -101,29 +101,7 @@ const Navigation = ({ isMobile = false, onLinkClick }) => (
   </motion.nav>
 );
 
-const ContactButton = ({ isMobile = false, onLinkClick }) => (
-  <motion.div
-    className={`flex items-center ${isMobile ? "w-full justify-center mt-4" : "space-x-4"}`}
-    initial={{ opacity: 0, x: isMobile ? 0 : 20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay: isMobile ? 0.5 : 0.4, duration: 0.5 }}
-    onClick={onLinkClick}
-  >
-    {!isMobile && <ThemeToggle />}
-    <Link
-      href={"https://github.com/nishuR31/nishu.dev"}
-      target="_blank"
-      className={isMobile ? "w-full" : ""}
-    >
-      <Button
-        className={`${isMobile ? "w-full" : ""} rounded-2xl font-semibold bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3`}
-      >
-        <span className="hidden sm:inline">Repo Inside!</span>
-        <span className="sm:hidden">Template</span>
-      </Button>
-    </Link>
-  </motion.div>
-);
+// Contact page removed — keep theme toggle and repo link inline in header
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -147,8 +125,17 @@ const Header = () => {
         <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo />
           <Navigation />
-          <div className="hidden md:block">
-            <ContactButton />
+          <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
+            <Link
+              href={"https://github.com/nishuR31/nishu.dev"}
+              target="_blank"
+              className="hidden md:inline"
+            >
+              <Button className="rounded-2xl font-semibold bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3">
+                Repo Inside!
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -197,11 +184,10 @@ const Header = () => {
                   <Navigation isMobile={true} onLinkClick={closeMobileMenu} />
                 </div>
 
-                {/* Mobile Contact Button */}
+                {/* Mobile actions */}
                 <div className="mb-4 flex justify-center">
                   <ThemeToggle />
                 </div>
-                <ContactButton isMobile={true} onLinkClick={closeMobileMenu} />
               </div>
             </motion.div>
           </>

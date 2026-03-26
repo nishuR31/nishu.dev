@@ -18,10 +18,7 @@ export const config = {
     discord: "#",
     linkedin: "nishan-rajak-98b2ab3b8",
   },
-  NAV_ITEMS: [
-    { href: "/projects", label: "Projects" },
-    { href: "/contact", label: "Contact" },
-  ],
+  NAV_ITEMS: [{ href: "/projects", label: "Projects" }],
   recentTracks: true, // Enable/disable Spotify recent tracks
   projects: [
     {
@@ -41,7 +38,8 @@ export const config = {
         "Power-user GitHub command center with repo, PR, webhook, and job controls in one dashboard.",
       image: "/projects/project-2.webp",
       technologies: [
-        "Next.js",
+        "Github",
+        "github ghp token",
         "Node.js",
         "MongoDB",
         "Redis",
@@ -77,7 +75,7 @@ export const config = {
       technologies: [
         "TypeScript",
         "React",
-        "Next.js",
+        "Mathematics",
         "TailwindCSS",
         "Animation",
       ],
@@ -109,6 +107,9 @@ export const config = {
         "Nodejs",
         "React",
         "JavaScript",
+        "API",
+        "MongoDB",
+        "Google Console",
         "TailwindCSS",
         "Animation",
       ],
@@ -138,6 +139,10 @@ export const config = {
       technologies: [
         "Nodejs",
         "React",
+        "ImgBB",
+        "Redis",
+        "Bullmq",
+        "MVCP",
         "JavaScript",
         "TailwindCSS",
         "Animation",

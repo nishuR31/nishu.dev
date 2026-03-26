@@ -124,25 +124,25 @@ const HeroSection = () => {
     >
       <BackgroundPresets.Minimal />
 
-      <div className="container mx-auto px-6">
+      <div className="container px-6 mx-auto">
         <motion.div
           variants={containerAnimation}
           initial="hidden"
           animate="show"
-          className="max-w-3xl mx-auto text-center space-y-8 relative"
+          className="relative max-w-3xl mx-auto space-y-8 text-center"
         >
           <motion.div
             variants={itemAnimation}
-            className="hero-portrait-wrap pt-4 sm:pt-6"
+            className="pt-4 hero-portrait-wrap sm:pt-6"
           >
-            <div className="mx-auto w-52 h-72 sm:w-64 sm:h-80 relative floating-gravity">
+            <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity">
               {[0, 1, 2].map((layer) => {
                 const frameIndex = (activeFrame + layer) % photoFrames.length;
                 return (
                   <div
                     key={layer}
                     v-if="true"
-                    className="absolute inset-0 w-full h-full rounded-2xl outline outline-1 outline-primary/25 transition-all duration-700 overflow-hidden bg-zinc-900 flex items-center justify-center border border-zinc-800"
+                    className="absolute inset-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-700 border rounded-2xl outline outline-1 outline-primary/25 bg-zinc-900 border-zinc-800"
                     style={{
                       opacity:
                         layer === 0 ? 1
@@ -153,10 +153,10 @@ const HeroSection = () => {
                     }}
                   >
                     {/* Fallback pattern instead of broken image */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent z-0" />
+                    <div className="absolute inset-0 z-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent" />
                     {layer === 0 && (
-                      <div className="relative z-10 w-full h-full flex items-center justify-center">
-                        <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+                      <div className="relative z-10 flex items-center justify-center w-full h-full">
+                        <div className="flex items-center justify-center w-24 h-24 border rounded-full bg-primary/10 border-primary/20">
                           <Code2 className="w-10 h-10 text-primary" />
                         </div>
                       </div>
@@ -170,18 +170,18 @@ const HeroSection = () => {
 
           <motion.div
             variants={itemAnimation}
-            className="hero-chip inline-flex items-center space-x-2 glass-panel px-4 py-2 rounded-full text-primary"
+            className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-panel text-primary"
           >
             <Code2 className="w-5 h-5" />
             <span className="text-sm font-medium">Welcome to my portfolio</span>
           </motion.div>
 
           <div className="space-y-4">
-            <h1 className="hero-title text-4xl md:text-7xl font-bold tracking-tight">
-              <span className="block text-foreground mb-2">
+            <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl">
+              <span className="block mb-2 text-foreground">
                 Hi, I'm {config.developer.shortName}
               </span>
-              <span className="hero-subtitle block text-foreground text-2xl md:text-4xl">
+              <span className="block text-2xl hero-subtitle text-foreground md:text-4xl">
                 {config.developer.tagline}
               </span>
             </h1>
@@ -189,52 +189,45 @@ const HeroSection = () => {
 
           <motion.p
             variants={itemAnimation}
-            className="hero-bio text-base sm:text-md text-muted-foreground leading-relaxed max-w-2xl mx-auto"
+            className="max-w-2xl mx-auto text-base leading-relaxed hero-bio sm:text-md text-muted-foreground"
           >
             {config.developer.bio}
           </motion.p>
 
-          <div className="hero-metrics mx-auto flex max-w-xl flex-wrap justify-center gap-3">
-            <span className="glass-panel floating-gravity rounded-full px-4 py-2 text-xs text-card-foreground/90">
+          <div className="flex flex-wrap justify-center max-w-xl gap-3 mx-auto hero-metrics">
+            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
               Role: {config.developer.role}
             </span>
-            <span className="glass-panel floating-gravity rounded-full px-4 py-2 text-xs text-card-foreground/90">
+            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
               Location: {config.developer.location}
             </span>
-            <span className="glass-panel floating-gravity rounded-full px-4 py-2 text-xs text-card-foreground/90">
+            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
               Email: {config.developer.email}
             </span>
           </div>
 
           <motion.div
             variants={itemAnimation}
-            className="hero-actions flex flex-wrap gap-4 justify-center pt-6"
+            className="flex flex-wrap justify-center gap-4 pt-6 hero-actions"
           >
             <Link href={"/projects"}>
               <Button
                 variant="expandIcon"
                 Icon={ArrowRight}
                 iconPlacement="right"
-                className="rounded-full px-6 py-6 text-base transition-all duration-300 hover:scale-105 font-semibold"
+                className="px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full hover:scale-105"
               >
                 View Projects
               </Button>
             </Link>
-            <Link href={"/contact"}>
-              <Button
-                variant="outline"
-                className="rounded-full px-6 py-6 text-base transition-all duration-300 hover:scale-105 font-semibold"
-              >
-                Let’s work together
-              </Button>
-            </Link>
+            {/* Contact removed — use Projects link only */}
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="absolute -z-10 inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none -z-10"
           >
             <div className="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
           </motion.div>
