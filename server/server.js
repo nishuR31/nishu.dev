@@ -125,12 +125,15 @@ app.get("/test", async (req, res) => {
   let now = Date.now();
 
   try {
+    console.log("Before sending mail");
     const result = await _sendContactEmailLogged({
       name: "Test",
       email: process.env.MAIL_TO || process.env.MAIL_USER,
       message: "Testing the mailing service",
       submittedAt: new Date().toLocaleString(),
     });
+    console.log("After sending mail");
+
     return res.status(200).json({
       sent: true,
       time: `${(Date.now() - now) / 1000} s`,
