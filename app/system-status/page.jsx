@@ -65,14 +65,6 @@ export default function SystemStatusPage() {
       const backendJson =
         backendResp.ok ? await backendResp.json().catch(() => null) : null;
 
-      const redisResp = await fetch(`${healthBase}/redis`, {
-        cache: "no-store",
-      }).catch(() => null);
-      const redisJson =
-        redisResp && redisResp.ok ?
-          await redisResp.json().catch(() => null)
-        : null;
-
       const configResp = await fetch(`${healthBase}/config`, {
         cache: "no-store",
       }).catch(() => null);
@@ -91,15 +83,10 @@ export default function SystemStatusPage() {
         throw new Error(
           `Health endpoint returned ${configResp ? configResp.status : "no-response"}`,
         );
-      } else if (!redisResp || !redisResp.ok) {
-        throw new Error(
-          `Health endpoint returned ${redisResp ? redisResp.status : "no-response"}`,
-        );
       }
 
       setData({
         backendJson,
-        redisJson,
         configJson,
         responseTimeMs,
         timestamp: Date.now(),
@@ -150,7 +137,6 @@ export default function SystemStatusPage() {
   const cards = useMemo(() => {
     if (!data) return [];
     const backendOK = Boolean(data?.backendJson?.success);
-    const redisOk = Boolean(data?.redisJson?.success);
     const configOk = Boolean(data?.configJson?.success);
 
     return [
@@ -163,16 +149,6 @@ export default function SystemStatusPage() {
           data?.backendJson?.status ||
           "Core Mail API route is reachable",
         raw: data?.backendJson,
-      },
-      {
-        title: "Redis",
-        icon: Database,
-        ok: redisOk,
-        details:
-          data?.redisJson?.message ||
-          data?.redisJson?.status ||
-          "Redis available",
-        raw: data?.redisJson,
       },
       {
         title: "Configurations",
@@ -188,9 +164,7 @@ export default function SystemStatusPage() {
   }, [data]);
 
   const allOk = Boolean(
-    data?.backendJson?.success &&
-    data?.redisJson?.success &&
-    data?.configJson?.success,
+    data?.backendJson?.success && data?.configJson?.success,
   );
 
   return (
