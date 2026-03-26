@@ -1,9 +1,4 @@
-import {
-  enqueueContactMail,
-  getContactMailQueue,
-  getFailRetryQueue,
-} from "../lib/mail-queue.js";
-import { renderContactHtml, getLogoPath } from "../lib/mailer.js";
+import { _sendContactEmailLogged } from "../lib/mailer.js";
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -82,6 +77,7 @@ app.get("/redis", async (req, res) => {
 });
 
 app.post("/sendmail", async (req, res) => {
+  let now = Date.now();
   const { name, email, message } = req.body || {};
   if (!name || !email || !message) {
     return res
@@ -90,121 +86,32 @@ app.post("/sendmail", async (req, res) => {
   }
 
   try {
-    let enqueue = await enqueueContactMail({ name, email, message });
+    const result = await _sendContactEmailLogged({
+      name,
+      email,
+      message,
+      submittedAt: new Date().toLocaleString(),
+    });
     return res.status(202).json({
-      message: enqueue,
-      enqueued: true,
-      createdAt: new Date().toLocaleString(),
+      sent: true,
+      provider: "nodemailer",
+      time: `${(Date.now() - now) / 1000} s`,
+      info:
+        process.env.NODE_ENV === "production" ?
+          undefined
+        : result && (result.messageId || result.response),
     });
-  } catch (err) {
-    console.error("[Express] contact enqueue failed:", err?.message || err);
-    return res.status(500).json({ error: err?.message || "enqueue-failed" });
-  }
-});
-
-// POST /postemail - send immediately via SendGrid (mirrors /sendmail but calls SendGrid)
-app.post("/postemail", async (req, res) => {
-  const { name, email, message } = req.body || {};
-  if (!name || !email || !message) {
-    return res
-      .status(400)
-      .json({ error: "name, email and message are required" });
-  }
-
-  const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-  const SENDGRID_FROM = process.env.SENDGRID_FROM;
-  const MAIL_TO = process.env.MAIL_TO;
-
-  if (!SENDGRID_API_KEY || !SENDGRID_FROM || !MAIL_TO) {
-    const missing = [
-      !SENDGRID_API_KEY && "SENDGRID_API_KEY",
-      !SENDGRID_FROM && "SENDGRID_FROM",
-      !MAIL_TO && "MAIL_TO",
-    ].filter(Boolean);
-    console.error("[Express] /postemail missing env:", missing);
-    if (process.env.NODE_ENV === "production") {
-      return res.status(500).json({ error: "Something went wrong" });
-    }
-    return res
-      .status(500)
-      .json({ error: `Missing env: ${missing.join(", ")}` });
-  }
-
-  try {
-    // build HTML using the same template as nodemailer
-    const html = renderContactHtml({ name, email, message });
-
-    // include inline logo (base64) if available
-    const attachments = [];
-    try {
-      const logoPath = getLogoPath();
-      const fs = await import("fs/promises");
-      const buf = await fs.readFile(logoPath);
-      const b64 = buf.toString("base64");
-      attachments.push({
-        content: b64,
-        filename: "logo.png",
-        type: "image/png",
-        disposition: "inline",
-        content_id: "app-logo",
-      });
-    } catch (e) {
-      // non-fatal; continue without inline image
-      console.warn(
-        "[Express] /postemail could not read logo for inline attachment:",
-        e && e.message ? e.message : e,
-      );
-    }
-
-    const payload = {
-      personalizations: [
-        {
-          to: [{ email: MAIL_TO }],
-          subject: `Website contact from ${name}`,
-        },
-      ],
-      from: { email: SENDGRID_FROM },
-      content: [
-        {
-          type: "text/html",
-          value: html,
-        },
-      ],
-      attachments,
-    };
-
-    const resp = await fetch("https://api.sendgrid.com/v3/mail/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${SENDGRID_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (resp.status === 202) {
-      return res.status(202).json({ sent: true, provider: "sendgrid" });
-    }
-
-    const text = await resp.text();
-    console.error("[Express] /postemail sendgrid error:", resp.status, text);
-    if (process.env.NODE_ENV === "production") {
-      return res.status(500).json({ error: "Something went wrong" });
-    }
-    return res
-      .status(500)
-      .json({ error: `sendgrid-failed: ${resp.status} ${text}` });
   } catch (err) {
     console.error(
-      "[Express] /postemail exception:",
+      "[Express] contact send failed:",
       err && err.message ? err.message : err,
     );
-    if (process.env.NODE_ENV === "production") {
-      return res.status(500).json({ error: "Something went wrong" });
-    }
-    return res
-      .status(500)
-      .json({ error: err && err.message ? err.message : String(err) });
+    return res.status(500).json({
+      error:
+        process.env.NODE_ENV === "production" ? "Something went wrong"
+        : err && err.message ? err.message
+        : String(err),
+    });
   }
 });
 
@@ -215,153 +122,36 @@ app.get("/", (req, res) =>
 app.get("/ping", (req, res) => res.send("pong"));
 
 app.get("/test", async (req, res) => {
-  // enqueue a sample contact job
+  let now = Date.now();
 
-  enqueueContactMail({
-    name: "Test",
-    email: "testmail@gmail.com",
-    message: "Testing the mailing service",
-  });
-
-  return res
-    .status(202)
-    .json({ enqueued: true, createdAt: new Date().toLocaleString() });
-});
-
-// Return current job counts and sample job data for debugging queue processing
-app.get("/jobs2", async (req, res) => {
   try {
-    const queue = getFailRetryQueue();
-    const counts = await queue.getJobCounts();
+    const result = await _sendContactEmailLogged({
+      name: "Test",
+      email: process.env.MAIL_TO || process.env.MAIL_USER,
+      message: "Testing the mailing service",
+      submittedAt: new Date().toLocaleString(),
+    });
+    return res.status(200).json({
+      sent: true,
+      time: `${(Date.now() - now) / 1000} s`,
 
-    // helper to serialise jobs into JSON-safe objects
-    async function sampleJobs(statuses, limit = 20) {
-      try {
-        const jobs = await queue.getJobs(statuses, 0, limit - 1);
-        return jobs.map((j) => ({
-          id: j.id,
-          name: j.name,
-          data: j.data,
-          attemptsMade: j.attemptsMade,
-          opts: j.opts,
-          timestamp: j.timestamp,
-          processedOn: j.processedOn || null,
-          finishedOn: j.finishedOn || null,
-        }));
-      } catch (e) {
-        return { error: (e && e.message) || String(e) };
-      }
-    }
-
-    const waiting = await sampleJobs(["waiting", "paused"], 20);
-    const active = await sampleJobs(["active"], 20);
-    const delayed = await sampleJobs(["delayed"], 20);
-    const failed = await sampleJobs(["failed"], 20);
-
-    res.status(200).json({
-      success: true,
-      counts,
-      samples: { waiting, active, delayed, failed },
-      env: process.env.NODE_ENV || "unknown",
+      info:
+        process.env.NODE_ENV === "production" ?
+          undefined
+        : result && (result.messageId || result.response),
     });
   } catch (err) {
     console.error(
-      "[Server] /jobs2 error:",
+      "[Server] /test send failed:",
       err && err.message ? err.message : err,
     );
-    res
+    return res
       .status(500)
       .json({ error: err && err.message ? err.message : String(err) });
   }
 });
 
-// Return current job counts and sample job data for debugging queue processing
-app.get("/jobs1", async (req, res) => {
-  try {
-    const queue = getContactMailQueue();
-    const counts = await queue.getJobCounts();
-
-    // helper to serialise jobs into JSON-safe objects
-    async function sampleJobs(statuses, limit = 20) {
-      try {
-        const jobs = await queue.getJobs(statuses, 0, limit - 1);
-        return jobs.map((j) => ({
-          id: j.id,
-          name: j.name,
-          data: j.data,
-          attemptsMade: j.attemptsMade,
-          opts: j.opts,
-          timestamp: j.timestamp,
-          processedOn: j.processedOn || null,
-          finishedOn: j.finishedOn || null,
-        }));
-      } catch (e) {
-        return { error: (e && e.message) || String(e) };
-      }
-    }
-
-    const waiting = await sampleJobs(["waiting", "paused"], 20);
-    const active = await sampleJobs(["active"], 20);
-    const delayed = await sampleJobs(["delayed"], 20);
-    const failed = await sampleJobs(["failed"], 20);
-
-    res.status(200).json({
-      success: true,
-      counts,
-      samples: { waiting, active, delayed, failed },
-      env: process.env.NODE_ENV || "unknown",
-    });
-  } catch (err) {
-    console.error(
-      "[Server] /jobs2 error:",
-      err && err.message ? err.message : err,
-    );
-    res
-      .status(500)
-      .json({ error: err && err.message ? err.message : String(err) });
-  }
-});
-
-// Clear failed jobs (up to a reasonable limit) to free queue space
-// Use GET so callers can trigger without a request body
-app.get("/jobs/:i/clear-failed", async (req, res) => {
-  try {
-    let { i } = req.params;
-
-    const queue = i == +1 ? getContactMailQueue() : getFailRetryQueue();
-    const failedJobs = await queue.getJobs(["failed"], 0, 99);
-    let removed = 0;
-    const removedIds = [];
-
-    for (const j of failedJobs) {
-      try {
-        // ensure we have a Job instance to call remove()
-        const job = await queue.getJob(j.id || j.jobId || j);
-        if (job && typeof job.remove === "function") {
-          await job.remove();
-          removed++;
-          removedIds.push(String(j.id || j.jobId || j));
-        }
-      } catch (e) {
-        console.error(
-          "[Server] failed to remove job:",
-          j.id || j.jobId || j,
-          e && e.message ? e.message : e,
-        );
-      }
-    }
-
-    res.status(200).json({ success: true, removed, removedIds });
-  } catch (err) {
-    console.error(
-      `[Server] /jobs/${i}/clear-failed error:`,
-      err && err.message ? err.message : err,
-    );
-    res
-      .status(500)
-      .json({ error: err && err.message ? err.message : String(err) });
-  }
-});
+// Queue-related endpoints removed to keep mailing synchronous via Nodemailer
 
 app.all("/*spalt", (req, res) => {
   res.status(400).json({
@@ -371,5 +161,4 @@ app.all("/*spalt", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4001;
-import "../worker/file-worker.js";
 app.listen(PORT, () => console.log(`[Express] listening on port ${PORT} `));
