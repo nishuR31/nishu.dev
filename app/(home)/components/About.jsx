@@ -111,8 +111,8 @@ const AboutSection = () => {
                     <p className="text-muted-foreground text-sm leading-relaxed break-words">
                       Writing scalable systems means planning for tomorrow while
                       delivering functional excellence today. Modularity,
-                      security, and clean code are at the heart of everything I
-                      build.
+                      security, optimized and clean code are at the heart of
+                      everything I build.
                     </p>
                   </div>
                 </div>
