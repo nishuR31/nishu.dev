@@ -88,7 +88,6 @@ const Footer = () => {
             </span>
           </div>
           <div className="flex justify-center mt-3 ">
-            <Link href="/system-status" className="group">
               <motion.div
                 animate={{ x: [0, 4, 0] }}
                 transition={{
@@ -124,7 +123,6 @@ const Footer = () => {
                   <span>{isOnline ? "Online" : "Offline"}</span>
                 </span>
               </motion.div>
-            </Link>
           </div>
         </div>
       </motion.footer>
