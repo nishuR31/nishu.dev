@@ -19,7 +19,7 @@ export default function Head() {
         "@type": "CollectionPage",
         name: title,
         description,
-        url: "https://nishu.portfolio.vercel.app/projects",
+        url: "https://nishudevportfolio.vercel.app/projects",
       },
       ...projectsJsonLd,
     ],
@@ -31,7 +31,7 @@ export default function Head() {
       <meta name="description" content={description} />
       <link
         rel="canonical"
-        href="https://nishu.portfolio.vercel.app/projects"
+        href="https://nishudevportfolio.vercel.app/projects"
       />
       <script
         type="application/ld+json"

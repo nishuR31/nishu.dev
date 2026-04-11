@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lighthouse": "npx lighthouse https://nishu.portfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'"
+    "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",

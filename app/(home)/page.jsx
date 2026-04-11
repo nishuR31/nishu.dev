@@ -23,7 +23,7 @@ const Home = () => {
       "@type": "PostalAddress",
       addressCountry: config.developer.location,
     },
-    url: "https://nishu.portfolio.vercel.app",
+    url: "https://nishudevportfolio.vercel.app",
   };
 
   return (

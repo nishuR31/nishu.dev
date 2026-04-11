@@ -21,4 +21,4 @@ Allow: /
 User-agent: AdsBot-Google
 Allow: /
 
-Sitemap: https://nishu.portfolio.vercel.app/sitemap.xml
+Sitemap: https://nishudevportfolio.vercel.app/sitemap.xml

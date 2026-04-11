@@ -9,7 +9,7 @@ export default function Head() {
     "@type": "WebPage",
     name: title,
     description,
-    url: "https://nishu.portfolio.vercel.app/",
+    url: "https://nishudevportfolio.vercel.app/",
     author: {
       "@type": "Person",
       name: config.developer.name,
@@ -24,7 +24,7 @@ export default function Head() {
         name="keywords"
         content={config.keywords || "portfolio,backend,developer"}
       />
-      <link rel="canonical" href="https://nishu.portfolio.vercel.app/" />
+      <link rel="canonical" href="https://nishudevportfolio.vercel.app/" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -17,7 +17,7 @@ const geistSans = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://nishu.portfolio.vercel.app"),
+  metadataBase: new URL("https://nishudevportfolio.vercel.app"),
   title: {
     default: "Nishan Rajak | Backend Engineer Portfolio",
     template: "%s | Nishan Rajak",
@@ -35,7 +35,7 @@ export const metadata = {
     "software engineering student",
   ],
   authors: [
-    { name: "Nishan Rajak", url: "https://nishu.portfolio.vercel.app" },
+    { name: "Nishan Rajak", url: "https://nishudevportfolio.vercel.app" },
   ],
   creator: "Nishan Rajak",
   publisher: "Nishan Rajak",
@@ -66,7 +66,7 @@ export const metadata = {
     title: "Nishan Rajak | Backend Engineer Portfolio",
     description:
       "Explore backend engineering projects, API architecture work, and software engineering experience by Nishan Rajak.",
-    url: "https://nishu.portfolio.vercel.app",
+    url: "https://nishudevportfolio.vercel.app",
     siteName: "Nishan Portfolio",
     type: "website",
     images: [
@@ -111,7 +111,7 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
-        <link rel="canonical" href="https://nishu.portfolio.vercel.app" />
+        <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -121,7 +121,7 @@ export default function RootLayout({ children }) {
                 {
                   "@type": "Person",
                   name: config.developer.name,
-                  url: "https://nishu.portfolio.vercel.app",
+                  url: "https://nishudevportfolio.vercel.app",
                   email: config.developer.email,
                   sameAs: [
                     `https://github.com/${config.social.github}`,

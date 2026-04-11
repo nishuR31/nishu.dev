@@ -2,7 +2,7 @@
 # Lightweight script to (1) explain Google's deprecation of sitemap ping
 # and (2) ping Bing with your sitemap. Google requires Search Console/API.
 
-SITEMAP_URL="https://nishu.portfolio.vercel.app/sitemap.xml"
+SITEMAP_URL="https://nishudevportfolio.vercel.app/sitemap.xml"
 
 echo "Note: Google no longer supports the direct sitemap 'ping' endpoint."
 echo "See: https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping"
