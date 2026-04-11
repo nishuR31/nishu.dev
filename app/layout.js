@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import GridPattern from "@/components/ui/grid-pattern";
 import { cn } from "@/lib/utils";
+import { config } from "@/config";
 import { ThemeProvider } from "@/components/Providers/Theme";
 import AppEnhancements from "@/components/Providers/AppEnhancements";
 import SonnerToaster from "@/components/Providers/SonnerToaster";
@@ -109,6 +110,36 @@ export default function RootLayout({ children }) {
         <meta
           name="google-site-verification"
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
+        />
+        <link rel="canonical" href="https://nishu.portfolio.vercel.app" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  name: config.developer.name,
+                  url: "https://nishu.portfolio.vercel.app",
+                  email: config.developer.email,
+                  sameAs: [
+                    `https://github.com/${config.social.github}`,
+                    `https://linkedin.com/in/${config.social.linkedin}`,
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  name: config.developer.name + " Portfolio",
+                  url: "https://nishu.portfolio.vercel.app",
+                  publisher: {
+                    "@type": "Person",
+                    name: config.developer.name,
+                  },
+                },
+              ],
+            }),
+          }}
         />
       </head>
       <body className={`${geistSans.className} antialiased`}>
