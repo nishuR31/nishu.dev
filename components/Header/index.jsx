@@ -60,6 +60,7 @@ const Logo = ({ isMobile = false }) => (
           width={2000}
           height={2000}
           alt="logo"
+          priority
           className={`${isMobile ? "w-10 h-10" : "w-12 h-12 sm:w-14 sm:h-14"} rounded-full`}
         />
       </motion.div>
@@ -127,7 +128,6 @@ const Header = () => {
           <Navigation />
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
-           
           </div>
 
           {/* Mobile Menu Button */}

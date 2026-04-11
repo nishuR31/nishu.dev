@@ -8,8 +8,7 @@ import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
 import { motion } from "framer-motion";
 import SkillsShowcase from "./SkillsShowcase";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// load GSAP only on the client when needed to reduce initial bundle size
 
 const containerAnimation = {
   hidden: { opacity: 0 },
@@ -60,61 +59,65 @@ const HeroSection = () => {
   }, [photoFrames.length]);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      gsap.utils
-        .toArray(
-          ".hero-chip, .hero-portrait-wrap, .hero-title, .hero-subtitle, .hero-bio, .hero-actions, .hero-metrics",
-        )
-        .forEach((item) => {
-          gsap.fromTo(
-            item,
-            { opacity: 0, y: 14 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.35,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: item,
-                start: "top 96%",
-                toggleActions: "play none none none",
-                once: true,
-              },
-            },
+    let ctx;
+    let gsap;
+    (async () => {
+      try {
+        const gsapModule = await import("gsap");
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        gsap = gsapModule.default || gsapModule;
+        const ScrollTrigger =
+          ScrollTriggerModule.ScrollTrigger ||
+          ScrollTriggerModule.default ||
+          ScrollTriggerModule;
+        gsap.registerPlugin(ScrollTrigger);
+
+        ctx = gsap.context(() => {
+          const elems = gsap.utils.toArray(
+            ".hero-chip, .hero-portrait-wrap, .hero-title, .hero-subtitle, .hero-bio, .hero-actions, .hero-metrics",
           );
-        });
 
-      gsap.to(".hero-glow", {
-        scale: 1.08,
-        duration: 2.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+          elems.forEach((item) => {
+            gsap.fromTo(
+              item,
+              { opacity: 0, y: 14 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.35,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: item,
+                  start: "top 96%",
+                  toggleActions: "play none none none",
+                  once: true,
+                },
+              },
+            );
+          });
 
-      gsap.to(".hero-glow", {
-        yPercent: 18,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+          // Scroll-based subtle portrait/hero movement (uses transforms only)
+          gsap.to(".hero-portrait-wrap", {
+            yPercent: -6,
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }, heroRef);
+      } catch (err) {
+        // fail gracefully if GSAP load fails
+        console.warn("GSAP failed to load dynamically", err);
+      }
+    })();
 
-      gsap.to(".hero-portrait-wrap", {
-        yPercent: -10,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
+    return () => {
+      try {
+        if (ctx) ctx.revert();
+      } catch (e) {}
+    };
   }, []);
 
   return (

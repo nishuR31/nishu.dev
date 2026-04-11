@@ -14,6 +14,7 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: "swap",
 });
 
 export const metadata = {
@@ -111,6 +112,10 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://api.github.com" />
+        <link rel="preload" as="image" href="/homepage.png" />
+        <link rel="preload" as="image" href="/logo.png" />
         <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
         <script
           type="application/ld+json"
@@ -152,7 +157,7 @@ export default function RootLayout({ children }) {
           <AppEnhancements />
           <PageTopLoader />
           <Header />
-          {children}
+          <main id="main">{children}</main>
           <Footer />
           <SonnerToaster />
           <GridPattern

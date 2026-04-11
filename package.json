@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'"
+    "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
+    "convert-images": "node scripts/convert-images-to-avif.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -39,6 +40,7 @@
     "eslint": "^10.1.0",
     "eslint-config-next": "16.2.1",
     "postcss": "^8",
-    "tailwindcss": "^3.4.14"
+    "tailwindcss": "^3.4.14",
+    "sharp": "^0.32.0"
   }
 }

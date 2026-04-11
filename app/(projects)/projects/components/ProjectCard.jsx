@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import ImageWithAvif from "@/components/ImageWithAvif";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
@@ -13,7 +14,7 @@ export const ProjectCard = ({ project, index }) => (
   >
     <div className="md:w-1/3 lg:w-1/2">
       <div className="relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[3/2] rounded-lg overflow-hidden">
-        <Image
+        <ImageWithAvif
           src={project.image}
           alt={project.title}
           fill

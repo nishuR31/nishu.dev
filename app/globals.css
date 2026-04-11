@@ -268,3 +268,22 @@ body::before {
 .group:hover .shiny-sweep {
   animation: shiny-sweep 1s ease-in-out;
 }
+
+/* Lightweight composited glow animation for hero to avoid continuous JS work */
+.hero-glow {
+  will-change: transform, opacity;
+  animation: hero-glow-scale 6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes hero-glow-scale {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
