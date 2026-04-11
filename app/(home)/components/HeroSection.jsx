@@ -7,7 +7,11 @@ import { config } from "@/config";
 import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
 import { motion } from "framer-motion";
-import SkillsShowcase from "./SkillsShowcase";
+import dynamic from "next/dynamic";
+const SkillsShowcase = dynamic(() => import("./SkillsShowcase"), {
+  ssr: false,
+  loading: () => <div />,
+});
 // load GSAP only on the client when needed to reduce initial bundle size
 
 const containerAnimation = {

@@ -6,9 +6,18 @@ const GithubProjects = dynamic(() => import("./components/GithubProjects"), {
   ssr: false,
   loading: () => <div />,
 });
-import SkillsSection from "./components/Skills";
-import ExperienceSection from "./components/Experience";
-import AboutSection from "./components/About";
+const AboutSection = dynamic(() => import("./components/About"), {
+  ssr: false,
+  loading: () => <div />,
+});
+const ExperienceSection = dynamic(() => import("./components/Experience"), {
+  ssr: false,
+  loading: () => <div />,
+});
+const SkillsSection = dynamic(() => import("./components/Skills"), {
+  ssr: false,
+  loading: () => <div />,
+});
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";

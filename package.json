@@ -10,7 +10,9 @@
     "start": "next start",
     "lint": "next lint",
     "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
-    "convert-images": "node scripts/convert-images-to-avif.js"
+    "convert-images": "node scripts/convert-images-to-avif.js",
+    "quick-analytics": "bash scripts/quick-analytics.sh",
+    "pagespeed": "PAGESPEED_KEY=YOUR_KEY npm run quick-analytics -- https://nishudevportfolio.vercel.app"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -42,5 +44,20 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.14",
     "sharp": "^0.32.0"
+  },
+  "browserslist": {
+    "production": [
+      "last 2 Chrome versions",
+      "last 2 Firefox versions",
+      "last 2 Edge versions",
+      "Safari >= 14",
+      "not dead",
+      "not ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

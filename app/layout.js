@@ -101,7 +101,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
@@ -113,9 +113,16 @@ export default function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://api.github.com" crossOrigin />
         <link rel="preload" as="image" href="/homepage.png" />
         <link rel="preload" as="image" href="/logo.png" />
         <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -135,7 +142,7 @@ export default function RootLayout({ children }) {
                 {
                   "@type": "WebSite",
                   name: config.developer.name + " Portfolio",
-                  url: "https://nishu.portfolio.vercel.app",
+                  url: "https://nishudevportfolio.vercel.app",
                   publisher: {
                     "@type": "Person",
                     name: config.developer.name,
