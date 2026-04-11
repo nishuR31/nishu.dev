@@ -1,7 +1,11 @@
 "use client";
 import React from "react";
+import dynamic from "next/dynamic";
 import HeroSection from "./components/HeroSection";
-import GithubProjects from "./components/GithubProjects";
+const GithubProjects = dynamic(() => import("./components/GithubProjects"), {
+  ssr: false,
+  loading: () => <div />,
+});
 import SkillsSection from "./components/Skills";
 import ExperienceSection from "./components/Experience";
 import AboutSection from "./components/About";

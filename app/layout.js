@@ -113,7 +113,6 @@ export default function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://api.github.com" />
         <link rel="preload" as="image" href="/homepage.png" />
         <link rel="preload" as="image" href="/logo.png" />
         <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
