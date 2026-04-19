@@ -5,7 +5,7 @@ import { config } from "@/config";
 import { BatteryCharging, Battery } from "lucide-react";
 
 const Footer = () => {
-  const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
+  const [batteryLevel, setBatteryLevel] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== "undefined" ? navigator.onLine : true
@@ -25,9 +25,9 @@ const Footer = () => {
     };
   }, []);
 
-  // Battery API (safe handling)
+  // Battery API
   useEffect(() => {
-    let battery;
+    let battery = null;
 
     const initBattery = async () => {
       try {
@@ -36,7 +36,7 @@ const Footer = () => {
           return;
         }
 
-        battery = await (navigator as any).getBattery();
+        battery = await navigator.getBattery();
 
         const update = () => {
           setBatteryLevel(battery.level);
@@ -47,26 +47,28 @@ const Footer = () => {
 
         battery.addEventListener("levelchange", update);
         battery.addEventListener("chargingchange", update);
+
+        // cleanup fix (correct reference)
+        return () => {
+          battery.removeEventListener("levelchange", update);
+          battery.removeEventListener("chargingchange", update);
+        };
       } catch (err) {
         setBatteryLevel(null);
       }
     };
 
-    initBattery();
+    let cleanup;
+    initBattery().then((cb) => (cleanup = cb));
 
     return () => {
-      if (battery) {
-        battery.removeEventListener("levelchange", () => {});
-        battery.removeEventListener("chargingchange", () => {});
-      }
+      if (cleanup) cleanup();
     };
   }, []);
 
-  // Derived values
   const percentage =
     batteryLevel !== null ? Math.round(batteryLevel * 100) : null;
 
-  // Detect fake 100% (common on laptops)
   const isFakeFull = isCharging && percentage === 100;
 
   return (
@@ -78,15 +80,11 @@ const Footer = () => {
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
-          <span className="whitespace-nowrap">
-            © {new Date().getFullYear()} {config.developer.name}
-          </span>
+          <span>© {new Date().getFullYear()} {config.developer.name}</span>
           <span className="hidden sm:inline">•</span>
-          <span className="whitespace-nowrap">All rights reserved</span>
+          <span>All rights reserved</span>
           <span className="hidden sm:inline">•</span>
-          <span className="whitespace-nowrap">
-            Made by {config.developer.shortName}
-          </span>
+          <span>Made by {config.developer.shortName}</span>
         </div>
 
         <div className="flex justify-center mt-3">
@@ -99,12 +97,10 @@ const Footer = () => {
             }}
             className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {/* Battery Icon */}
             <span className="text-sm">
               {isCharging ? <BatteryCharging /> : <Battery />}
             </span>
 
-            {/* Battery % */}
             <span
               className={`ml-1 ${
                 percentage === null
@@ -123,7 +119,6 @@ const Footer = () => {
                 : `${percentage}%`}
             </span>
 
-            {/* Online Status */}
             <span
               className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
                 isOnline
