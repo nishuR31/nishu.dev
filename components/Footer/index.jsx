@@ -27,7 +27,7 @@ const Footer = () => {
 
   // Battery API (safe handling)
   useEffect(() => {
-    let battery: any;
+    let battery;
 
     const initBattery = async () => {
       try {
