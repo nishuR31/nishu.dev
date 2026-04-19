@@ -123,35 +123,39 @@ export default function RootLayout({ children }) {
               ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "Person",
-                  name: config.developer.name,
-                  url: "https://nishudevportfolio.vercel.app",
-                  email: config.developer.email,
-                  sameAs: [
-                    `https://github.com/${config.social.github}`,
-                    `https://linkedin.com/in/${config.social.linkedin}`,
-                  ],
-                },
-                {
-                  "@type": "WebSite",
-                  name: config.developer.name + " Portfolio",
-                  url: "https://nishudevportfolio.vercel.app",
-                  publisher: {
-                    "@type": "Person",
-                    name: config.developer.name,
-                  },
-                },
-              ],
-            }),
-          }}
-        />
+            <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://nishudevportfolio.vercel.app/#person",
+              name: config.developer.name,
+              url: "https://nishudevportfolio.vercel.app",
+              mainEntityOfPage: "https://nishudevportfolio.vercel.app",
+              email: config.developer.email,
+              jobTitle: "Backend Developer",
+              image: "https://nishudevportfolio.vercel.app/logo.png",
+              sameAs: [
+                `https://github.com/${config.social.github}`,
+                `https://linkedin.com/in/${config.social.linkedin}`
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://nishudevportfolio.vercel.app/#website",
+              name: config.developer.name + " Portfolio",
+              url: "https://nishudevportfolio.vercel.app",
+              publisher: {
+                "@id": "https://nishudevportfolio.vercel.app/#person"
+              }
+            }
+          ]
+        })
+      }}
+    />
       </head>
       <body className={`${geistSans.className} antialiased`}>
         <ThemeProvider
