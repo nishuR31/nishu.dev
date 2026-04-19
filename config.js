@@ -232,7 +232,7 @@ export const config = {
       ],
       technologies: ["Node.js", "Express", "JWT", "MongoDB", "Postman", "Git"],
     },
-    {
+    /*{
       position: "B.Tech Computer Science Engineering",
       company: "ICFAI University Jharkhand",
       period: "2023 - 2027",
@@ -251,7 +251,7 @@ export const config = {
         "TypeScript",
         "Node.js",
       ],
-    },
+    },*/
   ],
   contactInfo: [
     {
