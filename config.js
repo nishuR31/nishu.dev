@@ -272,12 +272,12 @@ export const config = {
       value: "Raghunathpur, West Bengal",
       link: null,
     },
-    {
+    /*{
       iconKey: "briefcase",
       label: "LinkedIn",
       value: "linkedin.com/in/nishan-rajak-98b2ab3b8",
       link: "https://linkedin.com/in/nishan-rajak-98b2ab3b8",
-    },
+    },*/
   ],
   additionalProjects: [
     "FocusMode — Productivity interface",
