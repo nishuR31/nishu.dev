@@ -47,7 +47,7 @@ export const config = {
         "REST API",
       ],
       github: "https://github.com/nishuR31/ghControl",
-      demo: "https://gh-control-nishu.vercel.app",
+      demo: "https://gh-ctrl.vercel.app",
     },
     {
       id: 3,
