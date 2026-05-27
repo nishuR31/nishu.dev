@@ -52,7 +52,7 @@ const textAnimation = {
 
 const HeroSection = () => {
   const heroRef = useRef(null);
-  const photoFrames = ["/profile-avatar.svg", "/profile-waist.svg", "/logo.avif"];
+  const photoFrames = ["/college.avif", "/school.avif", "/iitSitting.avif", "/iitStanding.avif"];
   const [activeFrame, setActiveFrame] = useState(0);
 
   useEffect(() => {
