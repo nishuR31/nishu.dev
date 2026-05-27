@@ -10,6 +10,10 @@ const Footer = () => {
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== "undefined" ? navigator.onLine : true
   );
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   // Online / Offline listener
   useEffect(() => {
@@ -119,20 +123,22 @@ const Footer = () => {
                 : `${percentage}%`}
             </span>
 
-            <span
-              className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
-                isOnline
-                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                  : "bg-red-500/10 border-red-500/20 text-red-400"
-              }`}
-            >
-              <span
-                className={`h-2 w-2 rounded-full ${
-                  isOnline ? "bg-emerald-400" : "bg-red-400"
-                }`}
-              />
-              <span>{isOnline ? "Online" : "Offline"}</span>
-            </span>
+              {hasMounted && (
+                <span
+                  className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
+                    isOnline
+                      ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                      : "bg-red-500/10 border-red-500/20 text-red-400"
+                  }`}
+                >
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      isOnline ? "bg-emerald-400" : "bg-red-400"
+                    }`}
+                  />
+                  <span>{isOnline ? "Online" : "Offline"}</span>
+                </span>
+              )}
           </motion.div>
         </div>
       </div>

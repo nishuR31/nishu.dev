@@ -18,7 +18,7 @@ export const config = {
     discord: "#",
     linkedin: "nishan-rajak-98b2ab3b8",
   },
-  NAV_ITEMS: [{ href: "/projects", label: "Projects" }],
+  NAV_ITEMS: [{ href: "/projects", label: "Projects" }, { href: "/certificates", label: "Certificates" }],
   recentTracks: true, // Enable/disable Spotify recent tracks
   projects: [
     {
