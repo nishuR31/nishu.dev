@@ -351,15 +351,15 @@ const GithubProjects = () => {
                       <ProjectSkeleton />
                     </div>
                   ))
-              : error ?
-                <ErrorAlert error={error} onRetry={handleRetry} />
-              : projects.map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    size={project.size}
-                  />
-                ))
+                : error ?
+                  <ErrorAlert error={error} onRetry={handleRetry} />
+                  : projects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      size={project.size}
+                    />
+                  ))
               }
             </motion.div>
 
@@ -376,7 +376,7 @@ const GithubProjects = () => {
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Loading...
                     </>
-                  : "Load More Projects"}
+                    : "Load More Projects"}
                 </Button>
               )}
 
@@ -388,7 +388,7 @@ const GithubProjects = () => {
                 asChild
               >
                 <a
-                  href={`https://github.com/${config.social.github}`}
+                  href={`https://github.com/${config.social.github}?tab=repositories`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -109,27 +109,27 @@ const CertificatesSection = () => {
                         </span>
                       </div>
 
-                      {/* Card Middle: Image Preview or File Info */}
-                      <div className="flex-1 my-4 flex items-center justify-center overflow-hidden rounded-xl border border-zinc-900 bg-zinc-900/30 relative">
+                      {/* Card Middle: Fixed 3:2 aspect ratio, scrollable preview */}
+                      <div
+                        className="my-3 rounded-xl border border-zinc-900 bg-zinc-900/30 relative"
+                        style={{ aspectRatio: '3 / 2', overflow: 'hidden', overflowY: 'auto' }}
+                      >
                         {item.isImage ? (
                           <img
                             src={item.url}
                             alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-auto min-h-full object-contain"
                           />
                         ) : item.isPdf ? (
-                          <div className="w-full h-full relative">
-                            <iframe
-                              src={`${item.url}#toolbar=0&navpanes=0&scrollbar=0`}
-                              className="w-full h-full border-none pointer-events-none select-none"
-                              title={item.title}
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-transparent" />
-                          </div>
+                          <embed
+                            src={item.url}
+                            type="application/pdf"
+                            className="w-full"
+                            style={{ minHeight: '100%', height: '500px' }}
+                          />
                         ) : (
-                          <div className="flex flex-col items-center text-center p-4">
-                            <Award className="w-12 h-12 text-zinc-750 mb-2 group-hover:text-amber-500/50 transition-colors duration-300" />
+                          <div className="flex flex-col items-center justify-center text-center p-4 h-full">
+                            <Award className="w-12 h-12 text-zinc-700 mb-2 group-hover:text-amber-500/50 transition-colors duration-300" />
                             <span className="text-[10px] text-zinc-500 font-mono break-all line-clamp-1 px-4">
                               {item.url.substring(item.url.lastIndexOf("/") + 1)}
                             </span>

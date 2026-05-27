@@ -72,13 +72,11 @@ const CertificatesGrid = () => {
                                     />
                                 ) : item.isPdf ? (
                                     <div className="w-full h-full relative">
-                                        <iframe
-                                            src={`${item.url}#toolbar=0&navpanes=0&scrollbar=0`}
-                                            className="w-full h-full border-none pointer-events-none"
-                                            title={item.title}
-                                            loading="lazy"
+                                        <embed
+                                            src={item.url}
+                                            type="application/pdf"
+                                            className="w-full h-full"
                                         />
-                                        <div className="absolute inset-0 bg-transparent" />
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center text-center p-4">

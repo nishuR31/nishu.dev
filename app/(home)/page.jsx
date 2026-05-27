@@ -103,7 +103,7 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex justify-center"
+            className="flex flex-row justify-center"
           >
             <Link href="/projects">
               <motion.button
@@ -112,6 +112,16 @@ const Home = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-panel text-card-foreground hover-lift"
               >
                 <span>View Projects</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </motion.button>
+            </Link>
+            <Link href="/certificates">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-panel text-card-foreground hover-lift"
+              >
+                <span>View Certificates</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.button>
             </Link>
