@@ -72,13 +72,13 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/homepage.png",
+        url: "/homepage.avif",
         width: 1200,
         height: 630,
         alt: "Homepage preview - Nishan Rajak Portfolio",
       },
       {
-        url: "/logo.png",
+        url: "/logo.avif",
         width: 1200,
         height: 630,
         alt: "Nishan Rajak Portfolio",
@@ -90,13 +90,13 @@ export const metadata = {
     title: "Nishan Rajak | Backend Engineer Portfolio",
     description:
       "Backend-focused portfolio with projects, experience, and interactive UI by Nishan Rajak.",
-    images: ["/homepage.png", "/logo.png"],
+    images: ["/homepage.avif", "/logo.avif"],
     creator: "@nishuR31",
   },
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.avif",
+    shortcut: "/logo.avif",
+    apple: "/logo.avif",
   },
 };
 
@@ -113,9 +113,9 @@ export default function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://api.github.com" crossOrigin />
-        <link rel="preload" as="image" href="/homepage.png" />
-        <link rel="preload" as="image" href="/logo.png" />
+        <link rel="preconnect" href="https://api.github.com" crossOrigin="true" />
+        <link rel="preload" as="image" href="/homepage.avif" />
+        <link rel="preload" as="image" href="/logo.avif" />
         <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
         <style
           dangerouslySetInnerHTML={{
@@ -123,39 +123,39 @@ export default function RootLayout({ children }) {
               ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
           }}
         />
-            <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Person",
-              "@id": "https://nishudevportfolio.vercel.app/#person",
-              name: config.developer.name,
-              url: "https://nishudevportfolio.vercel.app",
-              mainEntityOfPage: "https://nishudevportfolio.vercel.app",
-              email: config.developer.email,
-              jobTitle: "Backend Developer",
-              image: "https://nishudevportfolio.vercel.app/logo.png",
-              sameAs: [
-                `https://github.com/${config.social.github}`,
-                `https://linkedin.com/in/${config.social.linkedin}`
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://nishudevportfolio.vercel.app/#person",
+                  name: config.developer.name,
+                  url: "https://nishudevportfolio.vercel.app",
+                  mainEntityOfPage: "https://nishudevportfolio.vercel.app",
+                  email: config.developer.email,
+                  jobTitle: "Backend Developer",
+                  image: "https://nishudevportfolio.vercel.app/logo.avif",
+                  sameAs: [
+                    `https://github.com/${config.social.github}`,
+                    `https://linkedin.com/in/${config.social.linkedin}`
+                  ]
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://nishudevportfolio.vercel.app/#website",
+                  name: config.developer.name + " Portfolio",
+                  url: "https://nishudevportfolio.vercel.app",
+                  publisher: {
+                    "@id": "https://nishudevportfolio.vercel.app/#person"
+                  }
+                }
               ]
-            },
-            {
-              "@type": "WebSite",
-              "@id": "https://nishudevportfolio.vercel.app/#website",
-              name: config.developer.name + " Portfolio",
-              url: "https://nishudevportfolio.vercel.app",
-              publisher: {
-                "@id": "https://nishudevportfolio.vercel.app/#person"
-              }
-            }
-          ]
-        })
-      }}
-    />
+            })
+          }}
+        />
       </head>
       <body className={`${geistSans.className} antialiased`}>
         <ThemeProvider
@@ -167,6 +167,8 @@ export default function RootLayout({ children }) {
           <AppEnhancements />
           <PageTopLoader />
           <Header />
+
+
           <main id="main">{children}</main>
           <Footer />
           <SonnerToaster />

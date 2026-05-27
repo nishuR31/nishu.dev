@@ -56,7 +56,7 @@ const Logo = ({ isMobile = false }) => (
     >
       <motion.div whileHover={{ opacity: 0.5 }} whileTap={{ scale: 0.95 }}>
         <Image
-          src="/logo.png"
+          src="/logo.avif"
           width={84}
           height={84}
           alt="logo"
@@ -70,9 +70,7 @@ const Logo = ({ isMobile = false }) => (
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <span className="hidden lg:inline">
-          {config.developer.name} · {config.developer.role}
-        </span>
+
         <span className="lg:hidden">{config.developer.name}</span>
       </motion.span>
     </Link>
@@ -138,7 +136,7 @@ const Header = () => {
           >
             {isMobileMenuOpen ?
               <X className="w-6 h-6" />
-            : <Menu className="w-6 h-6" />}
+              : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </motion.header>

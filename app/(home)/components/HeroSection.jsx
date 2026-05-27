@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import DecryptedText from "@/components/ui/decryptedText";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
 import { config } from "@/config";
@@ -51,7 +52,7 @@ const textAnimation = {
 
 const HeroSection = () => {
   const heroRef = useRef(null);
-  const photoFrames = ["/profile-1.jpg", "/profile-2.jpg", "/profile-3.jpg"];
+  const photoFrames = ["/profile-avatar.svg", "/profile-waist.svg", "/logo.avif"];
   const [activeFrame, setActiveFrame] = useState(0);
 
   useEffect(() => {
@@ -120,7 +121,7 @@ const HeroSection = () => {
     return () => {
       try {
         if (ctx) ctx.revert();
-      } catch (e) {}
+      } catch (e) { }
     };
   }, []);
 
@@ -143,31 +144,31 @@ const HeroSection = () => {
             className="pt-4 hero-portrait-wrap sm:pt-6"
           >
             <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity">
-              {[0, 1, 2].map((layer) => {
+              {[0, 1, 2, 3, 4, 5].map((layer) => {
                 const frameIndex = (activeFrame + layer) % photoFrames.length;
                 return (
                   <div
                     key={layer}
-                    v-if="true"
                     className="absolute inset-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-700 border rounded-2xl outline outline-1 outline-primary/25 bg-zinc-900 border-zinc-800"
                     style={{
                       opacity:
                         layer === 0 ? 1
-                        : layer === 1 ? 0.45
-                        : 0.22,
+                          : layer === 1 ? 0.45
+                            : 0.22,
                       transform: `translate(${layer * 6}px, ${layer * 4}px)`,
                       zIndex: 3 - layer,
                     }}
                   >
-                    {/* Fallback pattern instead of broken image */}
-                    <div className="absolute inset-0 z-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent" />
-                    {layer === 0 && (
-                      <div className="relative z-10 flex items-center justify-center w-full h-full">
-                        <div className="flex items-center justify-center w-24 h-24 border rounded-full bg-primary/10 border-primary/20">
-                          <Code2 className="w-10 h-10 text-primary" />
-                        </div>
-                      </div>
-                    )}
+                    <Image
+                      src={photoFrames[frameIndex]}
+                      loading="eager"
+                      alt="Nishan Rajak Profile"
+                      fill
+                      sizes="(max-width: 640px) 208px, 256px"
+                      className="object-cover pointer-events-none select-none"
+                      priority={layer === 0}
+                    />
+                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events-none" />
                   </div>
                 );
               })}
@@ -180,13 +181,19 @@ const HeroSection = () => {
             className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-panel text-primary"
           >
             <Code2 className="w-5 h-5" />
-            <span className="text-sm font-medium">Welcome to my portfolio</span>
+            <span className="text-md font-medium">Welcome to my portfolio</span>
           </motion.div>
 
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl">
               <span className="block mb-2 text-foreground">
-                Hi, I'm {config.developer.shortName}
+                <span><DecryptedText
+                  text={`Hi, I'm ${config.developer.shortName}`}
+                  revealDirection="start"
+                  sequential
+                  useOriginalCharsOnly={false}
+                /></span>
+
               </span>
               <span className="block text-2xl hero-subtitle text-foreground md:text-4xl">
                 {config.developer.tagline}

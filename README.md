@@ -2,7 +2,7 @@
 
 ![logo](public/logo.png)
 
-![Homepage preview](public/homepage.png)
+![Homepage preview](public/homepage.avif)
 
 ![Build](https://img.shields.io/github/actions/workflow/status/nishuR31/nishu.dev/ci.yml?branch=main)
 ![Last Commit](https://img.shields.io/github/last-commit/nishuR31/nishu.dev)

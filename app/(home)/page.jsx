@@ -18,13 +18,26 @@ const SkillsSection = dynamic(() => import("./components/Skills"), {
   ssr: false,
   loading: () => <div />,
 });
+const CertificatesSection = dynamic(() => import("./components/Certificates"), {
+  ssr: false,
+  loading: () => <div />,
+});
+const SoftAurora = dynamic(() => import('@/components/ui/softAurora'), {
+  ssr: false,
+  loading: () => <div />,
+});
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { config } from "@/config";
 
+
+
+
+
 const Home = () => {
+
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -46,6 +59,22 @@ const Home = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
 
+      <SoftAurora
+        speed={0.6}
+        scale={1.5}
+        brightness={1}
+        color1="#f7f7f7"
+        color2="#e100ff"
+        noiseFrequency={2.5}
+        noiseAmplitude={1}
+        bandHeight={0.5}
+        bandSpread={1}
+        octaveDecay={0.1}
+        layerOffset={0}
+        colorSpeed={1}
+        enableMouseInteraction
+        mouseInfluence={0.25}
+      />
       <RevealOnScroll>
         <HeroSection />
       </RevealOnScroll>
@@ -61,6 +90,11 @@ const Home = () => {
       <RevealOnScroll delay={160}>
         <SkillsSection />
       </RevealOnScroll>
+      <RevealOnScroll delay={120}>
+        <CertificatesSection />
+      </RevealOnScroll>
+
+
 
       <section className="py-16 pb-24">
         <div className="container px-6 mx-auto">

@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import { config } from "@/config";
 import { titleAnimation } from "./Animations";
 
-const SectionTitle = () => (
+const SectionTitle = () => {
+  const handleGithub=()=>{
+  window.open(`https://github.com/${config.social.github}`, "_blank");
+};
+
+return (
   <motion.div
     initial="hidden"
     animate="show"
@@ -30,18 +35,19 @@ const SectionTitle = () => (
         <Button
           variant="expandIcon"
           Icon={ArrowRight}
+          onClick={handleGithub}
           iconPlacement="right"
           className="w-full md:w-auto rounded-2xl px-4 sm:px-5 py-5 sm:py-6 text-sm sm:text-base transition-all duration-300 shadow-lg shadow-primary/5 hover:shadow-primary/10"
           asChild
         >
-          <a
+          {/* <a
             href={`https://github.com/${config.social.github}`}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium"
-          >
+          > */}
             View Github
-          </a>
+          {/* </a> */}
         </Button>
       </div>
     </div>
@@ -55,7 +61,7 @@ const SectionTitle = () => (
       </div>
       <div className="w-px h-8 sm:h-10 bg-primary/10 flex-shrink-0" />
       <div className="space-y-1 flex-shrink-0">
-        <span className="text-xl sm:text-2xl font-bold text-primary">0</span>
+        <span className="text-xl sm:text-2xl font-bold text-primary">&lt;1</span>
         <p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
           Years Experience
         </p>
@@ -65,5 +71,5 @@ const SectionTitle = () => (
     <div className="h-px w-full bg-gradient-to-r from-primary/5 via-primary/20 to-primary/5" />
   </motion.div>
 );
-
+};
 export default SectionTitle;

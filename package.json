@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "rm -rf .next && next dev",
-    "next": " next dev",
-    "build": "next build",
+    "dev": " next dev",
+    "next": "next dev",
+    "build": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint",
     "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
@@ -25,10 +25,12 @@
     "framer-motion": "^12.38.0",
     "gsap": "^3.14.2",
     "lucide-react": "^0.577.0",
+    "motion": "^12.23.12",
     "next": "16.2.1",
     "next-themes": "^0.4.6",
     "nextjs-toploader": "^3.9.17",
     "node-fetch": "^3.3.2",
+    "ogl": "^1.0.11",
     "open": "^11.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -42,8 +44,8 @@
     "eslint": "^10.1.0",
     "eslint-config-next": "16.2.1",
     "postcss": "^8",
-    "tailwindcss": "^3.4.14",
-    "sharp": "^0.32.0"
+    "sharp": "^0.32.0",
+    "tailwindcss": "^3.4.14"
   },
   "browserslist": {
     "production": [

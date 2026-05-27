@@ -81,9 +81,9 @@ const Footer = () => {
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
           <span>© {new Date().getFullYear()} {config.developer.name}</span>
-          <span className="hidden sm:inline">•</span>
+          <span className="">•</span>
           <span>All rights reserved</span>
-          <span className="hidden sm:inline">•</span>
+          <span className="">•</span>
           <span>Made by {config.developer.shortName}</span>
         </div>
 
