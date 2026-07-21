@@ -193,7 +193,7 @@ const HeroSection = () => {
             <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl">
               <span className="block mb-2 text-foreground">
                 <span><DecryptedText
-                  text={`Hi, I'm ${developer.shortName}`}
+                  text={`Hi, I'm Nishan | ${developer.shortName}`}
                   revealDirection="start"
                   sequential
                   useOriginalCharsOnly={false}
