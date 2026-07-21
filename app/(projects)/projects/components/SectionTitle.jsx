@@ -2,13 +2,12 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import { titleAnimation } from "./Animations";
 
 const SectionTitle = () => {
   const { portfolioData } = usePortfolio();
-  const social = portfolioData?.social || config.social;
+  const social = portfolioData?.social ?? {};
 
   const handleGithub=()=>{
   window.open(`https://github.com/${social.github}`, "_blank");

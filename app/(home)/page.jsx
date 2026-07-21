@@ -30,7 +30,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 
 
@@ -38,7 +37,7 @@ import { usePortfolio } from "@/store";
 
 const Home = () => {
   const { portfolioData } = usePortfolio();
-  const developer = portfolioData?.developer || config.developer;
+  const developer = portfolioData?.developer ?? {};
 
   const personSchema = {
     "@context": "https://schema.org",

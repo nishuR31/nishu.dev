@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import PageLoader from "@/components/ui/page-loader";
 
@@ -38,7 +37,7 @@ const CertificatesGrid = () => {
 
     const { portfolioData, loading, error } = usePortfolio();
 
-    const rawCertificates = portfolioData?.certificates || config.certificates || [];
+    const rawCertificates = portfolioData?.certificates ?? [];
     const certificates = rawCertificates.map((c) => getCertificateInfo(c.url));
 
     if (loading) {

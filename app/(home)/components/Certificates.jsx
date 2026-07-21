@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, ExternalLink, FileText, Image as ImageIcon, X } from "lucide-react";
 import Carousel from "@/components/ui/carousel";
-import { config } from "@/config";
+import { usePortfolio } from "@/store";
 
 // helper to clean and extract certificate details from URL
 const getCertificateInfo = (url) => {
@@ -34,6 +34,7 @@ const getCertificateInfo = (url) => {
 };
 
 const CertificatesSection = () => {
+  const { portfolioData } = usePortfolio();
   const [width, setWidth] = useState(600);
   const [selectedCert, setSelectedCert] = useState(null);
 
@@ -54,7 +55,7 @@ const CertificatesSection = () => {
 
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
-  const rawCertificates = config.certificates || [];
+  const rawCertificates = portfolioData?.certificates ?? [];
   const certificates = rawCertificates.map(c => getCertificateInfo(c.url));
 
   return (

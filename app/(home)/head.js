@@ -1,4 +1,3 @@
-import { config } from "@/config";
 
 export default async function Head() {
   let portfolioData = null;
@@ -12,10 +11,10 @@ export default async function Head() {
     console.error("Failed to fetch portfolio data for head", error);
   }
 
-  const developer = portfolioData?.developer || config.developer;
-  const title = `${developer?.name} — ${developer?.role}`;
-  const description = `${developer?.tagline} — ${developer?.bio}`;
-  const keywords = portfolioData?.keywords || config.keywords || "portfolio,backend,developer";
+  const developer = portfolioData?.developer ?? {};
+  const title = `${developer?.name ?? ""} — ${developer?.role ?? ""}`;
+  const description = `${developer?.tagline ?? ""} — ${developer?.bio ?? ""}`;
+  const keywords = portfolioData?.keywords ?? "portfolio,backend,developer";
 
   const jsonLd = {
     "@context": "https://schema.org",

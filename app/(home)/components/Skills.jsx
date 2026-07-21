@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Boxes, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 
 const categoryIconMap = {
@@ -136,7 +135,7 @@ const CategorySection = ({ category }) => {
 
 const SkillsSection = () => {
   const { portfolioData } = usePortfolio();
-  const skills = portfolioData?.skills || config.skills;
+  const skills = portfolioData?.skills ?? [];
 
   return (
     <section className="py-24" id="skills">

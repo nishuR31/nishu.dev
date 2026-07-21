@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,7 +70,7 @@ const Logo = ({ isMobile = false, developer }) => (
         transition={{ delay: 0.2 }}
       >
 
-        <span className="lg:hidden">{developer?.name || config.developer.name}</span>
+        <span className="lg:hidden">{developer?.name ?? "Nishu"}</span>
       </motion.span>
     </Link>
   </motion.div>
@@ -104,9 +103,9 @@ const Navigation = ({ isMobile = false, onLinkClick, navItems = [] }) => (
 
 const Header = () => {
   const { portfolioData } = usePortfolio();
-  const developer = portfolioData?.developer || config.developer;
-  const navItems = portfolioData?.NAV_ITEMS || config.NAV_ITEMS;
-  
+  const developer = portfolioData?.developer ?? {};
+  const navItems = portfolioData?.NAV_ITEMS ?? [];
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {

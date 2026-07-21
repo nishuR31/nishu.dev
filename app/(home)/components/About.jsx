@@ -2,7 +2,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { UserCircle, Code2, Database, Layout } from "lucide-react";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import PageLoader from "@/components/ui/page-loader";
 import { toast } from "sonner";
@@ -70,7 +69,7 @@ const AboutSection = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <motion.div variants={itemAnimation} className="space-y-6">
-              {(portfolioData?.developer?.about ?? config.developer.about)?.map((paragraph, idx) => (
+              {(portfolioData?.developer?.about ?? [])?.map((paragraph, idx) => (
                 <p
                   key={idx}
                   className="text-lg text-muted-foreground leading-relaxed"
@@ -87,7 +86,7 @@ const AboutSection = () => {
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-primary">
-                    {portfolioData?.projects?.length ?? config.projects.length}+
+                    {portfolioData?.projects?.length ?? 0}+
                   </div>
                   <div className="text-sm font-medium text-muted-foreground mt-1">
                     Projects

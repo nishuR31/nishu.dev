@@ -87,7 +87,6 @@ export function usePortfolio() {
                 }
 
                 const json = await res.json();
-                console.table("json", json);
 
                 if (!ignore) {
                     dispatch(fetchSuccess(json.data || json));

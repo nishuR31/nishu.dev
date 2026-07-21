@@ -1,4 +1,3 @@
-import { config } from "@/config";
 
 export default async function Head() {
   let portfolioData = null;
@@ -12,8 +11,8 @@ export default async function Head() {
     console.error("Failed to fetch portfolio data for head", error);
   }
 
-  const developer = portfolioData?.developer || config.developer;
-  const projects = portfolioData?.projects || config.projects;
+  const developer = portfolioData?.developer ?? {};
+  const projects = portfolioData?.projects ?? [];
   const title = `Projects — ${developer?.name}`;
   const description = `Selected projects and demos by ${developer?.name}. Explore backend and full-stack work.`;
 

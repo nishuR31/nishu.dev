@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
 import BackgroundEffects from "@/components/ui/background-effects";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import SectionTitle from "./components/SectionTitle";
 import { ProjectsList } from "./components/ProjectsList";
 
 const ProjectsPage = () => {
   const { portfolioData } = usePortfolio();
-  const projects = portfolioData?.projects || config.projects;
+  const projects = portfolioData?.projects ?? [];
 
   return (
     <section className="py-16" id="projects">

@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
 
 const Footer = () => {
   const { portfolioData } = usePortfolio();
-  const developer = portfolioData?.developer || config.developer;
+  const developer = portfolioData?.developer ?? "Nishu";
 
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
@@ -110,39 +109,36 @@ const Footer = () => {
             </span>
 
             <span
-              className={`ml-1 ${
-                percentage === null
+              className={`ml-1 ${percentage === null
                   ? "text-muted-foreground"
                   : percentage > 50
-                  ? "text-emerald-400"
-                  : percentage > 20
-                  ? "text-yellow-400"
-                  : "text-red-400"
-              }`}
+                    ? "text-emerald-400"
+                    : percentage > 20
+                      ? "text-yellow-400"
+                      : "text-red-400"
+                }`}
             >
               {percentage === null
                 ? "--%"
                 : isFakeFull
-                ? "Charging..."
-                : `${percentage}%`}
+                  ? "Charging..."
+                  : `${percentage}%`}
             </span>
 
-              {hasMounted && (
-                <span
-                  className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
-                    isOnline
-                      ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                      : "bg-red-500/10 border-red-500/20 text-red-400"
+            {hasMounted && (
+              <span
+                className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${isOnline
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
                   }`}
-                >
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      isOnline ? "bg-emerald-400" : "bg-red-400"
+              >
+                <span
+                  className={`h-2 w-2 rounded-full ${isOnline ? "bg-emerald-400" : "bg-red-400"
                     }`}
-                  />
-                  <span>{isOnline ? "Online" : "Offline"}</span>
-                </span>
-              )}
+                />
+                <span>{isOnline ? "Online" : "Offline"}</span>
+              </span>
+            )}
           </motion.div>
         </div>
       </div>

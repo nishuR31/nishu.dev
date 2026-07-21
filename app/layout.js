@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import GridPattern from "@/components/ui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { config } from "@/config";
 import AppEnhancements from "@/components/Providers/AppEnhancements";
 import SonnerToaster from "@/components/Providers/SonnerToaster";
 import PageTopLoader from "@/components/Providers/PageTopLoader";
@@ -119,8 +118,8 @@ export default async function RootLayout({ children }) {
     console.error("Failed to fetch portfolio data for layout", error);
   }
 
-  const developer = portfolioData?.developer || config.developer;
-  const social = portfolioData?.social || config.social;
+  const developer = portfolioData?.developer ?? {};
+  const social = portfolioData?.social ?? {};
   return (
     <html lang="en" suppressHydrationWarning >
       <head>
@@ -129,10 +128,16 @@ export default async function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Blocking theme script: sets dark/light class before first paint to avoid FOUC */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var resolved=t==='light'||t==='dark'?t:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.classList.add(resolved);}catch(e){}})();`,
+          }}
+        />
         <link rel="preconnect" href="https://api.github.com" crossOrigin="true" />
         <link rel="preload" as="image" href="/homepage.avif" />
         <link rel="preload" as="image" href="/logo.avif" />
-        <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}`} />
         <style
           dangerouslySetInnerHTML={
             {

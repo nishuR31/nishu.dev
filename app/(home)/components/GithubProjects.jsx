@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { config } from "@/config";
 import { usePortfolio } from "@/store";
 import useSWR from "swr";
 import { formatDistanceToNow } from "date-fns";
@@ -49,19 +48,7 @@ const languageColors = {
 };
 
 const ITEMS_PER_PAGE = 6;
-const FEATURED_REPOS = [
-  "devclip-hub",
-  "ghcontrol",
-  "nubloq",
-  "baksy",
-  "lunarity",
-  "focusmode",
-  "interruption",
-  "ranchi-synapsters",
-  "qryGen",
-  "learnPhp",
-  "beat",
-];
+let FEATURED_REPOS;
 
 const getProjectSize = (index) => {
   const sizes = [
@@ -248,7 +235,7 @@ const ProjectCard = ({ project, size }) => {
 const GithubProjects = () => {
   const { portfolioData } = usePortfolio();
   FEATURED_REPOS = portfolioData?.featuredProjects || [];
-  const social = portfolioData?.social || config.social;
+  const social = portfolioData?.social ?? {};
 
   const [page, setPage] = React.useState(1);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
