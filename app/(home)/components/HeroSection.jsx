@@ -126,8 +126,8 @@ const HeroSection = () => {
     };
   }, []);
 
-  let { portfolioData, error, loading } = usePortfolio();
-  const developer = portfolioData?.developer || error;
+  const { portfolioData } = usePortfolio();
+  const developer = portfolioData?.developer ?? {};
 
 
   return (

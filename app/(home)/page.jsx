@@ -2,29 +2,30 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import HeroSection from "./components/HeroSection";
+import PageLoader from "@/components/ui/page-loader";
 const GithubProjects = dynamic(() => import("./components/GithubProjects"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 const AboutSection = dynamic(() => import("./components/About"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 const ExperienceSection = dynamic(() => import("./components/Experience"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 const SkillsSection = dynamic(() => import("./components/Skills"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 const CertificatesSection = dynamic(() => import("./components/Certificates"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 const SoftAurora = dynamic(() => import('@/components/ui/softAurora'), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 import Link from "next/link";
 import { motion } from "framer-motion";

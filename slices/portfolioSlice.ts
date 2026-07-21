@@ -2,17 +2,45 @@ import { RootState } from "@/store/configStore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface PortfolioContext {
-    [key: string]: string;
+    [key: string]: any;
 }
 
+// Default shape ensures components never crash on null access
+export const DEFAULT_PORTFOLIO: PortfolioContext = {
+    developer: {
+        name: "",
+        shortName: "",
+        role: "",
+        tagline: "",
+        bio: "",
+        email: "",
+        location: "",
+        about: [],
+    },
+    social: {
+        github: "",
+        linkedin: "",
+        discord: "",
+        twitter: "",
+    },
+    NAV_ITEMS: [],
+    projects: [],
+    skills: [],
+    experiences: [],
+    certificates: [],
+    featuredProjects: [],
+    keywords: "portfolio,developer",
+    recentTracks: false,
+};
+
 interface PortfolioState {
-    data: PortfolioContext | null;
+    data: PortfolioContext;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: PortfolioState = {
-    data: null,
+    data: DEFAULT_PORTFOLIO,
     loading: false,
     error: null,
 };
@@ -22,24 +50,24 @@ const portfolioSlice = createSlice({
     initialState,
     reducers: {
         fetchStart(state) {
-
             state.loading = true;
             state.error = null;
         },
 
         fetchSuccess(state, action: PayloadAction<PortfolioContext>) {
             state.loading = false;
-            state.data = action.payload;
+            // Merge with defaults so any missing keys still have safe values
+            state.data = { ...DEFAULT_PORTFOLIO, ...action.payload };
         },
 
         fetchFailure(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
+            // Keep data as DEFAULT_PORTFOLIO (already set in initialState)
         },
 
         clear(state) {
             Object.assign(state, initialState);
-
         },
     },
 });

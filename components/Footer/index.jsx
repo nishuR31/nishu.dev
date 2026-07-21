@@ -6,7 +6,7 @@ import { BatteryCharging, Battery } from "lucide-react";
 
 const Footer = () => {
   const { portfolioData } = usePortfolio();
-  const developer = portfolioData?.developer ?? "Nishu";
+  const developer = portfolioData?.developer ?? {};
 
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
