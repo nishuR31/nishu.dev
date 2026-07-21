@@ -20,7 +20,7 @@ const geistSans = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL || "https://nishudevportfolio.vercel.app"),
   title: {
     default: "Nishan Rajak | Backend Engineer Portfolio",
     template: "%s | Nishan Rajak",
