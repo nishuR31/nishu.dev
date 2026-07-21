@@ -1,13 +1,13 @@
 "use client";
 
-import { useTheme } from "@/components/Providers/Theme";
+import { useTheme } from "@/store";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const modes = ["dark", "light", "system"];
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { currentTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -21,11 +21,11 @@ export default function ThemeToggle() {
     );
   }
 
-  const active = theme || "system";
+  const active = currentTheme || "system";
   const icon =
     active === "light" ? <Sun className="h-4 w-4" />
-    : active === "dark" ? <Moon className="h-4 w-4" />
-    : <Monitor className="h-4 w-4" />;
+      : active === "dark" ? <Moon className="h-4 w-4" />
+        : <Monitor className="h-4 w-4" />;
 
   const next = modes[(modes.indexOf(active) + 1) % modes.length];
 

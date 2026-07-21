@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
 import useSWR from "swr";
 import { formatDistanceToNow } from "date-fns";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -48,7 +49,6 @@ const languageColors = {
 };
 
 const ITEMS_PER_PAGE = 6;
-const GITHUB_API_URL = `https://api.github.com/users/${config.social.github}/repos`;
 const FEATURED_REPOS = [
   "devclip-hub",
   "ghcontrol",
@@ -246,6 +246,10 @@ const ProjectCard = ({ project, size }) => {
 };
 
 const GithubProjects = () => {
+  const { portfolioData } = usePortfolio();
+  FEATURED_REPOS = portfolioData?.featuredProjects || [];
+  const social = portfolioData?.social || config.social;
+
   const [page, setPage] = React.useState(1);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
@@ -255,7 +259,7 @@ const GithubProjects = () => {
     isLoading,
     mutate: revalidateData,
   } = useSWR(
-    `${GITHUB_API_URL}?sort=updated&per_page=${ITEMS_PER_PAGE * page}`,
+    social?.github ? `https://api.github.com/users/${social.github}/repos?sort=updated&per_page=${ITEMS_PER_PAGE * page}` : null,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -388,7 +392,7 @@ const GithubProjects = () => {
                 asChild
               >
                 <a
-                  href={`https://github.com/${config.social.github}?tab=repositories`}
+                  href={`https://github.com/${social?.github}?tab=repositories`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

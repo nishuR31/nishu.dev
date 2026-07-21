@@ -9,14 +9,15 @@
     "build": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint",
-    "lighthouse": "npx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
-    "convert-images": "node scripts/convert-images-to-avif.js",
+    "lighthouse": "bunx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
+    "convert-images": "bun scripts/convert-images-to-avif.js",
     "quick-analytics": "bash scripts/quick-analytics.sh",
     "pagespeed": "PAGESPEED_KEY=YOUR_KEY npm run quick-analytics -- https://nishudevportfolio.vercel.app"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
+    "@reduxjs/toolkit": "^2.12.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
@@ -35,17 +36,21 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "7.50.1",
+    "react-redux": "^9.3.0",
     "sonner": "^2.0.7",
     "swr": "^2.4.1",
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "eslint": "^10.1.0",
+    "@types/node": "26.1.1",
+    "@types/react": "^19.2.17",
+    "eslint": "9",
     "eslint-config-next": "16.2.1",
     "postcss": "^8",
     "sharp": "^0.32.0",
-    "tailwindcss": "^3.4.14"
+    "tailwindcss": "^3.4.14",
+    "typescript": "5.9"
   },
   "browserslist": {
     "production": [

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTheme } from "@/store";
 import PageLoader from "@/components/ui/page-loader";
 import MouseGlow from "@/components/ui/mouse-glow";
 
@@ -12,6 +13,21 @@ function getSeason(month) {
 }
 
 export default function AppEnhancements() {
+  const { currentTheme } = useTheme();
+
+  // Sync theme class to <html> (replaces next-themes ThemeProvider)
+  useEffect(() => {
+    const root = document.documentElement;
+    const resolved =
+      currentTheme === "system"
+        ? window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        : currentTheme;
+    root.classList.remove("dark", "light");
+    root.classList.add(resolved);
+  }, [currentTheme]);
+
   useEffect(() => {
     const month = new Date().getMonth();
     document.documentElement.setAttribute("data-season", getSeason(month));

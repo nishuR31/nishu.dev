@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Briefcase, Calendar } from "lucide-react";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
 
 const containerAnimation = {
   hidden: { opacity: 0 },
@@ -27,7 +28,8 @@ const itemAnimation = {
 };
 
 const ExperienceSection = () => {
-  const experiences = config.experiences || [];
+  const { portfolioData } = usePortfolio();
+  const experiences = portfolioData?.experiences || config.experiences || [];
 
   if (!experiences || experiences.length === 0) {
     return null;

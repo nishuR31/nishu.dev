@@ -3,6 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { UserCircle, Code2, Database, Layout } from "lucide-react";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
+import PageLoader from "@/components/ui/page-loader";
+import { toast } from "sonner";
 
 const containerAnimation = {
   hidden: { opacity: 0 },
@@ -27,6 +30,16 @@ const itemAnimation = {
 };
 
 const AboutSection = () => {
+  const { portfolioData, error, loading } = usePortfolio();
+
+  if (loading) {
+    return <PageLoader />
+  }
+
+  if (error) {
+    return toast.error(error)
+  }
+
   return (
     <section className="py-24 relative overflow-hidden" id="about">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -57,7 +70,7 @@ const AboutSection = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <motion.div variants={itemAnimation} className="space-y-6">
-              {config.developer.about?.map((paragraph, idx) => (
+              {(portfolioData?.developer?.about ?? config.developer.about)?.map((paragraph, idx) => (
                 <p
                   key={idx}
                   className="text-lg text-muted-foreground leading-relaxed"
@@ -74,7 +87,7 @@ const AboutSection = () => {
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-primary">
-                    {config.projects.length}+
+                    {portfolioData?.projects?.length ?? config.projects.length}+
                   </div>
                   <div className="text-sm font-medium text-muted-foreground mt-1">
                     Projects

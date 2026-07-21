@@ -4,14 +4,15 @@ import Image from "next/image";
 import DecryptedText from "@/components/ui/decryptedText";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
-import { config } from "@/config";
 import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import PageLoader from "@/components/ui/page-loader";
+import { usePortfolio } from "@/store";
 const SkillsShowcase = dynamic(() => import("./SkillsShowcase"), {
   ssr: false,
-  loading: () => <div />,
+  loading: () => <PageLoader />,
 });
 // load GSAP only on the client when needed to reduce initial bundle size
 
@@ -125,6 +126,10 @@ const HeroSection = () => {
     };
   }, []);
 
+  let { portfolioData, error, loading } = usePortfolio();
+  const developer = portfolioData?.developer || error;
+
+
   return (
     <section
       ref={heroRef}
@@ -188,7 +193,7 @@ const HeroSection = () => {
             <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl">
               <span className="block mb-2 text-foreground">
                 <span><DecryptedText
-                  text={`Hi, I'm ${config.developer.shortName}`}
+                  text={`Hi, I'm ${developer.shortName}`}
                   revealDirection="start"
                   sequential
                   useOriginalCharsOnly={false}
@@ -196,7 +201,7 @@ const HeroSection = () => {
 
               </span>
               <span className="block text-2xl hero-subtitle text-foreground md:text-4xl">
-                {config.developer.tagline}
+                {developer.tagline}
               </span>
             </h1>
           </div>
@@ -205,18 +210,18 @@ const HeroSection = () => {
             variants={itemAnimation}
             className="max-w-2xl mx-auto text-base leading-relaxed hero-bio sm:text-md text-muted-foreground"
           >
-            {config.developer.bio}
+            {developer.bio}
           </motion.p>
 
           <div className="flex flex-wrap justify-center max-w-xl gap-3 mx-auto hero-metrics">
             <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Role: {config.developer.role}
+              Role: {developer.role}
             </span>
             <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Location: {config.developer.location}
+              Location: {developer.location}
             </span>
             <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Email: {config.developer.email}
+              Email: {developer.email}
             </span>
           </div>
 

@@ -5,6 +5,7 @@ import { Boxes, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
 
 const categoryIconMap = {
   frontend: Code2,
@@ -134,7 +135,8 @@ const CategorySection = ({ category }) => {
 };
 
 const SkillsSection = () => {
-  const skills = config.skills;
+  const { portfolioData } = usePortfolio();
+  const skills = portfolioData?.skills || config.skills;
 
   return (
     <section className="py-24" id="skills">

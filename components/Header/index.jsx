@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ui/theme-toggle";
 
-const NAV_ITEMS = config.NAV_ITEMS;
 
 const NavLink = ({ href, label, isMobile = false }) => {
   const pathname = usePathname();
@@ -44,7 +44,7 @@ const NavLink = ({ href, label, isMobile = false }) => {
   );
 };
 
-const Logo = ({ isMobile = false }) => (
+const Logo = ({ isMobile = false, developer }) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
@@ -71,13 +71,13 @@ const Logo = ({ isMobile = false }) => (
         transition={{ delay: 0.2 }}
       >
 
-        <span className="lg:hidden">{config.developer.name}</span>
+        <span className="lg:hidden">{developer?.name || config.developer.name}</span>
       </motion.span>
     </Link>
   </motion.div>
 );
 
-const Navigation = ({ isMobile = false, onLinkClick }) => (
+const Navigation = ({ isMobile = false, onLinkClick, navItems = [] }) => (
   <motion.nav
     className={
       isMobile ? "flex flex-col space-y-4" : "hidden md:flex space-x-2"
@@ -86,7 +86,7 @@ const Navigation = ({ isMobile = false, onLinkClick }) => (
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: isMobile ? 0 : 0.3, duration: 0.5 }}
   >
-    {NAV_ITEMS.map((item, index) => (
+    {navItems.map((item, index) => (
       <motion.div
         key={item.href}
         initial={isMobile ? { opacity: 0, x: -20 } : { opacity: 0, y: -20 }}
@@ -103,6 +103,10 @@ const Navigation = ({ isMobile = false, onLinkClick }) => (
 // Contact page removed — keep theme toggle and repo link inline in header
 
 const Header = () => {
+  const { portfolioData } = usePortfolio();
+  const developer = portfolioData?.developer || config.developer;
+  const navItems = portfolioData?.NAV_ITEMS || config.NAV_ITEMS;
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -122,8 +126,8 @@ const Header = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Logo />
-          <Navigation />
+          <Logo developer={developer} />
+          <Navigation navItems={navItems} />
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
           </div>
@@ -166,12 +170,12 @@ const Header = () => {
               <div className="flex flex-col h-full p-6">
                 {/* Mobile Logo */}
                 <div className="mb-8">
-                  <Logo isMobile={true} />
+                  <Logo isMobile={true} developer={developer} />
                 </div>
 
                 {/* Mobile Navigation */}
                 <div className="flex-1">
-                  <Navigation isMobile={true} onLinkClick={closeMobileMenu} />
+                  <Navigation isMobile={true} onLinkClick={closeMobileMenu} navItems={navItems} />
                 </div>
 
                 {/* Mobile actions */}

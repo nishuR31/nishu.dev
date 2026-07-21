@@ -31,23 +31,25 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { config } from "@/config";
-
+import { usePortfolio } from "@/store";
 
 
 
 
 const Home = () => {
+  const { portfolioData } = usePortfolio();
+  const developer = portfolioData?.developer || config.developer;
 
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: config.developer.name,
-    jobTitle: config.developer.role,
-    description: config.developer.bio,
-    email: config.developer.email,
+    name: developer.name,
+    jobTitle: developer.role,
+    description: developer.bio,
+    email: developer.email,
     address: {
       "@type": "PostalAddress",
-      addressCountry: config.developer.location,
+      addressCountry: developer.location,
     },
     url: "https://nishudevportfolio.vercel.app",
   };

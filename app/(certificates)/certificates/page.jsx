@@ -4,6 +4,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
+import PageLoader from "@/components/ui/page-loader";
+
+import { toast } from "sonner";
 
 // Utility to extract information from certificate URL
 const getCertificateInfo = (url) => {
@@ -31,8 +35,21 @@ const itemVariants = {
 };
 
 const CertificatesGrid = () => {
-    const rawCertificates = config.certificates || [];
+
+    const { portfolioData, loading, error } = usePortfolio();
+
+    const rawCertificates = portfolioData?.certificates || config.certificates || [];
     const certificates = rawCertificates.map((c) => getCertificateInfo(c.url));
+
+    if (loading) {
+        return (
+            <PageLoader />
+        )
+    }
+
+    if (error) {
+        return toast.error(error)
+    }
 
     return (
         <section className="py-24" id="certificates-grid">

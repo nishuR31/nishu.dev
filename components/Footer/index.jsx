@@ -2,9 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { config } from "@/config";
+import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
 
 const Footer = () => {
+  const { portfolioData } = usePortfolio();
+  const developer = portfolioData?.developer || config.developer;
+
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
   const [isOnline, setIsOnline] = useState(
@@ -84,11 +88,11 @@ const Footer = () => {
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
-          <span>© {new Date().getFullYear()} {config.developer.name}</span>
+          <span>© {new Date().getFullYear()} {developer.name}</span>
           <span className="">•</span>
           <span>All rights reserved</span>
           <span className="">•</span>
-          <span>Made by {config.developer.shortName}</span>
+          <span>Made by {developer.shortName}</span>
         </div>
 
         <div className="flex justify-center mt-3">

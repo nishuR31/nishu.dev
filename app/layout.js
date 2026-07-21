@@ -1,14 +1,17 @@
+
+
 import localFont from "next/font/local";
 import "./globals.css";
 import GridPattern from "@/components/ui/grid-pattern";
 import { cn } from "@/lib/utils";
 import { config } from "@/config";
-import { ThemeProvider } from "@/components/Providers/Theme";
 import AppEnhancements from "@/components/Providers/AppEnhancements";
 import SonnerToaster from "@/components/Providers/SonnerToaster";
 import PageTopLoader from "@/components/Providers/PageTopLoader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Providers from "@/components/reduxProvider";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,7 +21,7 @@ const geistSans = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://nishudevportfolio.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL),
   title: {
     default: "Nishan Rajak | Backend Engineer Portfolio",
     template: "%s | Nishan Rajak",
@@ -104,9 +107,22 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  let portfolioData = null;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`, { next: { revalidate: 3600 } });
+    if (res.ok) {
+      const data = await res.json();
+      portfolioData = data?.data || data;
+    }
+  } catch (error) {
+    console.error("Failed to fetch portfolio data for layout", error);
+  }
+
+  const developer = portfolioData?.developer || config.developer;
+  const social = portfolioData?.social || config.social;
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning >
       <head>
         <meta
           name="google-site-verification"
@@ -118,12 +134,14 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/logo.avif" />
         <link rel="canonical" href="https://nishudevportfolio.vercel.app" />
         <style
-          dangerouslySetInnerHTML={{
-            __html:
-              ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
-          }}
+          dangerouslySetInnerHTML={
+            {
+              __html:
+                ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
+            }
+          }
         />
-        <script
+        < script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -132,21 +150,21 @@ export default function RootLayout({ children }) {
                 {
                   "@type": "Person",
                   "@id": "https://nishudevportfolio.vercel.app/#person",
-                  name: config.developer.name,
+                  name: developer.name,
                   url: "https://nishudevportfolio.vercel.app",
                   mainEntityOfPage: "https://nishudevportfolio.vercel.app",
-                  email: config.developer.email,
+                  email: developer.email,
                   jobTitle: "Backend Developer",
                   image: "https://nishudevportfolio.vercel.app/logo.avif",
                   sameAs: [
-                    `https://github.com/${config.social.github}`,
-                    `https://linkedin.com/in/${config.social.linkedin}`
+                    `https://github.com/${social.github}`,
+                    `https://linkedin.com/in/${social.linkedin}`
                   ]
                 },
                 {
                   "@type": "WebSite",
                   "@id": "https://nishudevportfolio.vercel.app/#website",
-                  name: config.developer.name + " Portfolio",
+                  name: developer.name + " Portfolio",
                   url: "https://nishudevportfolio.vercel.app",
                   publisher: {
                     "@id": "https://nishudevportfolio.vercel.app/#person"
@@ -154,35 +172,33 @@ export default function RootLayout({ children }) {
                 }
               ]
             })
-          }}
+          }
+          }
         />
       </head>
-      <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+      < body className={`${geistSans.className} antialiased`}>
+        <Providers>
           <AppEnhancements />
-          <PageTopLoader />
+          < PageTopLoader />
           <Header />
 
 
-          <main id="main">{children}</main>
-          <Footer />
+          < main id="main" > {children} </main>
+          < Footer />
           <SonnerToaster />
-          <GridPattern
+          < GridPattern
             width={200}
             height={200}
-            x={-1}
-            y={-1}
-            className={cn(
-              "[mask-image:linear-gradient(to_bottom,white,transparent)]",
-            )}
+            x={- 1}
+            y={- 1}
+            className={
+              cn(
+                "[mask-image:linear-gradient(to_bottom,white,transparent)]",
+              )
+            }
           />
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
-}
+};
