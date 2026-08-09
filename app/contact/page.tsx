@@ -71,7 +71,7 @@ export default function ContactPage() {
       border: "border-sky-500/20",
     });
   }
-  if (1 ?? social.leetcode) {
+  if (social.leetcode) {
     contactLinks.push({
       name: "LeetCode",
       value: social.leetcode ?? "nishanr_19",
@@ -82,7 +82,7 @@ export default function ContactPage() {
       border: "border-orange-500/20",
     });
   }
-  if (1 ?? social.hackerone) {
+  if (social.hackerone) {
     contactLinks.push({
       name: "HackerOne",
       value: social.hackerone ?? "nishur",
