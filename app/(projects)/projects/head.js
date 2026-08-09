@@ -2,7 +2,8 @@
 export default async function Head() {
   let portfolioData = null;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolio`, { next: { revalidate: 3600 } });
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
+    const res = await fetch(`${apiUrl}/portfolio`, { next: { revalidate: 3600 } });
     if (res.ok) {
       const data = await res.json();
       portfolioData = data?.data || data;
