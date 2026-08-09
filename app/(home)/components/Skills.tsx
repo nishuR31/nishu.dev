@@ -45,7 +45,7 @@ const getLevelGradient = (bgClass: string): string => {
     "bg-orange-500/10": "from-orange-500 to-amber-400",
     "bg-red-500/10": "from-red-500 to-pink-400",
   };
-  return map[bgClass] || "from-purple-500 to-cyan-400";
+  return map[bgClass] || "from-zinc-500 to-cyan-400";
 };
 
 const containerAnimation = {
@@ -103,13 +103,13 @@ const SkillCard: React.FC<{ skill: Skill; bgClass: string }> = ({ skill, bgClass
 
   return (
     <motion.div variants={itemAnimation} className="relative flex flex-col h-full">
-      <div className="relative h-full p-4 rounded-xl border border-zinc-800/50 hover:border-purple-500/30 transition-all duration-300 bg-card/30 backdrop-blur-sm group hover:shadow-[0_0_20px_rgba(168,85,247,0.08)]">
+      <div className="relative h-full p-4 rounded-xl border border-zinc-800/50 hover:border-zinc-500/30 transition-all duration-300 bg-card/30 backdrop-blur-sm group hover:shadow-[0_0_20px_rgba(168,85,247,0.08)]">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-base font-medium text-foreground/90">{skill.name}</h3>
           {skill.hot && (
             <Badge
               variant="secondary"
-              className="bg-amber-500/10 text-amber-400 border-none px-2 py-0 text-xs"
+              className="bg-amber-500/10 text-zinc-400 border-none px-2 py-0 text-xs"
             >
               <Sparkles className="w-3 h-3 mr-1" />
               Hot
@@ -121,7 +121,7 @@ const SkillCard: React.FC<{ skill: Skill; bgClass: string }> = ({ skill, bgClass
 
         <div className="mt-2 flex justify-between items-center text-xs">
           <span className="text-muted-foreground">Proficiency</span>
-          <span className="font-medium text-purple-400">{skill.level}</span>
+          <span className="font-medium text-zinc-400">{skill.level}</span>
         </div>
       </div>
     </motion.div>
@@ -178,7 +178,7 @@ const SkillsSection: React.FC = () => {
           <div className="max-w-2xl mx-auto text-center space-y-6">
             <motion.div
               variants={itemAnimation}
-              className="inline-flex items-center space-x-2 bg-purple-500/10 border border-purple-500/20 px-4 py-2 rounded-full text-purple-300 backdrop-blur-sm"
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm"
             >
               <Cpu className="w-5 h-5" />
               <span className="text-sm font-medium">Skills &amp; Technologies</span>

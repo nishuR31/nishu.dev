@@ -118,8 +118,8 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
         flex flex-col
         shadow-[0_4px_6px_rgba(0,0,0,0.18)]
         transition-all duration-300
-        group-hover:border-purple-500/40
-        group-hover:shadow-[0_8px_24px_rgba(168,85,247,0.12)]
+        group-hover:border-zinc-500/40
+        group-hover:shadow-[0_8px_24px_rgba(255,255,255,0.05)]
       ">
         {/* Language accent bar at top */}
         {langColor && (
@@ -131,7 +131,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
 
         {/* Shiny sweep */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/10 to-transparent shiny-sweep" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-zinc-500/10 to-transparent shiny-sweep" />
         </div>
 
         <div className="relative flex flex-col gap-2 sm:gap-3 w-full z-10 h-full justify-between">
@@ -150,7 +150,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-muted-foreground group-hover:text-purple-400 transition-colors flex-shrink-0" />
+              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-muted-foreground group-hover:text-zinc-400 transition-colors flex-shrink-0" />
             </div>
             <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 sm:line-clamp-3 leading-relaxed">
               {project.description || "No description provided"}
@@ -163,7 +163,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
                 {topics.slice(0, project.size.includes("row-span-2") ? 3 : 2).map((topic) => (
                   <span
                     key={topic}
-                    className="text-[9px] sm:text-[10px] md:text-xs bg-purple-500/10 text-purple-300 px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full border border-purple-500/20"
+                    className="text-[9px] sm:text-[10px] md:text-xs bg-zinc-500/10 text-foreground px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full border border-zinc-500/20"
                   >
                     {topic}
                   </span>
@@ -189,7 +189,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
                 </div>
               )}
               <div className="flex items-center space-x-0.5 sm:space-x-1">
-                <Star className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-amber-400" />
+                <Star className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-zinc-400" />
                 <span className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground">
                   {project.stargazers_count}
                 </span>
@@ -296,7 +296,7 @@ const GithubProjects: React.FC = () => {
           <div className="space-y-8 sm:space-y-12">
             {/* Header */}
             <div className="space-y-3 sm:space-y-4 text-center">
-              <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-purple-300 backdrop-blur-sm shadow-lg">
+              <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-foreground backdrop-blur-sm shadow-lg">
                 <Github className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="text-xs sm:text-sm font-semibold">Latest Github Projects</span>
               </div>
@@ -341,10 +341,10 @@ const GithubProjects: React.FC = () => {
                 </Button>
               )}
               <Button
-                variant="expandIcon"
+                variant="outline"
                 Icon={Github}
                 iconPlacement="right"
-                className="rounded-full px-5 py-5 sm:px-6 sm:py-6 text-sm sm:text-base w-full sm:w-auto btn-shimmer"
+                className="group rounded-full px-5 py-5 sm:px-6 sm:py-6 text-sm sm:text-base w-full sm:w-auto glass-panel text-foreground hover:bg-foreground/5 hover:border-foreground/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]"
                 asChild
               >
                 <a

@@ -58,7 +58,7 @@ const CertificatesSection: React.FC = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center space-y-6 mb-12">
-          <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 rounded-full text-purple-300 backdrop-blur-sm">
+          <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 rounded-full text-foreground backdrop-blur-sm">
             <Award className="w-5 h-5" />
             <span className="text-sm font-medium">Certifications</span>
           </div>
@@ -92,11 +92,11 @@ const CertificatesSection: React.FC = () => {
                   return (
                     <div
                       onClick={() => setSelectedCert(cert)}
-                      className="w-full h-full flex flex-col justify-between p-4 glass-premium border border-purple-500/15 rounded-2xl hover:border-purple-500/30 transition-all duration-300 cursor-pointer group"
+                      className="w-full h-full flex flex-col justify-between p-4 glass-premium border border-zinc-500/15 rounded-2xl hover:border-zinc-500/30 transition-all duration-300 cursor-pointer group"
                     >
                       {/* Top */}
                       <div className="flex justify-between items-start">
-                        <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-amber-400">
+                        <div className="p-2 rounded-xl bg-zinc-500/10 border border-zinc-500/20 text-zinc-400">
                           {cert.isPdf ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
                         </div>
                         <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800/50 text-muted-foreground uppercase tracking-wider">
@@ -115,7 +115,7 @@ const CertificatesSection: React.FC = () => {
                           <embed src={cert.url} type="application/pdf" className="w-full" style={{ minHeight: "100%", height: "500px" }} />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center p-4 h-full">
-                            <Award className="w-12 h-12 text-zinc-600 mb-2 group-hover:text-amber-500/50 transition-colors duration-300" />
+                            <Award className="w-12 h-12 text-zinc-600 mb-2 group-hover:text-zinc-500/50 transition-colors duration-300" />
                             <span className="text-[10px] text-zinc-500 font-mono break-all line-clamp-1 px-4">
                               {cert.url.substring(cert.url.lastIndexOf("/") + 1)}
                             </span>
@@ -131,7 +131,7 @@ const CertificatesSection: React.FC = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={(e) => { e.stopPropagation(); setSelectedCert(cert); }}
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl glass-premium hover:border-purple-500/30 text-sm font-medium text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95 cursor-pointer"
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl glass-premium hover:border-zinc-500/30 text-sm font-medium text-foreground border border-zinc-500/20 transition-all duration-300 active:scale-95 cursor-pointer"
                           >
                             Preview
                           </button>
@@ -140,7 +140,7 @@ const CertificatesSection: React.FC = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-center p-2.5 rounded-xl glass-premium hover:border-purple-500/30 text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95"
+                            className="flex items-center justify-center p-2.5 rounded-xl glass-premium hover:border-zinc-500/30 text-foreground border border-zinc-500/20 transition-all duration-300 active:scale-95"
                             title="Open in new tab"
                           >
                             <ExternalLink className="w-4 h-4" />
@@ -173,12 +173,12 @@ const CertificatesSection: React.FC = () => {
               exit={modalExit}
               transition={{ type: "spring", duration: 0.4 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl h-[85vh] flex flex-col glass-premium border border-purple-500/20 rounded-2xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-4xl h-[85vh] flex flex-col glass-premium border border-zinc-500/20 rounded-2xl overflow-hidden shadow-2xl"
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between p-4 md:px-6 border-b border-purple-500/10 backdrop-blur-sm z-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-amber-400">
+                  <div className="p-2 rounded-xl bg-zinc-500/10 border border-zinc-500/20 text-zinc-400">
                     {selectedCert.isPdf ? <FileText className="w-5 h-5" /> : <ImageIcon className="w-5 h-5" />}
                   </div>
                   <div>
@@ -195,7 +195,7 @@ const CertificatesSection: React.FC = () => {
                     href={selectedCert.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass-premium hover:border-purple-500/30 text-xs font-medium text-purple-300 border border-purple-500/20 transition-all duration-200"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass-premium hover:border-zinc-500/30 text-xs font-medium text-foreground border border-zinc-500/20 transition-all duration-200"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span className="hidden sm:inline">Open Original</span>

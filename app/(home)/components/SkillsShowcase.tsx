@@ -25,7 +25,10 @@ const skills: Skill[] = [
   { name: "Prisma", icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
   { name: "VS Code", icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#007acc" },
   { name: "Vercel", icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ffffff" },
-  { name: "Render", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-3 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#46e3b7" },
+  { name: "Render", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#46e3b7" },
+  { name: "Fastify", icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ffffff" },
+  { name: "Antigravity", icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#8b5cf6" },
+  { name: "Bun", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#fbf0df" },
 ];
 
 const SkillsShowcase: React.FC = () => {
@@ -78,7 +81,7 @@ const SkillsShowcase: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         {/* Label */}
         <div className="flex items-center gap-2 mb-8 sm:mb-12 justify-center">
-          <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-purple-300 backdrop-blur-sm shadow-lg">
+          <div className="inline-flex items-center space-x-2 glass-premium px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-foreground backdrop-blur-sm shadow-lg">
             <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-xs sm:text-sm font-semibold">Tech Stack</span>
           </div>
@@ -104,11 +107,17 @@ const SkillsShowcase: React.FC = () => {
                   h-full w-full min-h-[90px] sm:min-h-[120px]
                   flex flex-col items-center justify-center
                   box-border transition-all duration-300
-                  group-hover:border-white/25
-                  group-hover:shadow-[0_0_24px_rgba(168,85,247,0.12)]
                 "
                 style={{ height: "100%" }}
               >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[inherit] border-2"
+                  style={{
+                    borderColor: skill.accentColor,
+                    boxShadow: `0 0 24px ${skill.accentColor}30, inset 0 0 12px ${skill.accentColor}10`
+                  }}
+                />
+
                 {/* Shiny sweep */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent shiny-sweep" />

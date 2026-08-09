@@ -20,7 +20,7 @@ const ParticleCanvas = dynamic(() => import("@/components/ui/ParticleCanvas"), {
   ssr: false,
 });
 
-const photoFrames = ["/iitSitting.avif", "/iitStanding.avif"];
+const photoFrames = ["/iitSitting.avif"];
 
 const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -138,32 +138,17 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
             className="pt-4 hero-portrait-wrap sm:pt-6"
           >
-            <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity glow-ring rounded-2xl">
-              {[0, 1, 2].map((layer) => {
-                const frameIndex = (activeFrame + layer) % photoFrames.length;
-                return (
-                  <div
-                    key={layer}
-                    className="absolute inset-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-700 bg-transparent"
-                    style={{
-                      opacity: layer === 0 ? 1 : layer === 1 ? 0.45 : 0.22,
-                      transform: `translate(${layer * 6}px, ${layer * 4}px)`,
-                      zIndex: 3 - layer,
-                    }}
-                  >
-                    <Image
-                      src={photoFrames[frameIndex]}
-                      loading="eager"
-                      alt="Nishan Rajak Profile"
-                      fill
-                      sizes="(max-width: 640px) 208px, 256px"
-                      className="object-cover pointer-events-none select-none"
-                      priority={layer === 0}
-                    />
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events-none" />
-                  </div>
-                );
-              })}
+            <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden border-b-4 border-zinc-700/50 shadow-2xl">
+              <Image
+                src={photoFrames[0]}
+                loading="eager"
+                alt="Nishan Rajak Profile"
+                fill
+                sizes="(max-width: 640px) 208px, 256px"
+                className="object-cover pointer-events-none select-none"
+                priority
+              />
+              <div className="absolute inset-0 z-10 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>
 
@@ -172,7 +157,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-premium text-purple-300"
+            className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-premium text-foreground"
           >
             <Code2 className="w-5 h-5" />
             <span className="text-md font-medium">Welcome to my portfolio</span>
@@ -226,10 +211,10 @@ const HeroSection: React.FC = () => {
           >
             <Link href="/projects">
               <Button
-                variant="expandIcon"
+                variant="outline"
                 Icon={ArrowRight}
                 iconPlacement="right"
-                className="px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full hover:scale-105 btn-shimmer bg-transparent backdrop-blur-sm text-white"
+                className="group px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full glass-panel text-foreground bg-foreground/5 hover:border-foreground/5"
               >
                 View Projects
               </Button>
@@ -243,8 +228,8 @@ const HeroSection: React.FC = () => {
             transition={{ delay: 1, duration: 1 }}
             className="absolute inset-0 pointer-events-none -z-10"
           >
-            <div className="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl" />
-            <div className="absolute top-1/3 right-1/4 w-[200px] h-[200px] bg-cyan-500/8 rounded-full blur-3xl" />
+            <div className="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-500/10 rounded-full blur-3xl" />
+            <div className="absolute top-1/3 right-1/4 w-[200px] h-[200px] bg-zinc-400/5 rounded-full blur-3xl" />
           </motion.div>
         </motion.div>
 

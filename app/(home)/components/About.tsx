@@ -37,7 +37,7 @@ const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> 
     <div className="text-center">
       <span
         ref={ref}
-        className="text-3xl font-bold bg-gradient-to-br from-purple-400 to-cyan-400 bg-clip-text text-transparent"
+        className="text-3xl font-bold bg-gradient-to-br from-foreground to-muted-foreground bg-clip-text text-transparent"
       >
         {target}{suffix}
       </span>
@@ -60,8 +60,8 @@ const AboutSection: React.FC = () => {
   return (
     <section className="py-24 relative overflow-hidden" id="about">
       {/* Ambient glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-zinc-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-zinc-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
@@ -75,7 +75,7 @@ const AboutSection: React.FC = () => {
           <div className="text-center space-y-4 mb-16">
             <motion.div
               variants={itemAnimation}
-              className="inline-flex items-center space-x-2 bg-purple-500/10 border border-purple-500/20 px-4 py-2 rounded-full text-purple-300 backdrop-blur-sm"
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm"
             >
               <UserCircle className="w-5 h-5" />
               <span className="text-sm font-medium">About Me</span>
@@ -94,7 +94,7 @@ const AboutSection: React.FC = () => {
               {(portfolioData?.developer?.about ?? []).map((paragraph: string, idx: number) => (
                 <p
                   key={idx}
-                  className="text-lg text-muted-foreground leading-relaxed border-l-2 border-purple-500/30 pl-4"
+                  className="text-lg text-muted-foreground leading-relaxed border-l-2 border-zinc-500/30 pl-4"
                 >
                   {paragraph}
                 </p>
@@ -113,8 +113,8 @@ const AboutSection: React.FC = () => {
               variants={itemAnimation}
               className="relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-cyan-500/10 rounded-3xl blur-2xl" />
-              <div className="relative flex flex-col gap-4 glass-premium rounded-3xl p-6 border border-purple-500/15 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-tr from-zinc-500/20 to-zinc-500/10 rounded-3xl blur-2xl" />
+              <div className="relative flex flex-col gap-4 glass-premium rounded-3xl p-6 border border-zinc-500/15 overflow-hidden group">
                 {/* Decorative grid */}
                 <div
                   className="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-25"
@@ -127,7 +127,7 @@ const AboutSection: React.FC = () => {
 
                 {/* Top tile — philosophy */}
                 <div className="relative z-10 space-y-3">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/30">
+                  <div className="w-12 h-12 rounded-xl bg-zinc-500/20 flex items-center justify-center text-zinc-400 border border-zinc-500/30">
                     <Database className="w-6 h-6" />
                   </div>
                   <div>
@@ -145,15 +145,15 @@ const AboutSection: React.FC = () => {
                 {/* Bottom 3-tile bento */}
                 <div className="relative z-10 grid grid-cols-3 gap-3 mt-2">
                   <div className="glass-panel bg-background/40 rounded-2xl p-4 border border-zinc-800/50 flex flex-col items-center justify-center text-center gap-1">
-                    <Code2 className="w-6 h-6 text-emerald-400 mb-1" />
+                    <Code2 className="w-6 h-6 text-zinc-400 mb-1" />
                     <span className="text-[10px] font-semibold text-foreground">Clean Code</span>
                   </div>
                   <div className="glass-panel bg-background/40 rounded-2xl p-4 border border-zinc-800/50 flex flex-col items-center justify-center text-center gap-1">
-                    <Layout className="w-6 h-6 text-blue-400 mb-1" />
+                    <Layout className="w-6 h-6 text-zinc-400 mb-1" />
                     <span className="text-[10px] font-semibold text-foreground">Scalable Arch.</span>
                   </div>
                   <div className="glass-panel bg-background/40 rounded-2xl p-4 border border-zinc-800/50 flex flex-col items-center justify-center text-center gap-1">
-                    <Zap className="w-6 h-6 text-amber-400 mb-1" />
+                    <Zap className="w-6 h-6 text-zinc-400 mb-1" />
                     <span className="text-[10px] font-semibold text-foreground">Performance</span>
                   </div>
                 </div>
