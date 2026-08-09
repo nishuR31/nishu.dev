@@ -22,7 +22,7 @@ const ProjectsPage = () => {
 
         <div className="relative">
           <SectionTitle />
-          {projects.length > 0 ? <ProjectsList projects={projects} /> : <PageLoader />}
+          <ProjectsList projects={projects} />
         </div>
       </div>
     </section>
