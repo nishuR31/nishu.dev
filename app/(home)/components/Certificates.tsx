@@ -34,7 +34,7 @@ const CertificatesSection: React.FC = () => {
 
   useEffect(() => {
     const updateWidth = () => {
-      if (window.innerWidth < 640) setWidth(400);
+      if (window.innerWidth < 640) setWidth(280);
       else if (window.innerWidth < 1024) setWidth(550);
       else setWidth(750);
     };

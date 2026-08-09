@@ -229,7 +229,7 @@ const HeroSection: React.FC = () => {
                 variant="expandIcon"
                 Icon={ArrowRight}
                 iconPlacement="right"
-                className="px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full hover:scale-105 btn-shimmer bg-gradient-to-r from-purple-600/80 to-cyan-600/80 border-purple-500/30 text-white"
+                className="px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full hover:scale-105 btn-shimmer bg-transparent backdrop-blur-sm text-white"
               >
                 View Projects
               </Button>
