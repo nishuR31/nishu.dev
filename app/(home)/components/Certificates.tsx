@@ -34,7 +34,7 @@ const CertificatesSection: React.FC = () => {
 
   useEffect(() => {
     const updateWidth = () => {
-      if (window.innerWidth < 640) setWidth(350);
+      if (window.innerWidth < 640) setWidth(400);
       else if (window.innerWidth < 1024) setWidth(550);
       else setWidth(750);
     };
@@ -89,65 +89,65 @@ const CertificatesSection: React.FC = () => {
                 round={false}
                 renderItem={(item: unknown) => {
                   const cert = item as CertInfo;
-                  return (  
-                  <div
-                    onClick={() => setSelectedCert(cert)}
-                    className="w-full h-full flex flex-col justify-between p-4 glass-premium border border-purple-500/15 rounded-2xl hover:border-purple-500/30 transition-all duration-300 cursor-pointer group"
-                  >
-                    {/* Top */}
-                    <div className="flex justify-between items-start">
-                      <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-amber-400">
-                        {cert.isPdf ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
-                      </div>
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800/50 text-muted-foreground uppercase tracking-wider">
-                        {cert.isPdf ? "PDF" : "Image"}
-                      </span>
-                    </div>
-
-                    {/* Preview */}
+                  return (
                     <div
-                      className="my-3 rounded-xl border border-zinc-800 bg-zinc-900/30 relative"
-                      style={{ aspectRatio: "3 / 2", overflow: "hidden" }}
+                      onClick={() => setSelectedCert(cert)}
+                      className="w-full h-full flex flex-col justify-between p-4 glass-premium border border-purple-500/15 rounded-2xl hover:border-purple-500/30 transition-all duration-300 cursor-pointer group"
                     >
-                      {cert.isImage ? (
-                        <img src={cert.url} alt={cert.title} className="w-full h-auto min-h-full object-contain" />
-                      ) : cert.isPdf ? (
-                        <embed src={cert.url} type="application/pdf" className="w-full" style={{ minHeight: "100%", height: "500px" }} />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center text-center p-4 h-full">
-                          <Award className="w-12 h-12 text-zinc-600 mb-2 group-hover:text-amber-500/50 transition-colors duration-300" />
-                          <span className="text-[10px] text-zinc-500 font-mono break-all line-clamp-1 px-4">
-                            {cert.url.substring(cert.url.lastIndexOf("/") + 1)}
-                          </span>
+                      {/* Top */}
+                      <div className="flex justify-between items-start">
+                        <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-amber-400">
+                          {cert.isPdf ? <FileText className="w-6 h-6" /> : <ImageIcon className="w-6 h-6" />}
                         </div>
-                      )}
-                    </div>
+                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800/50 text-muted-foreground uppercase tracking-wider">
+                          {cert.isPdf ? "PDF" : "Image"}
+                        </span>
+                      </div>
 
-                    {/* Footer */}
-                    <div className="space-y-4">
-                      <h3 className="text-base font-semibold text-foreground line-clamp-2 min-h-[3rem] flex items-center leading-snug font-['Outfit',sans-serif]">
-                        {cert.title}
-                      </h3>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setSelectedCert(cert); }}
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl glass-premium hover:border-purple-500/30 text-sm font-medium text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95 cursor-pointer"
-                        >
-                          Preview
-                        </button>
-                        <a
-                          href={cert.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center p-2.5 rounded-xl glass-premium hover:border-purple-500/30 text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95"
-                          title="Open in new tab"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
+                      {/* Preview */}
+                      <div
+                        className="my-3 rounded-xl border border-zinc-800 bg-zinc-900/30 relative"
+                        style={{ aspectRatio: "3 / 2", overflow: "hidden" }}
+                      >
+                        {cert.isImage ? (
+                          <img src={cert.url} alt={cert.title} className="w-full h-auto min-h-full object-contain" />
+                        ) : cert.isPdf ? (
+                          <embed src={cert.url} type="application/pdf" className="w-full" style={{ minHeight: "100%", height: "500px" }} />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-center p-4 h-full">
+                            <Award className="w-12 h-12 text-zinc-600 mb-2 group-hover:text-amber-500/50 transition-colors duration-300" />
+                            <span className="text-[10px] text-zinc-500 font-mono break-all line-clamp-1 px-4">
+                              {cert.url.substring(cert.url.lastIndexOf("/") + 1)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Footer */}
+                      <div className="space-y-4">
+                        <h3 className="text-base font-semibold text-foreground line-clamp-2 min-h-[3rem] flex items-center leading-snug font-['Outfit',sans-serif]">
+                          {cert.title}
+                        </h3>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedCert(cert); }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl glass-premium hover:border-purple-500/30 text-sm font-medium text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95 cursor-pointer"
+                          >
+                            Preview
+                          </button>
+                          <a
+                            href={cert.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center justify-center p-2.5 rounded-xl glass-premium hover:border-purple-500/30 text-purple-300 border border-purple-500/20 transition-all duration-300 active:scale-95"
+                            title="Open in new tab"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
                   );
                 }}
 

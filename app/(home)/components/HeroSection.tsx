@@ -20,7 +20,7 @@ const ParticleCanvas = dynamic(() => import("@/components/ui/ParticleCanvas"), {
   ssr: false,
 });
 
-const photoFrames = ["/college.avif", "/school.avif", "/iitSitting.avif", "/iitStanding.avif"];
+const photoFrames = ["/iitSitting.avif", "/iitStanding.avif"];
 
 const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -144,7 +144,7 @@ const HeroSection: React.FC = () => {
                 return (
                   <div
                     key={layer}
-                    className="absolute inset-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-700 border rounded-2xl outline outline-1 outline-purple-500/25 bg-zinc-900 border-zinc-800"
+                    className="absolute inset-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-700 bg-transparent"
                     style={{
                       opacity: layer === 0 ? 1 : layer === 1 ? 0.45 : 0.22,
                       transform: `translate(${layer * 6}px, ${layer * 4}px)`,
