@@ -212,8 +212,8 @@ const HeroSection: React.FC = () => {
             <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
               Location: {developer.location}
             </span>
-            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Email: {developer.email}
+            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90" >
+              <a href={`mailto:${developer.email}`} target="_blank" rel="noopener noreferrer">Email: {developer.email}</a>
             </span>
           </div>
 
