@@ -3,6 +3,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import HeroSection from "./components/HeroSection";
 import PageLoader from "@/components/ui/page-loader";
+
 const GithubProjects = dynamic(() => import("./components/GithubProjects"), {
   ssr: false,
   loading: () => <PageLoader />,
@@ -23,18 +24,16 @@ const CertificatesSection = dynamic(() => import("./components/Certificates"), {
   ssr: false,
   loading: () => <PageLoader />,
 });
-const SoftAurora = dynamic(() => import('@/components/ui/softAurora'), {
+const SoftAurora = dynamic(() => import("@/components/ui/softAurora"), {
   ssr: false,
   loading: () => <PageLoader />,
 });
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { usePortfolio } from "@/store";
-
-
-
 
 const Home = () => {
   const { portfolioData } = usePortfolio();
@@ -77,6 +76,7 @@ const Home = () => {
         enableMouseInteraction
         mouseInfluence={0.25}
       />
+
       <RevealOnScroll>
         <HeroSection />
       </RevealOnScroll>
@@ -96,8 +96,7 @@ const Home = () => {
         <CertificatesSection />
       </RevealOnScroll>
 
-
-
+      {/* Footer CTAs */}
       <section className="py-16 pb-24">
         <div className="container px-6 mx-auto">
           <motion.div
@@ -105,13 +104,13 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex flex-row justify-center"
+            className="flex flex-row justify-center gap-4"
           >
             <Link href="/projects">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-panel text-card-foreground hover-lift"
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-purple-300 hover-lift border border-purple-500/20 btn-shimmer"
               >
                 <span>View Projects</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -135,3 +134,4 @@ const Home = () => {
 };
 
 export default Home;
+

@@ -128,7 +128,15 @@ export default async function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Google Fonts — preconnect for faster load */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         {/* Blocking theme script: sets dark/light class before first paint to avoid FOUC */}
+
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');var resolved=t==='light'||t==='dark'?t:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.classList.add(resolved);}catch(e){}})();`,

@@ -167,8 +167,14 @@ export default function SoftAurora({
   useEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    let renderer;
+    try {
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    } catch (e) {
+      return;
+    }
     const gl = renderer.gl;
+    if (!gl) return;
     gl.clearColor(0, 0, 0, 0);
 
     let program;
