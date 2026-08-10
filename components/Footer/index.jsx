@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
 import { FooterNameSkeleton } from "@/components/ui/skeletons";
+import Image from "next/image";
 
 const Footer = () => {
   const { portfolioData, loading } = usePortfolio();
