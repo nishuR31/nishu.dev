@@ -126,12 +126,12 @@ const SkillsShowcase: React.FC = () => {
 
                 {/* Shiny sweep */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent shiny-sweep" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent dark:via-white/10 via-black/5 to-transparent shiny-sweep" />
                 </div>
 
                 {/* Glossy top shine */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none">
-                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl" />
+                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b dark:from-white/30 from-black/10 to-transparent rounded-t-2xl" />
                 </div>
 
                 <div className="relative flex flex-col items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 w-full z-10">
