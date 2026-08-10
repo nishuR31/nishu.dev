@@ -134,7 +134,7 @@ const HeroSection: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="pt-4 hero-portrait-wrap sm:pt-6"
             >
-              <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden dark:drop-shadow-2xl shadow-2xl">
+              <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden dark:drop-shadow-2xl dark:shadow-2xl">
                 <Image
                   src={photoFrames}
                   loading="eager"
