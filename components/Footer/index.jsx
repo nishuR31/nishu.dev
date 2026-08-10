@@ -88,7 +88,7 @@ const Footer = () => {
       className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20"
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
-        <Image src="/logoFull.avif" onClick={() => { window.location.href(process.env.NEXT_PUBLIC_FRONTEND_URL) }} alt="Logo" width={40} height={40} />
+        <Image src="/logoFull.avif" className="w-fit h-content" onClick={() => { window.location.href(process.env.NEXT_PUBLIC_FRONTEND_URL) }} alt="Logo" />
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
           <span>© {new Date().getFullYear()} {loading ? <FooterNameSkeleton /> : developer.name}</span>
           <span className="">•</span>
