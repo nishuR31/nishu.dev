@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { UserCircle, Code2, Database, Layout, Zap } from "lucide-react";
 import { usePortfolio } from "@/store";
-import PageLoader from "@/components/ui/page-loader";
+import { AboutSkeleton } from "@/components/ui/skeletons";
 import { toast } from "sonner";
 import { useCountUp } from "@/lib/anime-utils";
 
@@ -49,7 +49,7 @@ const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> 
 const AboutSection: React.FC = () => {
   const { portfolioData, error, loading } = usePortfolio();
 
-  if (loading) return <PageLoader />;
+  if (loading) return <AboutSkeleton />;
   if (error) {
     toast.error(error);
     return null;

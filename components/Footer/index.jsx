@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
+import { FooterNameSkeleton } from "@/components/ui/skeletons";
 
 const Footer = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const developer = portfolioData?.developer ?? {};
 
   const [batteryLevel, setBatteryLevel] = useState(null);
@@ -87,11 +88,11 @@ const Footer = () => {
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
-          <span>© {new Date().getFullYear()} {developer.name}</span>
+          <span>© {new Date().getFullYear()} {loading ? <FooterNameSkeleton /> : developer.name}</span>
           <span className="">•</span>
           <span>All rights reserved</span>
           <span className="">•</span>
-          <span>Made by {developer.shortName}</span>
+          <span>Made by {loading ? <FooterNameSkeleton /> : developer.shortName}</span>
         </div>
 
         <div className="flex justify-center mt-3">

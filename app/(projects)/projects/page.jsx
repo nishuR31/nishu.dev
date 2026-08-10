@@ -4,10 +4,9 @@ import BackgroundEffects from "@/components/ui/background-effects";
 import { usePortfolio } from "@/store";
 import SectionTitle from "./components/SectionTitle";
 import { ProjectsList } from "./components/ProjectsList";
-import PageLoader from "@/components/ui/page-loader";
 
 const ProjectsPage = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const projects = portfolioData?.projects ?? [];
 
   return (
@@ -22,7 +21,7 @@ const ProjectsPage = () => {
 
         <div className="relative">
           <SectionTitle />
-          <ProjectsList projects={projects} />
+          <ProjectsList projects={projects} loading={loading} />
         </div>
       </div>
     </section>

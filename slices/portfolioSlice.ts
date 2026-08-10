@@ -18,10 +18,13 @@ export const DEFAULT_PORTFOLIO: PortfolioContext = {
         about: [],
     },
     social: {
+        email: "",
         github: "",
         linkedin: "",
         discord: "",
         twitter: "",
+        leetcode: "",
+        hackerone: ""
     },
     NAV_ITEMS: [],
     projects: [],

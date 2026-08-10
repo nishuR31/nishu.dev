@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { prefersReducedMotion } from "@/lib/anime-utils";
+import { NavSkeleton } from "@/components/ui/skeletons";
 
 interface NavItem {
   href: string;
@@ -190,7 +191,7 @@ const Navigation: React.FC<NavigationProps> = ({ isMobile = false, onLinkClick, 
 );
 
 const Header: React.FC = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const developer = portfolioData?.developer ?? {};
   const navItems: NavItem[] = portfolioData?.NAV_ITEMS ?? [];
 
@@ -206,7 +207,7 @@ const Header: React.FC = () => {
       >
         <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo developer={developer} />
-          <Navigation navItems={navItems} />
+          {loading ? <NavSkeleton /> : <Navigation navItems={navItems} />}
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
           </div>

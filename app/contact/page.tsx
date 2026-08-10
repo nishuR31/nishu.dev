@@ -5,18 +5,12 @@ import { Github, Linkedin, Mail, Globe, Twitter, ArrowRight, Code, Bug } from "l
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import PageLoader from "@/components/ui/page-loader";
+import { ContactSkeleton } from "@/components/ui/skeletons";
 
 export default function ContactPage() {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
 
-  if (!portfolioData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <PageLoader />
-      </div>
-    );
-  }
+  if (loading) return <ContactSkeleton />;
 
   const developer = portfolioData.developer ?? {};
   const social = portfolioData.social ?? {};

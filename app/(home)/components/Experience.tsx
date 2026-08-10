@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
 import { usePortfolio } from "@/store";
 import { useAnimeOnScroll, prefersReducedMotion } from "@/lib/anime-utils";
+import { ExperienceSkeleton } from "@/components/ui/skeletons";
 
 interface Experience {
   position: string;
@@ -87,7 +88,7 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
 };
 
 const ExperienceSection: React.FC = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const experiences: Experience[] = portfolioData?.experiences ?? [];
   const sectionRef = useRef<HTMLDivElement>(null);
   const [connectorHeight, setConnectorHeight] = React.useState(0);
@@ -98,6 +99,7 @@ const ExperienceSection: React.FC = () => {
     setConnectorHeight(el.offsetHeight - 48);
   }, [experiences.length]);
 
+  if (loading) return <ExperienceSkeleton />;
   if (!experiences || experiences.length === 0) return null;
 
   return (

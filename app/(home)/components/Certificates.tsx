@@ -5,6 +5,7 @@ import { Award, ExternalLink, FileText, Image as ImageIcon, X } from "lucide-rea
 import Carousel from "@/components/ui/carousel";
 import { usePortfolio } from "@/store";
 import { prefersReducedMotion } from "@/lib/anime-utils";
+import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
 interface CertInfo {
   title: string;
@@ -28,7 +29,7 @@ const getCertificateInfo = (url: string): CertInfo => {
 };
 
 const CertificatesSection: React.FC = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const [width, setWidth] = useState(600);
   const [selectedCert, setSelectedCert] = useState<CertInfo | null>(null);
 
@@ -45,6 +46,8 @@ const CertificatesSection: React.FC = () => {
 
   const rawCertificates = portfolioData?.certificates ?? [];
   const certificates: CertInfo[] = rawCertificates.map((c: { url: string }) => getCertificateInfo(c.url));
+
+  if (loading) return <CertificatesSkeleton />;
 
   const modalEnter = prefersReducedMotion()
     ? { opacity: 1, scale: 1, y: 0 }

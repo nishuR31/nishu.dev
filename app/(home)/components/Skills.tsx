@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { usePortfolio } from "@/store";
 import { useAnimeOnScroll, prefersReducedMotion } from "@/lib/anime-utils";
+import { SkillsSkeleton } from "@/components/ui/skeletons";
 
 interface Skill {
   name: string;
@@ -162,8 +163,10 @@ const CategorySection: React.FC<{ category: SkillCategory }> = ({ category }) =>
 };
 
 const SkillsSection: React.FC = () => {
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const skills: SkillCategory[] = portfolioData?.skills ?? [];
+
+  if (loading) return <SkillsSkeleton />;
 
   return (
     <section className="py-24 cv-auto" id="skills">

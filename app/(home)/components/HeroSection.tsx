@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import PageLoader from "@/components/ui/page-loader";
 import { usePortfolio } from "@/store";
 import { prefersReducedMotion } from "@/lib/anime-utils";
+import { HeroSkeleton } from "@/components/ui/skeletons";
 
 const SkillsShowcase = dynamic(() => import("./SkillsShowcase"), {
   ssr: false,
@@ -27,7 +28,7 @@ const HeroSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const portraitWrapRef = useRef<HTMLDivElement>(null);
   const [activeFrame, setActiveFrame] = useState(0);
-  const { portfolioData } = usePortfolio();
+  const { portfolioData, loading } = usePortfolio();
   const developer = portfolioData?.developer ?? {};
 
   // Cycle profile photos
@@ -124,6 +125,9 @@ const HeroSection: React.FC = () => {
       <ParticleCanvas count={50} className="opacity-60" />
 
       <div className="container px-6 mx-auto">
+        {loading ? (
+          <HeroSkeleton />
+        ) : (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -232,6 +236,8 @@ const HeroSection: React.FC = () => {
             <div className="absolute top-1/3 right-1/4 w-[200px] h-[200px] bg-zinc-400/5 rounded-full blur-3xl" />
           </motion.div>
         </motion.div>
+
+        )}
 
         <SkillsShowcase />
       </div>

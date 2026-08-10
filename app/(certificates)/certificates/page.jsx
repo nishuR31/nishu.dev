@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
 import { usePortfolio } from "@/store";
-import PageLoader from "@/components/ui/page-loader";
+import { CertificatesGridSkeleton } from "@/components/ui/skeletons";
 
 import { toast } from "sonner";
 
@@ -41,9 +41,7 @@ const CertificatesGrid = () => {
     const certificates = rawCertificates.map((c) => getCertificateInfo(c.url));
 
     if (loading) {
-        return (
-            <PageLoader />
-        )
+        return <CertificatesGridSkeleton />;
     }
 
     if (error) {
