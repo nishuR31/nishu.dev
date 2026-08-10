@@ -93,10 +93,10 @@ export default function SettingsPage() {
             </div>
 
             <div className="pt-4 border-t border-white/5 flex flex-col items-center justify-center gap-4">
-              <p className="text-xs text-destructive-foreground text-center">
+              <p className="text-xs text-muted text-center">
                 Action cannot be undone, but will automatically refresh the app to a clean state.
               </p>
-              <hr className="h-1 w-full text-muted-foreground text-center p-2" />
+              <hr className="h-1 w-full text-muted text-center p-2" />
 
               <Button
                 onClick={handleClearCache}
