@@ -20,9 +20,11 @@ import styled from 'styled-components';
 
 const Loader = () => {
   return (
-    <StyledWrapper>
-      <div className="loader" />
-    </StyledWrapper>
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-xl">
+      <StyledWrapper>
+        <div className="loader" />
+      </StyledWrapper>
+    </div>
   );
 }
 
@@ -30,7 +32,7 @@ const StyledWrapper = styled.div`
   /* HTML: <div class="loader"></div> */
   .loader {
     display: inline-flex;
-    border: 10px solid #000;
+    border: 10px solid #fff;
     border-radius: 5px;
   }
   .loader::before,
@@ -43,9 +45,9 @@ const StyledWrapper = styled.div`
     height: 1em;
     width: 1.2ch;
     text-align: center;
-    outline: 1px solid #000;
+    outline: 1px solid #fff;
     color: #0000;
-    text-shadow: 0 0 0 #000;
+    text-shadow: 0 0 0 #fff;
     overflow: hidden;
     animation: l4 2s infinite linear;
   }
@@ -54,7 +56,7 @@ const StyledWrapper = styled.div`
   }
   @keyframes l4 {
     100% {
-      text-shadow: 0 var(--t, -10em) 0 #000;
+      text-shadow: 0 var(--t, -10em) 0 #fff;
     }
   }`;
 
