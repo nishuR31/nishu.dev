@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePortfolio } from "@/store";
 import Image from "next/image";
@@ -209,6 +209,9 @@ const Header: React.FC = () => {
           <Logo developer={developer} />
           {loading ? <NavSkeleton /> : <Navigation navItems={navItems} />}
           <div className="hidden md:flex items-center space-x-4">
+            <Link href="/settings" className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
+              <Settings className="w-5 h-5" />
+            </Link>
             <ThemeToggle />
           </div>
 
@@ -249,7 +252,10 @@ const Header: React.FC = () => {
                 <div className="flex-1">
                   <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={navItems} />
                 </div>
-                <div className="mb-4 flex justify-center">
+                <div className="mb-4 flex justify-center items-center gap-6">
+                  <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
+                    <Settings className="w-5 h-5" />
+                  </Link>
                   <ThemeToggle />
                 </div>
               </div>

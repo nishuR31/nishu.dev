@@ -87,6 +87,7 @@ const Footer = () => {
       className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20"
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
+        <Image src="/logoFull.avif" onClick={() => window.location.href(process.env.NEXT_PUBLIC_FRONTEND_URL, "_self")} alt="Logo" width={40} height={40} />
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
           <span>© {new Date().getFullYear()} {loading ? <FooterNameSkeleton /> : developer.name}</span>
           <span className="">•</span>
@@ -111,12 +112,12 @@ const Footer = () => {
 
             <span
               className={`ml-1 ${percentage === null
-                  ? "text-muted-foreground"
-                  : percentage > 50
-                    ? "text-emerald-400"
-                    : percentage > 20
-                      ? "text-yellow-400"
-                      : "text-red-400"
+                ? "text-muted-foreground"
+                : percentage > 50
+                  ? "text-emerald-400"
+                  : percentage > 20
+                    ? "text-yellow-400"
+                    : "text-red-400"
                 }`}
             >
               {percentage === null
@@ -129,8 +130,8 @@ const Footer = () => {
             {hasMounted && (
               <span
                 className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${isOnline
-                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                  : "bg-red-500/10 border-red-500/20 text-red-400"
                   }`}
               >
                 <span

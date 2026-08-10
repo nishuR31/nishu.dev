@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
@@ -21,23 +21,15 @@ const ParticleCanvas = dynamic(() => import("@/components/ui/ParticleCanvas"), {
   ssr: false,
 });
 
-const photoFrames = ["/iitSitting.avif"];
+const photoFrames = "/iitSitting.avif";
 
 const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const portraitWrapRef = useRef<HTMLDivElement>(null);
-  const [activeFrame, setActiveFrame] = useState(0);
   const { portfolioData, loading } = usePortfolio();
   const developer = portfolioData?.developer ?? {};
 
-  // Cycle profile photos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFrame((prev) => (prev + 1) % photoFrames.length);
-    }, 1200);
-    return () => clearInterval(interval);
-  }, []);
 
   // Anime.js: letter-by-letter reveal for hero heading
   useEffect(() => {
@@ -128,114 +120,114 @@ const HeroSection: React.FC = () => {
         {loading ? (
           <HeroSkeleton />
         ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="relative max-w-3xl mx-auto space-y-8 text-center"
-        >
-          {/* Profile photo stack */}
           <motion.div
-            ref={portraitWrapRef}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            className="pt-4 hero-portrait-wrap sm:pt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="relative max-w-3xl mx-auto space-y-8 text-center"
           >
-            <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden border-b-4 border-zinc-700/50 shadow-2xl">
-              <Image
-                src={photoFrames[0]}
-                loading="eager"
-                alt="Nishan Rajak Profile"
-                fill
-                sizes="(max-width: 640px) 208px, 256px"
-                className="object-cover pointer-events-none select-none"
-                priority
-              />
-              <div className="absolute inset-0 z-10 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events-none" />
+            {/* Profile photo stack */}
+            <motion.div
+              ref={portraitWrapRef}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="pt-4 hero-portrait-wrap sm:pt-6"
+            >
+              <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden drop-shadow-2xl shadow-2xl">
+                <Image
+                  src={photoFrames}
+                  loading="eager"
+                  alt="Nishan Rajak Profile"
+                  fill
+                  sizes="(max-width: 640px) 208px, 256px"
+                  className="object-cover pointer-events-none select-none"
+                  priority
+                />
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events-none" />
+              </div>
+            </motion.div>
+
+            {/* Welcome chip */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-premium text-foreground"
+            >
+              <Code2 className="w-5 h-5" />
+              <span className="text-md font-medium">Welcome to my portfolio</span>
+            </motion.div>
+
+            {/* Gradient heading — Anime.js reveals letters */}
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl font-['Outfit',sans-serif]">
+                <span
+                  ref={titleRef}
+                  data-text={fullName}
+                  className="block mb-2 gradient-heading"
+                  style={{ opacity: 1 }}
+                >
+                  {fullName}
+                </span>
+                <span className="block text-2xl hero-subtitle text-foreground/80 md:text-4xl mt-2">
+                  {developer.tagline}
+                </span>
+              </h1>
             </div>
-          </motion.div>
 
-          {/* Welcome chip */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className="inline-flex items-center px-4 py-2 space-x-2 rounded-full hero-chip glass-premium text-foreground"
-          >
-            <Code2 className="w-5 h-5" />
-            <span className="text-md font-medium">Welcome to my portfolio</span>
-          </motion.div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="max-w-2xl mx-auto text-base leading-relaxed hero-bio sm:text-md text-muted-foreground"
+            >
+              {developer.bio}
+            </motion.p>
 
-          {/* Gradient heading — Anime.js reveals letters */}
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl font-['Outfit',sans-serif]">
-              <span
-                ref={titleRef}
-                data-text={fullName}
-                className="block mb-2 gradient-heading"
-                style={{ opacity: 1 }}
-              >
-                {fullName}
+            {/* Metrics chips */}
+            <div className="flex flex-wrap justify-center max-w-xl gap-3 mx-auto hero-metrics">
+              <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
+                Role: {developer.role}
               </span>
-              <span className="block text-2xl hero-subtitle text-foreground/80 md:text-4xl mt-2">
-                {developer.tagline}
+              <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
+                Location: {developer.location}
               </span>
-            </h1>
-          </div>
+              <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90" >
+                <a href={`mailto:${developer.email}`} target="_blank" rel="noopener noreferrer">Email: {developer.email}</a>
+              </span>
+            </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="max-w-2xl mx-auto text-base leading-relaxed hero-bio sm:text-md text-muted-foreground"
-          >
-            {developer.bio}
-          </motion.p>
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+              className="flex flex-wrap justify-center gap-4 pt-6 hero-actions"
+            >
+              <Link href="/projects">
+                <Button
+                  variant="outline"
+                  Icon={ArrowRight}
+                  iconPlacement="right"
+                  className="group px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full glass-panel text-foreground bg-foreground/5 hover:border-foreground/5"
+                >
+                  View Projects
+                </Button>
+              </Link>
+            </motion.div>
 
-          {/* Metrics chips */}
-          <div className="flex flex-wrap justify-center max-w-xl gap-3 mx-auto hero-metrics">
-            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Role: {developer.role}
-            </span>
-            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90">
-              Location: {developer.location}
-            </span>
-            <span className="px-4 py-2 text-xs rounded-full glass-panel floating-gravity text-card-foreground/90" >
-              <a href={`mailto:${developer.email}`} target="_blank" rel="noopener noreferrer">Email: {developer.email}</a>
-            </span>
-          </div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 pt-6 hero-actions"
-          >
-            <Link href="/projects">
-              <Button
-                variant="outline"
-                Icon={ArrowRight}
-                iconPlacement="right"
-                className="group px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full glass-panel text-foreground bg-foreground/5 hover:border-foreground/5"
-              >
-                View Projects
-              </Button>
-            </Link>
+            {/* Glow orb */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="absolute inset-0 pointer-events-none -z-10"
+            >
+              <div className="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-1/3 right-1/4 w-[200px] h-[200px] bg-zinc-400/5 rounded-full blur-3xl" />
+            </motion.div>
           </motion.div>
-
-          {/* Glow orb */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute inset-0 pointer-events-none -z-10"
-          >
-            <div className="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-500/10 rounded-full blur-3xl" />
-            <div className="absolute top-1/3 right-1/4 w-[200px] h-[200px] bg-zinc-400/5 rounded-full blur-3xl" />
-          </motion.div>
-        </motion.div>
 
         )}
 
