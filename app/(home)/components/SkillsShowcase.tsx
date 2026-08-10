@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 import {
   Atom, Monitor, Antenna, Code2, Database,
   Github, Pyramid, Server, Wind, Globe, Paintbrush,
@@ -33,6 +34,8 @@ const skills: Skill[] = [
 
 const SkillsShowcase: React.FC = () => {
   const gridRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -92,7 +95,10 @@ const SkillsShowcase: React.FC = () => {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
           style={{ gridAutoRows: "minmax(90px, auto)", gridAutoFlow: "row dense" }}
         >
-          {skills.map((skill) => (
+          {skills.map((skill) => {
+            const accent = (isLight && skill.accentColor === "#ffffff") ? "#333333" : (skill.accentColor || "#a855f7");
+
+            return (
             <div
               key={skill.name}
               className={`relative group skill-card ${skill.size}`}
@@ -113,8 +119,8 @@ const SkillsShowcase: React.FC = () => {
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[inherit] border-2"
                   style={{
-                    borderColor: skill.accentColor,
-                    boxShadow: `0 0 24px ${skill.accentColor}30, inset 0 0 12px ${skill.accentColor}10`
+                    borderColor: accent,
+                    boxShadow: `0 0 24px ${accent}30, inset 0 0 12px ${accent}10`
                   }}
                 />
 
@@ -133,12 +139,12 @@ const SkillsShowcase: React.FC = () => {
                   <div className="relative">
                     <div
                       className="absolute inset-0 rounded-xl blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-300"
-                      style={{ backgroundColor: skill.accentColor || "#a855f7" }}
+                      style={{ backgroundColor: accent }}
                     />
                     <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md sm:rounded-lg md:rounded-xl bg-card/80 border border-border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:border-primary/40 group-hover:scale-110">
                       <div
                         className="transition-all duration-300 drop-shadow-lg"
-                        style={{ color: skill.accentColor || "#ffffff" }}
+                        style={{ color: accent }}
                       >
                         {skill.icon}
                       </div>
@@ -153,14 +159,15 @@ const SkillsShowcase: React.FC = () => {
                     <div
                       className="w-5 sm:w-6 md:w-8 h-0.5 rounded-full transition-all duration-300 group-hover:w-10"
                       style={{
-                        background: `linear-gradient(to right, transparent, ${skill.accentColor || "#a855f7"}80, transparent)`,
+                        background: `linear-gradient(to right, transparent, ${accent}80, transparent)`,
                       }}
                     />
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
     </div>
