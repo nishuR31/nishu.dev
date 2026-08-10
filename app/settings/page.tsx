@@ -93,19 +93,19 @@ export default function SettingsPage() {
             </div>
 
             <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <p className="text-xs text-muted-foreground text-center sm:text-left">
+              <p className="text-xs text-destructive-foreground text-center">
                 Action cannot be undone, but will automatically refresh the app to a clean state.
               </p>
-              <br />
+              <hr className="h-1 max-w-fit text-center p-2" />
 
               <Button
                 onClick={handleClearCache}
                 disabled={isClearing}
                 variant="destructive"
 
-                className={`w-full sm:w-auto px-6 py-6 rounded-xl transition-all duration-300 font-semibold ${isClearing ? "animate-spin" : ""}`}
+                className={`w-full sm:w-auto px-6 py-6 rounded-xl transition-all duration-300 font-semibold animate-shine`}
               >
-                {isClearing ? <RefreshCw /> : <Trash2 />}
+                {isClearing ? <RefreshCw className="animate-spin" /> : <Trash2 className="animate-shine" />}
                 {isClearing ? "Clearing Cache..." : "Clear Cache & Reload"}
               </Button>
             </div>
