@@ -135,7 +135,7 @@ const SkillsShowcase: React.FC = () => {
                       className="absolute inset-0 rounded-xl blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-300"
                       style={{ backgroundColor: skill.accentColor || "#a855f7" }}
                     />
-                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md sm:rounded-lg md:rounded-xl bg-zinc-900/80 border border-white/15 flex items-center justify-center shadow-lg transition-all duration-300 group-hover:border-white/40 group-hover:scale-110">
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md sm:rounded-lg md:rounded-xl bg-card/80 border border-border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:border-primary/40 group-hover:scale-110">
                       <div
                         className="transition-all duration-300 drop-shadow-lg"
                         style={{ color: skill.accentColor || "#ffffff" }}
@@ -147,7 +147,7 @@ const SkillsShowcase: React.FC = () => {
 
                   {/* Name */}
                   <div className="flex flex-col items-center gap-0.5 sm:gap-1 w-full px-0.5 sm:px-1">
-                    <span className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white text-center tracking-tight transition-all duration-300 group-hover:text-white/90 break-words leading-tight">
+                    <span className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-foreground text-center tracking-tight transition-all duration-300 group-hover:text-foreground/90 break-words leading-tight">
                       {skill.name}
                     </span>
                     <div

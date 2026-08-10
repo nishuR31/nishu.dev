@@ -64,20 +64,20 @@ const CertificatesGrid = () => {
                         <motion.article
                             key={idx}
                             variants={itemVariants}
-                            className="relative flex flex-col p-4 bg-zinc-950/80 border border-zinc-800/80 rounded-2xl hover:border-zinc-700/80 transition-all duration-300 backdrop-blur-md"
+                            className="relative flex flex-col p-4 bg-card/80 border border-border rounded-2xl hover:border-primary/50 transition-all duration-300 backdrop-blur-md"
                         >
                             {/* Icon */}
                             <div className="flex items-center justify-between mb-2">
-                                <div className="p-2 rounded-xl bg-zinc-900/50 border border-zinc-800 text-amber-500">
+                                <div className="p-2 rounded-xl bg-primary/10 border border-primary/20 text-amber-500">
                                     {item.isPdf ? <FileText className="w-5 h-5" /> : <ImageIcon className="w-5 h-5" />}
                                 </div>
-                                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800/50 text-muted-foreground uppercase tracking-wider">
+                                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-card border border-border text-muted-foreground uppercase tracking-wider">
                                     {item.isPdf ? "PDF Cert" : "Image Cert"}
                                 </span>
                             </div>
 
                             {/* Preview */}
-                            <div className="flex-1 my-4 flex items-center justify-center overflow-hidden rounded-xl bg-zinc-900/30 relative">
+                            <div className="flex-1 my-4 flex items-center justify-center overflow-hidden rounded-xl bg-card/30 relative">
                                 {item.isImage ? (
                                     <img
                                         src={item.url}
@@ -111,7 +111,7 @@ const CertificatesGrid = () => {
                                     href={item.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sm font-medium text-primary border border-zinc-800 transition-all duration-300 hover:border-zinc-700 active:scale-95"
+                                    className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-card hover:bg-accent text-sm font-medium text-primary border border-border transition-all duration-300 hover:border-primary/50 active:scale-95"
                                 >
                                     <span>View Certificate</span>
                                     <ExternalLink className="w-4 h-4" />

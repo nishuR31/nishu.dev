@@ -64,7 +64,7 @@ export default function SettingsPage() {
         </RevealOnScroll>
 
         <RevealOnScroll delay={100}>
-          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/5 space-y-8">
+          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-border space-y-8">
             <div className="flex items-start gap-4 p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20">
               <AlertCircle className="w-6 h-6 text-amber-500 shrink-0 mt-1" />
               <div>
@@ -76,14 +76,14 @@ export default function SettingsPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 flex items-center gap-4">
+              <div className="p-4 rounded-2xl bg-card/50 border border-border flex items-center gap-4">
                 <HardDrive className="w-8 h-8 text-purple-400" />
                 <div>
                   <div className="font-medium text-foreground">Local Storage</div>
                   <div className="text-xs text-muted-foreground">Theme & preferences</div>
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-zinc-900/50 border border-white/5 flex items-center gap-4">
+              <div className="p-4 rounded-2xl bg-card/50 border border-border flex items-center gap-4">
                 <Database className="w-8 h-8 text-blue-400" />
                 <div>
                   <div className="font-medium text-foreground">Application State</div>
@@ -92,7 +92,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/5 flex flex-col items-center justify-center gap-4">
+            <div className="pt-4 border-t border-border flex flex-col items-center justify-center gap-4">
               <p className="text-xs text-muted-foreground text-center">
                 Action cannot be undone, but will automatically refresh the app to a clean state.
               </p>
