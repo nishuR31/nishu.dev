@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { useTheme } from "next-themes";
+import React, { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/store";
 import {
   Atom, Monitor, Antenna, Code2, Database,
   Github, Pyramid, Server, Wind, Globe, Paintbrush,
@@ -34,8 +34,12 @@ const skills: Skill[] = [
 
 const SkillsShowcase: React.FC = () => {
   const gridRef = useRef<HTMLDivElement>(null);
-  const { resolvedTheme } = useTheme();
-  const isLight = resolvedTheme === "light";
+  const { currentTheme } = useTheme();
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    setIsLight(document.documentElement.classList.contains("light"));
+  }, [currentTheme]);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;

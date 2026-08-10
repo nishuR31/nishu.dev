@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "./configStore";
 
@@ -45,8 +45,14 @@ export function useTheme(theme?: ThemeMode) {
         dispatch(setTheme(theme));
     }, [dispatch, theme]);
 
+    const isMounted = useRef(false);
     useEffect(() => {
         if (typeof window === "undefined") return;
+        
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
 
         localStorage.setItem("theme", currentTheme);
     }, [currentTheme]);
