@@ -102,10 +102,10 @@ export default function SettingsPage() {
                 onClick={handleClearCache}
                 disabled={isClearing}
                 variant="destructive"
-                Icon={isClearing ? RefreshCw : Trash2}
-                iconPlacement="left"
-                className={`w-full sm:w-auto px-6 py-6 rounded-full transition-all duration-300 font-semibold ${isClearing ? "animate-spin" : ""}`}
+
+                className={`w-full sm:w-auto px-6 py-6 rounded-xl transition-all duration-300 font-semibold ${isClearing ? "animate-spin" : ""}`}
               >
+                {isClearing ? <RefreshCw /> : <Trash2 />}
                 {isClearing ? "Clearing Cache..." : "Clear Cache & Reload"}
               </Button>
             </div>
