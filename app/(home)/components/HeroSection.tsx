@@ -144,7 +144,7 @@ const HeroSection: React.FC = () => {
                   className="object-cover pointer-events-none select-none"
                   priority
                 />
-                <div className="absolute inset-0 z-10 bg-gradient-to-t  pointer-events-none" />
+                <div className="absolute inset-0 z-10 pointer-events-none" />
               </div>
             </motion.div>
 
