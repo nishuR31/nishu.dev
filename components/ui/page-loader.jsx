@@ -19,6 +19,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
+
 const Loader = () => {
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-xl"><StyledWrapper>
@@ -49,7 +51,7 @@ const StyledWrapper = styled.div`
   .loader > span {
     height: 5px;
     width: 35px;
-    background: #000;
+    background: #fff;
     position: absolute;
     top: -19px;
     left: 60px;
@@ -60,7 +62,7 @@ const StyledWrapper = styled.div`
     width: 0;
     height: 0;
     border-top: 6px solid transparent;
-    border-right: 100px solid #000;
+    border-right: 100px solid #fff;
     border-bottom: 6px solid transparent;
   }
   .base span:before {
@@ -68,7 +70,7 @@ const StyledWrapper = styled.div`
     height: 22px;
     width: 22px;
     border-radius: 50%;
-    background: #000;
+    background: #fff;
     position: absolute;
     right: -110px;
     top: -16px;
@@ -79,7 +81,7 @@ const StyledWrapper = styled.div`
     width: 0;
     height: 0;
     border-top: 0 solid transparent;
-    border-right: 55px solid #000;
+    border-right: 55px solid #fff;
     border-bottom: 16px solid transparent;
     top: -16px;
     right: -98px;
@@ -88,7 +90,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     height: 12px;
     width: 20px;
-    background: #000;
+    background: #fff;
     border-radius: 20px 20px 0 0;
     transform: rotate(-40deg);
     right: -125px;
@@ -98,7 +100,7 @@ const StyledWrapper = styled.div`
     content: "";
     height: 12px;
     width: 12px;
-    background: #000;
+    background: #fff;
     right: 4px;
     top: 7px;
     position: absolute;
@@ -112,7 +114,7 @@ const StyledWrapper = styled.div`
   .loader > span > span:nth-child(4) {
     width: 30px;
     height: 1px;
-    background: #000;
+    background: #fff;
     position: absolute;
     animation: fazer1 0.2s linear infinite;
   }
@@ -210,7 +212,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     height: 2px;
     width: 20%;
-    background: #000;
+    background: #fff;
   }
   .longfazers span:nth-child(1) {
     top: 20%;
