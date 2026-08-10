@@ -19,10 +19,10 @@ export default function SettingsPage() {
       localStorage.clear();
       // Restore theme to avoid flash
       localStorage.setItem("theme", "dark");
-      
+
       // 2. Clear Session Storage
       sessionStorage.clear();
-      
+
       // 3. Clear Redux State
       dispatch(clear());
 
@@ -92,11 +92,12 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-center gap-4">
               <p className="text-xs text-muted-foreground text-center sm:text-left">
                 Action cannot be undone, but will automatically refresh the app to a clean state.
               </p>
-              
+              <br />
+
               <Button
                 onClick={handleClearCache}
                 disabled={isClearing}
