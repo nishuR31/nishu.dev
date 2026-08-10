@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useTheme } from "@/store";
-import PageLoader from "@/components/ui/page-loader";
+
 import MouseGlow from "@/components/ui/mouse-glow";
 
 function getSeason(month) {
@@ -62,7 +62,7 @@ export default function AppEnhancements() {
 
   return (
     <>
-      <PageLoader />
+
       <MouseGlow />
     </>
   );
