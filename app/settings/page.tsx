@@ -103,7 +103,7 @@ export default function SettingsPage() {
                 disabled={isClearing}
                 variant="destructive"
 
-                className={`w-full sm:w-auto px-6 py-6 rounded-xl transition-all duration-300 font-semibold animate-shine`}
+                className={`w-full sm:w-auto px-6 py-6 rounded-xl transition-all duration-300 text-wrap font-semibold animate-shine`}
               >
                 {isClearing ? <RefreshCw className="animate-spin pr-2" /> : <Trash2 className="animate-shine pr-2" />}
                 {isClearing ? "Clearing Cache..." : "Clear Cache & Reload"}
