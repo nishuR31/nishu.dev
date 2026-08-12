@@ -87,19 +87,11 @@ const CertificatesGrid = () => {
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
-                                ) : item.isPdf ? (
-                                    <div className="w-full h-full relative">
-                                        <embed
-                                            src={item.url}
-                                            type="application/pdf"
-                                            className="w-full h-full"
-                                        />
-                                    </div>
                                 ) : (
-                                    <div className="flex flex-col items-center text-center p-4">
-                                        <FileText className="w-8 h-8 text-zinc-600 mb-2" />
-                                        <span className="text-sm text-muted-foreground break-all line-clamp-1">
-                                            {item.url.substring(item.url.lastIndexOf('/') + 1)}
+                                    <div className="flex flex-col items-center justify-center text-center p-4 h-full">
+                                        <FileText className="w-12 h-12 text-zinc-600 mb-2" />
+                                        <span className="text-sm font-medium text-muted-foreground break-all line-clamp-2 px-4">
+                                            {item.title}
                                         </span>
                                     </div>
                                 )}
@@ -115,6 +107,7 @@ const CertificatesGrid = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-card hover:bg-accent text-sm font-medium text-primary border border-border transition-all duration-300 hover:border-primary/50 active:scale-95"
+                                    aria-label={`View Certificate: ${item.title}`}
                                 >
                                     <span>View Certificate</span>
                                     <ExternalLink className="w-4 h-4" />

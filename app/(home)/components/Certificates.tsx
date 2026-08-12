@@ -115,13 +115,11 @@ const CertificatesSection: React.FC = () => {
                       >
                         {cert.isImage ? (
                           <Image src={cert.url} alt={cert.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain" />
-                        ) : cert.isPdf ? (
-                          <embed src={cert.url} type="application/pdf" className="w-full" style={{ minHeight: "100%", height: "500px" }} />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center p-4 h-full">
-                            <Award className="w-12 h-12 text-muted-foreground mb-2 group-hover:text-muted-foreground/50 transition-colors duration-300" />
-                            <span className="text-[10px] text-muted-foreground font-mono break-all line-clamp-1 px-4">
-                              {cert.url.substring(cert.url.lastIndexOf("/") + 1)}
+                            <FileText className="w-12 h-12 text-muted-foreground mb-2 group-hover:text-muted-foreground/50 transition-colors duration-300" />
+                            <span className="text-sm font-medium text-muted-foreground break-all line-clamp-2 px-4">
+                              {cert.title}
                             </span>
                           </div>
                         )}
@@ -145,7 +143,8 @@ const CertificatesSection: React.FC = () => {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                             className="flex items-center justify-center p-2.5 rounded-xl glass-premium hover:border-zinc-500/30 text-foreground border border-border transition-all duration-300 active:scale-95"
-                            title="Open in new tab"
+                            title={`Open ${cert.title} in new tab`}
+                            aria-label={`Open ${cert.title} in new tab`}
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
@@ -200,6 +199,7 @@ const CertificatesSection: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass-premium hover:border-zinc-500/30 text-xs font-medium text-foreground border border-border transition-all duration-200"
+                    aria-label={`Open original ${selectedCert.title} in new tab`}
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span className="hidden sm:inline">Open Original</span>
