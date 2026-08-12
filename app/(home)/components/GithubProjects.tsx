@@ -13,6 +13,7 @@ import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { prefersReducedMotion } from "@/lib/anime-utils";
+import { motion } from "framer-motion";
 
 interface GithubRepo {
   id: number;
@@ -97,12 +98,18 @@ const ErrorAlert: React.FC<{ error: Error; onRetry: () => void }> = ({ error, on
   </Alert>
 );
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.9 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
+};
+
 const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ project }) => {
   const topics = project.topics || [];
   const langColor = project.language ? (languageColors[project.language] || "#8b5cf6") : null;
 
   return (
-    <a
+    <motion.a
+      variants={itemVariants}
       href={project.html_url}
       target="_blank"
       rel="noopener noreferrer"
@@ -204,7 +211,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
           </div>
         </div>
       </div>
-    </a>
+    </motion.a>
   );
 };
 
@@ -241,44 +248,16 @@ const GithubProjects: React.FC = () => {
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
   }, [data, page, FEATURED_REPOS]);
 
-  // Anime.js stagger entrance for project cards
-  useEffect(() => {
-    if (prefersReducedMotion() || isLoading || !gridRef.current) return;
-    let triggered = false;
-
-    const run = async () => {
-      try {
-        const { animate, stagger } = await import("animejs");
-        const el = gridRef.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting && !triggered) {
-              triggered = true;
-              observer.disconnect();
-              const cards = el.querySelectorAll<HTMLElement>(".project-card");
-              cards.forEach((c) => { c.style.opacity = "0"; });
-              animate(cards, {
-                opacity: [0, 1],
-                scale: [0.9, 1],
-                translateY: [20, 0],
-                easing: "easeOutBack",
-                duration: 500,
-                delay: stagger(60),
-              });
-            }
-          },
-          { rootMargin: "-5% 0px" }
-        );
-        observer.observe(el);
-      } catch {
-        gridRef.current?.querySelectorAll<HTMLElement>(".project-card").forEach((c) => {
-          c.style.opacity = "1";
-        });
-      }
-    };
-    run();
-  }, [isLoading, projects.length]);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
   const handleRetry = async () => {
     try {
@@ -309,8 +288,11 @@ const GithubProjects: React.FC = () => {
             </div>
 
             {/* Grid */}
-            <div
-              ref={gridRef}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-5%" }}
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 auto-rows-fr gap-3 sm:gap-4 w-full max-w-6xl mx-auto"
             >
               {isLoading
@@ -324,7 +306,7 @@ const GithubProjects: React.FC = () => {
                   : projects.map((project) => (
                     <ProjectCard key={project.id} project={project} />
                   ))}
-            </div>
+            </motion.div>
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-0">

@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // Tree-shake icon-heavy libraries and animejs
-    optimizePackageImports: ["lucide-react", "animejs", "framer-motion"],
+    // Tree-shake icon-heavy libraries and framer-motion
+    optimizePackageImports: ["lucide-react", "framer-motion"],
   },
   images: {
     formats: ["image/avif", "image/webp"],

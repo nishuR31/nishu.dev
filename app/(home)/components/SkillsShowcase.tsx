@@ -7,6 +7,7 @@ import {
   Github, Pyramid, Server, Wind, Globe, Paintbrush,
 } from "lucide-react";
 import { prefersReducedMotion } from "@/lib/anime-utils";
+import { motion } from "framer-motion";
 
 interface Skill {
   name: string;
@@ -41,47 +42,27 @@ const SkillsShowcase: React.FC = () => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    let triggered = false;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-    const run = async () => {
-      try {
-        const { animate, stagger } = await import("animejs");
-        const el = gridRef.current;
-        if (!el || triggered) return;
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting && !triggered) {
-              triggered = true;
-              observer.disconnect();
-              const cards = el.querySelectorAll<HTMLElement>(".skill-card");
-              cards.forEach((c) => { c.style.opacity = "0"; });
-              animate(cards, {
-                opacity: [0, 1],
-                translateY: [24, 0],
-                rotateY: ["-8deg", "0deg"],
-                scale: [0.92, 1],
-                easing: "easeOutBack",
-                duration: 500,
-                delay: stagger(50, { start: 100 }),
-              });
-            }
-          },
-          { rootMargin: "-5% 0px" }
-        );
-        observer.observe(el);
-      } catch {
-        // show cards without animation
-        gridRef.current
-          ?.querySelectorAll<HTMLElement>(".skill-card")
-          .forEach((c) => { c.style.opacity = "1"; });
-      }
-    };
-
-    run();
-  }, []);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 24, rotateY: -8, scale: 0.92 },
+    show: {
+      opacity: 1,
+      y: 0,
+      rotateY: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
+  };
 
   return (
     <div className="w-full mt-20">
@@ -94,8 +75,11 @@ const SkillsShowcase: React.FC = () => {
           </div>
         </div>
 
-        <div
-          ref={gridRef}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-5%" }}
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
           style={{ gridAutoRows: "minmax(90px, auto)", gridAutoFlow: "row dense" }}
         >
@@ -103,7 +87,8 @@ const SkillsShowcase: React.FC = () => {
             const accent = (isLight && skill.accentColor === "#ffffff") ? "#333333" : (skill.accentColor || "#a855f7");
 
             return (
-            <div
+            <motion.div
+              variants={itemVariants}
               key={skill.name}
               className={`relative group skill-card ${skill.size}`}
               style={{ perspective: "600px" }}
@@ -169,10 +154,10 @@ const SkillsShowcase: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
           })}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

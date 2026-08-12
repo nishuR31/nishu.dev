@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
 import { usePortfolio } from "@/store";
-import { useAnimeOnScroll, prefersReducedMotion } from "@/lib/anime-utils";
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
 
 interface Experience {
@@ -33,42 +32,16 @@ const itemAnimation = {
   },
 };
 
-/* Draws the SVG vertical timeline line using Anime.js stroke-dashoffset */
 const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const pathRef = useRef<SVGLineElement>(null);
-
-  useAnimeOnScroll(svgRef, async () => {
-    try {
-      const { animate } = await import("animejs");
-      const path = pathRef.current;
-      if (!path) return;
-      const len = height;
-      path.style.strokeDasharray = `${len}`;
-      path.style.strokeDashoffset = `${len}`;
-      animate(path, {
-        strokeDashoffset: [len, 0],
-        easing: "easeInOutSine",
-        duration: 1200,
-      });
-    } catch {
-      if (pathRef.current) {
-        pathRef.current.style.strokeDashoffset = "0";
-      }
-    }
-  });
-
   return (
     <svg
-      ref={svgRef}
       className="timeline-line-svg absolute left-6 top-12 -z-0"
       width="2"
       height={height}
       style={{ overflow: "visible" }}
       aria-hidden="true"
     >
-      <line
-        ref={pathRef}
+      <motion.line
         x1="1"
         y1="0"
         x2="1"
@@ -76,6 +49,10 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
         stroke="url(#timelineGrad)"
         strokeWidth="2"
         strokeLinecap="round"
+        initial={{ strokeDasharray: height, strokeDashoffset: height }}
+        whileInView={{ strokeDashoffset: 0 }}
+        viewport={{ once: true, margin: "-5%" }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
       />
       <defs>
         <linearGradient id="timelineGrad" x1="0" y1="0" x2="0" y2="1">

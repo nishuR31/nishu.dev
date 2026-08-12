@@ -25,47 +25,15 @@ interface NavLinkProps {
 const NavLink: React.FC<NavLinkProps> = ({ href, label, isMobile = false }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
-  const linkRef = useRef<HTMLSpanElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  // Anime.js underline draw on hover
-  const handleMouseEnter = async () => {
-    if (isMobile || prefersReducedMotion()) return;
-    try {
-      const { animate } = await import("animejs");
-      const line = svgRef.current?.querySelector("line");
-      if (!line) return;
-      animate(line, {
-        strokeDashoffset: [60, 0],
-        easing: "easeOutQuart",
-        duration: 300,
-      });
-    } catch { /* ignore */ }
-  };
-
-  const handleMouseLeave = async () => {
-    if (isMobile || prefersReducedMotion()) return;
-    try {
-      const { animate } = await import("animejs");
-      const line = svgRef.current?.querySelector("line");
-      if (!line) return;
-      animate(line, {
-        strokeDashoffset: [0, 60],
-        easing: "easeInQuart",
-        duration: 250,
-      });
-    } catch { /* ignore */ }
-  };
 
   return (
     <Link href={href} className="relative">
       <motion.span
-        ref={linkRef}
         className={`relative flex flex-col items-center ${isMobile ? "px-4 py-3 text-base" : "px-4 py-2"} text-foreground/70 hover:text-foreground transition-colors ${isActive ? "text-foreground" : ""}`}
-        whileHover={isMobile ? undefined : { scale: 1.05 }}
+        initial="rest"
+        animate="rest"
+        whileHover={isMobile ? undefined : "hover"}
         whileTap={{ scale: 0.95 }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         {label}
 
@@ -84,19 +52,22 @@ const NavLink: React.FC<NavLinkProps> = ({ href, label, isMobile = false }) => {
         {/* Animated underline via SVG */}
         {!isMobile && (
           <svg
-            ref={svgRef}
             className="absolute bottom-0 left-2 right-2"
             height="2"
             style={{ overflow: "visible", pointerEvents: "none" }}
             aria-hidden="true"
           >
-            <line
+            <motion.line
               x1="0" y1="1" x2="60" y2="1"
               stroke={isActive ? "#a855f7" : "#a855f740"}
               strokeWidth="2"
               strokeLinecap="round"
               strokeDasharray="60"
-              strokeDashoffset={isActive ? "0" : "60"}
+              variants={{
+                rest: { strokeDashoffset: isActive ? 0 : 60 },
+                hover: { strokeDashoffset: 0 }
+              }}
+              transition={{ ease: "easeOut", duration: 0.3 }}
             />
           </svg>
         )}
@@ -111,36 +82,19 @@ interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ isMobile = false, developer }) => {
-  const logoRef = useRef<HTMLDivElement>(null);
-
-  // Anime.js logo flip on first mount
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    (async () => {
-      try {
-        const { animate } = await import("animejs");
-        const el = logoRef.current;
-        if (!el) return;
-        el.style.opacity = "0";
-        el.style.transform = "rotateY(90deg)";
-        animate(el, {
-          opacity: [0, 1],
-          rotateY: [90, 0],
-          easing: "easeOutBack",
-          duration: 600,
-          delay: 200,
-        });
-      } catch { /* ignore */ }
-    })();
-  }, []);
-
   return (
-    <div ref={logoRef}>
+    <div>
       <Link
         href="/"
         className="flex items-center space-x-2 hover:opacity-90 transition-opacity"
       >
-        <motion.div whileHover={{ opacity: 0.75 }} whileTap={{ scale: 0.95 }}>
+        <motion.div
+          initial={prefersReducedMotion() ? undefined : { opacity: 0, rotateY: 90 }}
+          animate={prefersReducedMotion() ? undefined : { opacity: 1, rotateY: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          whileHover={{ opacity: 0.75, scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <Image
             src="/logo.avif"
             width={84}

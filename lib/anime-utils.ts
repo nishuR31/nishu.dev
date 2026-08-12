@@ -16,43 +16,6 @@ export function prefersReducedMotion(): boolean {
   );
 }
 
-/**
- * Runs an Anime.js animation once when the target element enters the viewport.
- * @param ref      - A React ref pointing to the element to observe
- * @param animate  - Callback receiving the element; call `anime({...})` inside
- * @param options  - IntersectionObserver options (default: rootMargin "-10% 0px")
- */
-export function useAnimeOnScroll<T extends Element>(
-  ref: RefObject<T | null>,
-  animate: (el: T) => void,
-  options: IntersectionObserverInit = { rootMargin: "-10% 0px", threshold: 0 }
-): void {
-  const animatedRef = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (animatedRef.current) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !animatedRef.current) {
-          animatedRef.current = true;
-          observer.disconnect();
-          if (!prefersReducedMotion()) {
-            animate(el);
-          } else {
-            (el as unknown as HTMLElement).style.opacity = "1";
-            (el as unknown as HTMLElement).style.transform = "none";
-          }
-        }
-      });
-    }, options);
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-}
 
 /**
  * Animates a number from 0 → `target` when the element enters the viewport.

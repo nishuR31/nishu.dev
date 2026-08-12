@@ -5,7 +5,6 @@ import { Boxes, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { usePortfolio } from "@/store";
-import { useAnimeOnScroll, prefersReducedMotion } from "@/lib/anime-utils";
 import { SkillsSkeleton } from "@/components/ui/skeletons";
 
 interface Skill {
@@ -63,36 +62,18 @@ const itemAnimation = {
   },
 };
 
-/* Animated skill bar with Anime.js elastic fill */
 const SkillBar: React.FC<{ percentage: number; gradient: string }> = ({ percentage, gradient }) => {
-  const barRef = useRef<HTMLDivElement>(null);
-
-  useAnimeOnScroll(barRef, async (el) => {
-    try {
-      const { animate } = await import("animejs");
-      animate(el, {
-        width: [`0%`, `${percentage}%`],
-        easing: "easeOutElastic(1, 0.5)",
-        duration: 1000,
-        delay: 150,
-        begin() {
-          el.style.width = "0%";
-        },
-      });
-    } catch {
-      el.style.width = `${percentage}%`;
-    }
-  });
-
   return (
     <div className="h-1.5 bg-zinc-800/50 rounded-full overflow-hidden mt-2">
-      <div
-        ref={barRef}
+      <motion.div
+        initial={{ width: 0 }}
+        whileInView={{ width: `${percentage}%` }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.15 }}
         className={cn(
           "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim",
           gradient
         )}
-        style={{ width: prefersReducedMotion() ? `${percentage}%` : "0%" }}
       />
     </div>
   );
