@@ -1,7 +1,7 @@
 // app/(certificates)/certificates/page.jsx
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { usePortfolio } from "@/store";
@@ -24,15 +24,7 @@ const getCertificateInfo = (url) => {
     }
 };
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-};
 
 const CertificatesGrid = () => {
 
@@ -55,17 +47,14 @@ const CertificatesGrid = () => {
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-8">
                     All Certifications
                 </h2>
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                <div
+                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-in fade-in duration-500 fill-mode-both"
                 >
                     {certificates.map((item, idx) => (
-                        <motion.article
+                        <article
                             key={idx}
-                            variants={itemVariants}
-                            className="relative flex flex-col p-4 bg-card/80 border border-border rounded-2xl hover:border-primary/50 transition-all duration-300 backdrop-blur-md"
+                            style={{ animationDelay: `${idx * 100}ms` }}
+                            className="relative flex flex-col p-4 bg-card/80 border border-border rounded-2xl hover:border-primary/50 transition-all duration-300 backdrop-blur-md animate-in slide-in-from-bottom-4 fade-in duration-300 fill-mode-both"
                         >
                             {/* Icon */}
                             <div className="flex items-center justify-between mb-2">
@@ -113,9 +102,9 @@ const CertificatesGrid = () => {
                                     <ExternalLink className="w-4 h-4" />
                                 </a>
                             </div>
-                        </motion.article>
+                        </article>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

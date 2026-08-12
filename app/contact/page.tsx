@@ -3,7 +3,6 @@ import React from "react";
 import { usePortfolio } from "@/store";
 import { Github, Linkedin, Mail, Globe, Twitter, ArrowRight, Code, Bug } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ContactSkeleton } from "@/components/ui/skeletons";
 
@@ -112,10 +111,8 @@ export default function ContactPage() {
           <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
             {contactLinks.map((link, index) => (
               <Link key={index} href={link.href} target="_blank" rel="noopener noreferrer" className="block w-full sm:w-[280px]">
-                <motion.div
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`flex flex-col items-center justify-center p-8 h-full rounded-2xl glass-panel hover-lift border transition-all duration-300 ${link.border} hover:border-purple-500/30 group cursor-pointer`}
+                <div
+                  className={`flex flex-col items-center justify-center p-8 h-full rounded-2xl glass-panel hover-lift border transition-all duration-300 ${link.border} hover:border-purple-500/30 group cursor-pointer hover:-translate-y-1 hover:scale-[1.02] active:scale-95`}
                 >
                   <div className={`p-4 rounded-full ${link.bg} ${link.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     {link.icon}
@@ -124,7 +121,7 @@ export default function ContactPage() {
                   <p className="text-sm text-muted-foreground text-center truncate w-full group-hover:text-foreground transition-colors duration-300">
                     {link.value}
                   </p>
-                </motion.div>
+                </div>
               </Link>
             ))}
           </div>
@@ -133,14 +130,12 @@ export default function ContactPage() {
         <RevealOnScroll delay={200}>
           <div className="mt-20 flex justify-center">
             <Link href="/">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-8 py-4 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-purple-500/20 btn-shimmer"
+              <button
+                className="inline-flex items-center gap-2 px-8 py-4 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-purple-500/20 btn-shimmer hover:scale-105 active:scale-95"
               >
                 <span>Back to Home</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </motion.button>
+              </button>
             </Link>
           </div>
         </RevealOnScroll>

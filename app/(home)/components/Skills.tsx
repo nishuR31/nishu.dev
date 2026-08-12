@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import { motion, Variants } from "framer-motion";
+import { useScrollReveal } from "@/lib/anime-utils";
 import { Boxes, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -48,33 +48,31 @@ const getLevelGradient = (bgClass: string): string => {
   return map[bgClass] || "from-zinc-500 to-cyan-400";
 };
 
-const containerAnimation: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
 
-const itemAnimation: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
-  },
-};
 
 const SkillBar: React.FC<{ percentage: number; gradient: string }> = ({ percentage, gradient }) => {
   return (
     <div className="h-1.5 bg-zinc-800/50 rounded-full overflow-hidden mt-2">
-      <motion.div
-        initial={{ width: 0 }}
-        whileInView={{ width: `${percentage}%` }}
-        viewport={{ once: true, margin: "-10%" }}
-        transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.15 }}
+      <div
         className={cn(
-          "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim",
+          "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim reveal-on-scroll transition-all duration-[1200ms] ease-out",
           gradient
         )}
+        style={{ width: "0%" }}
+        ref={(el) => {
+          if (el && el.getAttribute("data-state") === "visible") {
+            el.style.width = `${percentage}%`;
+          } else if (el) {
+            // Setup a fallback inline transition if data-state is attached via mutation observer
+            // Actually, a simpler way is to just use CSS vars:
+          }
+        }}
       />
+      <style jsx>{`
+        div[data-state="visible"] {
+          width: ${percentage}% !important;
+        }
+      `}</style>
     </div>
   );
 };
@@ -84,7 +82,7 @@ const SkillCard: React.FC<{ skill: Skill; bgClass: string }> = ({ skill, bgClass
   const gradient = getLevelGradient(bgClass);
 
   return (
-    <motion.div variants={itemAnimation} className="relative flex flex-col h-full">
+    <div className="relative flex flex-col h-full reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both">
       <div className="relative h-full p-4 rounded-xl border border-zinc-800/50 hover:border-zinc-500/30 transition-all duration-300 bg-card/30 backdrop-blur-sm group hover:shadow-[0_0_20px_rgba(168,85,247,0.08)]">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-base font-medium text-foreground/90">{skill.name}</h3>
@@ -106,7 +104,7 @@ const SkillCard: React.FC<{ skill: Skill; bgClass: string }> = ({ skill, bgClass
           <span className="font-medium text-zinc-400">{skill.level}</span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -144,6 +142,7 @@ const CategorySection: React.FC<{ category: SkillCategory }> = ({ category }) =>
 };
 
 const SkillsSection: React.FC = () => {
+  useScrollReveal();
   const { portfolioData, loading } = usePortfolio();
   const skills: SkillCategory[] = portfolioData?.skills ?? [];
 
@@ -152,38 +151,35 @@ const SkillsSection: React.FC = () => {
   return (
     <section className="py-24 cv-auto" id="skills">
       <div className="container mx-auto px-6">
-        <motion.div
-          variants={containerAnimation}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <div
           className="space-y-16"
         >
           <div className="max-w-2xl mx-auto text-center space-y-6">
-            <motion.div
-              variants={itemAnimation}
-              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm"
+            <div
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both"
             >
               <Cpu className="w-5 h-5" />
               <span className="text-sm font-medium">Skills &amp; Technologies</span>
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemAnimation} className="space-y-2">
+            <div className="space-y-2 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 delay-100 fill-mode-both">
               <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Technical Proficiency
               </h2>
               <p className="text-lg text-muted-foreground">
                 A comprehensive overview of my technical expertise across various development domains.
               </p>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div variants={containerAnimation} className="space-y-16">
+          <div className="space-y-16">
             {skills.map((category, index) => (
-              <CategorySection key={index} category={category} />
+              <div key={index} className="reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: `${200 + index * 100}ms` }}>
+                <CategorySection category={category} />
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

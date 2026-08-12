@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
 import { FooterNameSkeleton } from "@/components/ui/skeletons";
@@ -81,11 +80,8 @@ const Footer = () => {
   const isFakeFull = isCharging && percentage === 100;
 
   return (
-    <motion.footer
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20"
+    <footer
+      className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20 reveal-on-scroll opacity-0 data-[state=visible]:animate-in data-[state=visible]:fade-in duration-500 fill-mode-both"
     >
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
 
@@ -98,13 +94,7 @@ const Footer = () => {
         </div>
 
         <div className="flex justify-center mt-3">
-          <motion.div
-            animate={{ x: [0, 4, 0] }}
-            transition={{
-              duration: 1.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+          <div
             className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <span className="text-sm">
@@ -142,10 +132,10 @@ const Footer = () => {
                 <span>{isOnline ? "Online" : "Offline"}</span>
               </span>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 };
 

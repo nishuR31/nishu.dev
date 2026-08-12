@@ -1,9 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { usePortfolio } from "@/store";
-import { titleAnimation } from "./Animations";
 
 const SectionTitle = () => {
   const { portfolioData } = usePortfolio();
@@ -14,11 +12,8 @@ const SectionTitle = () => {
 };
 
 return (
-  <motion.div
-    initial="hidden"
-    animate="show"
-    variants={titleAnimation}
-    className="mb-16 space-y-6"
+  <div
+    className="mb-16 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
   >
     <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
       <div className="space-y-4 max-w-2xl">
@@ -72,7 +67,7 @@ return (
     </div>
 
     <div className="h-px w-full bg-gradient-to-r from-primary/5 via-primary/20 to-primary/5" />
-  </motion.div>
+  </div>
 );
 };
 export default SectionTitle;

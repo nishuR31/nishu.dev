@@ -12,8 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { prefersReducedMotion } from "@/lib/anime-utils";
-import { motion, Variants } from "framer-motion";
+import { prefersReducedMotion, useScrollReveal } from "@/lib/anime-utils";
 
 interface GithubRepo {
   id: number;
@@ -98,22 +97,18 @@ const ErrorAlert: React.FC<{ error: Error; onRetry: () => void }> = ({ error, on
   </Alert>
 );
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
-};
+
 
 const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ project }) => {
   const topics = project.topics || [];
   const langColor = project.language ? (languageColors[project.language] || "#8b5cf6") : null;
 
   return (
-    <motion.a
-      variants={itemVariants}
+    <a
       href={project.html_url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`relative group project-card ${project.size}`}
+      className={`relative group project-card ${project.size} reveal-on-scroll opacity-0 translate-y-4 scale-95 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 data-[state=visible]:zoom-in-95 duration-700 fill-mode-both`}
     >
       <div className="
         bg-card/80 border-border/60 border
@@ -211,11 +206,12 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };
 
 const GithubProjects: React.FC = () => {
+  useScrollReveal();
   const { portfolioData } = usePortfolio();
   const FEATURED_REPOS: string[] = portfolioData?.featuredProjects || [];
   const social = portfolioData?.social ?? {};
@@ -248,16 +244,7 @@ const GithubProjects: React.FC = () => {
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
   }, [data, page, FEATURED_REPOS]);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.1,
-      },
-    },
-  };
+
 
   const handleRetry = async () => {
     try {
@@ -288,11 +275,7 @@ const GithubProjects: React.FC = () => {
             </div>
 
             {/* Grid */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-5%" }}
+            <div
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 auto-rows-fr gap-3 sm:gap-4 w-full max-w-6xl mx-auto"
             >
               {isLoading
@@ -306,7 +289,7 @@ const GithubProjects: React.FC = () => {
                   : projects.map((project) => (
                     <ProjectCard key={project.id} project={project} />
                   ))}
-            </motion.div>
+            </div>
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-0">

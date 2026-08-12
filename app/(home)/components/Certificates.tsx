@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Award, ExternalLink, FileText, Image as ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import Carousel from "@/components/ui/carousel";
@@ -50,12 +49,7 @@ const CertificatesSection: React.FC = () => {
 
   if (loading) return <CertificatesSkeleton />;
 
-  const modalEnter = prefersReducedMotion()
-    ? { opacity: 1, scale: 1, y: 0 }
-    : { scale: 1, opacity: 1, y: 0 };
-  const modalExit = prefersReducedMotion()
-    ? { opacity: 0 }
-    : { scale: 0.95, opacity: 0, y: 20 };
+
 
   return (
     <section className="py-24 cv-auto" id="certificates">
@@ -161,23 +155,15 @@ const CertificatesSection: React.FC = () => {
       </div>
 
       {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedCert && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedCert(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-background/85 backdrop-blur-lg"
+      {selectedCert && (
+        <div
+          onClick={() => setSelectedCert(null)}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-background/85 backdrop-blur-lg animate-in fade-in duration-300"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl h-[85vh] flex flex-col glass-premium border border-zinc-500/20 rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
           >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={modalEnter}
-              exit={modalExit}
-              transition={{ type: "spring", duration: 0.4 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl h-[85vh] flex flex-col glass-premium border border-zinc-500/20 rounded-2xl overflow-hidden shadow-2xl"
-            >
               {/* Modal Header */}
               <div className="flex items-center justify-between p-4 md:px-6 border-b border-purple-500/10 backdrop-blur-sm z-10">
                 <div className="flex items-center gap-3">
@@ -239,10 +225,9 @@ const CertificatesSection: React.FC = () => {
                   </div>
                 )}
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

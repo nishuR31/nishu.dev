@@ -6,8 +6,7 @@ import {
   Atom, Monitor, Antenna, Code2, Database,
   Github, Pyramid, Server, Wind, Globe, Paintbrush,
 } from "lucide-react";
-import { prefersReducedMotion } from "@/lib/anime-utils";
-import { motion, Variants } from "framer-motion";
+import { prefersReducedMotion, useScrollReveal } from "@/lib/anime-utils";
 
 interface Skill {
   name: string;
@@ -34,6 +33,7 @@ const skills: Skill[] = [
 ];
 
 const SkillsShowcase: React.FC = () => {
+  useScrollReveal();
   const gridRef = useRef<HTMLDivElement>(null);
   const { currentTheme } = useTheme();
   const [isLight, setIsLight] = useState(false);
@@ -42,27 +42,7 @@ const SkillsShowcase: React.FC = () => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
-      },
-    },
-  };
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 24, rotateY: -8, scale: 0.92 },
-    show: {
-      opacity: 1,
-      y: 0,
-      rotateY: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
-  };
 
   return (
     <div className="w-full mt-20">
@@ -75,23 +55,18 @@ const SkillsShowcase: React.FC = () => {
           </div>
         </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-5%" }}
+        <div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
           style={{ gridAutoRows: "minmax(90px, auto)", gridAutoFlow: "row dense" }}
         >
-          {skills.map((skill) => {
+          {skills.map((skill, index) => {
             const accent = (isLight && skill.accentColor === "#ffffff") ? "#333333" : (skill.accentColor || "#a855f7");
 
             return (
-            <motion.div
-              variants={itemVariants}
+            <div
               key={skill.name}
-              className={`relative group skill-card ${skill.size}`}
-              style={{ perspective: "600px" }}
+              className={`relative group skill-card ${skill.size} reveal-on-scroll opacity-0 translate-y-4 scale-95 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 data-[state=visible]:zoom-in-95 duration-500 fill-mode-both`}
+              style={{ perspective: "600px", animationDelay: `${100 + index * 50}ms` }}
             >
               <div
                 className="
@@ -154,10 +129,10 @@ const SkillsShowcase: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
           })}
-        </motion.div>
+        </div>
       </div>
     </div>
   );

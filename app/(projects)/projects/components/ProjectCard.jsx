@@ -3,13 +3,10 @@ import React from "react";
 import Image from "next/image";
 import ImageWithAvif from "@/components/ImageWithAvif";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import { itemAnimation } from "./Animations";
 
 export const ProjectCard = ({ project, index }) => (
-  <motion.div
-    variants={itemAnimation}
+  <div
     className="flex flex-col items-stretch gap-6 p-4 transition-colors duration-300 group sm:flex-row lg:flex-row bg-secondary/5 hover:bg-secondary/10 rounded-xl"
   >
     <div className="md:w-1/3 lg:w-1/2">
@@ -75,5 +72,5 @@ export const ProjectCard = ({ project, index }) => (
         </Button>
       </div>
     </div>
-  </motion.div>
+  </div>
 );

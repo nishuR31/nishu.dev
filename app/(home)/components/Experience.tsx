@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { motion, Variants } from "framer-motion";
+import { useScrollReveal } from "@/lib/anime-utils";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
 import { usePortfolio } from "@/store";
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
@@ -15,22 +15,7 @@ interface Experience {
   technologies?: string[];
 }
 
-const containerAnimation: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
-};
 
-const itemAnimation: Variants = {
-  hidden: { opacity: 0, x: -24 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
-  },
-};
 
 const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
   return (
@@ -41,7 +26,7 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
       style={{ overflow: "visible" }}
       aria-hidden="true"
     >
-      <motion.line
+      <line
         x1="1"
         y1="0"
         x2="1"
@@ -49,11 +34,24 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
         stroke="url(#timelineGrad)"
         strokeWidth="2"
         strokeLinecap="round"
-        initial={{ strokeDasharray: height, strokeDashoffset: height }}
-        whileInView={{ strokeDashoffset: 0 }}
-        viewport={{ once: true, margin: "-5%" }}
-        transition={{ duration: 1.2, ease: "easeInOut" }}
+        className="reveal-on-scroll transition-all duration-[1200ms] ease-in-out"
+        style={{ strokeDasharray: height, strokeDashoffset: height }}
+        ref={(el) => {
+          if (el) {
+            // Using a tiny IntersectionObserver inside the ref or rely on global data-state
+            // If the element has data-state="visible", we apply style
+            // Actually, we can just use tailwind arbitrarily:
+            // But data-[state=visible] for arbitrary value needs to override style...
+            // Let's rely on standard class:
+          }
+        }}
+        // In order to make stroke-dashoffset transition to 0, we can use a class 
       />
+      <style jsx>{`
+        line[data-state="visible"] {
+          stroke-dashoffset: 0 !important;
+        }
+      `}</style>
       <defs>
         <linearGradient id="timelineGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#71717a" />
@@ -65,6 +63,7 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
 };
 
 const ExperienceSection: React.FC = () => {
+  useScrollReveal();
   const { portfolioData, loading } = usePortfolio();
   const experiences: Experience[] = portfolioData?.experiences ?? [];
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -82,30 +81,25 @@ const ExperienceSection: React.FC = () => {
   return (
     <section className="py-24 cv-auto" id="experience">
       <div className="container mx-auto px-6">
-        <motion.div
-          variants={containerAnimation}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <div
           className="space-y-16"
         >
           {/* Header */}
           <div className="max-w-2xl mx-auto text-center space-y-6">
-            <motion.div
-              variants={itemAnimation}
-              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm"
+            <div
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 fill-mode-both"
             >
               <Briefcase className="w-5 h-5" />
               <span className="text-sm font-medium">Professional Experience</span>
-            </motion.div>
-            <motion.div variants={itemAnimation} className="space-y-2">
+            </div>
+            <div className="space-y-2 reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 delay-100 fill-mode-both">
               <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Work Experience
               </h2>
               <p className="text-lg text-muted-foreground">
                 A journey through my professional career and key achievements
               </p>
-            </motion.div>
+            </div>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -113,12 +107,12 @@ const ExperienceSection: React.FC = () => {
               {/* Animated timeline connector */}
               <TimelineConnector height={connectorHeight} />
 
-              <motion.div variants={containerAnimation} className="space-y-8">
+              <div className="space-y-8">
                 {experiences.map((exp, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    variants={itemAnimation}
-                    className="relative"
+                    className="relative reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 fill-mode-both"
+                    style={{ animationDelay: `${200 + index * 150}ms` }}
                   >
                     <div className="flex gap-6">
                       {/* Timeline node */}
@@ -196,12 +190,12 @@ const ExperienceSection: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

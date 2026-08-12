@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { Settings, Trash2, RefreshCw, HardDrive, Database, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";

@@ -1,28 +1,13 @@
 "use client";
 import React, { useRef } from "react";
-import { motion, Variants } from "framer-motion";
+import { useScrollReveal } from "@/lib/anime-utils";
 import { UserCircle, Code2, Database, Layout, Zap } from "lucide-react";
 import { usePortfolio } from "@/store";
 import { AboutSkeleton } from "@/components/ui/skeletons";
 import { toast } from "sonner";
 import { useCountUp } from "@/lib/anime-utils";
 
-const containerAnimation: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
 
-const itemAnimation: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
-  },
-};
 
 /* Count-up number display */
 const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> = ({
@@ -47,6 +32,7 @@ const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> 
 };
 
 const AboutSection: React.FC = () => {
+  useScrollReveal();
   const { portfolioData, error, loading } = usePortfolio();
 
   if (loading) return <AboutSkeleton />;
@@ -64,33 +50,27 @@ const AboutSection: React.FC = () => {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <motion.div
-          variants={containerAnimation}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+        <div
           className="max-w-4xl mx-auto"
         >
           {/* Section Header */}
           <div className="text-center space-y-4 mb-16">
-            <motion.div
-              variants={itemAnimation}
-              className="inline-flex items-center space-x-2 bg-primary/10 border border-border px-4 py-2 rounded-full text-foreground backdrop-blur-sm"
+            <div
+              className="inline-flex items-center space-x-2 bg-primary/10 border border-border px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 fill-mode-both"
             >
               <UserCircle className="w-5 h-5" />
               <span className="text-sm font-medium">About Me</span>
-            </motion.div>
-            <motion.h2
-              variants={itemAnimation}
-              className="text-3xl md:text-5xl font-bold tracking-tight font-outfit gradient-heading"
+            </div>
+            <h2
+              className="text-3xl md:text-5xl font-bold tracking-tight font-outfit gradient-heading reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both"
             >
               My Journey &amp; Vision
-            </motion.h2>
+            </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
-            <motion.div variants={itemAnimation} className="space-y-6">
+            <div className="space-y-6 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
               {(portfolioData?.developer?.about ?? []).map((paragraph: string, idx: number) => (
                 <p
                   key={idx}
@@ -106,12 +86,11 @@ const AboutSection: React.FC = () => {
                 <CountUpStat target={projectCount} label="Projects" />
                 <CountUpStat target={10} suffix="+" label="Certificates" />
               </div>
-            </motion.div>
+            </div>
 
             {/* Bento philosophy card */}
-            <motion.div
-              variants={itemAnimation}
-              className="relative"
+            <div
+              className="relative reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-primary/10 rounded-3xl blur-2xl" />
               <div className="relative flex flex-col gap-4 glass-premium rounded-3xl p-6 border border-border overflow-hidden group">
@@ -158,9 +137,9 @@ const AboutSection: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

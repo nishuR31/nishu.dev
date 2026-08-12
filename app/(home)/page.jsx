@@ -27,7 +27,6 @@ const CertificatesSection = dynamic(() => import("./components/Certificates"), {
 
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { usePortfolio } from "@/store";
@@ -81,34 +80,26 @@ const Home = () => {
       {/* Footer CTAs */}
       <section className="py-16 pb-24">
         <div className="container px-6 mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-row justify-center gap-4"
+          <div
+            className="flex flex-row justify-center gap-4 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both"
           >
             <Link href="/projects">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer"
+              <button
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer hover:scale-105 active:scale-95"
               >
                 <span>View Projects</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </motion.button>
+              </button>
             </Link>
             <Link href="/certificates">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer"
+              <button
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer hover:scale-105 active:scale-95"
               >
                 <span>View Certificates</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </motion.button>
+              </button>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

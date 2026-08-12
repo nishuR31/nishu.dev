@@ -1,33 +1,5 @@
 import React, { useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
-
-const variants = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            duration: 0.8,
-            staggerChildren: 0.2,
-            ease: 'easeOut',
-        },
-    },
-};
-
-const blobVariants = {
-    hidden: {
-        opacity: 0,
-        scale: 0.8,
-    },
-    show: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-            duration: 1,
-            ease: 'easeOut',
-        },
-    },
-};
 
 const BackgroundEffects = ({
     className,
@@ -59,36 +31,31 @@ const BackgroundEffects = ({
     };
 
     return (
-        <motion.div
-            variants={variants}
-            initial="hidden"
-            animate="show"
+        <div
             className={cn(
-                'absolute inset-0 overflow-hidden pointer-events-none',
+                'absolute inset-0 overflow-hidden pointer-events-none animate-in fade-in duration-700',
                 className
             )}
         >
-            <motion.div
-                variants={blobVariants}
+            <div
                 className={cn(
-                    'absolute w-96 h-96 rounded-full',
+                    'absolute w-96 h-96 rounded-full animate-in fade-in zoom-in-75 duration-1000 fill-mode-both',
                     `bg-${colors.first}/${intensity}`,
                     `blur-${blurAmount}`,
                     positions[variant].first
                 )}
                 key={`blob-1-${colors.first}-${variant}`}
             />
-            <motion.div
-                variants={blobVariants}
+            <div
                 className={cn(
-                    'absolute w-96 h-96 rounded-full',
+                    'absolute w-96 h-96 rounded-full animate-in fade-in zoom-in-75 duration-1000 delay-200 fill-mode-both',
                     `bg-${colors.second}/${intensity}`,
                     `blur-${blurAmount}`,
                     positions[variant].second
                 )}
                 key={`blob-2-${colors.second}-${variant}`}
             />
-        </motion.div>
+        </div>
     );
 };
 

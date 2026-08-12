@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCcw, Settings } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -21,10 +20,8 @@ export default function Error({
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="relative z-10 max-w-lg w-full p-8 rounded-3xl glass-panel border border-red-500/20 text-center space-y-6"
+      <div
+        className="relative z-10 max-w-lg w-full p-8 rounded-3xl glass-panel border border-red-500/20 text-center space-y-6 animate-in fade-in zoom-in-95 duration-500 fill-mode-both"
       >
         <div className="w-20 h-20 mx-auto bg-red-500/10 rounded-full flex items-center justify-center text-red-500 border border-red-500/20 mb-6">
           <AlertTriangle className="w-10 h-10" />
@@ -67,7 +64,7 @@ export default function Error({
             </Button>
           </Link>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

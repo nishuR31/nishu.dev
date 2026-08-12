@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
 import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
-import { motion, Variants } from "framer-motion";
 import dynamic from "next/dynamic";
 import PageLoader from "@/components/ui/page-loader";
 import { usePortfolio } from "@/store";
@@ -29,55 +28,7 @@ const HeroSection: React.FC = () => {
 
 
 
-  // GSAP portrait parallax (existing, kept)
-  useEffect(() => {
-    let ctx: { revert: () => void } | undefined;
-    (async () => {
-      try {
-        const gsapModule = await import("gsap");
-        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
-        const gsap = gsapModule.default || gsapModule;
-        const ScrollTrigger =
-          (ScrollTriggerModule as Record<string, unknown>).ScrollTrigger ||
-          (ScrollTriggerModule as Record<string, unknown>).default ||
-          ScrollTriggerModule;
-        (gsap as { registerPlugin: (p: unknown) => void }).registerPlugin(ScrollTrigger);
-
-        ctx = (gsap as { context: (fn: () => void, scope: React.RefObject<HTMLElement | null>) => { revert: () => void } }).context(() => {
-          if (portraitWrapRef.current) {
-            (gsap as { to: (target: HTMLElement, opts: object) => void }).to(portraitWrapRef.current, {
-              yPercent: -6,
-              scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-              },
-            });
-          }
-        }, heroRef);
-      } catch {
-        // fail gracefully
-      }
-    })();
-
-    return () => { try { ctx?.revert(); } catch { /* ignore */ } };
-  }, []);
-
   const fullName = `Hi, I'm ${developer.name || "Nishan"}`;
-
-  const letterContainer: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.03, delayChildren: 0.2 },
-    },
-  };
-
-  const letterItem: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { ease: "easeOut", duration: 0.6 } },
-  };
 
   return (
     <section
@@ -116,26 +67,20 @@ const HeroSection: React.FC = () => {
               <span className="text-md font-medium">Welcome to my portfolio</span>
             </div>
 
-            {/* Gradient heading — Anime.js reveals letters */}
             <div className="space-y-4">
               <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl font-outfit">
-                <motion.span
-                  variants={letterContainer}
-                  initial="hidden"
-                  animate="show"
-                  className="block mb-2 gradient-heading flex-wrap justify-center flex"
-                >
+                <span className="block mb-2 gradient-heading flex-wrap justify-center flex">
                   {fullName.split("").map((ch, i) => (
-                    <motion.span
+                    <span
                       key={i}
-                      variants={letterItem}
-                      style={{ display: "inline-block" }}
+                      className="animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-500"
+                      style={{ display: "inline-block", animationDelay: `${200 + i * 30}ms` }}
                     >
                       {ch === " " ? "\u00A0" : ch}
-                    </motion.span>
+                    </span>
                   ))}
-                </motion.span>
-                <span className="block text-2xl hero-subtitle text-foreground/80 md:text-4xl mt-2">
+                </span>
+                <span className="block text-2xl hero-subtitle text-foreground/80 md:text-4xl mt-2 animate-in fade-in duration-700 delay-500 fill-mode-both">
                   {developer.tagline}
                 </span>
               </h1>
