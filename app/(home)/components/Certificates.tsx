@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Award, ExternalLink, FileText, Image as ImageIcon, X } from "lucide-react";
+import Image from "next/image";
 import Carousel from "@/components/ui/carousel";
 import { usePortfolio } from "@/store";
 import { prefersReducedMotion } from "@/lib/anime-utils";
@@ -113,7 +114,7 @@ const CertificatesSection: React.FC = () => {
                         style={{ aspectRatio: "3 / 2", overflow: "hidden" }}
                       >
                         {cert.isImage ? (
-                          <img src={cert.url} alt={cert.title} className="w-full h-auto min-h-full object-contain" />
+                          <Image src={cert.url} alt={cert.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain" />
                         ) : cert.isPdf ? (
                           <embed src={cert.url} type="application/pdf" className="w-full" style={{ minHeight: "100%", height: "500px" }} />
                         ) : (
@@ -214,13 +215,17 @@ const CertificatesSection: React.FC = () => {
               </div>
 
               {/* Modal Body */}
-              <div className="flex-1 bg-card/30 flex items-center justify-center p-4 overflow-hidden">
+              <div className="flex-1 bg-card/30 relative flex items-center justify-center p-4 overflow-hidden">
                 {selectedCert.isImage ? (
-                  <img
-                    src={selectedCert.url}
-                    alt={selectedCert.title}
-                    className="max-w-full max-h-full object-contain rounded-lg shadow-lg border border-border"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={selectedCert.url}
+                      alt={selectedCert.title}
+                      fill
+                      sizes="100vw"
+                      className="object-contain drop-shadow-lg"
+                    />
+                  </div>
                 ) : selectedCert.isPdf ? (
                   <iframe
                     src={selectedCert.url}

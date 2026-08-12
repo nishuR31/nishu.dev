@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
+import Image from "next/image";
 import { usePortfolio } from "@/store";
 import { CertificatesGridSkeleton } from "@/components/ui/skeletons";
 
@@ -79,10 +80,12 @@ const CertificatesGrid = () => {
                             {/* Preview */}
                             <div className="flex-1 my-4 flex items-center justify-center overflow-hidden rounded-xl bg-card/30 relative">
                                 {item.isImage ? (
-                                    <img
+                                    <Image
                                         src={item.url}
                                         alt={item.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 ) : item.isPdf ? (
                                     <div className="w-full h-full relative">

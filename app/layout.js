@@ -144,8 +144,6 @@ export default async function RootLayout({ children }) {
           }}
         />
         <link rel="preconnect" href="https://api.github.com" crossOrigin="true" />
-        <link rel="preload" as="image" href="/homepage.avif" />
-        <link rel="preload" as="image" href="/logo.avif" />
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}`} />
         <style
           dangerouslySetInnerHTML={
