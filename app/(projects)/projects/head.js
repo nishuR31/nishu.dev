@@ -1,6 +1,8 @@
 
+import fallbackData from "@/lib/portfolio-fallback";
+
 export default async function Head() {
-  let portfolioData = null;
+  let portfolioData = fallbackData.data || fallbackData;
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
     const res = await fetch(`${apiUrl}/portfolio`, { next: { revalidate: 3600 } });

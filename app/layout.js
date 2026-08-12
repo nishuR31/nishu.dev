@@ -10,7 +10,7 @@ import PageTopLoader from "@/components/Providers/PageTopLoader";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Providers from "@/components/reduxProvider";
-
+import fallbackData from "@/lib/portfolio-fallback";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -107,7 +107,7 @@ export const viewport = {
 };
 
 export default async function RootLayout({ children }) {
-  let portfolioData = null;
+  let portfolioData = fallbackData.data || fallbackData;
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
     const res = await fetch(`${apiUrl}/portfolio`, { next: { revalidate: 3600 } });

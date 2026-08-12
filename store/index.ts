@@ -81,7 +81,8 @@ export function usePortfolio() {
         let ignore = false;
 
         async function loadPortfolio() {
-            dispatch(fetchStart());
+            // Fetch silently in the background; don't trigger loading skeletons
+            // since we are already hydrated with fallback data.
 
             try {
                 const res = await fetch(`${api}/portfolio`, {
