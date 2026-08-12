@@ -82,7 +82,7 @@ const AboutSection: React.FC = () => {
             </motion.div>
             <motion.h2
               variants={itemAnimation}
-              className="text-3xl md:text-5xl font-bold tracking-tight font-['Outfit',sans-serif] gradient-heading"
+              className="text-3xl md:text-5xl font-bold tracking-tight font-outfit gradient-heading"
             >
               My Journey &amp; Vision
             </motion.h2>
@@ -131,7 +131,7 @@ const AboutSection: React.FC = () => {
                     <Database className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 font-['Outfit',sans-serif]">
+                    <h3 className="text-xl font-bold text-foreground mb-2 font-outfit">
                       Core Philosophy
                     </h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">

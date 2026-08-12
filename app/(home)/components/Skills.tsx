@@ -146,7 +146,7 @@ const CategorySection: React.FC<{ category: SkillCategory }> = ({ category }) =>
           <CategoryIcon className={cn("w-5 h-5", category.iconClass)} />
         </div>
         <div>
-          <h3 className="text-xl font-semibold text-foreground font-['Outfit',sans-serif]">
+          <h3 className="text-xl font-semibold text-foreground font-outfit">
             {category.title}
           </h3>
           <p className="text-sm text-muted-foreground">{category.description}</p>
@@ -188,7 +188,7 @@ const SkillsSection: React.FC = () => {
             </motion.div>
 
             <motion.div variants={itemAnimation} className="space-y-2">
-              <h2 className="text-3xl md:text-4xl font-bold font-['Outfit',sans-serif] gradient-heading">
+              <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Technical Proficiency
               </h2>
               <p className="text-lg text-muted-foreground">

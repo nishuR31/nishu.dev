@@ -54,7 +54,7 @@ export default function SettingsPage() {
             <div className="w-20 h-20 mx-auto bg-purple-500/10 rounded-full flex items-center justify-center text-purple-500 border border-purple-500/20 mb-6">
               <Settings className="w-10 h-10" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight font-['Outfit',sans-serif]">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight font-outfit">
               System <span className="gradient-heading">Settings</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">

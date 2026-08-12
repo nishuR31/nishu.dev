@@ -300,7 +300,7 @@ const GithubProjects: React.FC = () => {
                 <Github className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="text-xs sm:text-sm font-semibold">Latest Github Projects</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-['Outfit',sans-serif] gradient-heading px-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-outfit gradient-heading px-4">
                 Open Source Projects
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground px-4">

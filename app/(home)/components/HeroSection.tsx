@@ -17,9 +17,6 @@ const SkillsShowcase = dynamic(() => import("./SkillsShowcase"), {
   loading: () => <PageLoader />,
 });
 
-const ParticleCanvas = dynamic(() => import("@/components/ui/ParticleCanvas"), {
-  ssr: false,
-});
 
 const photoFrames = "/iitSitting.avif";
 
@@ -114,7 +111,6 @@ const HeroSection: React.FC = () => {
       className="min-h-[calc(100vh-140px)] flex items-center justify-center relative overflow-hidden"
     >
       <BackgroundPresets.Minimal />
-      <ParticleCanvas count={50} className="opacity-60" />
 
       <div className="container px-6 mx-auto">
         {loading ? (
@@ -161,7 +157,7 @@ const HeroSection: React.FC = () => {
 
             {/* Gradient heading — Anime.js reveals letters */}
             <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl font-['Outfit',sans-serif]">
+              <h1 className="text-4xl font-bold tracking-tight hero-title md:text-7xl font-outfit">
                 <span
                   ref={titleRef}
                   data-text={fullName}

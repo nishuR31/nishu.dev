@@ -67,7 +67,7 @@ const CertificatesSection: React.FC = () => {
             <span className="text-sm font-medium">Certifications</span>
           </div>
           <div className="space-y-2">
-            <h2 className="text-3xl md:text-4xl font-bold font-['Outfit',sans-serif] gradient-heading">
+            <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
               Certifications
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -127,7 +127,7 @@ const CertificatesSection: React.FC = () => {
 
                       {/* Footer */}
                       <div className="space-y-4">
-                        <h3 className="text-base font-semibold text-foreground line-clamp-2 min-h-[3rem] flex items-center leading-snug font-['Outfit',sans-serif]">
+                        <h3 className="text-base font-semibold text-foreground line-clamp-2 min-h-[3rem] flex items-center leading-snug font-outfit">
                           {cert.title}
                         </h3>
                         <div className="flex gap-2">
@@ -185,7 +185,7 @@ const CertificatesSection: React.FC = () => {
                     {selectedCert.isPdf ? <FileText className="w-5 h-5" /> : <ImageIcon className="w-5 h-5" />}
                   </div>
                   <div>
-                    <h4 className="text-sm md:text-base font-semibold text-foreground line-clamp-1 font-['Outfit',sans-serif]">
+                    <h4 className="text-sm md:text-base font-semibold text-foreground line-clamp-1 font-outfit">
                       {selectedCert.title}
                     </h4>
                     <p className="text-xs text-muted-foreground">

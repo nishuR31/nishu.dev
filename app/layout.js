@@ -1,5 +1,6 @@
 
 
+import { Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import GridPattern from "@/components/ui/grid-pattern";
@@ -16,6 +17,12 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -129,13 +136,7 @@ export default async function RootLayout({ children }) {
           content="rSkqz8nCSpNx7J3ztnKib9-KKI6qcCWQzM0Suz2Qa2I"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Google Fonts — preconnect for faster load */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
+
         {/* Blocking theme script: sets dark/light class before first paint to avoid FOUC */}
 
         <script
@@ -188,7 +189,7 @@ export default async function RootLayout({ children }) {
           }
         />
       </head>
-      < body className={`${geistSans.className} antialiased`}>
+      < body className={`${geistSans.className} ${outfit.variable} antialiased`}>
         <Providers>
           <AppEnhancements />
           < PageTopLoader />

@@ -17,6 +17,9 @@ export default{
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				outfit: ['var(--font-outfit)', 'sans-serif'],
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',

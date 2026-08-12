@@ -122,7 +122,7 @@ const ExperienceSection: React.FC = () => {
               <span className="text-sm font-medium">Professional Experience</span>
             </motion.div>
             <motion.div variants={itemAnimation} className="space-y-2">
-              <h2 className="text-3xl md:text-4xl font-bold font-['Outfit',sans-serif] gradient-heading">
+              <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Work Experience
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -167,7 +167,7 @@ const ExperienceSection: React.FC = () => {
                           <div className="relative z-10 pl-3">
                             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                               <div>
-                                <h3 className="text-xl font-bold text-foreground mb-1 font-['Outfit',sans-serif]">
+                                <h3 className="text-xl font-bold text-foreground mb-1 font-outfit">
                                   {exp.position}
                                 </h3>
                                 <p className="text-zinc-400/90 font-medium">{exp.company}</p>

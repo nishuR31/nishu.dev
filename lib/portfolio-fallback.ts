@@ -8,7 +8,7 @@ const data = {
             "shortName": "Nishu",
             "role": "Backend-Focused Software Engineering Student",
             "tagline": "Scalable APIs, secure auth, and modular backend systems.",
-            "bio": "Backend-focused software engineering student specializing in scalable REST API architecture, authentication systems, and modular backend design with performance-conscious routing, middleware orchestration, and robust error handling.",
+            "bio": "Backend focused software engineering student specializing in scalable REST API.",
             "location": "Raghunathpur, Purulia, West Bengal",
             "email": "nishan.developer.dev@gmail.com",
             "about": [

@@ -50,7 +50,7 @@ export default function NotFound() {
               <h1 className="text-zinc-500 dark:text-zinc-400 font-semibold tracking-wider uppercase text-2xl sm:text-3xl">
                 404 Error
               </h1>
-              <h1 className="font-bold tracking-tight text-foreground font-['Outfit',sans-serif] text-6xl sm:text-7xl md:text-8xl leading-[1.1]">
+              <h1 className="font-bold tracking-tight text-foreground font-outfit text-6xl sm:text-7xl md:text-8xl leading-[1.1]">
                 Page not <br className="hidden lg:block" /> found
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-md mx-auto lg:mx-0">

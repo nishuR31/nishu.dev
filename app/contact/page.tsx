@@ -97,7 +97,7 @@ export default function ContactPage() {
       <div className="container px-6 mx-auto relative z-10">
         <RevealOnScroll>
           <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-['Outfit',sans-serif]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-outfit">
               Let's <span className="gradient-heading">Connect</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">

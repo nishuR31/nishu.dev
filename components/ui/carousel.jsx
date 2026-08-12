@@ -258,6 +258,16 @@ export default function Carousel({
                             animate={{
                                 scale: activeIndex === index ? 1.2 : 1
                             }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Go to slide ${index + 1}`}
+                            aria-current={activeIndex === index ? "true" : "false"}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    setPosition(loop ? index + 1 : index);
+                                }
+                            }}
                             onClick={() => setPosition(loop ? index + 1 : index)}
                             transition={{ duration: 0.15 }}
                         />
