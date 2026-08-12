@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
 import { usePortfolio } from "@/store";
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
@@ -15,7 +15,7 @@ interface Experience {
   technologies?: string[];
 }
 
-const containerAnimation = {
+const containerAnimation: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -23,7 +23,7 @@ const containerAnimation = {
   },
 };
 
-const itemAnimation = {
+const itemAnimation: Variants = {
   hidden: { opacity: 0, x: -24 },
   show: {
     opacity: 1,

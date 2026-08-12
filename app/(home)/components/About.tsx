@@ -1,13 +1,13 @@
 "use client";
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { UserCircle, Code2, Database, Layout, Zap } from "lucide-react";
 import { usePortfolio } from "@/store";
 import { AboutSkeleton } from "@/components/ui/skeletons";
 import { toast } from "sonner";
 import { useCountUp } from "@/lib/anime-utils";
 
-const containerAnimation = {
+const containerAnimation: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -15,7 +15,7 @@ const containerAnimation = {
   },
 };
 
-const itemAnimation = {
+const itemAnimation: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,

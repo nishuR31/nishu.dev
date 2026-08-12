@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
 import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import dynamic from "next/dynamic";
 import PageLoader from "@/components/ui/page-loader";
 import { usePortfolio } from "@/store";
@@ -66,7 +66,7 @@ const HeroSection: React.FC = () => {
 
   const fullName = `Hi, I'm ${developer.name || "Nishan"}`;
 
-  const letterContainer = {
+  const letterContainer: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -74,7 +74,7 @@ const HeroSection: React.FC = () => {
     },
   };
 
-  const letterItem = {
+  const letterItem: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { ease: "easeOut", duration: 0.6 } },
   };

@@ -13,7 +13,7 @@ import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { prefersReducedMotion } from "@/lib/anime-utils";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface GithubRepo {
   id: number;
@@ -98,7 +98,7 @@ const ErrorAlert: React.FC<{ error: Error; onRetry: () => void }> = ({ error, on
   </Alert>
 );
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20, scale: 0.9 },
   show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
@@ -248,7 +248,7 @@ const GithubProjects: React.FC = () => {
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
   }, [data, page, FEATURED_REPOS]);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,

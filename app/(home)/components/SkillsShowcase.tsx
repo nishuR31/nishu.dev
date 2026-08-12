@@ -7,7 +7,7 @@ import {
   Github, Pyramid, Server, Wind, Globe, Paintbrush,
 } from "lucide-react";
 import { prefersReducedMotion } from "@/lib/anime-utils";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface Skill {
   name: string;
@@ -42,7 +42,7 @@ const SkillsShowcase: React.FC = () => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -53,7 +53,7 @@ const SkillsShowcase: React.FC = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 24, rotateY: -8, scale: 0.92 },
     show: {
       opacity: 1,
