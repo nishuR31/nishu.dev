@@ -1,12 +1,14 @@
 import { RootState } from "@/store/configStore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import fallbackData from "@/lib/portfolio-fallback";
+
 export interface PortfolioContext {
     [key: string]: any;
 }
 
-// Default shape ensures components never crash on null access
-export const DEFAULT_PORTFOLIO: PortfolioContext = {
+// Default shape ensures components never crash on null access, now hydrated with pre-fetched data
+export const DEFAULT_PORTFOLIO: PortfolioContext = fallbackData.data || {
     developer: {
         name: "",
         shortName: "",
