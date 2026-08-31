@@ -108,24 +108,26 @@ export default function NotFound() {
 
             {/* Back Links */}
             <div className="pt-4 flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Link href="/">
-                <Button
-                  variant="ghost"
-                  className="rounded-full px-6 py-5 text-muted-foreground hover:text-foreground hover:bg-zinc-500/10 group"
-                >
+              <Button
+                asChild
+                variant="ghost"
+                className="rounded-full px-6 py-5 text-muted-foreground hover:text-foreground hover:bg-zinc-500/10 group"
+              >
+                <Link href="/">
                   <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                   Go back
-                </Button>
-              </Link>
-              <Link href="/">
-                <Button
-                  variant="outline"
-                  className="rounded-full px-6 py-5 glass-panel border-zinc-500/30 text-foreground hover:bg-foreground/5"
-                >
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full px-6 py-5 glass-panel border-zinc-500/30 text-foreground hover:bg-foreground/5"
+              >
+                <Link href="/">
                   <Home className="w-4 h-4 mr-2" />
                   Take me home
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
 

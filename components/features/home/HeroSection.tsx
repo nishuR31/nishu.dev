@@ -99,16 +99,17 @@ const HeroSection: React.FC = () => {
 
             {/* CTA */}
             <div className="flex flex-wrap justify-center gap-4 pt-6 hero-actions animate-in fade-in slide-in-from-bottom-2 duration-700 delay-500 fill-mode-both">
-              <Link href="/projects">
-                <Button
-                  variant="outline"
-                  Icon={ArrowRight}
-                  iconPlacement="right"
-                  className="group px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full glass-panel text-foreground bg-foreground/5 hover:border-foreground/5"
-                >
+              <Button
+                asChild
+                variant="outline"
+                Icon={ArrowRight}
+                iconPlacement="right"
+                className="group px-6 py-6 text-base font-semibold transition-all duration-300 rounded-full glass-panel text-foreground bg-foreground/5 hover:border-foreground/5"
+              >
+                <Link href="/projects">
                   View Projects
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
 
             <div className="absolute inset-0 pointer-events-none -z-10 animate-in fade-in duration-1000 delay-700 fill-mode-both">

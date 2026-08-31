@@ -77,7 +77,33 @@ export function usePortfolio() {
     const loading = useSelector(portfolioLoading);
     const error = useSelector(portfolioError);
 
-    // Fetch removed: Hydrated on server via reduxProvider.jsx
+    const isMounted = useRef(false);
+    useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+
+        // If after mount we are still loading, it means server hydration failed/timed out.
+        // We must fetch on the client to avoid being stuck on blank UI skeletons.
+        if (loading) {
+            const fetchData = async () => {
+                dispatch(fetchStart());
+                try {
+                    const res = await fetch(`${api}/portfolio`);
+                    if (res.ok) {
+                        const json = await res.json();
+                        dispatch(fetchSuccess(json.data ?? json));
+                    } else {
+                        dispatch(fetchFailure("Failed to load portfolio data"));
+                    }
+                } catch (err) {
+                    dispatch(fetchFailure("Network error"));
+                }
+            };
+            fetchData();
+        }
+    }, [dispatch, loading]);
 
     return {
         portfolioData,

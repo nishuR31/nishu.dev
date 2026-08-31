@@ -53,16 +53,17 @@ export default function Error({
             Try Again
           </Button>
           
-          <Link href="/settings" className="w-full sm:w-auto">
-            <Button
-              variant="default"
-              Icon={Settings}
-              iconPlacement="left"
-              className="w-full sm:w-auto px-6 py-6 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
-            >
+          <Button
+            asChild
+            variant="default"
+            Icon={Settings}
+            iconPlacement="left"
+            className="w-full sm:w-auto px-6 py-6 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
+          >
+            <Link href="/settings" className="w-full sm:w-auto">
               Go to Settings
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

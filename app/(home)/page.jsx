@@ -69,20 +69,20 @@ const Home = async () => {
             className="flex flex-row justify-center gap-4 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both"
           >
             <Link href="/projects">
-              <button
+              <div
                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer hover:scale-105 active:scale-95"
               >
                 <span>View Projects</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </div>
             </Link>
             <Link href="/certificates">
-              <button
+              <div
                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full group glass-premium text-foreground hover-lift border border-border btn-shimmer hover:scale-105 active:scale-95"
               >
                 <span>View Certificates</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </div>
             </Link>
           </div>
         </div>

@@ -56,11 +56,11 @@ const NotFound = ({ slug }: { slug: string }) => (
     <p className="text-muted-foreground max-w-md">
       We couldn&apos;t find a project matching &quot;{slug}&quot;. It might have been renamed or moved.
     </p>
-    <Link href="/projects">
-      <Button variant="outline" className="rounded-full px-6">
+    <Button asChild variant="outline" className="rounded-full px-6">
+      <Link href="/projects">
         <ArrowLeft className="w-4 h-4 mr-2" /> Back to Projects
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   </div>
 );
 

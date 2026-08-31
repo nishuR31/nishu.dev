@@ -1,4 +1,4 @@
-
+export const dynamic = "force-dynamic";
 
 import { Outfit } from "next/font/google";
 import localFont from "next/font/local";
@@ -52,7 +52,6 @@ export const metadata = {
   publisher: "Nishan Rajak",
   applicationName: "Nishan Portfolio",
   category: "technology",
-
   referrer: "origin-when-cross-origin",
   formatDetection: {
     email: true,
@@ -87,12 +86,6 @@ export const metadata = {
         height: 630,
         alt: "Homepage preview - Nishan Rajak Portfolio",
       },
-      {
-        url: "/logo.avif",
-        width: 1200,
-        height: 630,
-        alt: "Nishan Rajak Portfolio",
-      },
     ],
   },
   twitter: {
@@ -100,7 +93,7 @@ export const metadata = {
     title: "Nishan Rajak | Backend Engineer Portfolio",
     description:
       "Backend-focused portfolio with projects, experience, and interactive UI by Nishan Rajak.",
-    images: ["/homepage.avif", "/logo.avif"],
+    images: ["/homepage.avif"],
     creator: "@nishuR31",
   },
   icons: {
@@ -115,12 +108,14 @@ export const viewport = {
 };
 
 export default async function RootLayout({ children }) {
+  // Always fetch fresh — ensures Redux is always seeded server-side
   const portfolioData = await getPortfolioData();
 
   const developer = portfolioData?.developer ?? { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
   const social = portfolioData?.social ?? { github: "nishuR31", linkedin: "nishan-rajak" };
+
   return (
-    <html lang="en" suppressHydrationWarning >
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta
           name="google-site-verification"
@@ -128,24 +123,21 @@ export default async function RootLayout({ children }) {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* Blocking theme script: sets dark/light class before first paint to avoid FOUC */}
-
+        {/* Blocking theme script: sets dark/light class before first paint */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');var resolved=t==='light'||t==='dark'?t:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.classList.add(resolved);}catch(e){}})();`,
           }}
         />
-        <link rel="preconnect" href="https://api.github.com" crossOrigin="true" />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}`} />
+        <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://nishudevportfolio.vercel.app"}`} />
         <style
-          dangerouslySetInnerHTML={
-            {
-              __html:
-                ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
-            }
-          }
+          dangerouslySetInnerHTML={{
+            __html:
+              ".hero-title{font-size:28px;line-height:1.05;margin:0 0 8px}.hero-subtitle{font-size:16px;margin:0}.hero-portrait-wrap{min-height:200px}.container{padding-left:1.5rem;padding-right:1.5rem}@media(min-width:768px){.hero-title{font-size:56px}.hero-subtitle{font-size:24px}}",
+          }}
         />
-        < script
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -156,14 +148,13 @@ export default async function RootLayout({ children }) {
                   "@id": "https://nishudevportfolio.vercel.app/#person",
                   name: developer.name,
                   url: "https://nishudevportfolio.vercel.app",
-                  mainEntityOfPage: "https://nishudevportfolio.vercel.app",
                   email: developer.email,
                   jobTitle: "Backend Developer",
                   image: "https://nishudevportfolio.vercel.app/logo.avif",
                   sameAs: [
                     `https://github.com/${social.github}`,
-                    `https://linkedin.com/in/${social.linkedin}`
-                  ]
+                    `https://linkedin.com/in/${social.linkedin}`,
+                  ],
                 },
                 {
                   "@type": "WebSite",
@@ -171,39 +162,34 @@ export default async function RootLayout({ children }) {
                   name: developer.name + " Portfolio",
                   url: "https://nishudevportfolio.vercel.app",
                   publisher: {
-                    "@id": "https://nishudevportfolio.vercel.app/#person"
-                  }
-                }
-              ]
-            })
-          }
-          }
+                    "@id": "https://nishudevportfolio.vercel.app/#person",
+                  },
+                },
+              ],
+            }),
+          }}
         />
       </head>
-      < body className={`${geistSans.className} ${outfit.variable} antialiased`}>
+      <body className={`${geistSans.className} ${outfit.variable} antialiased`}>
         <Providers initialData={portfolioData}>
           <AppEnhancements />
-          < PageTopLoader />
+          <PageTopLoader />
           <Header />
-
-
-          < main id="main" > {children} </main>
+          <main id="main">{children}</main>
           <AssistantWidget />
-          < Footer />
+          <Footer />
           <SonnerToaster />
-          < GridPattern
+          <GridPattern
             width={200}
             height={200}
-            x={- 1}
-            y={- 1}
-            className={
-              cn(
-                "[mask-image:linear-gradient(to_bottom,white,transparent)]",
-              )
-            }
+            x={-1}
+            y={-1}
+            className={cn(
+              "[mask-image:linear-gradient(to_bottom,white,transparent)]"
+            )}
           />
         </Providers>
       </body>
     </html>
   );
-};
+}
