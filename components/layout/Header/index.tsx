@@ -8,7 +8,7 @@ import Link from "next/link";
 import { prefersReducedMotion } from "@/lib/anime-utils";
 import { NavSkeleton } from "@/components/ui/skeletons";
 import { usePathname } from "next/navigation";
-import ThemeToggle from "../ui/theme-toggle";
+import ThemeToggle from "@/components/ui/theme-toggle";
 
 interface NavItem {
   href: string;

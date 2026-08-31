@@ -1,4 +1,4 @@
- like "use client";
+"use client";
 import React from "react";
 import Image from "next/image";
 import ImageWithAvif from "@/components/ImageWithAvif";

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, useMotionValue, useTransform } from 'motion/react';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { Circle, Code2, FileText, Layers, Layout } from 'lucide-react';
 
 import './carousel.css';
