@@ -181,7 +181,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       < body className={`${geistSans.className} ${outfit.variable} antialiased`}>
-        <Providers>
+        <Providers initialData={portfolioData}>
           <AppEnhancements />
           < PageTopLoader />
           <Header />

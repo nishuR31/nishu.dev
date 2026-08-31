@@ -4,13 +4,18 @@ import React from "react";
 
 import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
 import Image from "next/image";
-import { usePortfolio } from "@/store";
-import { CertificatesGridSkeleton } from "@/components/ui/skeletons";
+import { usePortfolio } from "../../../store";
+import { CertificatesGridSkeleton } from "../../../components/ui/skeletons";
 
 import { toast } from "sonner";
 
 // Utility to extract information from certificate URL
-const getCertificateInfo = (url) => {
+interface RawCertificate {
+    url: string;
+    [key: string]: any;
+}
+
+const getCertificateInfo = (url: string) => {
     try {
         const decoded = decodeURIComponent(url);
         const fileName = decoded.substring(decoded.lastIndexOf("/") + 1);
@@ -24,21 +29,24 @@ const getCertificateInfo = (url) => {
     }
 };
 
-
-
 const CertificatesGrid = () => {
-
     const { portfolioData, loading, error } = usePortfolio();
 
-    const rawCertificates = portfolioData?.certificates ?? [];
-    const certificates = rawCertificates.map((c) => getCertificateInfo(c.url));
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error);
+        }
+    }, [error]);
+
+    const rawCertificates: RawCertificate[] = (portfolioData?.certificates as RawCertificate[]) ?? [];
+    const certificates = rawCertificates.map((c: RawCertificate) => getCertificateInfo(c.url));
 
     if (loading) {
         return <CertificatesGridSkeleton />;
     }
 
     if (error) {
-        return toast.error(error)
+        return null;
     }
 
     return (
@@ -50,7 +58,7 @@ const CertificatesGrid = () => {
                 <div
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-in fade-in duration-500 fill-mode-both"
                 >
-                    {certificates.map((item, idx) => (
+                    {certificates.map((item: ReturnType<typeof getCertificateInfo>, idx: number) => (
                         <article
                             key={idx}
                             style={{ animationDelay: `${idx * 100}ms` }}

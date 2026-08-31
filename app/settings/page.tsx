@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { Settings, Trash2, RefreshCw, HardDrive, Database, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import RevealOnScroll from "@/components/ui/reveal-on-scroll";
+import { Button } from "../../components/ui/button";
+import RevealOnScroll from "../../components/ui/reveal-on-scroll";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { clear } from "@/slices/portfolioSlice";
+import { clear } from "../../slices/portfolioSlice";
 
 export default function SettingsPage() {
   const dispatch = useDispatch();

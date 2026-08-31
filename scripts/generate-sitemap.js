@@ -17,7 +17,7 @@ async function generateSitemap() {
       { href: "/contact" }
     ];
 
-    const staticRoutes = ["", ...navItems.map((item) => item.href)];
+    const staticRoutes = ["", ...navItems.map((item) => item.href).filter((href) => !href.includes("#"))];
 
     const urls = staticRoutes.map((route) => {
       const url = `${FRONTEND_URL}${route}`;

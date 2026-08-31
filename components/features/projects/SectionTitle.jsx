@@ -1,13 +1,14 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import { ArrowRight } from "lucide-react";
-import { usePortfolio } from "@/store";
+import { usePortfolio } from "../../../store";
 
 const SectionTitle = () => {
   const { portfolioData } = usePortfolio();
   const social = portfolioData?.social ?? {};
 
   const projCount = portfolioData?.projects?.length ?? 5;
+  const yearsExp = Math.max(1, Math.round((new Date().getTime() - new Date("2023-08-01").getTime()) / (1000 * 60 * 60 * 24 * 365.25)));
 
   const handleGithub=()=>{
   window.open(`https://github.com/${social.github}`, "_blank");
@@ -38,16 +39,8 @@ return (
           onClick={handleGithub}
           iconPlacement="right"
           className="w-full md:w-auto rounded-2xl px-4 sm:px-5 py-5 sm:py-6 text-sm sm:text-base transition-all duration-300 shadow-lg shadow-primary/5 hover:shadow-primary/10"
-          asChild
         >
-          {/* <a
-            href={`https://github.com/${config.social.github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium"
-          > */}
-            View Github
-          {/* </a> */}
+          View Github
         </Button>
       </div>
     </div>
@@ -61,7 +54,7 @@ return (
       </div>
       <div className="w-px h-8 sm:h-10 bg-primary/10 flex-shrink-0" />
       <div className="space-y-1 flex-shrink-0">
-        <span className="text-xl sm:text-2xl font-bold text-primary">&lt;2</span>
+        <span className="text-xl sm:text-2xl font-bold text-primary">{yearsExp}+</span>
         <p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
           Years Experience
         </p>

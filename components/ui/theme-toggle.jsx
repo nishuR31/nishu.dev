@@ -28,7 +28,6 @@ export default function ThemeToggle() {
         : <Monitor className="h-4 w-4" />;
 
   const next = modes[(modes.indexOf(active) + 1) % modes.length];
-  console.table({ theme: next });
 
   return (
     <button

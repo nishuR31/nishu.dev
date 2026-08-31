@@ -42,8 +42,8 @@ const AboutSection: React.FC = () => {
   }
 
   const projectCount = portfolioData?.projects?.length ?? 0;
-
   const certCount = portfolioData?.certificates?.length ?? 0;
+  const yearsExp = Math.max(1, Math.round((new Date().getTime() - new Date("2023-08-01").getTime()) / (1000 * 60 * 60 * 24 * 365.25)));
 
   return (
     <section className="py-24 relative overflow-hidden" id="about">
@@ -84,10 +84,30 @@ const AboutSection: React.FC = () => {
 
               {/* Animated counters */}
               <div className="pt-4 border-t border-border flex space-x-8">
-                <CountUpStat target={2} label="Years Exp." />
+                <CountUpStat target={yearsExp} label="Years Exp." />
                 <CountUpStat target={projectCount} label="Projects" />
                 <CountUpStat target={certCount} suffix="+" label="Certificates" />
               </div>
+
+              {/* Core Strengths */}
+              {(portfolioData?.strengths ?? []).length > 0 && (
+                <div className="pt-4 space-y-2">
+                  <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-amber-500" />
+                    Key Strengths & Core Competencies
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {(portfolioData?.strengths ?? []).map((str: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 text-xs font-medium bg-primary/10 border border-primary/20 rounded-full text-foreground"
+                      >
+                        {str}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Bento philosophy card */}

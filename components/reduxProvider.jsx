@@ -5,8 +5,13 @@ import { store } from "@/store/configStore";
 import { fetchSuccess, fetchFailure, fetchStart } from "@/slices/portfolioSlice";
 import { useEffect, useRef } from "react";
 
-export default function Providers({ children }) {
+export default function Providers({ children, initialData }) {
   const initialized = useRef(false);
+
+  if (!initialized.current && initialData) {
+    store.dispatch(fetchSuccess(initialData));
+    initialized.current = true;
+  }
 
   useEffect(() => {
     if (initialized.current) return;

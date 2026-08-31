@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import ImageWithAvif from "@/components/ImageWithAvif";
-import { Button } from "@/components/ui/button";
+import ImageWithAvif from "../../ImageWithAvif";
+import { Button } from "../../ui/button";
 import { ExternalLink } from "lucide-react";
 
 export const ProjectCard = ({ project, index }) => (

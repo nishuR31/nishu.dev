@@ -5,16 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2 } from "lucide-react";
 import Link from "next/link";
 import { BackgroundPresets } from "@/components/ui/background-effects";
-import dynamic from "next/dynamic";
-import PageLoader from "@/components/ui/page-loader";
+import SkillsShowcase from "./SkillsShowcase";
 import { usePortfolio } from "@/store";
 import { prefersReducedMotion } from "@/lib/anime-utils";
 import { HeroSkeleton } from "@/components/ui/skeletons";
-
-const SkillsShowcase = dynamic(() => import("./SkillsShowcase"), {
-  ssr: false,
-  loading: () => <PageLoader />,
-});
 
 
 const photoFrames = "/iitSitting.avif";

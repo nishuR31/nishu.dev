@@ -6,14 +6,8 @@ import ExperienceSection from "@/components/features/home/Experience";
 import SkillsSection from "@/components/features/home/Skills";
 import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
-const GithubProjects = dynamic(() => import("@/components/features/home/GithubProjects"), {
-  ssr: false,
-  loading: () => <div className="h-96 animate-pulse bg-card/50 rounded-2xl" />, // Simple fallback
-});
-const CertificatesSection = dynamic(() => import("@/components/features/home/Certificates"), {
-  ssr: false,
-  loading: () => <CertificatesSkeleton />,
-});
+import GithubProjects from "@/components/features/home/GithubProjects";
+import CertificatesSection from "@/components/features/home/Certificates";
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";

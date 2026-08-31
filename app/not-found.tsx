@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Search, ArrowLeft, Home, Settings, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 
 const SITE_LINKS = [
   { title: "Home", url: "/", description: "Back to the main portfolio page" },

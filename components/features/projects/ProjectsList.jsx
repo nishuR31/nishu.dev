@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { ProjectCard } from './ProjectCard';
-import { ProjectsListSkeleton } from '@/components/ui/skeletons';
+import { ProjectsListSkeleton } from '../../ui/skeletons';
 
 export const ProjectsList = ({ projects, loading }) => {
     if (loading) return <ProjectsListSkeleton count={4} />;

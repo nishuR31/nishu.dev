@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { usePortfolio } from "@/store";
+import { usePortfolio } from "../../store";
 import { Github, Linkedin, Mail, Globe, Twitter, ArrowRight, Code, Bug } from "lucide-react";
-import RevealOnScroll from "@/components/ui/reveal-on-scroll";
+import RevealOnScroll from "../../components/ui/reveal-on-scroll";
 import Link from "next/link";
-import { ContactSkeleton } from "@/components/ui/skeletons";
+import { ContactSkeleton } from "../../components/ui/skeletons";
 
 export default function ContactPage() {
   const { portfolioData, loading } = usePortfolio();
