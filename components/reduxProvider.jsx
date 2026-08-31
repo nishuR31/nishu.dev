@@ -15,7 +15,7 @@ export default function Providers({ children }) {
     async function loadData() {
       store.dispatch(fetchStart());
       try {
-        const api = process.env.NEXT_PUBLIC_API_URL;
+        const api = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND;
         if (!api) throw new Error("Backend is not Integrated Yet !");
         const res = await fetch(`${api}/portfolio`);
         if (!res.ok) throw new Error("Failed to fetch");

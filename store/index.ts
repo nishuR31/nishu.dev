@@ -16,7 +16,7 @@ import {
 
 import { setTheme, ThemeMode, getTheme } from "@/slices/themeSlice";
 
-const api = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
+const api = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND || "https://nishu-dev-api.onrender.com";
 
 const getStoredTheme = (): ThemeMode | null => {
     if (typeof window === "undefined") return null;

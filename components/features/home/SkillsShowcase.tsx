@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "@/store";
+import { useTheme, usePortfolio } from "@/store";
 import {
   Atom, Monitor, Antenna, Code2, Database,
   Github, Pyramid, Server, Wind, Globe, Paintbrush,

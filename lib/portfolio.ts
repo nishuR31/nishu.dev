@@ -1,6 +1,6 @@
 export async function getPortfolioData() {
   try {
-    const api = process.env.NEXT_PUBLIC_API_URL;
+    const api = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND;
     if (!api) {
       throw new Error("Backend is not Integrated Yet !");
     }
