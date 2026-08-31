@@ -4,12 +4,19 @@ export async function getPortfolioData() {
     if (!api) {
       throw new Error("Backend is not Integrated Yet !");
     }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const res = await fetch(`${api}/portfolio`, {
+      signal: controller.signal,
       next: {
         revalidate: 3600,
         tags: ["portfolio"],
       },
     });
+
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       return null;
