@@ -1,84 +1,98 @@
 # nishu.dev Project Context (LLM Token-Optimized)
-# Format: Compact YAML-like DSL | Version: 1.0.0 | Updated: 2026-08-31
+# Format: Compact YAML-like DSL | Version: 2.0.0 | Updated: 2026-08-31
 
 PROJECT:
   name: nishu.dev
-  type: Next.js Portfolio Web App
-  owner: Nishan Rajak (Backend Engineer / Student @ ICFAI Univ Jharkhand)
+  type: Next.js 14 Portfolio Web App (App Router, JS/TS hybrid)
+  owner: Nishan Rajak (Backend-Focused Software Engineering Student @ ICFAI Univ Jharkhand)
   repo: nishuR31/nishu.dev
   live_url: https://nishudevportfolio.vercel.app
   api_default: https://nishu-dev-api.onrender.com
+  branch_active: test-branch (deployed to Vercel; push test-branch:main to promote to prod)
 
 TECH_STACK:
-  framework: Next.js 16.2.1 (App Router, JS/TS hybrid)
+  framework: Next.js 14.2.15 (App Router, Static Site Generation + SSR)
   react: 18.3.1
-  state: Redux Toolkit 2.12.0 (@reduxjs/toolkit, react-redux 9.3.0)
-  styling: TailwindCSS 3.4.14 + styled-components 6.5.1 + tailwindcss-animate + lucide-react
-  data_fetching: useSWR 2.4.1 + standard fetch API
-  image_format: AVIF (public/projects/*.avif, logo-84.avif, logo-180.avif, logo.avif)
-  package_manager: bun (bun.lock authoritative, package-lock.json present)
+  typescript: 5.6.2 (in dependencies — NOT devDependencies, required for Vercel build)
+  state: Redux Toolkit 2.12.0 + react-redux 9.3.0
+  styling: TailwindCSS 3.4.14 + styled-components 6.5.1 + tailwindcss-animate
+  fonts: GeistVF (local), Outfit (Google Fonts)
+  image_format: AVIF (logo.avif, logo-84.avif, logo-180.avif, iitSitting.avif, projects/*.avif)
+  package_manager: bun (authoritative bun.lock; package-lock.json removed)
+  build_cmd: "bun run build" (runs: rm -rf .next && next build)
 
 ENV_VARS:
-  NEXT_PUBLIC_API_URL: Backend API root (default: https://nishu-dev-api.onrender.com)
+  NEXT_PUBLIC_API_URL: Backend API root (optional; default: https://nishu-dev-api.onrender.com)
+  NEXT_PUBLIC_BACKEND: Alias for API URL (optional fallback)
   NEXT_PUBLIC_FRONTEND_URL: Site canonical root (default: https://nishudevportfolio.vercel.app)
   NEXT_PUBLIC_SERVICE_ID: EmailJS service key
   NEXT_PUBLIC_TEMPLATE_ID: EmailJS template key
   NEXT_PUBLIC_PUBLIC_KEY: EmailJS public key
 
 ROUTING_STRUCTURE:
-  app/layout.js: Root layout, fonts (GeistVF, Outfit), providers, structured JSON-LD, global grid background
-  app/(home)/page.jsx: Home route (/), lazy section rendering, footer CTAs
-  app/(projects)/projects/page.jsx: All projects grid (/projects)
-  app/(certificates)/certificates/page.jsx: Certificate showcase (/certificates)
-  app/contact/page.tsx: Contact form page (/contact)
-  app/settings/page.tsx: Settings page (/settings)
-  app/not-found.tsx: 404 error handler
-  app/error.tsx: Runtime boundary error fallback
+  app/layout.js: Root layout — SSR fetchPortfolioData(), seeds Redux via <Providers initialData={...}>
+  app/(home)/page.jsx: Home (/) — Hero, About, Experience, GithubProjects, Skills, Certificates sections
+  app/experience/page.tsx: [NEW] Dedicated /experience page — SSR timeline + full write-up
+  app/(projects)/projects/page.tsx: /projects — client component, reads from Redux (usePortfolio)
+  app/(projects)/projects/[slug]/page.tsx: /projects/[slug] — SSR initial project, client hydration fallback
+  app/(certificates)/certificates/page.tsx: /certificates — certificate grid
+  app/contact/page.tsx: /contact — contact form (EmailJS)
+  app/settings/page.tsx: /settings — theme settings
+  app/not-found.tsx: 404 handler
+  app/error.tsx: Runtime error boundary
 
 STATE_MANAGEMENT:
-  store/configStore.ts: Redux store setup (portfolioSlice, themeSlice)
-  store/index.ts: Custom hooks (`useTheme`, `usePortfolio`)
-  slices/portfolioSlice.ts: Redux slice (`portfolioData`, `portfolioLoading`, `portfolioError`)
-  slices/themeSlice.ts: Redux slice (`theme`: "dark" | "light" | "system")
+  store/configStore.ts: Redux store setup (portfolioSlice + themeSlice)
+  store/index.ts: Custom hooks — useTheme, usePortfolio (read-only selectors from Redux)
+  slices/portfolioSlice.ts: portfolio data, loading, error state (DEFAULT_PORTFOLIO = empty schema)
+  slices/themeSlice.ts: "dark" | "light" | "system" theme
+  components/reduxProvider.jsx: [CRITICAL] Seeds Redux synchronously from SSR initialData; if null → client retry (3 attempts, 20s timeout each)
 
-CORE_COMPONENTS:
-  components/Header/index.tsx: Responsive navbar, logo, theme toggle, mobile drawer
-  components/Footer/index.jsx: Social links, copyright, quick links
-  components/ui/page-loader.jsx: Modal loader overlay (styled-components + bg-black/80)
-  components/ui/mouse-glow.jsx: Mouse glow tracker (React state mousemove listener)
-  components/ui/background-effects.jsx: Ambient glow background gradients
-  components/ui/reveal-on-scroll.jsx: IntersectionObserver scroll reveal wrapper
-  components/ui/skeletons.jsx: Loading skeletons for About, Hero, Experience, Projects
-  components/ImageWithAvif.jsx: Dynamic webp to avif fallback image wrapper
+DATA_SEEDING_FLOW:
+  1. app/layout.js runs getPortfolioData() server-side (3 retries × 30s timeout)
+  2. initialData passed to <Providers initialData={...}>
+  3. reduxProvider.jsx dispatches fetchSuccess(initialData) SYNCHRONOUSLY before first paint
+  4. If initialData null (API cold start): client-side fetchWithRetry fires after mount (3×20s)
+  5. Components use usePortfolio() → read from Redux; show skeleton if loading=true
 
-DATA_SCHEMA (lib/portfolio-fallback.ts):
+API_DATA_SCHEMA (nishu-dev-api.onrender.com/portfolio → { success, data: {...} }):
   developer: { name, shortName, role, tagline, bio, location, email, about[] }
-  featuredProjects: string[] (project identifiers)
-  social: { github, discord, linkedin, leetcode, hackerone }
-  NAV_ITEMS: { href, label }[]
-  projects: { id, title, description, image, technologies[], github, demo }[]
-  skills: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }[]
-  experiences: { position, company, period, location, description, responsibilities[], technologies[] }[]
-  contactInfo: { iconKey, label, value, link }[]
-  certificates: { url }[] (30 items)
+  featuredProjects: string[]
+  social: { email, github, discord, linkedin, leetcode, hackerone, twitter }
+  NAV_ITEMS: { href, label }[]  [includes /experience now]
+  recentTracks: boolean
+  projects[12]: {
+    id, title, description, image, technologies[], github, demo,
+    problem, solution, role, timeline, highlights[], categories[]  [NEW FIELDS]
+  }
+  skills[4]: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }
+  experiences[2]: { position, company, period, location, description, responsibilities[], technologies[] }
+  contactInfo[]: { iconKey, label, value, link }
+  certificates[30]: { url }
   additionalProjects: string[]
   strengths: string[]
 
-AUDIT_DEFECTS_AND_BOTTLENECK_MAP:
-  DEFECT_1: `usePortfolio()` in store/index.ts executes un-cached `fetch('/portfolio', {cache:'no-store'})` in 13+ component useEffects.
-  DEFECT_2: app/(home)/page.jsx wraps home sections (About, Experience, Skills, Certs, Github) in dynamic(..., {ssr:false, loading: PageLoader}).
-  DEFECT_3: components/ui/page-loader.jsx uses `fixed inset-0 bg-black/80` causing light-theme viewport darkening during section loads.
-  DEFECT_4: app/(home)/components/GithubProjects.tsx fetches `per_page=${6*page}` then filters, causing missing repos & broken `(data.length > projects.length)` Load More condition.
-  DEFECT_5: Fallback data lists `/projects/project-1.webp` while disk assets are `/projects/project-1.avif`.
-  DEFECT_6: Hardcoded stats in About.tsx (10+ certs vs 30 actual) & SectionTitle.jsx (5+ projects, <1 yr exp).
-  DEFECT_7: Dual source of truth for skills in SkillsShowcase.tsx vs portfolio-fallback.ts.
-  DEFECT_8: MouseGlow.jsx triggers 60fps React state renders on mousemove instead of RAF/ref direct DOM update.
-  DEFECT_9: Lockfile drift (package.json vs package-lock.json/bun.lock for typescript 5.9/7.0 & eslint 9/10).
-  DEFECT_10: `next lint` script obsolete in Next 16 (switch to `eslint .`).
+KEY_COMPONENTS:
+  components/reduxProvider.jsx: Provider wrapper + data seeding (CRITICAL PATH)
+  components/features/home/HeroSection.tsx: Shows HeroSkeleton while loading
+  components/features/home/About.tsx: Shows AboutSkeleton while loading
+  components/features/home/Experience.tsx: Shows ExperienceSkeleton; also on /experience page
+  components/features/home/Skills.tsx: Shows SkillsSkeleton while loading
+  components/features/home/Certificates.tsx: Shows CertificatesSkeleton while loading
+  components/features/projects/ProjectDetailView.tsx: [RICH] Client component — renders problem/solution/role/highlights/tech
+  components/features/projects/ProjectsList.jsx: Project cards grid
+  components/ui/skeletons.jsx: All skeleton loaders (HeroSkeleton, AboutSkeleton, etc.)
+  lib/portfolio.ts: Server-side getPortfolioData() — 3 retries × 30s timeout
+  lib/slug-utils.ts: getProjectSlugs(p) — generates all slug aliases for a project (hyphen, compact, repo name, id)
 
-ARCHITECTURE_TARGET_STATE:
-  SERVER_FETCH: Single cached server function `getPortfolioData()` in `lib/portfolio.ts` (revalidate: 3600).
-  SSR_FIRST: Server render Hero, About, Experience, Skills. Hydrate Github & Certificate islands on client.
-  GITHUB_SERVER_CACHE: Server endpoint `getGithubRepos()` fetching 100 repos, cached 1hr, local UI filtering/slicing.
-  CERT_SCHEMA_ENHANCEMENT: Explicit `{id, title, issuer, category, issuedAt, featured, url}` schema. Show 6 featured on homepage, 30 on /certificates page.
-  PROOF_OF_WORK: Structured experience items with type (internship/hackathon/freelance), verifiable links, achievements.
+VERCEL_DEPLOYMENT:
+  vercel.json: { framework: nextjs, buildCommand: "bun run build", installCommand: "rm -rf node_modules && bun install", outputDirectory: ".next" }
+  KNOWN_ISSUE: Vercel build cache can corrupt node_modules; vercel.json installCommand forces wipe
+  KNOWN_ISSUE: Render free tier cold-starts (30-50s); lib/portfolio.ts retries handle this at build time
+  KNOWN_ISSUE: TypeScript must be in "dependencies" (not devDependencies) for Vercel bun build to find it
+  ACTIVE_BRANCH: test-branch → push to main to trigger production build
+
+BUILD_STATS (last clean build):
+  Pages: 38/38 static (including /experience + all project slug aliases)
+  Exit code: 0
+  First Load JS shared: 87.2 kB

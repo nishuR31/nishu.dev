@@ -2,6 +2,7 @@ import React from "react";
 import { getPortfolioData } from "@/lib/portfolio";
 import ProjectDetailView from "@/components/features/projects/ProjectDetailView";
 import { getProjectSlugs } from "@/lib/slug-utils";
+import type { Metadata } from "next";
 
 export const dynamicParams = true;
 
@@ -16,19 +17,44 @@ export async function generateStaticParams() {
       params.push({ slug });
     }
   }
-
   return params;
 }
 
-export default async function ProjectDetail({ params }: { params: { slug: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const data = await getPortfolioData();
   const projects = data?.projects || [];
   const targetSlug = params.slug.toLowerCase();
 
-  const initialProject = projects.find((p: any) => {
-    const slugs = getProjectSlugs(p);
-    return slugs.includes(targetSlug);
-  });
+  const project = projects.find((p: any) =>
+    getProjectSlugs(p).includes(targetSlug)
+  );
+
+  if (!project) {
+    return { title: "Project Not Found" };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+  };
+}
+
+export default async function ProjectDetail({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const data = await getPortfolioData();
+  const projects = data?.projects || [];
+  const targetSlug = params.slug.toLowerCase();
+
+  const initialProject = projects.find((p: any) =>
+    getProjectSlugs(p).includes(targetSlug)
+  );
 
   return <ProjectDetailView initialProject={initialProject} slug={params.slug} />;
 }
