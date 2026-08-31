@@ -35,7 +35,7 @@ const AboutSection: React.FC = () => {
   useScrollReveal();
   const { portfolioData, error, loading } = usePortfolio();
 
-  if (loading && !portfolioData?.developer?.name) return <AboutSkeleton />;
+  if (loading || !portfolioData?.developer?.name) return <AboutSkeleton />;
 
   const projectCount = portfolioData?.projects?.length ?? 0;
   const certCount = portfolioData?.certificates?.length ?? 0;

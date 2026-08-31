@@ -24,7 +24,8 @@ export async function getPortfolioData() {
       if (res.ok) {
         const json = await res.json();
         const data = json.data ?? json;
-        if (data && Object.keys(data).length > 0) {
+        // Validate that it's an actual portfolio payload by checking for developer.name
+        if (data && data.developer && data.developer.name) {
           return data;
         }
       }

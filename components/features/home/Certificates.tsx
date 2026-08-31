@@ -55,7 +55,7 @@ const CertificatesSection: React.FC = () => {
   const categories = ["All", ...Array.from(new Set(certificates.map((c) => c.category || "Other")))];
   const filteredCerts = activeCategory === "All" ? certificates : certificates.filter((c) => (c.category || "Other") === activeCategory);
 
-  if (loading) return <CertificatesSkeleton />;
+  if (loading || !portfolioData?.developer?.name) return <CertificatesSkeleton />;
 
 
 

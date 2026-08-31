@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
       <BackgroundPresets.Minimal />
 
       <div className="container px-6 mx-auto">
-        {loading ? (
+        {loading || !portfolioData?.developer?.name ? (
           <HeroSkeleton />
         ) : (
           <div className="relative max-w-3xl mx-auto space-y-8 text-center">

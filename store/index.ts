@@ -71,6 +71,8 @@ export function useTheme(theme?: ThemeMode) {
     };
 }
 
+let isFetchingPortfolio = false;
+
 export function usePortfolio() {
     const dispatch = useDispatch<AppDispatch>();
     const portfolioData = useSelector(portfolio);
@@ -80,24 +82,32 @@ export function usePortfolio() {
     useEffect(() => {
         // If on mount we are still loading, it means server hydration failed/timed out.
         // We must fetch on the client to avoid being stuck on blank UI skeletons.
-        if (loading) {
+        if (loading && !isFetchingPortfolio) {
+            isFetchingPortfolio = true;
             const fetchData = async () => {
                 dispatch(fetchStart());
                 try {
                     const res = await fetch(`${api}/portfolio`);
                     if (res.ok) {
                         const json = await res.json();
-                        dispatch(fetchSuccess(json.data ?? json));
+                        const data = json.data ?? json;
+                        if (data && data.developer && data.developer.name) {
+                            dispatch(fetchSuccess(data));
+                        } else {
+                            dispatch(fetchFailure("Invalid portfolio data received"));
+                        }
                     } else {
                         dispatch(fetchFailure("Failed to load portfolio data"));
                     }
                 } catch (err) {
                     dispatch(fetchFailure("Network error"));
+                } finally {
+                    isFetchingPortfolio = false;
                 }
             };
             fetchData();
         }
-    }, []);
+    }, [dispatch, loading]);
 
     return {
         portfolioData,

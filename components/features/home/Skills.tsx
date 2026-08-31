@@ -146,7 +146,7 @@ const SkillsSection: React.FC = () => {
   const { portfolioData, loading } = usePortfolio();
   const skills: SkillCategory[] = portfolioData?.skills ?? [];
 
-  if (loading) return <SkillsSkeleton />;
+  if (loading || !portfolioData?.developer?.name) return <SkillsSkeleton />;
 
   return (
     <section className="py-24 cv-auto" id="skills">

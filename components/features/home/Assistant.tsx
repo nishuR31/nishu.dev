@@ -11,7 +11,7 @@ export default function AssistantWidget() {
   const [input, setInput] = useState("");
   const { portfolioData, loading } = usePortfolio();
 
-  if (loading) return null;
+  if (loading || !portfolioData?.developer?.name) return null;
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();

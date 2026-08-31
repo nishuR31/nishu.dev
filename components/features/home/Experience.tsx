@@ -80,7 +80,7 @@ const ExperienceSection: React.FC = () => {
     setConnectorHeight(el.offsetHeight - 48);
   }, [experiences.length]);
 
-  if (loading) return <ExperienceSkeleton />;
+  if (loading || !portfolioData?.developer?.name) return <ExperienceSkeleton />;
   if (!experiences || experiences.length === 0) return null;
 
   return (
