@@ -1,4 +1,4 @@
-import { RootState } from "@/store/configStore";
+import type { RootState } from "@/store/configStore";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface PortfolioContext {
