@@ -1,6 +1,7 @@
 import React from "react";
 import { getPortfolioData } from "@/lib/portfolio";
-import ProjectDetailView, { getProjectSlugs } from "@/components/features/projects/ProjectDetailView";
+import ProjectDetailView from "@/components/features/projects/ProjectDetailView";
+import { getProjectSlugs } from "@/lib/slug-utils";
 
 export const dynamicParams = true;
 
