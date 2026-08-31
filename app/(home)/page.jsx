@@ -1,39 +1,32 @@
-"use client";
 import React from "react";
 import dynamic from "next/dynamic";
-import HeroSection from "./components/HeroSection";
-import PageLoader from "@/components/ui/page-loader";
+import HeroSection from "@/components/features/home/HeroSection";
+import AboutSection from "@/components/features/home/About";
+import ExperienceSection from "@/components/features/home/Experience";
+import SkillsSection from "@/components/features/home/Skills";
+import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
-const GithubProjects = dynamic(() => import("./components/GithubProjects"), {
+const GithubProjects = dynamic(() => import("@/components/features/home/GithubProjects"), {
   ssr: false,
-  loading: () => <PageLoader />,
+  loading: () => <div className="h-96 animate-pulse bg-card/50 rounded-2xl" />, // Simple fallback
 });
-const AboutSection = dynamic(() => import("./components/About"), {
+const CertificatesSection = dynamic(() => import("@/components/features/home/Certificates"), {
   ssr: false,
-  loading: () => <PageLoader />,
+  loading: () => <CertificatesSkeleton />,
 });
-const ExperienceSection = dynamic(() => import("./components/Experience"), {
-  ssr: false,
-  loading: () => <PageLoader />,
-});
-const SkillsSection = dynamic(() => import("./components/Skills"), {
-  ssr: false,
-  loading: () => <PageLoader />,
-});
-const CertificatesSection = dynamic(() => import("./components/Certificates"), {
-  ssr: false,
-  loading: () => <PageLoader />,
-});
-
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import RevealOnScroll from "@/components/ui/reveal-on-scroll";
-import { usePortfolio } from "@/store";
+import { getPortfolioData } from "@/lib/portfolio";
+import { getGithubRepos } from "@/lib/github";
 
-const Home = () => {
-  const { portfolioData } = usePortfolio();
+const Home = async () => {
+  const portfolioData = await getPortfolioData();
   const developer = portfolioData?.developer ?? {};
+  const social = portfolioData?.social ?? {};
+  
+  const githubRepos = social.github ? await getGithubRepos(social.github) : [];
 
   const personSchema = {
     "@context": "https://schema.org",
@@ -56,8 +49,6 @@ const Home = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
 
-
-
       <RevealOnScroll>
         <HeroSection />
       </RevealOnScroll>
@@ -68,7 +59,7 @@ const Home = () => {
         <ExperienceSection />
       </RevealOnScroll>
       <RevealOnScroll delay={120}>
-        <GithubProjects />
+        <GithubProjects initialRepos={githubRepos} />
       </RevealOnScroll>
       <RevealOnScroll delay={160}>
         <SkillsSection />

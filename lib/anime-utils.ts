@@ -73,27 +73,5 @@ export function useCountUp(
  * Custom hook to add a 'data-state="visible"' attribute to elements when they scroll into view.
  */
 export function useScrollReveal(options = { threshold: 0.1, rootMargin: "0px" }) {
-  useEffect(() => {
-    if (prefersReducedMotion()) {
-      document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
-        el.setAttribute("data-state", "visible");
-      });
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.setAttribute("data-state", "visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, options);
-
-    document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [options.threshold, options.rootMargin]);
+  // Deprecated: Handled by RevealOnScroll component
 }

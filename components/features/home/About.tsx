@@ -43,6 +43,8 @@ const AboutSection: React.FC = () => {
 
   const projectCount = portfolioData?.projects?.length ?? 0;
 
+  const certCount = portfolioData?.certificates?.length ?? 0;
+
   return (
     <section className="py-24 relative overflow-hidden" id="about">
       {/* Ambient glow */}
@@ -84,7 +86,7 @@ const AboutSection: React.FC = () => {
               <div className="pt-4 border-t border-border flex space-x-8">
                 <CountUpStat target={2} label="Years Exp." />
                 <CountUpStat target={projectCount} label="Projects" />
-                <CountUpStat target={10} suffix="+" label="Certificates" />
+                <CountUpStat target={certCount} suffix="+" label="Certificates" />
               </div>
             </div>
 

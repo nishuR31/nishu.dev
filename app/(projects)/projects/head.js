@@ -1,18 +1,8 @@
 
-import fallbackData from "@/lib/portfolio-fallback";
+import { getPortfolioData } from "@/lib/portfolio";
 
 export default async function Head() {
-  let portfolioData = fallbackData.data || fallbackData;
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
-    const res = await fetch(`${apiUrl}/portfolio`, { next: { revalidate: 3600 } });
-    if (res.ok) {
-      const data = await res.json();
-      portfolioData = data?.data || data;
-    }
-  } catch (error) {
-    console.error("Failed to fetch portfolio data for head", error);
-  }
+  const portfolioData = await getPortfolioData();
 
   const developer = portfolioData?.developer ?? {};
   const projects = portfolioData?.projects ?? [];

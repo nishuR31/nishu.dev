@@ -1,0 +1,84 @@
+# nishu.dev Project Context (LLM Token-Optimized)
+# Format: Compact YAML-like DSL | Version: 1.0.0 | Updated: 2026-08-31
+
+PROJECT:
+  name: nishu.dev
+  type: Next.js Portfolio Web App
+  owner: Nishan Rajak (Backend Engineer / Student @ ICFAI Univ Jharkhand)
+  repo: nishuR31/nishu.dev
+  live_url: https://nishudevportfolio.vercel.app
+  api_default: https://nishu-dev-api.onrender.com
+
+TECH_STACK:
+  framework: Next.js 16.2.1 (App Router, JS/TS hybrid)
+  react: 18.3.1
+  state: Redux Toolkit 2.12.0 (@reduxjs/toolkit, react-redux 9.3.0)
+  styling: TailwindCSS 3.4.14 + styled-components 6.5.1 + tailwindcss-animate + lucide-react
+  data_fetching: useSWR 2.4.1 + standard fetch API
+  image_format: AVIF (public/projects/*.avif, logo-84.avif, logo-180.avif, logo.avif)
+  package_manager: bun (bun.lock authoritative, package-lock.json present)
+
+ENV_VARS:
+  NEXT_PUBLIC_API_URL: Backend API root (default: https://nishu-dev-api.onrender.com)
+  NEXT_PUBLIC_FRONTEND_URL: Site canonical root (default: https://nishudevportfolio.vercel.app)
+  NEXT_PUBLIC_SERVICE_ID: EmailJS service key
+  NEXT_PUBLIC_TEMPLATE_ID: EmailJS template key
+  NEXT_PUBLIC_PUBLIC_KEY: EmailJS public key
+
+ROUTING_STRUCTURE:
+  app/layout.js: Root layout, fonts (GeistVF, Outfit), providers, structured JSON-LD, global grid background
+  app/(home)/page.jsx: Home route (/), lazy section rendering, footer CTAs
+  app/(projects)/projects/page.jsx: All projects grid (/projects)
+  app/(certificates)/certificates/page.jsx: Certificate showcase (/certificates)
+  app/contact/page.tsx: Contact form page (/contact)
+  app/settings/page.tsx: Settings page (/settings)
+  app/not-found.tsx: 404 error handler
+  app/error.tsx: Runtime boundary error fallback
+
+STATE_MANAGEMENT:
+  store/configStore.ts: Redux store setup (portfolioSlice, themeSlice)
+  store/index.ts: Custom hooks (`useTheme`, `usePortfolio`)
+  slices/portfolioSlice.ts: Redux slice (`portfolioData`, `portfolioLoading`, `portfolioError`)
+  slices/themeSlice.ts: Redux slice (`theme`: "dark" | "light" | "system")
+
+CORE_COMPONENTS:
+  components/Header/index.tsx: Responsive navbar, logo, theme toggle, mobile drawer
+  components/Footer/index.jsx: Social links, copyright, quick links
+  components/ui/page-loader.jsx: Modal loader overlay (styled-components + bg-black/80)
+  components/ui/mouse-glow.jsx: Mouse glow tracker (React state mousemove listener)
+  components/ui/background-effects.jsx: Ambient glow background gradients
+  components/ui/reveal-on-scroll.jsx: IntersectionObserver scroll reveal wrapper
+  components/ui/skeletons.jsx: Loading skeletons for About, Hero, Experience, Projects
+  components/ImageWithAvif.jsx: Dynamic webp to avif fallback image wrapper
+
+DATA_SCHEMA (lib/portfolio-fallback.ts):
+  developer: { name, shortName, role, tagline, bio, location, email, about[] }
+  featuredProjects: string[] (project identifiers)
+  social: { github, discord, linkedin, leetcode, hackerone }
+  NAV_ITEMS: { href, label }[]
+  projects: { id, title, description, image, technologies[], github, demo }[]
+  skills: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }[]
+  experiences: { position, company, period, location, description, responsibilities[], technologies[] }[]
+  contactInfo: { iconKey, label, value, link }[]
+  certificates: { url }[] (30 items)
+  additionalProjects: string[]
+  strengths: string[]
+
+AUDIT_DEFECTS_AND_BOTTLENECK_MAP:
+  DEFECT_1: `usePortfolio()` in store/index.ts executes un-cached `fetch('/portfolio', {cache:'no-store'})` in 13+ component useEffects.
+  DEFECT_2: app/(home)/page.jsx wraps home sections (About, Experience, Skills, Certs, Github) in dynamic(..., {ssr:false, loading: PageLoader}).
+  DEFECT_3: components/ui/page-loader.jsx uses `fixed inset-0 bg-black/80` causing light-theme viewport darkening during section loads.
+  DEFECT_4: app/(home)/components/GithubProjects.tsx fetches `per_page=${6*page}` then filters, causing missing repos & broken `(data.length > projects.length)` Load More condition.
+  DEFECT_5: Fallback data lists `/projects/project-1.webp` while disk assets are `/projects/project-1.avif`.
+  DEFECT_6: Hardcoded stats in About.tsx (10+ certs vs 30 actual) & SectionTitle.jsx (5+ projects, <1 yr exp).
+  DEFECT_7: Dual source of truth for skills in SkillsShowcase.tsx vs portfolio-fallback.ts.
+  DEFECT_8: MouseGlow.jsx triggers 60fps React state renders on mousemove instead of RAF/ref direct DOM update.
+  DEFECT_9: Lockfile drift (package.json vs package-lock.json/bun.lock for typescript 5.9/7.0 & eslint 9/10).
+  DEFECT_10: `next lint` script obsolete in Next 16 (switch to `eslint .`).
+
+ARCHITECTURE_TARGET_STATE:
+  SERVER_FETCH: Single cached server function `getPortfolioData()` in `lib/portfolio.ts` (revalidate: 3600).
+  SSR_FIRST: Server render Hero, About, Experience, Skills. Hydrate Github & Certificate islands on client.
+  GITHUB_SERVER_CACHE: Server endpoint `getGithubRepos()` fetching 100 repos, cached 1hr, local UI filtering/slicing.
+  CERT_SCHEMA_ENHANCEMENT: Explicit `{id, title, issuer, category, issuedAt, featured, url}` schema. Show 6 featured on homepage, 30 on /certificates page.
+  PROOF_OF_WORK: Structured experience items with type (internship/hackathon/freelance), verifiable links, achievements.

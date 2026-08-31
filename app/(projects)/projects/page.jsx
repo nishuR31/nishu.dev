@@ -2,8 +2,8 @@
 import React from "react";
 import BackgroundEffects from "@/components/ui/background-effects";
 import { usePortfolio } from "@/store";
-import SectionTitle from "./components/SectionTitle";
-import { ProjectsList } from "./components/ProjectsList";
+import SectionTitle from "@/components/features/projects/SectionTitle";
+import { ProjectsList } from "@/components/features/projects/ProjectsList";
 
 const ProjectsPage = () => {
   const { portfolioData, loading } = usePortfolio();

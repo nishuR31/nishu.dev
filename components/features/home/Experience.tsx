@@ -6,13 +6,18 @@ import { usePortfolio } from "@/store";
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
 
 interface Experience {
-  position: string;
-  company: string;
-  period: string;
-  location?: string;
+  id?: string;
+  title?: string;
+  organization?: string;
+  role?: string;
+  period?: any;
+  position?: string;
+  company?: string;
   description?: string;
   responsibilities?: string[];
+  achievements?: string[];
   technologies?: string[];
+  location?: string;
 }
 
 
@@ -34,7 +39,7 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
         stroke="url(#timelineGrad)"
         strokeWidth="2"
         strokeLinecap="round"
-        className="reveal-on-scroll transition-all duration-[1200ms] ease-in-out"
+        className="reveal-on-scroll transition-all duration-1000 ease-in-out"
         style={{ strokeDasharray: height, strokeDashoffset: height }}
         ref={(el) => {
           if (el) {
@@ -139,14 +144,14 @@ const ExperienceSection: React.FC = () => {
                             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                               <div>
                                 <h3 className="text-xl font-bold text-foreground mb-1 font-outfit">
-                                  {exp.position}
+                                  {exp.title || exp.role || exp.position}
                                 </h3>
-                                <p className="text-zinc-400/90 font-medium">{exp.company}</p>
+                                <p className="text-zinc-400/90 font-medium">{exp.organization || exp.company}</p>
                               </div>
                               <div className="flex flex-col gap-1 items-start md:items-end text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
                                   <Calendar className="w-4 h-4" />
-                                  <span>{exp.period}</span>
+                                  <span>{typeof exp.period === "string" ? exp.period : `${exp.period?.start} - ${exp.period?.end || "Present"}`}</span>
                                 </div>
                                 {exp.location && (
                                   <div className="flex items-center gap-2">
@@ -163,9 +168,9 @@ const ExperienceSection: React.FC = () => {
                               </p>
                             )}
 
-                            {exp.responsibilities && exp.responsibilities.length > 0 && (
+                            {(exp.achievements || exp.responsibilities) && (exp.achievements || exp.responsibilities || []).length > 0 && (
                               <ul className="space-y-2">
-                                {exp.responsibilities.map((r, idx) => (
+                                {(exp.achievements || exp.responsibilities || []).map((r, idx) => (
                                   <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
                                     <span className="text-zinc-400/70 mt-1.5">▸</span>
                                     <span>{r}</span>

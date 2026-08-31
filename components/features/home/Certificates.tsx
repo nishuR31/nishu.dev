@@ -8,30 +8,35 @@ import { prefersReducedMotion } from "@/lib/anime-utils";
 import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
 interface CertInfo {
+  id?: string;
   title: string;
+  issuer?: string;
+  category?: string;
+  issuedAt?: string;
+  featured?: boolean;
   isImage: boolean;
   isPdf: boolean;
   url: string;
 }
 
-const getCertificateInfo = (url: string): CertInfo => {
-  try {
-    const decoded = decodeURIComponent(url);
-    const fileName = decoded.substring(decoded.lastIndexOf("/") + 1);
-    const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
-    const cleanTitle = nameWithoutExt.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
-    const isImage = /\.(png|jpg|jpeg)$/i.test(url);
-    const isPdf = /\.pdf$/i.test(url);
-    return { title: cleanTitle, isImage, isPdf, url };
-  } catch {
-    return { title: "Certificate", isImage: false, isPdf: true, url };
-  }
+const getCertificateInfo = (cert: any): CertInfo => {
+  const url = cert.url || "";
+  const isImage = /\.(png|jpg|jpeg|webp|avif)$/i.test(url);
+  const isPdf = /\.pdf$/i.test(url);
+  return {
+    ...cert,
+    title: cert.title || "Certificate",
+    isImage,
+    isPdf,
+    url
+  };
 };
 
 const CertificatesSection: React.FC = () => {
   const { portfolioData, loading } = usePortfolio();
   const [width, setWidth] = useState(600);
   const [selectedCert, setSelectedCert] = useState<CertInfo | null>(null);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     const updateWidth = () => {
@@ -45,7 +50,10 @@ const CertificatesSection: React.FC = () => {
   }, []);
 
   const rawCertificates = portfolioData?.certificates ?? [];
-  const certificates: CertInfo[] = rawCertificates.map((c: { url: string }) => getCertificateInfo(c.url));
+  const certificates: CertInfo[] = rawCertificates.map(getCertificateInfo);
+
+  const categories = ["All", ...Array.from(new Set(certificates.map((c) => c.category || "Other")))];
+  const filteredCerts = activeCategory === "All" ? certificates : certificates.filter((c) => (c.category || "Other") === activeCategory);
 
   if (loading) return <CertificatesSkeleton />;
 
@@ -70,6 +78,22 @@ const CertificatesSection: React.FC = () => {
           </div>
         </div>
 
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeCategory === category
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-card border border-border text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
         <div className="flex justify-center items-center">
           <div className="w-full min-w-screen flex justify-center">
             <div
@@ -77,8 +101,9 @@ const CertificatesSection: React.FC = () => {
               style={{ height: `${Math.max(300, Math.round((width * 2) / 3))}px` }}
             >
               <Carousel
+                key={activeCategory} // Force re-render of carousel when category changes
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                items={certificates as any}
+                items={filteredCerts as any}
                 baseWidth={width}
                 autoplay
                 autoplayDelay={3000}

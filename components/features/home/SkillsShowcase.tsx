@@ -15,34 +15,46 @@ interface Skill {
   accentColor?: string;
 }
 
-const skills: Skill[] = [
-  { name: "React.js", icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#61dafb" },
-  { name: "Express", icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
-  { name: "MongoDB", icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#4db33d" },
-  { name: "Node.js", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#8cc84b" },
-  { name: "GitHub", icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
-  { name: "Tailwind", icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#38bdf8" },
-  { name: "Postman", icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ff6c37" },
-  { name: "Prisma", icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
-  { name: "VS Code", icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#007acc" },
-  { name: "Vercel", icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ffffff" },
-  { name: "Render", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#46e3b7" },
-  { name: "Fastify", icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ffffff" },
-  { name: "Antigravity", icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#8b5cf6" },
-  { name: "Bun", icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#fbf0df" },
-];
+const presentationMap: Record<string, Omit<Skill, "name">> = {
+  "React": { icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#61dafb" },
+  "Express.js": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
+  "MongoDB": { icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#4db33d" },
+  "Node.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#8cc84b" },
+  "GitHub": { icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
+  "TailwindCSS": { icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#38bdf8" },
+  "Postman": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ff6c37" },
+  "Prisma": { icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
+  "VS Code": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#007acc" },
+  "Vercel": { icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ffffff" },
+  "Render": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#46e3b7" },
+  "Fastify": { icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ffffff" },
+  "Antigravity": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#8b5cf6" },
+  "bun.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#f97316" }, // Bun is orange now
+};
 
 const SkillsShowcase: React.FC = () => {
   useScrollReveal();
   const gridRef = useRef<HTMLDivElement>(null);
   const { currentTheme } = useTheme();
   const [isLight, setIsLight] = useState(false);
+  const { portfolioData, loading } = usePortfolio();
+
+  if (loading) return null;
 
   useEffect(() => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
+  // Extract flat list of skills from API mapping
+  const apiSkills = portfolioData?.skills?.flatMap((cat: any) => cat.skills.map((s: any) => s.name)) || [];
+  
+  // Filter presentation map for skills that exist in API
+  const displayedSkills = Object.entries(presentationMap)
+    .filter(([name]) => apiSkills.includes(name) || name === 'React.js' || name === 'Tailwind') // fallback mapping
+    .map(([name, data]) => ({ name, ...data }));
 
+  // Fallback to static if empty
+  const finalSkills = displayedSkills.length > 0 ? displayedSkills : Object.entries(presentationMap).map(([name, data]) => ({ name, ...data }));
 
   return (
     <div className="w-full mt-20">
@@ -59,7 +71,7 @@ const SkillsShowcase: React.FC = () => {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
           style={{ gridAutoRows: "minmax(90px, auto)", gridAutoFlow: "row dense" }}
         >
-          {skills.map((skill, index) => {
+          {finalSkills.map((skill, index) => {
             const accent = (isLight && skill.accentColor === "#ffffff") ? "#333333" : (skill.accentColor || "#a855f7");
 
             return (

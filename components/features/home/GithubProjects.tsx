@@ -6,7 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePortfolio } from "@/store";
-import useSWR from "swr";
+// Removed SWR
 import { formatDistanceToNow } from "date-fns";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
@@ -55,17 +55,7 @@ const getProjectSize = (index: number): string => {
   return sizes[index % sizes.length];
 };
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    const errorData = await res.json();
-    const error = new Error("Failed to fetch GitHub projects") as Error & { info: string; status: number };
-    error.info = errorData.message;
-    error.status = res.status;
-    throw error;
-  }
-  return res.json();
-};
+// Removed fetcher
 
 const ProjectSkeleton: React.FC = () => (
   <div className="rounded-xl sm:rounded-2xl bg-card/80 border-border/60 border p-3 sm:p-4 md:p-5 min-h-[120px] sm:min-h-[140px] h-full w-full">
@@ -85,19 +75,7 @@ const ProjectSkeleton: React.FC = () => (
   </div>
 );
 
-const ErrorAlert: React.FC<{ error: Error; onRetry: () => void }> = ({ error, onRetry }) => (
-  <Alert variant="destructive" className="col-span-full">
-    <AlertCircle className="w-4 h-4" />
-    <AlertDescription className="flex items-center justify-between">
-      <span>Failed to load projects. Rate limit may be exceeded.</span>
-      <Button variant="outline" size="sm" onClick={onRetry} className="ml-4">
-        Try Again
-      </Button>
-    </AlertDescription>
-  </Alert>
-);
-
-
+// Removed ErrorAlert
 
 const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ project }) => {
   const topics = project.topics || [];
@@ -210,7 +188,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
   );
 };
 
-const GithubProjects: React.FC = () => {
+const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepos = [] }) => {
   useScrollReveal();
   const { portfolioData } = usePortfolio();
   const FEATURED_REPOS: string[] = portfolioData?.featuredProjects || [];
@@ -218,19 +196,10 @@ const GithubProjects: React.FC = () => {
   const gridRef = useRef<HTMLDivElement>(null);
 
   const [page, setPage] = React.useState(1);
-  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const isLoadingMore = false; // Kept for button disabled state, but we paginate locally now
 
-  const { data, error, isLoading, mutate: revalidateData } = useSWR(
-    social?.github
-      ? `https://api.github.com/users/${social.github}/repos?sort=updated&per_page=${ITEMS_PER_PAGE * page}`
-      : null,
-    fetcher,
-    { revalidateOnFocus: false, refreshInterval: 300000, shouldRetryOnError: false }
-  );
-
-  const projects = useMemo(() => {
-    if (!data) return [];
-    return (data as GithubRepo[])
+  const filteredRepos = useMemo(() => {
+    return initialRepos
       .filter(
         (p) =>
           !p.fork &&
@@ -240,20 +209,13 @@ const GithubProjects: React.FC = () => {
             (p.topics && p.topics.some((t) => t.toLowerCase().includes("portfolio"))))
       )
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
-      .slice(0, ITEMS_PER_PAGE * page)
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
-  }, [data, page, FEATURED_REPOS]);
+  }, [initialRepos, FEATURED_REPOS]);
 
+  const projects = useMemo(() => {
+    return filteredRepos.slice(0, ITEMS_PER_PAGE * page);
+  }, [filteredRepos, page]);
 
-
-  const handleRetry = async () => {
-    try {
-      setIsLoadingMore(true);
-      await revalidateData();
-    } catch { /* ignore */ } finally {
-      setIsLoadingMore(false);
-    }
-  };
 
   return (
     <section className="py-20 relative cv-auto">
@@ -278,22 +240,20 @@ const GithubProjects: React.FC = () => {
             <div
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 auto-rows-fr gap-3 sm:gap-4 w-full max-w-6xl mx-auto"
             >
-              {isLoading
+              {projects.length === 0 && initialRepos.length === 0
                 ? Array(ITEMS_PER_PAGE).fill(0).map((_, index) => (
                   <div key={index} className={getProjectSize(index)}>
                     <ProjectSkeleton />
                   </div>
                 ))
-                : error
-                  ? <ErrorAlert error={error} onRetry={handleRetry} />
-                  : projects.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
+                : projects.map((project) => (
+                    <ProjectCard key={project.id} project={project as any} />
                   ))}
             </div>
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-0">
-              {!error && data && (data as GithubRepo[]).length > projects.length && (
+              {filteredRepos.length > projects.length && (
                 <Button
                   variant="outline"
                   onClick={() => setPage((p) => p + 1)}

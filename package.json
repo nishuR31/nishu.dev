@@ -8,7 +8,7 @@
     "next": "next dev",
     "build": "rm -rf .next && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "sitemap": "bun scripts/generate-sitemap.js",
     "lighthouse": "bunx lighthouse https://nishudevportfolio.vercel.app --output html --output-path ./lighthouse-report.html --chrome-flags='--headless'",
     "convert-images": "bun scripts/convert-images-to-avif.js",

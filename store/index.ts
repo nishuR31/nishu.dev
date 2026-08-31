@@ -77,46 +77,7 @@ export function usePortfolio() {
     const loading = useSelector(portfolioLoading);
     const error = useSelector(portfolioError);
 
-    useEffect(() => {
-        let ignore = false;
-
-        async function loadPortfolio() {
-            // Fetch silently in the background; don't trigger loading skeletons
-            // since we are already hydrated with fallback data.
-
-            try {
-                const res = await fetch(`${api}/portfolio`, {
-                    cache: "no-store",
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}`);
-                }
-
-                const json = await res.json();
-
-                if (!ignore) {
-                    dispatch(fetchSuccess(json.data || json));
-                }
-            } catch (err) {
-                if (!ignore) {
-                    dispatch(
-                        fetchFailure(
-                            err instanceof Error
-                                ? err.message
-                                : "Failed to fetch portfolio."
-                        )
-                    );
-                }
-            }
-        }
-
-        loadPortfolio();
-
-        return () => {
-            ignore = true;
-        };
-    }, [dispatch]);
+    // Fetch removed: Hydrated on server via reduxProvider.jsx
 
     return {
         portfolioData,

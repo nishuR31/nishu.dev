@@ -55,7 +55,7 @@ const SkillBar: React.FC<{ percentage: number; gradient: string }> = ({ percenta
     <div className="h-1.5 bg-zinc-800/50 rounded-full overflow-hidden mt-2">
       <div
         className={cn(
-          "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim reveal-on-scroll transition-all duration-[1200ms] ease-out",
+          "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim reveal-on-scroll transition-all duration-1000 ease-out",
           gradient
         )}
         style={{ width: "0%" }}

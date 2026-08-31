@@ -1,29 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function MouseGlow() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const glowRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+    let frameId;
     const move = (event) => {
-      setPosition({ x: event.clientX, y: event.clientY });
       if (!visible) setVisible(true);
+      if (glowRef.current) {
+        cancelAnimationFrame(frameId);
+        frameId = requestAnimationFrame(() => {
+          if (glowRef.current) {
+            glowRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+          }
+        });
+      }
     };
 
     window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      cancelAnimationFrame(frameId);
+    };
   }, [visible]);
 
   if (!visible) return null;
 
   return (
     <div
-      className="pointer-events-none fixed z-[60] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-fuchsia-500/25 via-cyan-400/20 to-emerald-400/20 blur-2xl transition-transform duration-75"
-      style={{ left: position.x, top: position.y }}
+      ref={glowRef}
+      className="pointer-events-none fixed left-0 top-0 z-[60] h-40 w-40 rounded-full bg-gradient-to-br from-fuchsia-500/25 via-cyan-400/20 to-emerald-400/20 blur-2xl transition-opacity duration-300 will-change-transform"
+      style={{ transform: "translate(-50%, -50%)" }}
       aria-hidden="true"
     />
   );

@@ -91,15 +91,15 @@ html {
   .glass-panel-strong {
     @apply border border-input text-card-foreground backdrop-blur-xl shadow-2xl;
     background-color: hsl(var(--card) / 0.72);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    backdrop-filter: saturate(180%) blur(10px);
   }
 
   /* Premium glass: saturated for vivid blurs */
   .glass-premium {
     background: hsl(var(--card) / 0.55);
-    -webkit-backdrop-filter: saturate(200%) blur(24px);
-    backdrop-filter: saturate(200%) blur(24px);
+    -webkit-backdrop-filter: saturate(200%) blur(12px);
+    backdrop-filter: saturate(200%) blur(12px);
     border: 1px solid rgba(168, 85, 247, 0.15);
     box-shadow:
       0 4px 32px rgba(0, 0, 0, 0.1),

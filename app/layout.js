@@ -8,10 +8,11 @@ import { cn } from "@/lib/utils";
 import AppEnhancements from "@/components/Providers/AppEnhancements";
 import SonnerToaster from "@/components/Providers/SonnerToaster";
 import PageTopLoader from "@/components/Providers/PageTopLoader";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import Providers from "@/components/reduxProvider";
-import fallbackData from "@/lib/portfolio-fallback";
+import AssistantWidget from "@/components/features/home/Assistant";
+import { getPortfolioData } from "@/lib/portfolio";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -114,20 +115,10 @@ export const viewport = {
 };
 
 export default async function RootLayout({ children }) {
-  let portfolioData = fallbackData.data || fallbackData;
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
-    const res = await fetch(`${apiUrl}/portfolio`, { next: { revalidate: 3600 } });
-    if (res.ok) {
-      const data = await res.json();
-      portfolioData = data?.data || data;
-    }
-  } catch (error) {
-    console.error("Failed to fetch portfolio data for layout", error);
-  }
+  const portfolioData = await getPortfolioData();
 
-  const developer = portfolioData?.developer ?? {};
-  const social = portfolioData?.social ?? {};
+  const developer = portfolioData?.developer ?? { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
+  const social = portfolioData?.social ?? { github: "nishuR31", linkedin: "nishan-rajak" };
   return (
     <html lang="en" suppressHydrationWarning >
       <head>
@@ -197,6 +188,7 @@ export default async function RootLayout({ children }) {
 
 
           < main id="main" > {children} </main>
+          <AssistantWidget />
           < Footer />
           <SonnerToaster />
           < GridPattern
