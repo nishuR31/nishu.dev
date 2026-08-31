@@ -1,4 +1,4 @@
-# Nishan Rajak — Portfolio
+# Nishan Rajak
 
 ![logo](public/logo.png)
 
