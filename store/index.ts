@@ -77,14 +77,8 @@ export function usePortfolio() {
     const loading = useSelector(portfolioLoading);
     const error = useSelector(portfolioError);
 
-    const isMounted = useRef(false);
     useEffect(() => {
-        if (!isMounted.current) {
-            isMounted.current = true;
-            return;
-        }
-
-        // If after mount we are still loading, it means server hydration failed/timed out.
+        // If on mount we are still loading, it means server hydration failed/timed out.
         // We must fetch on the client to avoid being stuck on blank UI skeletons.
         if (loading) {
             const fetchData = async () => {
@@ -103,7 +97,7 @@ export function usePortfolio() {
             };
             fetchData();
         }
-    }, [dispatch, loading]);
+    }, []);
 
     return {
         portfolioData,
