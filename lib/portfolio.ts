@@ -6,7 +6,8 @@ export async function getPortfolioData() {
       "https://nishu-dev-api.onrender.com";
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    // 15s timeout to allow Render free instance spin-up during build / request
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch(`${api}/portfolio`, {
       signal: controller.signal,
@@ -24,7 +25,7 @@ export async function getPortfolioData() {
     const json = await res.json();
     return json.data ?? json;
   } catch (error) {
-    console.warn("Failed to fetch portfolio data from API during server render", error);
+    console.error("Failed to fetch portfolio data", error);
     return null;
   }
 }

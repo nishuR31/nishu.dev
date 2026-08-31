@@ -5,7 +5,7 @@ export interface PortfolioContext {
     [key: string]: any;
 }
 
-// Default shape ensures components never crash on null access, now hydrated by client fetch
+// Structural schema only — populated dynamically via API fetch
 export const DEFAULT_PORTFOLIO: PortfolioContext = {
     developer: {
         name: "",
@@ -59,14 +59,12 @@ const portfolioSlice = createSlice({
 
         fetchSuccess(state, action: PayloadAction<PortfolioContext>) {
             state.loading = false;
-            // Merge with defaults so any missing keys still have safe values
             state.data = { ...DEFAULT_PORTFOLIO, ...action.payload };
         },
 
         fetchFailure(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
-            // Keep data as DEFAULT_PORTFOLIO (already set in initialState)
         },
 
         clear(state) {
@@ -83,7 +81,6 @@ export const {
 } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;
-
 
 export const portfolioData = (state: RootState) => state.portfolioSlice.data;
 export const portfolioLoading = (state: RootState) =>

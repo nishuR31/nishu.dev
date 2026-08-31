@@ -7,22 +7,55 @@ import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
+export const dynamicParams = true;
+
+const getProjectSlugs = (p: any): string[] => {
+  const slugs = new Set<string>();
+  if (p.slug) slugs.add(p.slug.toLowerCase());
+  if (p.title) {
+    slugs.add(p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""));
+    slugs.add(p.title.toLowerCase().replace(/[^a-z0-9]+/g, ""));
+  }
+  if (p.github) {
+    const repoName = p.github.split("/").pop();
+    if (repoName) slugs.add(repoName.toLowerCase());
+  }
+  if (p.id !== undefined && p.id !== null) slugs.add(String(p.id));
+  return Array.from(slugs);
+};
+
 export async function generateStaticParams() {
   const data = await getPortfolioData();
   const projects = data?.projects || [];
-  return projects.map((p: any) => ({
-    slug: p.slug || p.title.toLowerCase().replace(/\s+/g, '-'),
-  }));
+  const params: { slug: string }[] = [];
+
+  for (const p of projects) {
+    const projectSlugs = getProjectSlugs(p);
+    for (const slug of projectSlugs) {
+      params.push({ slug });
+    }
+  }
+
+  return params;
 }
 
 export default async function ProjectDetail({ params }: { params: { slug: string } }) {
   const data = await getPortfolioData();
   const projects = data?.projects || [];
-  const project = projects.find((p: any) => (p.slug || p.title.toLowerCase().replace(/\s+/g, '-')) === params.slug);
+
+  const targetSlug = params.slug.toLowerCase();
+
+  const project = projects.find((p: any) => {
+    const slugs = getProjectSlugs(p);
+    return slugs.includes(targetSlug);
+  });
 
   if (!project) {
     notFound();
   }
+
+  const demoUrl = project.demo || project.links?.live;
+  const githubUrl = project.github || project.links?.github;
 
   return (
     <div className="min-h-screen py-24 relative overflow-hidden">
@@ -44,13 +77,15 @@ export default async function ProjectDetail({ params }: { params: { slug: string
         <div className="space-y-8">
           {/* Header */}
           <div className="space-y-4">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.categories?.map((cat: string) => (
-                <span key={cat} className="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-medium">
-                  {cat}
-                </span>
-              ))}
-            </div>
+            {project.categories && project.categories.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.categories.map((cat: string) => (
+                  <span key={cat} className="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-medium">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+            )}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-outfit gradient-heading">
               {project.title}
             </h1>
@@ -61,17 +96,17 @@ export default async function ProjectDetail({ params }: { params: { slug: string
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 pt-4">
-            {project.links?.live && (
+            {demoUrl && (
               <Button asChild className="rounded-full px-6 glass-premium">
-                <a href={project.links.live} target="_blank" rel="noopener noreferrer">
+                <a href={demoUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   View Live Site
                 </a>
               </Button>
             )}
-            {project.links?.github && (
+            {githubUrl && (
               <Button variant="outline" asChild className="rounded-full px-6 bg-card/50">
-                <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+                <a href={githubUrl} target="_blank" rel="noopener noreferrer">
                   <Github className="w-4 h-4 mr-2" />
                   Source Code
                 </a>
@@ -80,16 +115,18 @@ export default async function ProjectDetail({ params }: { params: { slug: string
           </div>
 
           {/* Hero Image */}
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border/50 glass-premium shadow-2xl mt-12">
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              priority
-            />
-          </div>
+          {project.image && (
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border/50 glass-premium shadow-2xl mt-12">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                priority
+              />
+            </div>
+          )}
 
           {/* Tech Stack */}
           <div className="grid md:grid-cols-3 gap-12 mt-16 pt-16 border-t border-border/50">
@@ -98,23 +135,25 @@ export default async function ProjectDetail({ params }: { params: { slug: string
                 <h2 className="text-2xl font-bold font-outfit text-foreground">Project Overview</h2>
                 <div className="prose prose-invert max-w-none text-muted-foreground">
                   <p>
-                    Detailed architecture diagrams and engineering metrics for {project.title} will be showcased here in a future update.
+                    {project.description}
                   </p>
                 </div>
               </section>
             </div>
             
             <div className="space-y-8">
-              <section className="space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">Technologies Used</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies?.map((tech: string) => (
-                    <span key={tech} className="px-3 py-1.5 bg-card border border-border/50 rounded-lg text-sm text-muted-foreground">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </section>
+              {project.technologies && project.technologies.length > 0 && (
+                <section className="space-y-4">
+                  <h3 className="text-lg font-semibold text-foreground">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech: string) => (
+                      <span key={tech} className="px-3 py-1.5 bg-card border border-border/50 rounded-lg text-sm text-muted-foreground">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
           </div>
         </div>
