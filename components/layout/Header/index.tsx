@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Menu, X, Settings } from "lucide-react";
+import { Menu, X, Settings, Briefcase } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -120,6 +120,9 @@ const Header: React.FC<{ navItems: NavItem[] }> = ({ navItems = [] }) => {
           <Logo />
           <Navigation navItems={navItems} />
           <div className="hidden md:flex items-center space-x-4">
+            <Link href="/hire" className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Hire Me">
+              <Briefcase className="w-5 h-5" />
+            </Link>
             <Link href="/settings" className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
               <Settings className="w-5 h-5" />
             </Link>
@@ -153,6 +156,14 @@ const Header: React.FC<{ navItems: NavItem[] }> = ({ navItems = [] }) => {
                 <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={navItems} />
               </div>
               <div className="mb-4 flex justify-center items-center gap-6">
+                <Link
+                  href="/hire"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+                  aria-label="Hire Me"
+                >
+                  <Briefcase className="w-5 h-5" />
+                </Link>
                 <Link
                   href="/settings"
                   onClick={() => setIsMobileMenuOpen(false)}
