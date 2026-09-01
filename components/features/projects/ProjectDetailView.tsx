@@ -8,11 +8,11 @@ import {
   Github,
   ExternalLink,
   Lightbulb,
-  Wrench,
   User,
   Calendar,
   Zap,
   Tag,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -225,7 +225,7 @@ export default function ProjectDetailView({
                         key={idx}
                         className="flex items-start gap-2.5 text-sm text-muted-foreground"
                       >
-                        <span className="text-primary/70 mt-1 shrink-0">▸</span>
+                        <ChevronRight className="w-4 h-4 text-primary/70 shrink-0 mt-0.5" />
                         {h}
                       </li>
                     ))}

@@ -11,6 +11,12 @@ const SITE_LINKS = [
   { title: "About Me", url: "/#about", description: "Learn more about my background and philosophy" },
   { title: "Experience", url: "/#experience", description: "My work history and professional experience" },
   { title: "Contact", url: "/contact", description: "Get in touch with me" },
+  { title: "Project: Devclip Hub", url: "/projects/devclip-hub", description: "Developer-focused utility hub" },
+  { title: "Project: GH Control", url: "/projects/ghcontrol", description: "Power-user GitHub command center" },
+  { title: "Project: Maa Tara Sweets", url: "/projects/maatarasweets", description: "Multi-database e-commerce platform" },
+  { title: "Project: FocusMode", url: "/projects/focusmode", description: "Focus and productivity tracking system" },
+  { title: "Project: Baksy", url: "/projects/baksy", description: "Product-focused full-stack application" },
+  { title: "Project: RanchiKart", url: "/projects/ranchikart", description: "Local e-commerce platform" },
 ];
 
 export default function NotFound() {

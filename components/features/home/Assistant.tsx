@@ -13,7 +13,7 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
   const [isPeeking, setIsPeeking] = useState(false);
   
   const [messages, setMessages] = useState<{ role: 'user' | 'bot', text: string }[]>([
-    { role: 'bot', text: 'Hi! I am the portfolio assistant. Feel free to ask me about Nishan\'s projects, skills, or experience!' }
+    { role: 'bot', text: 'Hello! I am Nishan\'s virtual assistant. How can I help you learn more about his background, projects, or technical expertise today?' }
   ]);
   const [input, setInput] = useState("");
 
@@ -35,39 +35,41 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInput("");
 
-    // Deterministic answering logic with HTML support
+    // Faster, deterministic answering logic with HTML support
     setTimeout(() => {
-      let response = "I'm still learning! Try asking about 'who are you', 'projects', 'skills', 'experience', 'education', 'certificates', 'socials', 'contact', or 'cv'.";
+      let response = "I'm currently unable to process that request. Could you please specify if you'd like to know about Nishan's **projects**, **skills**, **experience**, **education**, or **contact** details?";
       const q = userMsg.toLowerCase();
       
       const dev = portfolioData?.developer || {};
       
-      if (q.includes("who") || q.includes("about") || q.includes("age")) {
-        response = `I am Nishan Rajak, a Backend Engineer focused on scalable architectures. I love building robust APIs and tools!`;
+      if (q.includes("who") || q.includes("about") || q.includes("age") || q.includes("hello") || q.includes("hi")) {
+        response = `Hello! I am Nishan Rajak's virtual assistant. Nishan is a Backend-Focused Software Engineer specializing in scalable REST API architecture, authentication systems, and modular backend design. How can I assist you today?`;
       } else if (q.includes("project")) {
         const count = portfolioData?.projects?.length || 0;
-        response = `Nishan has built over ${count} projects! Some of the top ones include RanchiKart, FocusMode, Devclip Hub and GH Control. Check out the <a href="/projects" class="text-blue-400 hover:underline">Projects page</a> for more!`;
+        response = `Nishan has architected and delivered over ${count} projects, focusing on scalable multi-database systems and real-time architectures. Notable works include RanchiKart, FocusMode, Devclip Hub, and GH Control. You can explore these in detail on the <a href="/projects" class="text-blue-400 hover:underline">Projects page</a>.`;
       } else if (q.includes("skill") || q.includes("tech") || q.includes("stack")) {
-        const skillCats = portfolioData?.skills?.map((c: any) => c.category).join(', ') || 'Backend, Database, and DevOps';
-        response = `Nishan specializes in ${skillCats}. He frequently uses Node.js, Express, Fastify, MongoDB, PostgreSQL, and more!`;
-      } else if (q.includes("experience") || q.includes("work") || q.includes("internship")) {
+        const skillCats = portfolioData?.skills?.map((c: any) => c.title).join(', ') || 'Backend, Database, and DevOps';
+        response = `Nishan's technical expertise spans across ${skillCats}. He is highly proficient in modern backend technologies including Node.js, Express, Fastify, TypeScript, MongoDB, MySQL, and Redis caching.`;
+      } else if (q.includes("experience") || q.includes("work") || q.includes("internship") || q.includes("hackathon")) {
         const expCount = portfolioData?.experiences?.length || 0;
-        response = `Nishan has ${expCount} professional experiences, building production-grade backend systems and scalable architectures. See his <a href="/experience" class="text-blue-400 hover:underline">Experience page</a> for details!`;
-      } else if (q.includes("education") || q.includes("study") || q.includes("studied")) {
-        response = `Nishan holds a B.Tech in Computer Science and Engineering, with a strong foundation in software engineering principles, algorithms, and system design.`;
-      } else if (q.includes("certificate") || q.includes("hackathon")) {
+        response = `Nishan has ${expCount} professional experiences, including building production-grade backend systems, participating in global hackathons, and developing scalable architectures. Please review the <a href="/#experience" class="text-blue-400 hover:underline">Experience section</a> for a comprehensive breakdown.`;
+      } else if (q.includes("education") || q.includes("study") || q.includes("studied") || q.includes("degree") || q.includes("university")) {
+        response = `Nishan is pursuing a B.Tech in Computer Science and Engineering, maintaining a strong academic foundation in software engineering principles, algorithms, and system design.`;
+      } else if (q.includes("certificate") || q.includes("cert") || q.includes("achievement")) {
         const certCount = portfolioData?.certificates?.length || 0;
-        response = `Nishan has earned over ${certCount} certifications in various technologies! Check them out on the <a href="/certificates" class="text-blue-400 hover:underline">Certificates page</a>.`;
-      } else if (q.includes("contact") || q.includes("email") || q.includes("hire") || q.includes("number")) {
-        response = `You can reach out to Nishan at <a href="mailto:${dev.email || 'nishan.developer.dev@gmail.com'}" class="text-blue-400 hover:underline">${dev.email || 'nishan.developer.dev@gmail.com'}</a> or via the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a>!`;
-      } else if (q.includes("social") || q.includes("github") || q.includes("linkedin") || q.includes("twitter")) {
-        response = `Find Nishan on <a href="${dev.linkedin || '#'}" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>, <a href="https://github.com/${dev.github || 'nishuR31'}" target="_blank" class="text-blue-400 hover:underline">GitHub</a>, and <a href="${dev.twitter || '#'}" target="_blank" class="text-blue-400 hover:underline">Twitter</a>!`;
+        response = `Nishan holds over ${certCount} professional certifications across various technical domains. You can view the credentials on the <a href="/certificates" class="text-blue-400 hover:underline">Certificates page</a>.`;
+      } else if (q.includes("contact") || q.includes("email") || q.includes("hire") || q.includes("number") || q.includes("freelance")) {
+        response = `For professional inquiries or collaboration opportunities, you can reach Nishan directly at <a href="mailto:${dev.email || 'nishan.developer.dev@gmail.com'}" class="text-blue-400 hover:underline">${dev.email || 'nishan.developer.dev@gmail.com'}</a>, or use the form on the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a>.`;
+      } else if (q.includes("social") || q.includes("github") || q.includes("linkedin") || q.includes("twitter") || q.includes("x.com")) {
+        response = `You can connect with Nishan professionally on <a href="${dev.linkedin || '#'}" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>, review his open-source contributions on <a href="https://github.com/${dev.github || 'nishuR31'}" target="_blank" class="text-blue-400 hover:underline">GitHub</a>, or follow his updates on <a href="${dev.twitter || '#'}" target="_blank" class="text-blue-400 hover:underline">Twitter/X</a>.`;
       } else if (q.includes("cv") || q.includes("resume")) {
-        response = `You can download Nishan's CV from the <a href="/about" class="text-blue-400 hover:underline">About page</a> or directly request it via the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a>.`;
+        response = `Nishan's professional CV is available upon request. Please feel free to reach out via the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a> or via email to request a copy.`;
+      } else if (q.includes("thank")) {
+        response = `You're very welcome! Feel free to ask if there's anything else you'd like to know about Nishan's background or work.`;
       }
 
       setMessages(prev => [...prev, { role: 'bot', text: response }]);
-    }, 500);
+    }, 250);
   };
 
   return (
