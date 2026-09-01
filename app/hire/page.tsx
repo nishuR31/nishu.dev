@@ -13,7 +13,7 @@ export const metadata = {
 export default async function HirePage() {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : null;
-  
+
   const cvs = portfolioData?.cvs || [];
   const developer = portfolioData?.developer;
 
@@ -27,7 +27,7 @@ export default async function HirePage() {
       />
       <div className="container mx-auto px-6 max-w-5xl relative z-10">
         <div className="space-y-16">
-          
+
           {/* Header */}
           <div className="text-center space-y-6">
             <div className="mx-auto w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center text-primary mb-6 shadow-xl shadow-primary/5">
@@ -68,9 +68,9 @@ export default async function HirePage() {
               ))}
             </div>
           ) : (
-             <div className="text-center p-12 bg-card/50 rounded-2xl border border-border/30">
-               <p className="text-muted-foreground">No CVs are currently available. Please check back later.</p>
-             </div>
+            <div className="text-center p-12 bg-card/50 rounded-2xl border border-border/30">
+              <p className="text-muted-foreground">No CVs are currently available. Please check back later.</p>
+            </div>
           )}
 
           {/* Contact Section */}
@@ -79,7 +79,7 @@ export default async function HirePage() {
               Ready to collaborate?
             </h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              I am currently open to new opportunities. Let's discuss how my backend and system architecture skills can add value to your team.
+              I am currently open to new opportunities. Let&apos;s discuss how my skills can add value to your team.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild variant="default" className="rounded-full px-8 py-6 w-full sm:w-auto text-base">
