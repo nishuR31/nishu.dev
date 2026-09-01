@@ -66,13 +66,13 @@ export function useCountUp(
       observer.disconnect();
       cancelAnimationFrame(raf);
     };
-  }, [target, duration, suffix]);
+  }, [ref, target, duration, suffix]);
 }
 
 /**
  * Custom hook to add a 'data-state="visible"' attribute to elements when they scroll into view.
  */
-export function useScrollReveal(options = { threshold: 0.1, rootMargin: "0px" }) {
+export function useScrollReveal({ threshold = 0.1, rootMargin = "0px" } = {}) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     
@@ -90,7 +90,7 @@ export function useScrollReveal(options = { threshold: 0.1, rootMargin: "0px" })
           obs.unobserve(entry.target);
         }
       });
-    }, options);
+    }, { threshold, rootMargin });
 
     // Use a small timeout to ensure DOM is fully rendered before querying
     const timeoutId = setTimeout(() => {
@@ -103,5 +103,5 @@ export function useScrollReveal(options = { threshold: 0.1, rootMargin: "0px" })
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, [options.threshold, options.rootMargin]);
+  }, [threshold, rootMargin]);
 }

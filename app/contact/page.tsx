@@ -109,10 +109,10 @@ export default async function ContactPage() {
         <RevealOnScroll>
           <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-outfit">
-              Let's <span className="gradient-heading">Connect</span>
+              Let&apos;s <span className="gradient-heading">Connect</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              I'm always open to discussing product design work, software engineering, or partnership opportunities.
+              I&apos;m always open to discussing product design work, software engineering, or partnership opportunities.
               Feel free to reach out to me through any of the platforms below.
               For more information, visit <a href={`${process.env.NEXT_PUBLIC_SITE_URL}`} className="text-foreground font-medium underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-500 transition-colors">Nishan Portfolio</a>.
             </p>

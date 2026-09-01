@@ -105,7 +105,6 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({ portfolioData
             >
               <Carousel
                 key={activeCategory} // Force re-render of carousel when category changes
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 items={filteredCerts as any}
                 baseWidth={width}
                 autoplay

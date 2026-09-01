@@ -166,9 +166,9 @@ interface GithubProjectsProps {
 }
 
 const GithubProjects: React.FC<GithubProjectsProps> = ({ initialRepos = [], portfolioData }) => {
-  const FEATURED_REPOS = new Set(
+  const FEATURED_REPOS = useMemo(() => new Set(
     (portfolioData?.featuredProjects || []).map((name: string) => name.trim().toLowerCase())
-  );
+  ), [portfolioData?.featuredProjects]);
   
   const social = portfolioData?.social ?? {};
   

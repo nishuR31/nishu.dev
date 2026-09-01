@@ -54,7 +54,7 @@ export default function NotFound() {
                 Page not <br className="hidden lg:block" /> found
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-md mx-auto lg:mx-0">
-                Sorry, the page you are looking for doesn't exist or has been moved. Try searching our site or head back to safety.
+                Sorry, the page you are looking for doesn&apos;t exist or has been moved. Try searching our site or head back to safety.
               </p>
             </div>
 
@@ -99,7 +99,7 @@ export default function NotFound() {
                     </ul>
                   ) : (
                     <div className="p-4 text-center text-sm text-muted-foreground">
-                      No matching pages found for "{debouncedQuery}"
+                      No matching pages found for &quot;{debouncedQuery}&quot;
                     </div>
                   )}
                 </div>
