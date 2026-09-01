@@ -12,9 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ExperiencePage() {
-  const data = await getPortfolioData();
-  const experiences = data?.experiences ?? [];
-  const developer = data?.developer ?? {};
+  const result = await getPortfolioData();
+  const portfolioData = result.ok ? result.data : null;
+  const experiences = portfolioData?.experiences ?? [];
+  const developer = portfolioData?.developer ?? {};
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -168,20 +169,9 @@ export default async function ExperiencePage() {
                 );
               })
             ) : (
-              /* Skeleton when no data */
-              Array.from({ length: 2 }).map((_, i) => (
-                <div key={i} className="flex gap-6">
-                  <div className="flex-shrink-0 hidden md:block">
-                    <div className="w-12 h-12 rounded-xl skeleton-shimmer" />
-                  </div>
-                  <div className="flex-1 rounded-2xl border border-border/40 bg-card/50 p-6 space-y-3">
-                    <div className="h-6 w-56 skeleton-shimmer rounded-lg" />
-                    <div className="h-4 w-36 skeleton-shimmer rounded" />
-                    <div className="h-3 w-full skeleton-shimmer rounded" />
-                    <div className="h-3 w-4/5 skeleton-shimmer rounded" />
-                  </div>
-                </div>
-              ))
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <p className="text-muted-foreground">No experience data configured.</p>
+              </div>
             )}
           </div>
         </div>

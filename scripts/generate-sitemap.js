@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND || "https://nishu-dev-api.onrender.com";
-const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://nishudevportfolio.vercel.app";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
+const FRONTEND_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app";
 
 async function generateSitemap() {
   try {

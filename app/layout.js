@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -11,8 +9,6 @@ import PageTopLoader from "@/components/Providers/PageTopLoader";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Providers from "@/components/reduxProvider";
-import AssistantWidget from "@/components/features/home/Assistant";
-import { getPortfolioData } from "@/lib/portfolio";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +24,7 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL || "https://nishudevportfolio.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app"),
   title: {
     default: "Nishan Rajak | Backend Engineer Portfolio",
     template: "%s | Nishan Rajak",
@@ -107,12 +103,9 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-export default async function RootLayout({ children }) {
-  // Always fetch fresh — ensures Redux is always seeded server-side
-  const portfolioData = await getPortfolioData();
-
-  const developer = portfolioData?.developer ?? { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
-  const social = portfolioData?.social ?? { github: "nishuR31", linkedin: "nishan-rajak" };
+export default function RootLayout({ children }) {
+  const developer = { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
+  const social = { github: "nishuR31", linkedin: "nishan-rajak" };
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -130,7 +123,7 @@ export default async function RootLayout({ children }) {
           }}
         />
         <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://nishudevportfolio.vercel.app"}`} />
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app"}`} />
         <style
           dangerouslySetInnerHTML={{
             __html:
@@ -171,12 +164,11 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.className} ${outfit.variable} antialiased`}>
-        <Providers initialData={portfolioData}>
+        <Providers>
           <AppEnhancements />
           <PageTopLoader />
           <Header />
           <main id="main">{children}</main>
-          <AssistantWidget />
           <Footer />
           <SonnerToaster />
           <GridPattern

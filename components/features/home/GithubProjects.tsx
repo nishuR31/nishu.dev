@@ -1,18 +1,12 @@
 "use client";
-import React, { useMemo, useRef, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import {
-  AlertCircle, ExternalLink, GitBranch, Github, Loader2, Star,
+  ExternalLink, GitBranch, Github, Loader2, Star, AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { usePortfolio } from "@/store";
-// Removed SWR
-import { formatDistanceToNow } from "date-fns";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { prefersReducedMotion, useScrollReveal } from "@/lib/anime-utils";
 
 interface GithubRepo {
   id: number;
@@ -55,28 +49,6 @@ const getProjectSize = (index: number): string => {
   return sizes[index % sizes.length];
 };
 
-// Removed fetcher
-
-const ProjectSkeleton: React.FC = () => (
-  <div className="rounded-xl sm:rounded-2xl bg-card/80 border-border/60 border p-3 sm:p-4 md:p-5 min-h-[120px] sm:min-h-[140px] h-full w-full">
-    <div className="flex flex-col gap-2 sm:gap-3 h-full justify-between">
-      <div className="space-y-2 sm:space-y-3">
-        <div className="flex items-start justify-between gap-2">
-          <Skeleton className="h-3 sm:h-4 w-24 sm:w-32 bg-muted/70" />
-          <Skeleton className="h-3 w-3 rounded-full bg-muted/70" />
-        </div>
-        <Skeleton className="h-8 sm:h-12 w-full bg-muted/70" />
-      </div>
-      <div className="flex items-center space-x-1.5 sm:space-x-2">
-        <Skeleton className="h-2 sm:h-2.5 w-10 sm:w-12 bg-muted/70" />
-        <Skeleton className="h-2 sm:h-2.5 w-8 sm:w-10 bg-muted/70" />
-      </div>
-    </div>
-  </div>
-);
-
-// Removed ErrorAlert
-
 const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ project }) => {
   const topics = project.topics || [];
   const langColor = project.language ? (languageColors[project.language] || "#8b5cf6") : null;
@@ -86,7 +58,7 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
       href={project.html_url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`relative group project-card ${project.size} reveal-on-scroll opacity-0 translate-y-4 scale-95 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 data-[state=visible]:zoom-in-95 duration-700 fill-mode-both`}
+      className={`relative group project-card ${project.size} duration-700 fill-mode-both`}
     >
       <div className="
         bg-card/80 border-border/60 border
@@ -188,15 +160,20 @@ const ProjectCard: React.FC<{ project: GithubRepo & { size: string } }> = ({ pro
   );
 };
 
-const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepos = [] }) => {
-  useScrollReveal();
-  const { portfolioData } = usePortfolio();
-  const FEATURED_REPOS: string[] = portfolioData?.featuredProjects || [];
-  const social = portfolioData?.social ?? {};
-  const gridRef = useRef<HTMLDivElement>(null);
+interface GithubProjectsProps {
+  initialRepos?: GithubRepo[];
+  portfolioData: any;
+}
 
-  const [page, setPage] = React.useState(1);
-  const isLoadingMore = false; // Kept for button disabled state, but we paginate locally now
+const GithubProjects: React.FC<GithubProjectsProps> = ({ initialRepos = [], portfolioData }) => {
+  const FEATURED_REPOS = new Set(
+    (portfolioData?.featuredProjects || []).map((name: string) => name.trim().toLowerCase())
+  );
+  
+  const social = portfolioData?.social ?? {};
+  
+  const [page, setPage] = useState(1);
+  const isLoadingMore = false;
 
   const filteredRepos = useMemo(() => {
     return initialRepos
@@ -204,9 +181,9 @@ const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepo
         (p) =>
           !p.fork &&
           !p.private &&
-          (p.name.toLowerCase().includes("portfolio") ||
-            FEATURED_REPOS.includes(p.name.toLowerCase()) ||
-            (p.topics && p.topics.some((t) => t.toLowerCase().includes("portfolio"))))
+          (p.name.trim().toLowerCase().includes("portfolio") ||
+            FEATURED_REPOS.has(p.name.trim().toLowerCase()) ||
+            (p.topics && p.topics.some((t) => t.trim().toLowerCase().includes("portfolio"))))
       )
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
@@ -215,7 +192,6 @@ const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepo
   const projects = useMemo(() => {
     return filteredRepos.slice(0, ITEMS_PER_PAGE * page);
   }, [filteredRepos, page]);
-
 
   return (
     <section className="py-20 relative cv-auto">
@@ -237,19 +213,19 @@ const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepo
             </div>
 
             {/* Grid */}
-            <div
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 auto-rows-fr gap-3 sm:gap-4 w-full max-w-6xl mx-auto"
-            >
-              {projects.length === 0 && initialRepos.length === 0
-                ? Array(ITEMS_PER_PAGE).fill(0).map((_, index) => (
-                  <div key={index} className={getProjectSize(index)}>
-                    <ProjectSkeleton />
-                  </div>
-                ))
-                : projects.map((project) => (
-                    <ProjectCard key={project.id} project={project as any} />
-                  ))}
-            </div>
+            {projects.length === 0 ? (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">No featured GitHub projects found.</p>
+              </div>
+            ) : (
+              <div
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 auto-rows-fr gap-3 sm:gap-4 w-full max-w-6xl mx-auto"
+              >
+                {projects.map((project) => (
+                  <ProjectCard key={project.id} project={project as any} />
+                ))}
+              </div>
+            )}
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-0">
@@ -265,21 +241,23 @@ const GithubProjects: React.FC<{ initialRepos?: GithubRepo[] }> = ({ initialRepo
                   ) : "Load More Projects"}
                 </Button>
               )}
-              <Button
-                variant="outline"
-                Icon={Github}
-                iconPlacement="right"
-                className="group rounded-full px-5 py-5 sm:px-6 sm:py-6 text-sm sm:text-base w-full sm:w-auto glass-panel text-foreground hover:bg-foreground/5 hover:border-foreground/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]"
-                asChild
-              >
-                <a
-                  href={`https://github.com/${social?.github}?tab=repositories`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {social?.github && (
+                <Button
+                  variant="outline"
+                  Icon={Github}
+                  iconPlacement="right"
+                  className="group rounded-full px-5 py-5 sm:px-6 sm:py-6 text-sm sm:text-base w-full sm:w-auto glass-panel text-foreground hover:bg-foreground/5 hover:border-foreground/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                  asChild
                 >
-                  View More on GitHub
-                </a>
-              </Button>
+                  <a
+                    href={`https://github.com/${social?.github}?tab=repositories`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View More on GitHub
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
         </div>

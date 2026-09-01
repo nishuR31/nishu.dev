@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { usePortfolio } from "@/store";
 import { getProjectSlugs } from "@/lib/slug-utils";
 
 /* ── Skeleton shown while client-side data loads ─────────────────────── */
@@ -91,16 +90,8 @@ export default function ProjectDetailView({
   initialProject?: any;
   slug: string;
 }) {
-  const { portfolioData, loading } = usePortfolio();
-  const targetSlug = slug.toLowerCase();
+  const project = initialProject;
 
-  const clientProject = portfolioData?.projects?.find((p: any) =>
-    getProjectSlugs(p).includes(targetSlug)
-  );
-
-  const project = initialProject || clientProject;
-
-  if (!project && loading) return <DetailSkeleton />;
   if (!project) return <NotFound slug={slug} />;
 
   const demoUrl = project.demo || project.links?.live;

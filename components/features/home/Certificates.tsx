@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Award, ExternalLink, FileText, Image as ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import Carousel from "@/components/ui/carousel";
-import { usePortfolio } from "@/store";
-import { prefersReducedMotion } from "@/lib/anime-utils";
-import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
 interface CertInfo {
   id?: string;
@@ -20,20 +17,20 @@ interface CertInfo {
 }
 
 const getCertificateInfo = (cert: any): CertInfo => {
-  const url = cert.url || "";
-  const isImage = /\.(png|jpg|jpeg|webp|avif)$/i.test(url);
-  const isPdf = /\.pdf$/i.test(url);
   return {
     ...cert,
     title: cert.title || "Certificate",
-    isImage,
-    isPdf,
-    url
+    isImage: cert.type === "image",
+    isPdf: cert.type === "pdf",
+    url: cert.url || ""
   };
 };
 
-const CertificatesSection: React.FC = () => {
-  const { portfolioData, loading } = usePortfolio();
+interface CertificatesSectionProps {
+  portfolioData: any;
+}
+
+const CertificatesSection: React.FC<CertificatesSectionProps> = ({ portfolioData }) => {
   const [width, setWidth] = useState(600);
   const [selectedCert, setSelectedCert] = useState<CertInfo | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -52,12 +49,18 @@ const CertificatesSection: React.FC = () => {
   const rawCertificates = portfolioData?.certificates ?? [];
   const certificates: CertInfo[] = rawCertificates.map(getCertificateInfo);
 
+  if (certificates.length === 0) {
+    return (
+      <section className="py-24 cv-auto" id="certificates">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-muted-foreground">No certifications data configured.</p>
+        </div>
+      </section>
+    );
+  }
+
   const categories = ["All", ...Array.from(new Set(certificates.map((c) => c.category || "Other")))];
   const filteredCerts = activeCategory === "All" ? certificates : certificates.filter((c) => (c.category || "Other") === activeCategory);
-
-  if (loading || !portfolioData?.developer?.name) return <CertificatesSkeleton />;
-
-
 
   return (
     <section className="py-24 cv-auto" id="certificates">

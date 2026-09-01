@@ -27,10 +27,9 @@ function makeStore(initialData) {
   });
 }
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.NEXT_PUBLIC_BACKEND ||
-  "https://nishu-dev-api.onrender.com";
+  const API_URL =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://nishu-dev-api.onrender.com";
 
 export default function Providers({ children, initialData }) {
   // Create the store exactly once per page load, seeded with SSR data

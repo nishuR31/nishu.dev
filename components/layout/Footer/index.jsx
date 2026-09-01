@@ -1,20 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { usePortfolio } from "@/store";
 import { BatteryCharging, Battery } from "lucide-react";
-import { FooterNameSkeleton } from "@/components/ui/skeletons";
-import Image from "next/image";
 
 const Footer = () => {
-  const { portfolioData, loading } = usePortfolio();
-  const developer = portfolioData?.developer ?? {};
-
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [isCharging, setIsCharging] = useState(false);
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== "undefined" ? navigator.onLine : true
   );
   const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -36,6 +31,7 @@ const Footer = () => {
   // Battery API
   useEffect(() => {
     let battery = null;
+    let cleanup;
 
     const initBattery = async () => {
       try {
@@ -56,17 +52,15 @@ const Footer = () => {
         battery.addEventListener("levelchange", update);
         battery.addEventListener("chargingchange", update);
 
-        // cleanup fix (correct reference)
         return () => {
           battery.removeEventListener("levelchange", update);
           battery.removeEventListener("chargingchange", update);
         };
-      } catch (err) {
+      } catch {
         setBatteryLevel(null);
       }
     };
 
-    let cleanup;
     initBattery().then((cb) => (cleanup = cb));
 
     return () => {
@@ -80,54 +74,53 @@ const Footer = () => {
   const isFakeFull = isCharging && percentage === 100;
 
   return (
-    <footer
-      className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20 reveal-on-scroll opacity-0 data-[state=visible]:animate-in data-[state=visible]:fade-in duration-500 fill-mode-both"
-    >
+    <footer className="flex items-center justify-center py-6 border-t sm:py-8 border-secondary/20">
       <div className="w-full max-w-4xl px-4 py-3 mx-auto text-center glass-panel rounded-2xl">
 
         <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 md:gap-2 leading-tight">
-          <span>© {new Date().getFullYear()} {loading ? <FooterNameSkeleton /> : developer.name}</span>
-          <span className="">•</span>
+          <span>© {new Date().getFullYear()} Nishan Rajak</span>
+          <span>•</span>
           <span>All rights reserved</span>
-          <span className="">•</span>
-          <span>Made by {loading ? <FooterNameSkeleton /> : developer.shortName}</span>
+          <span>•</span>
+          <span>Made by Nishu</span>
         </div>
 
         <div className="flex justify-center mt-3">
-          <div
-            className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors">
             <span className="text-sm">
               {isCharging ? <BatteryCharging /> : <Battery />}
             </span>
 
             <span
-              className={`ml-1 ${percentage === null
-                ? "text-muted-foreground"
-                : percentage > 50
+              className={`ml-1 ${
+                percentage === null
+                  ? "text-muted-foreground"
+                  : percentage > 50
                   ? "text-emerald-400"
                   : percentage > 20
-                    ? "text-yellow-400"
-                    : "text-red-400"
-                }`}
+                  ? "text-yellow-400"
+                  : "text-red-400"
+              }`}
             >
               {percentage === null
                 ? "--%"
                 : isFakeFull
-                  ? "Charging..."
-                  : `${percentage}%`}
+                ? "Charging..."
+                : `${percentage}%`}
             </span>
 
             {hasMounted && (
               <span
-                className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${isOnline
-                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                  : "bg-red-500/10 border-red-500/20 text-red-400"
-                  }`}
+                className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
+                  isOnline
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                }`}
               >
                 <span
-                  className={`h-2 w-2 rounded-full ${isOnline ? "bg-emerald-400" : "bg-red-400"
-                    }`}
+                  className={`h-2 w-2 rounded-full ${
+                    isOnline ? "bg-emerald-400" : "bg-red-400"
+                  }`}
                 />
                 <span>{isOnline ? "Online" : "Offline"}</span>
               </span>

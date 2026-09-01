@@ -1,0 +1,1684 @@
+# Frontend Fixes Completed
+
+The frontend architectural fixes (Points 1 through 14) have been implemented and validated. The remaining points below are related to the backend API architecture.
+
+# 15. Your API is currently not a database-backed API
+
+This is important.
+
+The backend currently does:
+
+```ts
+const result: Config = config;
+sendSuccess(..., result);
+```
+
+and `config` comes directly from:
+
+```text
+src/data/index.ts
+```
+
+So the current system is:
+
+```text
+TypeScript file
+ ↓
+object in memory
+ ↓
+JSON
+```
+
+There is:
+
+```text
+no database
+no Redis
+no persistence
+no admin editing
+no authentication
+```
+
+in the uploaded backend.
+
+That is not inherently bad for the first version, but it means the "editable portfolio CMS" you described has **not actually been implemented yet**.
+
+---
+
+# 16. Your backend already has the correct basic `/portfolio` route
+
+The route exists:
+
+```text
+GET /portfolio
+```
+
+and it calls the portfolio controller.
+
+So the backend's current API failure is not because `/portfolio` is missing.
+
+The actual backend is extremely simple:
+
+```text
+Fastify
+ ↓
+PublicRoutes
+ ↓
+portfolio()
+ ↓
+src/data/index.ts
+ ↓
+JSON
+```
+
+This is good for reliability.
+
+Don't unnecessarily introduce PostgreSQL/Redis just because they are technologies you use elsewhere.
+
+For a portfolio CMS, a small database makes sense only because you now want editing/authentication.
+
+---
+
+
+
+# 21. Backend has no request validation
+
+Your routes have descriptions:
+
+```ts
+schema: {
+  description: ...
+}
+```
+
+but they don't have proper response schemas.
+
+For example:
+
+```ts
+app.get("/portfolio", {
+  schema: {
+    response: {
+      200: ...
+    }
+  }
+})
+```
+
+should define the actual API contract.
+
+This gives you:
+
+```text
+Swagger
++
+runtime serialization
++
+documentation
++
+contract visibility
+```
+
+
+
+# 26. Backend should not expose arbitrary certificate URLs without validation
+
+You are serving Supabase storage URLs.
+
+Fine.
+
+But once you create the admin CMS, validate uploaded resources:
+
+```text
+allowed MIME
+allowed extensions
+maximum size
+HTTPS only
+trusted storage origin
+```
+
+Don't allow an admin content editor to turn the portfolio into an arbitrary URL proxy.
+
+---
+
+# 27. The "one-user registration" requirement needs a different design
+
+Your backend currently has **no registration system**.
+
+For what you described, I recommend:
+
+```text
+POST /auth/bootstrap
+```
+
+available only when:
+
+```text
+no admin exists
+```
+
+After the first account is created:
+
+```text
+registration permanently disabled
+```
+
+Database constraint:
+
+```text
+users.role = OWNER
+```
+
+and application rule:
+
+```ts
+if (existingOwner) {
+  throw new ConflictError(
+    "Owner account already exists"
+  );
+}
+```
+
+Do not implement this as:
+
+```text
+if (users.length === 0)
+```
+
+alone.
+
+Two simultaneous bootstrap requests can race.
+
+Use a database uniqueness constraint.
+
+---
+
+# 28. Your authentication design should be
+
+For the admin CMS:
+
+```text
+Google OAuth
+      │
+      ▼
+ identity verification
+      │
+      ▼
+ one owner account
+      │
+      ├── password/identity session
+      ├── TOTP 2FA
+      └── WebAuthn passkey
+```
+
+And session architecture:
+
+```text
+short-lived access token
++
+rotating refresh token
+```
+
+For the browser:
+
+```text
+HttpOnly
+Secure
+SameSite
+```
+
+cookies.
+
+For API-to-API authorization:
+
+```http
+Authorization: Bearer <access-token>
+```
+
+Do not store long-lived JWTs in:
+
+```text
+localStorage
+```
+
+---
+
+# 29. Google sign-in should not automatically create unlimited accounts
+
+The Google callback should effectively do:
+
+```text
+Google identity
+      ↓
+Is this the configured owner?
+      │
+      ├── yes → login
+      │
+      └── no → reject
+```
+
+Do not have:
+
+```text
+Google login
+ ↓
+new user
+ ↓
+database
+```
+
+for arbitrary Google accounts.
+
+Your requirement is one owner.
+
+---
+
+# 30. Passkey should be WebAuthn
+
+Use WebAuthn for:
+
+```text
+registration
+authentication
+```
+
+and store:
+
+```text
+credential ID
+public key
+sign counter
+transports
+user ID
+createdAt
+lastUsedAt
+```
+
+Never store the private credential key.
+
+---
+
+# 31. TOTP must be implemented correctly
+
+Store the TOTP secret encrypted at rest.
+
+During setup:
+
+```text
+generate secret
+ ↓
+show QR
+ ↓
+user confirms code
+ ↓
+2FA enabled
+```
+
+Also generate recovery codes.
+
+Store recovery codes hashed.
+
+---
+
+# 32. Admin authorization should be server-side
+
+Every mutation:
+
+```text
+PUT /admin/portfolio
+PATCH /admin/projects/:id
+POST /admin/certificates
+DELETE /admin/certificates/:id
+```
+
+must pass:
+
+```text
+authentication
+ ↓
+owner authorization
+ ↓
+2FA/session assurance where appropriate
+ ↓
+validation
+ ↓
+mutation
+```
+
+Do not trust:
+
+```json
+{
+  "role": "owner"
+}
+```
+
+sent by the browser.
+
+---
+
+# 33. Your admin CMS needs audit logs
+
+Since this is your portfolio and you specifically care about production backend practices, create:
+
+```text
+AuditLog
+```
+
+with:
+
+```text
+id
+actorId
+action
+resource
+resourceId
+metadata
+ip
+userAgent
+createdAt
+```
+
+Then you know:
+
+```text
+who changed portfolio
+what changed
+when
+```
+
+---
+
+# 34. Add optimistic concurrency
+
+If you edit portfolio content from two browser tabs:
+
+```text
+Tab A
+Tab B
+```
+
+you don't want:
+
+```text
+A saves
+B saves stale copy
+B destroys A's changes
+```
+
+Use:
+
+```text
+version
+updatedAt
+ETag
+```
+
+or another optimistic concurrency mechanism.
+
+---
+
+# 35. Separate published content from drafts
+
+For a proper CMS:
+
+```text
+draft
+published
+```
+
+or:
+
+```text
+status
+```
+
+Then:
+
+```text
+admin edits
+ ↓
+draft
+ ↓
+preview
+ ↓
+publish
+ ↓
+cache invalidation
+```
+
+This is significantly better than modifying the live object directly.
+
+---
+
+# 36. Add Next cache invalidation after publishing
+
+This is where your architecture becomes good:
+
+```text
+Admin CMS
+    │
+    ▼
+API
+    │
+    ▼
+database
+    │
+    ▼
+publish
+    │
+    ▼
+revalidateTag("portfolio")
+    │
+    ▼
+nishu.dev
+```
+
+Then you don't need to wait one hour for content changes.
+
+---
+
+# 37. Do NOT add Redis yet unless you actually need it
+
+Your API currently serves a static in-memory object.
+
+Redis would be unnecessary.
+
+Once you have:
+
+```text
+PostgreSQL
++
+admin CMS
++
+published content
+```
+
+then Redis becomes reasonable if traffic justifies it.
+
+For your current traffic:
+
+```text
+Next Data Cache
++
+database
+```
+
+is enough.
+
+---
+
+# 38. Add `/health` and `/ready`
+
+Your backend already has:
+
+```text
+/health
+/ping
+```
+
+Keep `/health` simple.
+
+Add:
+
+```text
+/ready
+```
+
+for dependency readiness.
+
+For example:
+
+```text
+/health
+→ process alive
+
+/ready
+→ DB available
+→ required configuration valid
+```
+
+UptimeRobot should monitor:
+
+```text
+/health
+```
+
+not the homepage.
+
+---
+
+# 39. Fix startup error handling
+
+Your backend has:
+
+```ts
+catch (err: any) {
+  process.exit(1);
+}
+```
+
+without logging the startup error.
+
+That's bad for production debugging.
+
+Use:
+
+```ts
+catch (error) {
+  app.log.error(error, "Failed to start server");
+  process.exit(1);
+}
+```
+
+---
+
+# 40. Remove unused `address`
+
+You have:
+
+```ts
+const address = await app.listen(...)
+```
+
+but don't use `address`.
+
+Use:
+
+```ts
+await app.listen(...)
+```
+
+and log startup through Fastify.
+
+---
+
+# 41. Don't ignore errors in production
+
+You have:
+
+```ts
+process.on("uncaughtException", ...)
+process.exit(1)
+```
+
+Exiting after an uncaught exception is reasonable.
+
+But you need proper structured logging before exiting and a process manager/platform to restart the process.
+
+Render handles process restarts, but you still need observability.
+
+---
+
+# 42. Environment configuration is incomplete
+
+Backend `.env.example` currently only has:
+
+```text
+PORT
+NODE_ENV
+```
+
+Once authentication/CMS exists you'll need explicit configuration for:
+
+```text
+DATABASE_URL
+SESSION_SECRET
+JWT_SECRET
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+WEBAUTHN_RP_ID
+WEBAUTHN_ORIGIN
+TOTP_ENCRYPTION_KEY
+CORS_ORIGINS
+```
+
+etc.
+
+Validate these at startup.
+
+---
+
+# 43. Fix the frontend environment naming
+
+Currently frontend supports:
+
+```text
+NEXT_PUBLIC_API_URL
+NEXT_PUBLIC_BACKEND
+```
+
+Pick one:
+
+```env
+NEXT_PUBLIC_API_URL=https://nishu-dev-api.onrender.com
+```
+
+and remove the alias.
+
+Likewise:
+
+```text
+PUBLIC_FRONTEND
+NEXT_PUBLIC_FRONTEND_URL
+```
+
+are inconsistent.
+
+Use:
+
+```env
+NEXT_PUBLIC_SITE_URL=https://nishudevportfolio.vercel.app
+```
+
+if you want a clearer name.
+
+---
+
+# 44. Your `.env.example` contains bad/inconsistent entries
+
+You currently have:
+
+```text
+MAIL_TO==
+```
+
+and:
+
+```text
+PUBLIC_FRONTEND=
+```
+
+while the code uses:
+
+```text
+NEXT_PUBLIC_FRONTEND_URL
+```
+
+Clean this up.
+
+---
+
+# 45. Don't put admin secrets in `NEXT_PUBLIC_*`
+
+This becomes critical when you implement the CMS.
+
+Anything beginning:
+
+```text
+NEXT_PUBLIC_
+```
+
+is potentially exposed to the browser.
+
+Never put:
+
+```text
+JWT_SECRET
+GOOGLE_CLIENT_SECRET
+TOTP_ENCRYPTION_KEY
+DATABASE_URL
+```
+
+there.
+
+---
+
+# 46. Fix `next.config.mjs`
+
+You currently have:
+
+```js
+eslint: {
+  ignoreDuringBuilds: true,
+}
+```
+
+Remove that.
+
+Make CI fail on actual lint errors.
+
+You are currently telling Next:
+
+```text
+lint broken?
+ignore it.
+```
+
+That is the opposite of what you want during this stabilization phase.
+
+---
+
+# 47. Fix the Tailwind/module warning
+
+Your previous deployment logs showed the Tailwind configuration module-format warning.
+
+Your project is:
+
+```json
+"type": "module"
+```
+
+so keep the configuration consistently ESM.
+
+Don't mix:
+
+```js
+module.exports
+```
+
+with:
+
+```js
+export default
+```
+
+across the same configuration chain.
+
+---
+
+# 48. Remove unused SWR
+
+Your package contains:
+
+```json
+"swr": "^2.4.1"
+```
+
+but the current architecture isn't using it.
+
+Remove it unless you deliberately decide to use SWR for client-side data.
+
+I'd remove it.
+
+---
+
+# 49. The homepage should have a real loading boundary
+
+Add:
+
+```text
+app/loading.tsx
+```
+
+The loading boundary should be page-level.
+
+Then individual client sections don't need to pretend that they are responsible for initial server loading.
+
+---
+
+# 50. Fix the mobile hero height
+
+Your screenshot makes the page look almost empty because the hero has:
+
+```css
+min-h-[calc(100vh-140px)]
+```
+
+on a very tall mobile viewport.
+
+That is not the primary API problem, but it makes the failure much more visually obvious.
+
+Use something like:
+
+```tsx
+min-h-[calc(100svh-80px)]
+```
+
+or reduce the minimum height.
+
+---
+
+# 51. `SkillsShowcase` has a hidden-data trap
+
+It contains:
+
+```tsx
+if (loading || !portfolioData?.developer?.name) return null;
+```
+
+This means a data problem gives:
+
+```text
+nothing
+```
+
+instead of:
+
+```text
+loading
+error
+empty
+```
+
+This is particularly bad because it's near the hero and therefore contributes to the impression that the API didn't load.
+
+---
+
+# 52. Experience also silently disappears
+
+You have:
+
+```tsx
+if (!experiences || experiences.length === 0) return null;
+```
+
+Again:
+
+```text
+empty array
+ ↓
+nothing
+```
+
+At least during development, render:
+
+```text
+No experience data configured.
+```
+
+You can hide it later intentionally.
+
+---
+
+# 53. Certificates data needs an explicit empty state
+
+You have roughly 30 certificate URLs, so the backend currently does contain certificate data.
+
+But because most objects only have:
+
+```text
+url
+```
+
+your UI has insufficient metadata.
+
+Normalize those records.
+
+---
+
+# 54. Your backend's `Config` type is currently misleading
+
+You have:
+
+```ts
+const config = <Record<any, any>>{ ... };
+```
+
+and:
+
+```ts
+export type Config = typeof config;
+```
+
+Because you've already erased the useful type information with `Record<any, any>`, you're not getting much benefit from `typeof config`.
+
+Define real interfaces/types instead.
+
+---
+
+# 55. Your API response wrapper should have a consistent type
+
+Current:
+
+```ts
+data: Record<string, any> | string | number | boolean | null
+```
+
+Use generics:
+
+```ts
+export function sendSuccess<T>(
+  reply: FastifyReply,
+  message: string,
+  statusCode: number,
+  data: T,
+) {
+  return reply.code(statusCode).send({
+    success: true,
+    statusCode,
+    message,
+    data,
+  });
+}
+```
+
+Now:
+
+```ts
+sendSuccess<Portfolio>(...)
+```
+
+retains type information.
+
+---
+
+# 56. Don't return `details: undefined`
+
+Your current successful response always includes:
+
+```ts
+details
+```
+
+even when undefined.
+
+Keep the success contract simple:
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "...",
+  "data": {}
+}
+```
+
+Only include `details` if actually required.
+
+---
+
+# 57. Error responses should not expose implementation details
+
+Your current error handler includes:
+
+```ts
+name
+details
+stack
+```
+
+in development.
+
+That's acceptable locally.
+
+In production, keep the client response generic.
+
+Log:
+
+```text
+stack
+requestId
+route
+method
+```
+
+server-side.
+
+---
+
+# 58. Add API tests before adding CMS features
+
+Before implementing Google/WebAuthn/TOTP, make this green:
+
+```text
+GET /health
+GET /ready
+GET /portfolio
+
+invalid route → 404
+OPTIONS /portfolio → correct CORS
+```
+
+Then test:
+
+```text
+portfolio schema
+```
+
+Then authentication.
+
+Don't build auth on top of an unstable API.
+
+---
+
+# 59. Recommended final backend structure
+
+I would restructure your backend to:
+
+```text
+src/
+├── app.ts
+├── index.ts
+│
+├── config/
+│   ├── env.ts
+│   ├── server.ts
+│   └── auth.ts
+│
+├── modules/
+│   ├── portfolio/
+│   │   ├── portfolio.controller.ts
+│   │   ├── portfolio.service.ts
+│   │   ├── portfolio.schema.ts
+│   │   └── portfolio.routes.ts
+│   │
+│   ├── auth/
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.schema.ts
+│   │   ├── google.ts
+│   │   ├── webauthn.ts
+│   │   └── totp.ts
+│   │
+│   └── admin/
+│       ├── admin.controller.ts
+│       ├── admin.service.ts
+│       └── admin.routes.ts
+│
+├── plugins/
+│   ├── cors.ts
+│   ├── auth.ts
+│   ├── swagger.ts
+│   └── security.ts
+│
+├── db/
+│   ├── client.ts
+│   └── schema/
+│
+├── utils/
+│   ├── response.ts
+│   ├── errors.ts
+│   └── logger.ts
+│
+└── types/
+```
+
+That's much more maintainable than calling the portfolio controller `authController.ts`.
+
+---
+
+# 60. Rename `authController.ts`
+
+This is currently:
+
+```text
+controllers/authController.ts
+```
+
+but it contains:
+
+```text
+portfolio
+health
+ping
+```
+
+No authentication.
+
+Rename it.
+
+For example:
+
+```text
+controllers/
+├── portfolioController.ts
+├── healthController.ts
+└── authController.ts
+```
+
+when auth actually exists.
+
+---
+
+# 61. Your current API does NOT need Redis to solve this bug
+
+This is worth emphasizing because you were previously working on Redis/Prisma architecture.
+
+For this particular application:
+
+```text
+portfolio data
+```
+
+is tiny.
+
+The best immediate system is:
+
+```text
+Fastify
++
+in-memory/static data
++
+Next cache
+```
+
+Then later:
+
+```text
+Postgres
++
+Next cache
+```
+
+Then only if needed:
+
+```text
+Redis
+```
+
+Don't introduce another failure point while debugging rendering.
+
+---
+
+# 62. The actual priority order
+
+Don't implement everything above at once.
+
+Do it in this exact order.
+
+### Stage 1 — get `nishu.dev` rendering again
+
+```text
+1. Fix RevealOnScroll/opacity issue
+2. Remove force-dynamic
+3. Remove layout API fetch
+4. Create one server-side getPortfolioData()
+5. Remove 96-second retry
+6. Stop returning null silently
+7. Remove client portfolio fetch
+8. Stop using Redux for portfolio
+9. Add loading.tsx
+10. Add error states
+```
+
+At this point the homepage should show:
+
+```text
+Hero
+About
+Experience
+Skills
+Certificates
+GitHub
+```
+
+with actual API data.
+
+### Stage 2 — fix data correctness
+
+```text
+11. Normalize API contract
+12. Add Zod
+13. Fix GitHub case matching
+14. Fix GitHub empty state
+15. Normalize certificates
+16. Normalize experience
+17. Normalize project metadata
+```
+
+### Stage 3 — clean frontend
+
+```text
+18. Remove SWR
+19. Remove unused env vars
+20. Fix Tailwind module warning
+21. Re-enable ESLint
+22. Fix hydration-sensitive code
+23. Remove duplicated animation systems
+24. Fix mobile hero height
+25. Remove generated artifacts
+```
+
+### Stage 4 — stabilize API
+
+```text
+26. typed responses
+27. /health
+28. /ready
+29. explicit CORS
+30. request IDs
+31. structured logs
+32. environment validation
+33. API schema
+34. API tests
+```
+
+### Stage 5 — build CMS
+
+```text
+35. PostgreSQL
+36. owner table
+37. portfolio tables
+38. audit logs
+39. one-time bootstrap
+40. Google OAuth
+41. secure session cookies
+42. TOTP
+43. WebAuthn
+44. admin routes
+45. admin frontend
+46. draft/publish
+47. cache invalidation
+```
+
+---
+
+## The most important discovery
+
+There are actually **two separate reasons your page can appear blank**.
+
+First:
+
+```text
+API fetch fails
+     ↓
+Redux has empty data
+     ↓
+loading/name conditions
+     ↓
+skeleton/null
+```
+
+Second:
+
+```text
+API succeeds
+     ↓
+React renders data
+     ↓
+RevealOnScroll parent becomes visible
+     ↓
+children still have opacity-0
+     ↓
+content remains invisible
+```
+
+So even if another AI "fixes the API", your UI can **still look broken** because of the animation implementation.
+
+That is why repeatedly asking an AI to "fix the API loading" was burning credits without resolving the actual visual failure.
+
+The backend itself is currently much simpler than I expected: `/portfolio` is a static in-memory configuration endpoint, not a database/Redis system, and it is structurally capable of returning the portfolio data. The bigger immediate failure is the frontend data/rendering architecture, while the backend's major issues are maintainability, permissive CORS, lack of schemas/validation, lack of observability, and the fact that the requested secure editable CMS/auth system simply hasn't been implemented yet.
+
+If you want the most efficient next step, **do not ask another AI to modify both repositories at once**. Fix the frontend rendering pipeline first, verify `/portfolio → HTML → visible sections`, then build the backend CMS/authentication on the now-stable contract.
+Yes. I checked the actual `nishu.dev-nishan.zip` from your Library, not just the logs. The archive is about 668 KB and contains the current Next.js app, including `lib/portfolio.ts`, `app/layout.js`, the home page, project pages, Redux store, and portfolio components. 
+
+There are several real problems. The current Vercel build has progressed much further than before:
+
+```text
+Detected Next.js version: 15.5.24
+Running "npm run build"
+▲ Next.js 15.5.24
+Creating an optimized production build ...
+```
+
+So the previous Vercel configuration/dependency failure is fixed.
+
+However, I found a few architectural issues that explain both the current build behavior and the earlier blank-data behavior.
+
+### 1. The current "hang" is probably happening during compilation
+
+Your log stops at:
+
+```text
+Creating an optimized production build ...
+```
+
+It has **not reached static page generation yet**.
+
+One suspicious thing in your code is:
+
+```js
+import { Outfit } from "next/font/google";
+```
+
+in `app/layout.js`.
+
+You already have a local Geist font:
+
+```text
+app/fonts/GeistVF.woff
+```
+
+but you're still asking Next.js to process a Google font during the production build.
+
+For a production portfolio, I would eliminate that external build dependency.
+
+Change:
+
+```js
+import { Outfit } from "next/font/google";
+```
+
+and:
+
+```js
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+```
+
+to either a local Outfit font if you have one, or simply use your existing Geist font.
+
+This isn't necessarily the only cause, but it removes one unnecessary build-time network dependency.
+
+---
+
+### 2. I found a major Redux/provider bug
+
+This is more important for your original "data is blank" problem.
+
+Your root layout does:
+
+```jsx
+<Providers>
+  <AppEnhancements />
+  <PageTopLoader />
+  <Header />
+  <main id="main">{children}</main>
+  ...
+  <Footer />
+</Providers>
+```
+
+But `Providers` receives **no `initialData`**.
+
+Then your home page does another:
+
+```jsx
+<Providers initialData={portfolioData}>
+```
+
+So you effectively have:
+
+```text
+ROOT
+└── Redux Store A
+    ├── Header
+    ├── Footer
+    └── Home
+        └── Redux Store B
+            ├── Hero
+            ├── About
+            ├── Experience
+            ├── Skills
+            └── Certificates
+```
+
+That is wrong.
+
+Store A doesn't have server data.
+
+Store B does.
+
+Therefore components outside the Home provider fall back to client-side fetching.
+
+Your own `usePortfolio()` confirms this behavior: when the store says `loading === true`, it performs a browser fetch to the Render API. 
+
+This creates exactly the fragile architecture we were discussing.
+
+### 3. Your portfolio API is being fetched from too many places
+
+I found these server-side callers:
+
+```text
+app/(home)/page.jsx
+app/experience/page.tsx
+app/(projects)/projects/[slug]/page.tsx
+generateStaticParams()
+generateMetadata()
+```
+
+and the client side has roughly a dozen `usePortfolio()` consumers.
+
+The project detail page is particularly problematic:
+
+```tsx
+generateStaticParams()
+    ↓
+getPortfolioData()
+
+generateMetadata()
+    ↓
+getPortfolioData()
+
+ProjectDetail()
+    ↓
+getPortfolioData()
+```
+
+Your previous analysis document already identified this exact duplication. 
+
+This doesn't necessarily cause the current compilation hang, but it will cause unnecessary API requests during build/rendering.
+
+---
+
+### 4. Your 8-second API timeout + retry is problematic during build
+
+Your current code does:
+
+```ts
+const REQUEST_TIMEOUT_MS = 8000;
+const MAX_ATTEMPTS = 2;
+```
+
+and then:
+
+```ts
+await fetch(...)
+```
+
+followed by a 750 ms retry.
+
+Worst case:
+
+```text
+8 sec
++
+750 ms
++
+8 sec
+=
+16.75 seconds
+```
+
+for a single logical request.
+
+And you have multiple build-time callers.
+
+Your previous architecture analysis also identified the unnecessary retry waterfall. 
+
+More importantly, you're using an `AbortSignal` on a Next cached fetch:
+
+```ts
+fetch(url, {
+  signal: controller.signal,
+  next: {
+    revalidate: 3600,
+    tags: ["portfolio"]
+  }
+})
+```
+
+I'd simplify this considerably.
+
+---
+
+### 5. Your original blank page has a CORS failure path
+
+Your browser fallback does:
+
+```ts
+fetch(`${api}/portfolio`)
+```
+
+from the client.
+
+That's:
+
+```text
+Browser
+   ↓
+Render
+```
+
+so CORS applies.
+
+Your server-side request is:
+
+```text
+Vercel
+   ↓
+Render
+```
+
+so browser CORS isn't involved.
+
+The previous analysis already identified this exact failure mode. 
+
+So the current architecture is:
+
+```text
+SSR succeeds
+      ↓
+Redux seeded
+      ↓
+works
+
+SSR fails
+      ↓
+Redux empty
+      ↓
+browser fetch
+      ↓
+CORS/network problem
+      ↓
+blank UI
+```
+
+That's unnecessarily fragile.
+
+---
+
+### 6. Your GitHub project fetching is another independent network dependency
+
+`GithubProjects.tsx` performs:
+
+```text
+Browser
+  ↓
+api.github.com
+```
+
+if there are no initial repos.
+
+The component has a 7-second timeout.
+
+This is acceptable as optional content, but it should not determine whether your portfolio's primary content is visible.
+
+Your `lib/github.ts` also performs a server-side GitHub request.
+
+So you currently have:
+
+```text
+Portfolio API
++
+GitHub API
++
+Google font
++
+Next build
+```
+
+as external dependencies.
+
+A portfolio should have a much smaller critical path.
+
+---
+
+## What I would change now
+
+I would not continue throwing random fixes at Vercel.
+
+I'd restructure the application into:
+
+```text
+                         ┌── Hero
+                         ├── About
+                         ├── Experience
+Portfolio API ──→ Server ├── Skills
+                         ├── Certificates
+                         └── Projects
+
+                         ↓
+                    Client components
+                    receive props
+```
+
+Not:
+
+```text
+Portfolio API
+     ↓
+Redux
+     ↓
+15 usePortfolio()
+     ↓
+browser fallback
+     ↓
+CORS
+```
+
+The previous analysis correctly identified that Redux is unnecessary for essentially static portfolio content. 
+
+Redux should remain for actual client state such as theme/UI state if you want it. It shouldn't be the transport layer for your server-owned portfolio JSON.
+
+---
+
+## But first: don't panic about the current build
+
+The current log:
+
+```text
+Creating an optimized production build ...
+```
+
+does **not** yet prove it is frozen.
+
+Give that deployment a few minutes.
+
+If it eventually changes to something like:
+
+```text
+Compiled successfully
+Collecting page data
+Generating static pages
+```
+
+then the compilation stage is fine, and we'll deal with the API/static-generation stage next.
+
+If it sits at exactly that line for ~5–10 minutes, I would treat it as a build problem rather than an API timeout.
+
+### The first concrete code fix I'd make
+
+Remove the Google font dependency from `layout.js`.
+
+You already have:
+
+```text
+app/fonts/GeistVF.woff
+```
+
+so use the local font stack instead of:
+
+```js
+import { Outfit } from "next/font/google";
+```
+
+Then simplify:
+
+```js
+const outfit = ...
+```
+
+away and use Geist/Tailwind typography.
+
+After that, the next major fix is to **eliminate the nested Redux `Providers` and make the server-fetched portfolio data the single source of truth**.
+
+That is the change most directly connected to your original "API data exists but components are blank" problem.
+
+And importantly: **don't modify `nishu.dev.api` yet for this build hang.** The current build hasn't even reached your portfolio API fetch stage.
+
+If you want me to actually modify the ZIP rather than continue diagnosing it verbally, I can work from the current `nishu.dev-nishan.zip` and produce a corrected production ZIP, including the provider/data-fetch architecture, build configuration, loading/error handling, and API failure isolation.

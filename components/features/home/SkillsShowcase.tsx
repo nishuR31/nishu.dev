@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useTheme, usePortfolio } from "@/store";
+import React, { useEffect, useState } from "react";
+import { useTheme } from "@/store";
 import {
   Atom, Monitor, Antenna, Code2, Database,
-  Github, Pyramid, Server, Wind, Globe, Paintbrush,
+  Github, Pyramid, Server, Globe, Paintbrush,
 } from "lucide-react";
-import { prefersReducedMotion, useScrollReveal } from "@/lib/anime-utils";
 
 interface Skill {
   name: string;
@@ -32,17 +31,19 @@ const presentationMap: Record<string, Omit<Skill, "name">> = {
   "bun.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#f97316" }, // Bun is orange now
 };
 
-const SkillsShowcase: React.FC = () => {
-  useScrollReveal();
-  const gridRef = useRef<HTMLDivElement>(null);
+interface SkillsShowcaseProps {
+  portfolioData: any;
+}
+
+const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
   const { currentTheme } = useTheme();
   const [isLight, setIsLight] = useState(false);
-  const { portfolioData, loading } = usePortfolio();
+  
   useEffect(() => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
-  if (loading || !portfolioData?.developer?.name) return null;
+  if (!portfolioData?.developer?.name) return null;
 
   // Extract flat list of skills from API mapping
   const apiSkills = portfolioData?.skills?.flatMap((cat: any) => cat.skills.map((s: any) => s.name)) || [];
@@ -76,7 +77,7 @@ const SkillsShowcase: React.FC = () => {
             return (
             <div
               key={skill.name}
-              className={`relative group skill-card ${skill.size} reveal-on-scroll opacity-0 translate-y-4 scale-95 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 data-[state=visible]:zoom-in-95 duration-500 fill-mode-both`}
+              className={`relative group skill-card ${skill.size} duration-500 fill-mode-both`}
               style={{ perspective: "600px", animationDelay: `${100 + index * 50}ms` }}
             >
               <div

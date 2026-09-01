@@ -1,15 +1,27 @@
-"use client";
 import React from "react";
-import { usePortfolio } from "../../store";
 import { Github, Linkedin, Mail, Globe, Twitter, ArrowRight, Code, Bug } from "lucide-react";
 import RevealOnScroll from "../../components/ui/reveal-on-scroll";
 import Link from "next/link";
-import { ContactSkeleton } from "../../components/ui/skeletons";
+import { getPortfolioData } from "@/lib/portfolio";
+import { AlertCircle } from "lucide-react";
 
-export default function ContactPage() {
-  const { portfolioData, loading } = usePortfolio();
+export const metadata = {
+  title: "Contact",
+};
 
-  if (loading) return <ContactSkeleton />;
+export default async function ContactPage() {
+  const result = await getPortfolioData();
+  const portfolioData = result.ok ? result.data : null;
+
+  if (!result.ok && !portfolioData) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100svh-80px)] w-full text-center px-4">
+        <AlertCircle className="w-12 h-12 text-destructive mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Failed to load contact info</h2>
+        <p className="text-muted-foreground">{result.error}</p>
+      </div>
+    );
+  }
 
   const developer = portfolioData.developer ?? {};
   const social = portfolioData.social ?? {};
@@ -46,7 +58,7 @@ export default function ContactPage() {
       name: "Website",
       value: "Nishan Portfolio",
       icon: <Globe className="w-6 h-6" />,
-      href: process.env.NEXT_PUBLIC_FRONTEND_URL || "loading...",
+      href: process.env.NEXT_PUBLIC_SITE_URL || "loading...",
       color: "text-emerald-500",
       bg: "bg-emerald-500/10",
       border: "border-emerald-500/20",
@@ -102,7 +114,7 @@ export default function ContactPage() {
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
               I'm always open to discussing product design work, software engineering, or partnership opportunities.
               Feel free to reach out to me through any of the platforms below.
-              For more information, visit <a href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}`} className="text-foreground font-medium underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-500 transition-colors">Nishan Portfolio</a>.
+              For more information, visit <a href={`${process.env.NEXT_PUBLIC_SITE_URL}`} className="text-foreground font-medium underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-500 transition-colors">Nishan Portfolio</a>.
             </p>
           </div>
         </RevealOnScroll>

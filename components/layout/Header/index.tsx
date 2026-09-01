@@ -1,14 +1,17 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Menu, X, Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { usePortfolio } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
-import { prefersReducedMotion } from "@/lib/anime-utils";
-import { NavSkeleton } from "@/components/ui/skeletons";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ui/theme-toggle";
+
+const NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/certificates", label: "Certificates" },
+  { href: "/contact", label: "Contact" },
+];
 
 interface NavItem {
   href: string;
@@ -66,37 +69,29 @@ const NavLink: React.FC<NavLinkProps> = ({ href, label, isMobile = false }) => {
 
 interface LogoProps {
   isMobile?: boolean;
-  developer: Record<string, string>;
 }
 
-const Logo: React.FC<LogoProps> = ({ isMobile = false, developer }) => {
-  return (
-    <div>
-      <Link
-        href="/"
-        className="flex items-center space-x-2 hover:opacity-90 transition-opacity"
+const Logo: React.FC<LogoProps> = ({ isMobile = false }) => (
+  <div>
+    <Link href="/" className="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+      <div className="hover:opacity-75 hover:scale-105 active:scale-95 transition-all animate-in fade-in duration-500 delay-200">
+        <Image
+          src="/logo.avif"
+          width={84}
+          height={84}
+          alt="logo"
+          priority
+          className={`${isMobile ? "w-10 h-10" : "w-12 h-12 sm:w-14 sm:h-14"} rounded-full ring-2 ring-purple-500/20`}
+        />
+      </div>
+      <span
+        className={`text-foreground/80 font-semibold ${isMobile ? "hidden" : "text-sm lg:text-base"} max-w-[46vw] xl:max-w-none truncate animate-in fade-in duration-500 delay-400 fill-mode-both`}
       >
-        <div
-          className="hover:opacity-75 hover:scale-105 active:scale-95 transition-all animate-in fade-in duration-500 delay-200"
-        >
-          <Image
-            src="/logo.avif"
-            width={84}
-            height={84}
-            alt="logo"
-            priority
-            className={`${isMobile ? "w-10 h-10" : "w-12 h-12 sm:w-14 sm:h-14"} rounded-full ring-2 ring-purple-500/20`}
-          />
-        </div>
-        <span
-          className={`text-foreground/80 font-semibold ${isMobile ? "hidden" : "text-sm lg:text-base"} max-w-[46vw] xl:max-w-none truncate animate-in fade-in duration-500 delay-400 fill-mode-both`}
-        >
-          <span className="lg:hidden">{developer?.name ?? "Nishu"}</span>
-        </span>
-      </Link>
-    </div>
-  );
-};
+        <span className="lg:hidden">Nishu</span>
+      </span>
+    </Link>
+  </div>
+);
 
 interface NavigationProps {
   isMobile?: boolean;
@@ -122,20 +117,14 @@ const Navigation: React.FC<NavigationProps> = ({ isMobile = false, onLinkClick, 
 );
 
 const Header: React.FC = () => {
-  const { portfolioData, loading } = usePortfolio();
-  const developer = portfolioData?.developer ?? {};
-  const navItems: NavItem[] = portfolioData?.NAV_ITEMS ?? [];
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
-      <header
-        className="sticky top-0 py-4 sm:py-5 z-50 text-foreground glass-panel-strong border-b border-purple-500/10 animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-both"
-      >
+      <header className="sticky top-0 py-4 sm:py-5 z-50 text-foreground glass-panel-strong border-b border-purple-500/10 animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-both">
         <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Logo developer={developer} />
-          {loading ? <NavSkeleton /> : <Navigation navItems={navItems} />}
+          <Logo />
+          <Navigation navItems={NAV_ITEMS} />
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/settings" className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
               <Settings className="w-5 h-5" />
@@ -161,18 +150,21 @@ const Header: React.FC = () => {
             className="fixed inset-0 bg-background/70 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
-          <div
-            className="fixed top-0 right-0 h-full w-64 glass-premium border-l border-purple-500/15 z-50 md:hidden overflow-y-auto animate-in slide-in-from-right duration-300"
-          >
+          <div className="fixed top-0 right-0 h-full w-64 glass-premium border-l border-purple-500/15 z-50 md:hidden overflow-y-auto animate-in slide-in-from-right duration-300">
             <div className="flex flex-col h-full p-6">
               <div className="mb-8">
-                <Logo isMobile developer={developer} />
+                <Logo isMobile />
               </div>
               <div className="flex-1">
-                <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={navItems} />
+                <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={NAV_ITEMS} />
               </div>
               <div className="mb-4 flex justify-center items-center gap-6">
-                <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
+                <Link
+                  href="/settings"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+                  aria-label="Settings"
+                >
                   <Settings className="w-5 h-5" />
                 </Link>
                 <ThemeToggle />

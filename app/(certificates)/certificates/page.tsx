@@ -1,15 +1,12 @@
-// app/(certificates)/certificates/page.jsx
-"use client";
 import React from "react";
-
-import { FileText, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { FileText, Image as ImageIcon, ExternalLink, AlertCircle } from "lucide-react";
 import Image from "next/image";
-import { usePortfolio } from "../../../store";
-import { CertificatesGridSkeleton } from "../../../components/ui/skeletons";
+import { getPortfolioData } from "@/lib/portfolio";
 
-import { toast } from "sonner";
+export const metadata = {
+  title: "Certificates",
+};
 
-// Utility to extract information from certificate URL
 interface RawCertificate {
     url: string;
     [key: string]: any;
@@ -29,25 +26,22 @@ const getCertificateInfo = (url: string) => {
     }
 };
 
-const CertificatesGrid = () => {
-    const { portfolioData, loading, error } = usePortfolio();
+export default async function CertificatesPage() {
+    const result = await getPortfolioData();
+    const portfolioData = result.ok ? result.data : null;
 
-    React.useEffect(() => {
-        if (error) {
-            toast.error(error);
-        }
-    }, [error]);
+    if (!result.ok && !portfolioData) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[calc(100svh-80px)] w-full text-center px-4">
+                <AlertCircle className="w-12 h-12 text-destructive mb-4" />
+                <h2 className="text-2xl font-bold mb-2">Failed to load certificates</h2>
+                <p className="text-muted-foreground">{result.error}</p>
+            </div>
+        );
+    }
 
     const rawCertificates: RawCertificate[] = (portfolioData?.certificates as RawCertificate[]) ?? [];
     const certificates = rawCertificates.map((c: RawCertificate) => getCertificateInfo(c.url));
-
-    if (loading) {
-        return <CertificatesGridSkeleton />;
-    }
-
-    if (error) {
-        return null;
-    }
 
     return (
         <section className="py-24" id="certificates-grid">
@@ -116,8 +110,4 @@ const CertificatesGrid = () => {
             </div>
         </section>
     );
-};
-
-export default function CertificatesPage() {
-    return <CertificatesGrid />;
 }

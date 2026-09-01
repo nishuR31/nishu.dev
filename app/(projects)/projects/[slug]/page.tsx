@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const data = await getPortfolioData();
-  const projects = data?.projects || [];
+  const result = await getPortfolioData();
+  const projects = result.ok ? result.data?.projects ?? [] : [];
   const params: { slug: string }[] = [];
 
   for (const p of projects) {
@@ -25,8 +25,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const data = await getPortfolioData();
-  const projects = data?.projects || [];
+  const result = await getPortfolioData();
+  const projects = result.ok ? result.data?.projects ?? [] : [];
   const targetSlug = params.slug.toLowerCase();
 
   const project = projects.find((p: any) =>
@@ -48,8 +48,8 @@ export default async function ProjectDetail({
 }: {
   params: { slug: string };
 }) {
-  const data = await getPortfolioData();
-  const projects = data?.projects || [];
+  const result = await getPortfolioData();
+  const projects = result.ok ? result.data?.projects ?? [] : [];
   const targetSlug = params.slug.toLowerCase();
 
   const initialProject = projects.find((p: any) =>

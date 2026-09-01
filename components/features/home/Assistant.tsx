@@ -1,17 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import { MessageSquare, X, Send, Bot, User } from "lucide-react";
-import { usePortfolio } from "@/store";
 
-export default function AssistantWidget() {
+interface AssistantWidgetProps {
+  portfolioData: any;
+}
+
+export default function AssistantWidget({ portfolioData }: AssistantWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'bot', text: string}[]>([
     { role: 'bot', text: 'Hi! I am the portfolio assistant. Feel free to ask me about Nishan\'s projects, skills, or experience!' }
   ]);
   const [input, setInput] = useState("");
-  const { portfolioData, loading } = usePortfolio();
 
-  if (loading || !portfolioData?.developer?.name) return null;
+  if (!portfolioData?.developer?.name) return null;
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();

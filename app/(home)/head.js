@@ -14,7 +14,7 @@ export default async function Head() {
     "@type": "WebPage",
     name: title,
     description,
-    url: process.env.NEXT_PUBLIC_FRONTEND_URL,
+    url: process.env.NEXT_PUBLIC_SITE_URL,
     author: {
       "@type": "Person",
       name: developer?.name,
@@ -26,7 +26,7 @@ export default async function Head() {
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <link rel="canonical" href={process.env.NEXT_PUBLIC_FRONTEND_URL} />
+      <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

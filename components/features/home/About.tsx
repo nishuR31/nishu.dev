@@ -1,13 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import { useScrollReveal } from "@/lib/anime-utils";
 import { UserCircle, Code2, Database, Layout, Zap } from "lucide-react";
-import { usePortfolio } from "@/store";
-import { AboutSkeleton } from "@/components/ui/skeletons";
-import { toast } from "sonner";
 import { useCountUp } from "@/lib/anime-utils";
-
-
 
 /* Count-up number display */
 const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> = ({
@@ -31,11 +25,14 @@ const CountUpStat: React.FC<{ target: number; suffix?: string; label: string }> 
   );
 };
 
-const AboutSection: React.FC = () => {
-  useScrollReveal();
-  const { portfolioData, error, loading } = usePortfolio();
+interface AboutSectionProps {
+  portfolioData: any;
+}
 
-  if (loading || !portfolioData?.developer?.name) return <AboutSkeleton />;
+const AboutSection: React.FC<AboutSectionProps> = ({ portfolioData }) => {
+  if (!portfolioData?.developer?.name) {
+    return null;
+  }
 
   const projectCount = portfolioData?.projects?.length ?? 0;
   const certCount = portfolioData?.certificates?.length ?? 0;
@@ -54,13 +51,13 @@ const AboutSection: React.FC = () => {
           {/* Section Header */}
           <div className="text-center space-y-4 mb-16">
             <div
-              className="inline-flex items-center space-x-2 bg-primary/10 border border-border px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 fill-mode-both"
+              className="inline-flex items-center space-x-2 bg-primary/10 border border-border px-4 py-2 rounded-full text-foreground backdrop-blur-sm duration-700"
             >
               <UserCircle className="w-5 h-5" />
               <span className="text-sm font-medium">About Me</span>
             </div>
             <h2
-              className="text-3xl md:text-5xl font-bold tracking-tight font-outfit gradient-heading reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both"
+              className="text-3xl md:text-5xl font-bold tracking-tight font-outfit gradient-heading duration-700 delay-100"
             >
               My Journey &amp; Vision
             </h2>
@@ -68,7 +65,7 @@ const AboutSection: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
-            <div className="space-y-6 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+            <div className="space-y-6 duration-700 delay-200">
               {(portfolioData?.developer?.about ?? []).map((paragraph: string, idx: number) => (
                 <p
                   key={idx}
@@ -108,7 +105,7 @@ const AboutSection: React.FC = () => {
 
             {/* Bento philosophy card */}
             <div
-              className="relative reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both"
+              className="relative duration-700 delay-300"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-primary/10 rounded-3xl blur-2xl" />
               <div className="relative flex flex-col gap-4 glass-premium rounded-3xl p-6 border border-border overflow-hidden group">

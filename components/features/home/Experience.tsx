@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { useScrollReveal } from "@/lib/anime-utils";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
-import { usePortfolio } from "@/store";
-import { ExperienceSkeleton } from "@/components/ui/skeletons";
 
 interface Experience {
   id?: string;
@@ -19,8 +16,6 @@ interface Experience {
   technologies?: string[];
   location?: string;
 }
-
-
 
 const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
   return (
@@ -39,24 +34,9 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
         stroke="url(#timelineGrad)"
         strokeWidth="2"
         strokeLinecap="round"
-        className="reveal-on-scroll transition-all duration-1000 ease-in-out"
-        style={{ strokeDasharray: height, strokeDashoffset: height }}
-        ref={(el) => {
-          if (el) {
-            // Using a tiny IntersectionObserver inside the ref or rely on global data-state
-            // If the element has data-state="visible", we apply style
-            // Actually, we can just use tailwind arbitrarily:
-            // But data-[state=visible] for arbitrary value needs to override style...
-            // Let's rely on standard class:
-          }
-        }}
-        // In order to make stroke-dashoffset transition to 0, we can use a class 
+        className="transition-all duration-1000 ease-in-out"
+        style={{ strokeDasharray: height, strokeDashoffset: 0 }}
       />
-      <style jsx>{`
-        line[data-state="visible"] {
-          stroke-dashoffset: 0 !important;
-        }
-      `}</style>
       <defs>
         <linearGradient id="timelineGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#71717a" />
@@ -67,9 +47,11 @@ const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
   );
 };
 
-const ExperienceSection: React.FC = () => {
-  useScrollReveal();
-  const { portfolioData, loading } = usePortfolio();
+interface ExperienceSectionProps {
+  portfolioData: any;
+}
+
+const ExperienceSection: React.FC<ExperienceSectionProps> = ({ portfolioData }) => {
   const experiences: Experience[] = portfolioData?.experiences ?? [];
   const sectionRef = useRef<HTMLDivElement>(null);
   const [connectorHeight, setConnectorHeight] = React.useState(0);
@@ -80,8 +62,15 @@ const ExperienceSection: React.FC = () => {
     setConnectorHeight(el.offsetHeight - 48);
   }, [experiences.length]);
 
-  if (loading || !portfolioData?.developer?.name) return <ExperienceSkeleton />;
-  if (!experiences || experiences.length === 0) return null;
+  if (!experiences || experiences.length === 0) {
+    return (
+      <section className="py-24 cv-auto" id="experience">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-muted-foreground">No experience data configured.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 cv-auto" id="experience">
@@ -92,12 +81,12 @@ const ExperienceSection: React.FC = () => {
           {/* Header */}
           <div className="max-w-2xl mx-auto text-center space-y-6">
             <div
-              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 fill-mode-both"
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm duration-500 fill-mode-both"
             >
               <Briefcase className="w-5 h-5" />
               <span className="text-sm font-medium">Professional Experience</span>
             </div>
-            <div className="space-y-2 reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 delay-100 fill-mode-both">
+            <div className="space-y-2 duration-500 delay-100 fill-mode-both">
               <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Work Experience
               </h2>
@@ -116,8 +105,7 @@ const ExperienceSection: React.FC = () => {
                 {experiences.map((exp, index) => (
                   <div
                     key={index}
-                    className="relative reveal-on-scroll opacity-0 -translate-x-6 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-left-6 duration-500 fill-mode-both"
-                    style={{ animationDelay: `${200 + index * 150}ms` }}
+                    className="relative"
                   >
                     <div className="flex gap-6">
                       {/* Timeline node */}

@@ -1,11 +1,8 @@
 "use client";
-import React, { useRef } from "react";
-import { useScrollReveal } from "@/lib/anime-utils";
+import React, { useEffect, useState } from "react";
 import { Boxes, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { usePortfolio } from "@/store";
-import { SkillsSkeleton } from "@/components/ui/skeletons";
 
 interface Skill {
   name: string;
@@ -48,31 +45,24 @@ const getLevelGradient = (bgClass: string): string => {
   return map[bgClass] || "from-zinc-500 to-cyan-400";
 };
 
-
-
 const SkillBar: React.FC<{ percentage: number; gradient: string }> = ({ percentage, gradient }) => {
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    // Simple mount animation
+    const timer = setTimeout(() => setWidth(percentage), 100);
+    return () => clearTimeout(timer);
+  }, [percentage]);
+
   return (
     <div className="h-1.5 bg-zinc-800/50 rounded-full overflow-hidden mt-2">
       <div
         className={cn(
-          "h-full bg-gradient-to-r rounded-full skill-bar-glow-anim reveal-on-scroll transition-all duration-1000 ease-out",
+          "h-full bg-gradient-to-r rounded-full transition-all duration-1000 ease-out",
           gradient
         )}
-        style={{ width: "0%" }}
-        ref={(el) => {
-          if (el && el.getAttribute("data-state") === "visible") {
-            el.style.width = `${percentage}%`;
-          } else if (el) {
-            // Setup a fallback inline transition if data-state is attached via mutation observer
-            // Actually, a simpler way is to just use CSS vars:
-          }
-        }}
+        style={{ width: `${width}%` }}
       />
-      <style jsx>{`
-        div[data-state="visible"] {
-          width: ${percentage}% !important;
-        }
-      `}</style>
     </div>
   );
 };
@@ -82,7 +72,7 @@ const SkillCard: React.FC<{ skill: Skill; bgClass: string }> = ({ skill, bgClass
   const gradient = getLevelGradient(bgClass);
 
   return (
-    <div className="relative flex flex-col h-full reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both">
+    <div className="relative flex flex-col h-full duration-500 fill-mode-both">
       <div className="relative h-full p-4 rounded-xl border border-zinc-800/50 hover:border-zinc-500/30 transition-all duration-300 bg-card/30 backdrop-blur-sm group hover:shadow-[0_0_20px_rgba(168,85,247,0.08)]">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-base font-medium text-foreground/90">{skill.name}</h3>
@@ -141,12 +131,22 @@ const CategorySection: React.FC<{ category: SkillCategory }> = ({ category }) =>
   );
 };
 
-const SkillsSection: React.FC = () => {
-  useScrollReveal();
-  const { portfolioData, loading } = usePortfolio();
+interface SkillsSectionProps {
+  portfolioData: any;
+}
+
+const SkillsSection: React.FC<SkillsSectionProps> = ({ portfolioData }) => {
   const skills: SkillCategory[] = portfolioData?.skills ?? [];
 
-  if (loading || !portfolioData?.developer?.name) return <SkillsSkeleton />;
+  if (!skills || skills.length === 0) {
+    return (
+      <section className="py-24 cv-auto" id="skills">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-muted-foreground">No skills data configured.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 cv-auto" id="skills">
@@ -156,13 +156,13 @@ const SkillsSection: React.FC = () => {
         >
           <div className="max-w-2xl mx-auto text-center space-y-6">
             <div
-              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both"
+              className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 px-4 py-2 rounded-full text-foreground backdrop-blur-sm duration-500 fill-mode-both"
             >
               <Cpu className="w-5 h-5" />
               <span className="text-sm font-medium">Skills &amp; Technologies</span>
             </div>
 
-            <div className="space-y-2 reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 delay-100 fill-mode-both">
+            <div className="space-y-2 duration-500 delay-100 fill-mode-both">
               <h2 className="text-3xl md:text-4xl font-bold font-outfit gradient-heading">
                 Technical Proficiency
               </h2>
@@ -174,7 +174,7 @@ const SkillsSection: React.FC = () => {
 
           <div className="space-y-16">
             {skills.map((category, index) => (
-              <div key={index} className="reveal-on-scroll opacity-0 translate-y-4 data-[state=visible]:animate-in data-[state=visible]:fade-in data-[state=visible]:slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: `${200 + index * 100}ms` }}>
+              <div key={index} className="duration-500 fill-mode-both">
                 <CategorySection category={category} />
               </div>
             ))}

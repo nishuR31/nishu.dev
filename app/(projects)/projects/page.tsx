@@ -1,15 +1,20 @@
-"use client";
 import React from "react";
 import BackgroundEffects from "../../../components/ui/background-effects";
-import { usePortfolio } from "../../../store";
 import SectionTitle from "../../../components/features/projects/SectionTitle";
 import { ProjectsList } from "../../../components/features/projects/ProjectsList";
 import { Code, Terminal } from "lucide-react";
+import { getPortfolioData } from "@/lib/portfolio";
 
-const ProjectsPage = () => {
-  const { portfolioData, loading } = usePortfolio();
+export const metadata = {
+  title: "Projects",
+};
+
+const ProjectsPage = async () => {
+  const result = await getPortfolioData();
+  const portfolioData = result.ok ? result.data : null;
   const projects = portfolioData?.projects ?? [];
   const additionalProjects = portfolioData?.additionalProjects ?? [];
+  const githubUser = portfolioData?.social?.github ?? "nishuR31";
 
   return (
     <section className="py-16" id="projects">
@@ -23,8 +28,8 @@ const ProjectsPage = () => {
 
         <div className="relative space-y-16">
           <div>
-            <SectionTitle />
-            <ProjectsList projects={projects} loading={loading} />
+            <SectionTitle projectCount={projects.length} githubUser={githubUser} />
+            <ProjectsList projects={projects} loading={!result.ok} />
           </div>
 
           {additionalProjects.length > 0 && (
