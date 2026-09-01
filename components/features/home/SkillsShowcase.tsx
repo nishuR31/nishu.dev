@@ -25,7 +25,8 @@ const presentationMap: Record<string, Omit<Skill, "name">> = {
   "GitHub": { icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
   "Postman": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff6c37" },
 
-  "TailwindCSS": { icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-2", accentColor: "#38bdf8" },
+  "TailwindCSS": { icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#38bdf8" },
+  "Bruno": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff6c37" },
 
   "Prisma": { icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
 
