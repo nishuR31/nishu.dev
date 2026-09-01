@@ -16,7 +16,19 @@ import RevealOnScroll from "@/components/ui/reveal-on-scroll";
 import { getPortfolioData } from "@/lib/portfolio";
 import { Suspense } from "react";
 
-const Home = async () => {
+import { HeroSkeleton, AboutSkeleton, ExperienceSkeleton, SkillsSkeleton } from "@/components/ui/skeletons";
+
+const HomeSkeleton = () => (
+  <div className="w-full">
+    <HeroSkeleton />
+    <AboutSkeleton />
+    <ExperienceSkeleton />
+    <SkillsSkeleton />
+    <CertificatesSkeleton />
+  </div>
+);
+
+const HomeContent = async () => {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : null;
   
@@ -48,7 +60,7 @@ const Home = async () => {
   }
 
   return (
-    <div>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -102,6 +114,16 @@ const Home = async () => {
       </section>
 
       <AssistantWidget portfolioData={portfolioData} />
+    </>
+  );
+};
+
+const Home = () => {
+  return (
+    <div>
+      <Suspense fallback={<HomeSkeleton />}>
+        <HomeContent />
+      </Suspense>
     </div>
   );
 };

@@ -11,12 +11,142 @@ export const metadata: Metadata = {
     "Professional experience, education, and engineering track record of Nishan Rajak — backend-focused software engineering student.",
 };
 
-export default async function ExperiencePage() {
+import { ExperienceSkeleton } from "@/components/ui/skeletons";
+import { Suspense } from "react";
+
+const ExperienceContent = async () => {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : null;
   const experiences = portfolioData?.experiences ?? [];
   const developer = portfolioData?.developer ?? {};
 
+  return (
+    <div className="relative">
+      {/* Vertical line */}
+      <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-border to-transparent hidden md:block" />
+
+      <div className="space-y-10">
+        {experiences.length > 0 ? (
+          experiences.map((exp: any, index: number) => {
+            const isFirst = index === 0;
+            const isBTech =
+              (exp.position || exp.title || "").toLowerCase().includes("b.tech") ||
+              (exp.company || exp.organization || "").toLowerCase().includes("icfai");
+
+            return (
+              <div key={index} className="flex gap-6 group">
+                {/* Timeline node */}
+                <div className="flex-shrink-0 relative z-10 hidden md:flex flex-col items-center">
+                  <div
+                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 ${
+                      isBTech
+                        ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
+                        : "bg-primary/10 border-primary/20 text-primary"
+                    }`}
+                  >
+                    {isBTech ? (
+                      <GraduationCap className="w-5 h-5" />
+                    ) : (
+                      <Briefcase className="w-5 h-5" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Card */}
+                <div className="flex-1 pb-2">
+                  <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 backdrop-blur-md p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] group-hover:-translate-y-0.5">
+                    {/* Top accent */}
+                    <div
+                      className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${
+                        isBTech
+                          ? "bg-gradient-to-b from-blue-500 to-blue-500/40"
+                          : "bg-gradient-to-b from-primary to-primary/40"
+                      }`}
+                    />
+
+                    <div className="pl-3">
+                      {/* Header row */}
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+                        <div>
+                          <h2 className="text-xl font-bold text-foreground font-outfit mb-1">
+                            {exp.position || exp.title || exp.role}
+                          </h2>
+                          <p className="text-primary/80 font-medium text-sm">
+                            {exp.company || exp.organization}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-1.5 items-start md:items-end text-sm text-muted-foreground shrink-0">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5" />
+                            <span>
+                              {typeof exp.period === "string"
+                                ? exp.period
+                                : `${exp.period?.start} – ${exp.period?.end || "Present"}`}
+                            </span>
+                          </div>
+                          {exp.location && (
+                            <div className="flex items-center gap-1.5">
+                              <MapPin className="w-3.5 h-3.5" />
+                              <span>{exp.location}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      {exp.description && (
+                        <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                          {exp.description}
+                        </p>
+                      )}
+
+                      {/* Responsibilities / Achievements */}
+                      {(exp.responsibilities || exp.achievements || []).length > 0 && (
+                        <ul className="space-y-2 mb-5">
+                          {(exp.responsibilities || exp.achievements || []).map(
+                            (item: string, idx: number) => (
+                              <li
+                                key={idx}
+                                className="flex items-start gap-2 text-sm text-muted-foreground"
+                              >
+                                <span className="text-primary/60 mt-1 shrink-0">▸</span>
+                                <span>{item}</span>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      )}
+
+                      {/* Tech pills */}
+                      {exp.technologies && exp.technologies.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                          {exp.technologies.map((tech: string, idx: number) => (
+                            <span
+                              key={idx}
+                              className="text-xs px-3 py-1 rounded-full bg-primary/8 border border-primary/15 text-foreground"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <p className="text-muted-foreground">No experience data configured.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default function ExperiencePage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <BackgroundEffects
@@ -52,129 +182,9 @@ export default async function ExperiencePage() {
           </p>
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-border to-transparent hidden md:block" />
-
-          <div className="space-y-10">
-            {experiences.length > 0 ? (
-              experiences.map((exp: any, index: number) => {
-                const isFirst = index === 0;
-                const isBTech =
-                  (exp.position || exp.title || "").toLowerCase().includes("b.tech") ||
-                  (exp.company || exp.organization || "").toLowerCase().includes("icfai");
-
-                return (
-                  <div key={index} className="flex gap-6 group">
-                    {/* Timeline node */}
-                    <div className="flex-shrink-0 relative z-10 hidden md:flex flex-col items-center">
-                      <div
-                        className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 ${
-                          isBTech
-                            ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
-                            : "bg-primary/10 border-primary/20 text-primary"
-                        }`}
-                      >
-                        {isBTech ? (
-                          <GraduationCap className="w-5 h-5" />
-                        ) : (
-                          <Briefcase className="w-5 h-5" />
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Card */}
-                    <div className="flex-1 pb-2">
-                      <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 backdrop-blur-md p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] group-hover:-translate-y-0.5">
-                        {/* Top accent */}
-                        <div
-                          className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${
-                            isBTech
-                              ? "bg-gradient-to-b from-blue-500 to-blue-500/40"
-                              : "bg-gradient-to-b from-primary to-primary/40"
-                          }`}
-                        />
-
-                        <div className="pl-3">
-                          {/* Header row */}
-                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
-                            <div>
-                              <h2 className="text-xl font-bold text-foreground font-outfit mb-1">
-                                {exp.position || exp.title || exp.role}
-                              </h2>
-                              <p className="text-primary/80 font-medium text-sm">
-                                {exp.company || exp.organization}
-                              </p>
-                            </div>
-                            <div className="flex flex-col gap-1.5 items-start md:items-end text-sm text-muted-foreground shrink-0">
-                              <div className="flex items-center gap-1.5">
-                                <Calendar className="w-3.5 h-3.5" />
-                                <span>
-                                  {typeof exp.period === "string"
-                                    ? exp.period
-                                    : `${exp.period?.start} – ${exp.period?.end || "Present"}`}
-                                </span>
-                              </div>
-                              {exp.location && (
-                                <div className="flex items-center gap-1.5">
-                                  <MapPin className="w-3.5 h-3.5" />
-                                  <span>{exp.location}</span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description */}
-                          {exp.description && (
-                            <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                              {exp.description}
-                            </p>
-                          )}
-
-                          {/* Responsibilities / Achievements */}
-                          {(exp.responsibilities || exp.achievements || []).length > 0 && (
-                            <ul className="space-y-2 mb-5">
-                              {(exp.responsibilities || exp.achievements || []).map(
-                                (item: string, idx: number) => (
-                                  <li
-                                    key={idx}
-                                    className="flex items-start gap-2 text-sm text-muted-foreground"
-                                  >
-                                    <span className="text-primary/60 mt-1 shrink-0">▸</span>
-                                    <span>{item}</span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          )}
-
-                          {/* Tech pills */}
-                          {exp.technologies && exp.technologies.length > 0 && (
-                            <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
-                              {exp.technologies.map((tech: string, idx: number) => (
-                                <span
-                                  key={idx}
-                                  className="text-xs px-3 py-1 rounded-full bg-primary/8 border border-primary/15 text-foreground"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-muted-foreground">No experience data configured.</p>
-              </div>
-            )}
-          </div>
-        </div>
+        <Suspense fallback={<ExperienceSkeleton />}>
+          <ExperienceContent />
+        </Suspense>
       </div>
     </div>
   );
