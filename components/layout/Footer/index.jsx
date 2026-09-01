@@ -35,8 +35,7 @@ const Footer = () => {
     let isMounted = true;
     const checkBackend = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
-        const res = await fetch(`${apiUrl}/ping`, { method: "GET", cache: "no-store" });
+        const res = await fetch(`/api/ping`, { method: "GET", cache: "no-store" });
         if (isMounted) setIsBackendReachable(res.ok);
       } catch (err) {
         if (isMounted) setIsBackendReachable(false);
@@ -44,7 +43,7 @@ const Footer = () => {
     };
 
     checkBackend();
-    const interval = setInterval(checkBackend, 30000); // Check every 30s
+    const interval = setInterval(checkBackend, 1000 * 60 * 5); // Check every 5min
     return () => {
       isMounted = false;
       clearInterval(interval);
@@ -110,20 +109,18 @@ const Footer = () => {
 
         <div className="flex justify-center mt-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors">
-            
+
             {/* Backend Reachability */}
             {hasMounted && isBackendReachable !== null && (
               <span
-                className={`mr-1 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${
-                  isBackendReachable
+                className={`mr-1 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${isBackendReachable
                     ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
                     : "bg-orange-500/10 border-orange-500/20 text-orange-400"
-                }`}
+                  }`}
               >
                 <span
-                  className={`h-2 w-2 rounded-full ${
-                    isBackendReachable ? "bg-blue-400" : "bg-orange-400"
-                  }`}
+                  className={`h-2 w-2 rounded-full ${isBackendReachable ? "bg-blue-400" : "bg-orange-400"
+                    }`}
                 />
                 <span>{isBackendReachable ? "API Online" : "API Offline"}</span>
               </span>
@@ -134,35 +131,32 @@ const Footer = () => {
             </span>
 
             <span
-              className={`ml-1 ${
-                percentage === null
+              className={`ml-1 ${percentage === null
                   ? "text-muted-foreground"
                   : percentage > 50
-                  ? "text-emerald-400"
-                  : percentage > 20
-                  ? "text-yellow-400"
-                  : "text-red-400"
-              }`}
+                    ? "text-emerald-400"
+                    : percentage > 20
+                      ? "text-yellow-400"
+                      : "text-red-400"
+                }`}
             >
               {percentage === null
                 ? "--%"
                 : isFakeFull
-                ? "Charging..."
-                : `${percentage}%`}
+                  ? "Charging..."
+                  : `${percentage}%`}
             </span>
 
             {hasMounted && (
               <span
-                className={`ml-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${
-                  isOnline
+                className={`ml-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${isOnline
                     ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
                     : "bg-red-500/10 border-red-500/20 text-red-400"
-                }`}
+                  }`}
               >
                 <span
-                  className={`h-2 w-2 rounded-full ${
-                    isOnline ? "bg-emerald-400" : "bg-red-400"
-                  }`}
+                  className={`h-2 w-2 rounded-full ${isOnline ? "bg-emerald-400" : "bg-red-400"
+                    }`}
                 />
                 <span>{isOnline ? "Online" : "Offline"}</span>
               </span>
