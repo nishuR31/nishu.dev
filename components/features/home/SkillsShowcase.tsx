@@ -43,7 +43,15 @@ const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
     setIsLight(document.documentElement.classList.contains("light"));
   }, [currentTheme]);
 
-  if (!portfolioData?.developer?.name) return null;
+  if (!portfolioData?.developer?.name) {
+    return (
+      <div className="w-full mt-20">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-muted-foreground">No skills data configured.</p>
+        </div>
+      </div>
+    );
+  }
 
   // Extract flat list of skills from API mapping
   const apiSkills = portfolioData?.skills?.flatMap((cat: any) => cat.skills.map((s: any) => s.name)) || [];

@@ -1,17 +1,29 @@
 "use client";
-import React, { useState } from "react";
-import { MessageSquare, X, Send, Bot, User } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, Send, Bot, User, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface AssistantWidgetProps {
   portfolioData: any;
 }
 
 export default function AssistantWidget({ portfolioData }: AssistantWidgetProps) {
+  // isOpen handles the actual chat window visibility
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{role: 'user' | 'bot', text: string}[]>([
+  // isPeeking handles the small handle tab visibility
+  const [isPeeking, setIsPeeking] = useState(false);
+  
+  const [messages, setMessages] = useState<{ role: 'user' | 'bot', text: string }[]>([
     { role: 'bot', text: 'Hi! I am the portfolio assistant. Feel free to ask me about Nishan\'s projects, skills, or experience!' }
   ]);
   const [input, setInput] = useState("");
+
+  // Delay the initial peek so it doesn't immediately show on page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPeeking(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!portfolioData?.developer?.name) return null;
 
@@ -23,21 +35,35 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInput("");
 
-    // Deterministic answering logic
+    // Deterministic answering logic with HTML support
     setTimeout(() => {
-      let response = "I'm not sure about that. Try asking about 'projects', 'skills', 'experience', or 'contact'.";
+      let response = "I'm still learning! Try asking about 'who are you', 'projects', 'skills', 'experience', 'education', 'certificates', 'socials', 'contact', or 'cv'.";
       const q = userMsg.toLowerCase();
       
-      if (q.includes("project")) {
+      const dev = portfolioData?.developer || {};
+      
+      if (q.includes("who") || q.includes("about") || q.includes("age")) {
+        response = `I am Nishan Rajak, a Backend Engineer focused on scalable architectures. I love building robust APIs and tools!`;
+      } else if (q.includes("project")) {
         const count = portfolioData?.projects?.length || 0;
-        response = `Nishan has built over ${count} projects! Some of the top ones include RanchiKart and Devclip Hub. Check out the Projects page for more!`;
-      } else if (q.includes("skill") || q.includes("tech")) {
-        response = "Nishan specializes in Backend Development, primarily using Node.js, Express, Fastify, MongoDB, and PostgreSQL.";
-      } else if (q.includes("experience") || q.includes("work")) {
-        response = "Nishan is actively building production-grade backend systems and has practical experience structuring scalable architectures.";
-      } else if (q.includes("contact") || q.includes("email") || q.includes("hire")) {
-        const email = portfolioData?.developer?.email || "nishan.developer.dev@gmail.com";
-        response = `You can reach out to Nishan at ${email} or via the Contact page!`;
+        response = `Nishan has built over ${count} projects! Some of the top ones include RanchiKart, FocusMode, Devclip Hub and GH Control. Check out the <a href="/projects" class="text-blue-400 hover:underline">Projects page</a> for more!`;
+      } else if (q.includes("skill") || q.includes("tech") || q.includes("stack")) {
+        const skillCats = portfolioData?.skills?.map((c: any) => c.category).join(', ') || 'Backend, Database, and DevOps';
+        response = `Nishan specializes in ${skillCats}. He frequently uses Node.js, Express, Fastify, MongoDB, PostgreSQL, and more!`;
+      } else if (q.includes("experience") || q.includes("work") || q.includes("internship")) {
+        const expCount = portfolioData?.experiences?.length || 0;
+        response = `Nishan has ${expCount} professional experiences, building production-grade backend systems and scalable architectures. See his <a href="/experience" class="text-blue-400 hover:underline">Experience page</a> for details!`;
+      } else if (q.includes("education") || q.includes("study") || q.includes("studied")) {
+        response = `Nishan holds a B.Tech in Computer Science and Engineering, with a strong foundation in software engineering principles, algorithms, and system design.`;
+      } else if (q.includes("certificate") || q.includes("hackathon")) {
+        const certCount = portfolioData?.certificates?.length || 0;
+        response = `Nishan has earned over ${certCount} certifications in various technologies! Check them out on the <a href="/certificates" class="text-blue-400 hover:underline">Certificates page</a>.`;
+      } else if (q.includes("contact") || q.includes("email") || q.includes("hire") || q.includes("number")) {
+        response = `You can reach out to Nishan at <a href="mailto:${dev.email || 'nishan.developer.dev@gmail.com'}" class="text-blue-400 hover:underline">${dev.email || 'nishan.developer.dev@gmail.com'}</a> or via the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a>!`;
+      } else if (q.includes("social") || q.includes("github") || q.includes("linkedin") || q.includes("twitter")) {
+        response = `Find Nishan on <a href="${dev.linkedin || '#'}" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>, <a href="https://github.com/${dev.github || 'nishuR31'}" target="_blank" class="text-blue-400 hover:underline">GitHub</a>, and <a href="${dev.twitter || '#'}" target="_blank" class="text-blue-400 hover:underline">Twitter</a>!`;
+      } else if (q.includes("cv") || q.includes("resume")) {
+        response = `You can download Nishan's CV from the <a href="/about" class="text-blue-400 hover:underline">About page</a> or directly request it via the <a href="/contact" class="text-blue-400 hover:underline">Contact page</a>.`;
       }
 
       setMessages(prev => [...prev, { role: 'bot', text: response }]);
@@ -45,53 +71,85 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
-      {isOpen && (
-        <div className="w-80 sm:w-96 mb-4 glass-premium border border-border/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in slide-in-from-bottom-5 fade-in duration-300">
-          <div className="flex items-center justify-between p-4 border-b border-border/50 bg-primary/5">
-            <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5 text-primary" />
-              <span className="font-semibold text-sm">Portfolio Assistant</span>
-            </div>
-            <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          
-          <div className="h-80 overflow-y-auto p-4 space-y-4 bg-card/20">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-primary/20 text-primary' : 'bg-secondary/50 text-foreground'}`}>
-                  {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                </div>
-                <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-sm' : 'bg-card border border-border/50 text-foreground rounded-tl-sm'}`}>
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <form onSubmit={handleSend} className="p-3 border-t border-border/50 bg-card/40 flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me something..."
-              className="flex-1 bg-background border border-border rounded-full px-4 py-2 text-sm focus:outline-none focus:border-primary/50"
-            />
-            <button type="submit" className="bg-primary text-primary-foreground p-2 rounded-full hover:opacity-90 transition-opacity">
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-      )}
-
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300"
+    <>
+      {/* The Peeking Handle */}
+      <div 
+        className={`fixed top-1/2 -translate-y-1/2 right-0 z-[100] transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-full' : isPeeking ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
-      </button>
-    </div>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex items-center justify-center p-2 bg-primary/90 text-primary-foreground rounded-l-2xl shadow-xl hover:bg-primary transition-colors border border-r-0 border-primary/20 backdrop-blur-md group"
+          aria-label="Open Assistant"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <Bot className="w-6 h-6 animate-pulse" />
+        </button>
+      </div>
+
+      {/* The Chat Window (Sliding in from Right) */}
+      <div 
+        className={`fixed top-0 right-0 h-full w-80 sm:w-96 z-[110] bg-background/60 backdrop-blur-3xl border-l border-border/50 shadow-2xl transition-transform duration-500 ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-border/50 bg-primary/5">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-full border border-primary/20">
+              <Bot className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <span className="font-semibold text-sm text-foreground block">AI Assistant</span>
+              <span className="text-[10px] text-emerald-500 font-medium">● Online</span>
+            </div>
+          </div>
+          <button 
+            onClick={() => setIsOpen(false)} 
+            className="text-muted-foreground hover:text-foreground p-2 rounded-full hover:bg-secondary/50 transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.map((msg, idx) => (
+            <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-sm ${msg.role === 'user' ? 'bg-primary/20 text-primary' : 'bg-secondary/80 text-foreground border border-border/50'}`}>
+                {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+              </div>
+              <div 
+                className={`p-3 rounded-2xl max-w-[80%] text-sm leading-relaxed shadow-sm ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-sm' : 'bg-card border border-border/50 text-foreground rounded-tl-sm'}`}
+                dangerouslySetInnerHTML={{ __html: msg.text }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Input Form */}
+        <form onSubmit={handleSend} className="p-4 border-t border-border/50 bg-background/80 flex gap-2">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask me about Nishan..."
+            className="flex-1 bg-secondary/50 border border-border/50 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
+          />
+          <button 
+            type="submit" 
+            disabled={!input.trim()}
+            className="bg-primary text-primary-foreground p-2.5 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </form>
+      </div>
+      
+      {/* Overlay for mobile to close when clicking outside */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-background/20 backdrop-blur-sm z-[105] md:hidden transition-opacity"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </>
   );
 }

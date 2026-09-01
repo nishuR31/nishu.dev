@@ -28,6 +28,29 @@ const Footer = () => {
     };
   }, []);
 
+  const [isBackendReachable, setIsBackendReachable] = useState(null);
+
+  // Backend reachability check
+  useEffect(() => {
+    let isMounted = true;
+    const checkBackend = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onrender.com";
+        const res = await fetch(`${apiUrl}/ping`, { method: "GET", cache: "no-store" });
+        if (isMounted) setIsBackendReachable(res.ok);
+      } catch (err) {
+        if (isMounted) setIsBackendReachable(false);
+      }
+    };
+
+    checkBackend();
+    const interval = setInterval(checkBackend, 30000); // Check every 30s
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
   // Battery API
   useEffect(() => {
     let battery = null;
@@ -87,8 +110,27 @@ const Footer = () => {
 
         <div className="flex justify-center mt-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/40 px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors">
-            <span className="text-sm">
-              {isCharging ? <BatteryCharging /> : <Battery />}
+            
+            {/* Backend Reachability */}
+            {hasMounted && isBackendReachable !== null && (
+              <span
+                className={`mr-1 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${
+                  isBackendReachable
+                    ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                    : "bg-orange-500/10 border-orange-500/20 text-orange-400"
+                }`}
+              >
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    isBackendReachable ? "bg-blue-400" : "bg-orange-400"
+                  }`}
+                />
+                <span>{isBackendReachable ? "API Online" : "API Offline"}</span>
+              </span>
+            )}
+
+            <span className="text-sm flex items-center justify-center">
+              {isCharging ? <BatteryCharging className="w-4 h-4" /> : <Battery className="w-4 h-4" />}
             </span>
 
             <span
@@ -111,7 +153,7 @@ const Footer = () => {
 
             {hasMounted && (
               <span
-                className={`ml-2 inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-medium border ${
+                className={`ml-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium border ${
                   isOnline
                     ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
                     : "bg-red-500/10 border-red-500/20 text-red-400"

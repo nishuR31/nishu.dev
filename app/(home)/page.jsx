@@ -8,7 +8,7 @@ import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
 import GithubProjectsWrapper from "@/components/features/home/GithubProjectsWrapper";
 import CertificatesSection from "@/components/features/home/Certificates";
-import AssistantWidget from "@/components/features/home/Assistant";
+
 
 import Link from "next/link";
 import { ArrowRight, AlertCircle, Loader2 } from "lucide-react";
@@ -113,7 +113,7 @@ const HomeContent = async () => {
         </div>
       </section>
 
-      <AssistantWidget portfolioData={portfolioData} />
+
     </>
   );
 };

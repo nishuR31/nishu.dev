@@ -6,9 +6,10 @@ import { cn } from "@/lib/utils";
 import AppEnhancements from "@/components/Providers/AppEnhancements";
 import SonnerToaster from "@/components/Providers/SonnerToaster";
 import PageTopLoader from "@/components/Providers/PageTopLoader";
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/Header/ServerHeader";
 import Footer from "@/components/layout/Footer";
 import Providers from "@/components/reduxProvider";
+import ServerAssistant from "@/components/features/home/ServerAssistant";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -169,6 +170,7 @@ export default function RootLayout({ children }) {
           <PageTopLoader />
           <Header />
           <main id="main">{children}</main>
+          <ServerAssistant />
           <Footer />
           <SonnerToaster />
           <GridPattern

@@ -6,12 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ui/theme-toggle";
 
-const NAV_ITEMS = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/certificates", label: "Certificates" },
-  { href: "/contact", label: "Contact" },
-];
 
 interface NavItem {
   href: string;
@@ -116,7 +110,7 @@ const Navigation: React.FC<NavigationProps> = ({ isMobile = false, onLinkClick, 
   </nav>
 );
 
-const Header: React.FC = () => {
+const Header: React.FC<{ navItems: NavItem[] }> = ({ navItems = [] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -124,7 +118,7 @@ const Header: React.FC = () => {
       <header className="sticky top-0 py-4 sm:py-5 z-50 text-foreground glass-panel-strong border-b border-purple-500/10 animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-both">
         <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8">
           <Logo />
-          <Navigation navItems={NAV_ITEMS} />
+          <Navigation navItems={navItems} />
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/settings" className="p-2 text-foreground/70 hover:text-foreground transition-colors" aria-label="Settings">
               <Settings className="w-5 h-5" />
@@ -156,7 +150,7 @@ const Header: React.FC = () => {
                 <Logo isMobile />
               </div>
               <div className="flex-1">
-                <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={NAV_ITEMS} />
+                <Navigation isMobile onLinkClick={() => setIsMobileMenuOpen(false)} navItems={navItems} />
               </div>
               <div className="mb-4 flex justify-center items-center gap-6">
                 <Link
