@@ -18,6 +18,7 @@ interface Skill {
 const presentationMap: Record<string, Omit<Skill, "name">> = {
   // --- Languages ---
   "JavaScript": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#f7df1e" }, // Wide
+  "TypeScript": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#3178c6" }, // Wide
   "Python": { icon: <Terminal className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#3776ab" }, // Tall
 
   // --- Frontend ---
