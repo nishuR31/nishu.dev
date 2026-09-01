@@ -16,40 +16,40 @@ interface Skill {
 }
 
 const presentationMap: Record<string, Omit<Skill, "name">> = {
-  "React": { icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#61dafb" },
-  "Fastify": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
+  // --- Languages ---
+  "JavaScript": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#f7df1e" }, // Wide
+  "Python": { icon: <Terminal className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#3776ab" }, // Tall
+
+  // --- Frontend ---
+  "React": { icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#61dafb" },
+  "React Native": { icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#61dafb" },
+  "TailwindCSS": { icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-3 md:row-span-1", accentColor: "#38bdf8" },
+
+  // --- Backend & Runtimes ---
+  "Node.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#8cc84b" },
+  "Bun.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#f97316" },
   "Express.js": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
+  "Fastify": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
 
-  "React Native": { icon: <Atom className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#61dafb" },
-
-  "GitHub": { icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
-  "Postman": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ff6c37" },
-  "Bruno": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff6c37" },
-
-  "TailwindCSS": { icon: <Paintbrush className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#38bdf8" },
-
-
-  "Prisma": { icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
-
+  // --- Databases & ORMs ---
   "MongoDB": { icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#4db33d" },
   "PostgreSQL": { icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#4db33d" },
-  "VS Code": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#007acc" },
-  "Antigravity": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#8b5cf6" },
+  "Redis": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#ff0000" }, // Wide
+  "Prisma": { icon: <Pyramid className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#5a67d8" },
 
+  // --- Cloud & DevOps ---
+  "AWS": { icon: <Cloud className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff9900" },
+  "Docker": { icon: <Box className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-2 md:col-span-2 md:row-span-2", accentColor: "#2496ed" }, // Large Square
   "Vercel": { icon: <Globe className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#f0f0f0" },
   "Render": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#46e3b7" },
 
-
-  "Redis": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#ff0000" }, // Bun is orange now
-
-  "Bun.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#f97316" }, // Bun is orange now
-  "Node.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#8cc84b" },
-
-  "JavaScript": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#f7df1e" }, // Wide
-  "Python": { icon: <Terminal className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#3776ab" }, // Tall
-  "AWS": { icon: <Cloud className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff9900" }, // Square
-  "Docker": { icon: <Box className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-2", accentColor: "#2496ed" }, // Large Square
-  "AI (Testing/Bugs)": { icon: <Bot className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-4 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#10b981" }, // Full Width
+  // --- Tools & AI ---
+  "VS Code": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#007acc" },
+  "Antigravity": { icon: <Monitor className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#8b5cf6" },
+  "GitHub": { icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#ffffff" },
+  "Postman": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#ff6c37" },
+  "Bruno": { icon: <Antenna className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff6c37" },
+  "AI (Testing/Bugs)": { icon: <Bot className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#10b981" }, // Full Width
 };
 
 interface SkillsShowcaseProps {

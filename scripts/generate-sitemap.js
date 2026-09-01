@@ -11,10 +11,14 @@ async function generateSitemap() {
     const data = await res.json();
     const portfolioData = data?.data || data;
 
-    const navItems = portfolioData?.NAV_ITEMS || [
+    const navItems = [
       { href: "/projects" },
       { href: "/certificates" },
-      { href: "/contact" }
+      { href: "/contact" },
+      { href: "/settings" },
+      { href: "/experience" },
+      { href: "/hire" }
+
     ];
 
     const staticRoutes = ["", ...navItems.map((item) => item.href).filter((href) => !href.includes("#"))];
@@ -37,12 +41,12 @@ ${urls.join("")}
 
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     const sitemapPath = path.join(__dirname, "..", "public", "sitemap.xml");
-    
+
     // Ensure public directory exists
     if (!fs.existsSync(path.dirname(sitemapPath))) {
-        fs.mkdirSync(path.dirname(sitemapPath), { recursive: true });
+      fs.mkdirSync(path.dirname(sitemapPath), { recursive: true });
     }
-    
+
     fs.writeFileSync(sitemapPath, sitemapContent);
 
     console.log("✅ Sitemap generated successfully at public/sitemap.xml");
