@@ -5,7 +5,7 @@ import { useTheme } from "@/store";
 import {
   Atom, Monitor, Antenna, Code2, Database,
   Github, Pyramid, Server, Globe, Paintbrush,
-  Leaf,
+  Leaf, Terminal, Cloud, Box, Bot
 } from "lucide-react";
 
 interface Skill {
@@ -44,6 +44,12 @@ const presentationMap: Record<string, Omit<Skill, "name">> = {
 
   "Bun.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#f97316" }, // Bun is orange now
   "Node.js": { icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#8cc84b" },
+
+  "JavaScript": { icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-1", accentColor: "#f7df1e" }, // Wide
+  "Python": { icon: <Terminal className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-2", accentColor: "#3776ab" }, // Tall
+  "AWS": { icon: <Cloud className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-1 sm:row-span-1 md:col-span-1 md:row-span-1", accentColor: "#ff9900" }, // Square
+  "Docker": { icon: <Box className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-2", accentColor: "#2496ed" }, // Large Square
+  "AI (Testing/Bugs)": { icon: <Bot className="w-5 h-5 sm:w-6 sm:h-6" />, size: "sm:col-span-4 sm:row-span-1 md:col-span-4 md:row-span-1", accentColor: "#10b981" }, // Full Width
 };
 
 interface SkillsShowcaseProps {
