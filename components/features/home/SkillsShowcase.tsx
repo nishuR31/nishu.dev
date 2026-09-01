@@ -69,9 +69,16 @@ const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
   // Extract flat list of skills from API mapping
   const apiSkills = portfolioData?.skills?.flatMap((cat: any) => cat.skills.map((s: any) => s.name)) || [];
 
-  // Filter presentation map for skills that exist in API
+  // Normalize API skills to lowercase for resilient matching
+  const normalizedApiSkills = apiSkills.map((s: string) => s.toLowerCase());
+  const manualWhitelist = ["react native", "postgresql", "vercel", "render", "redis", "bun.js", "react", "tailwindcss"];
+
+  // Filter presentation map for skills that exist in API (case-insensitive) or are whitelisted
   const displayedSkills = Object.entries(presentationMap)
-    .filter(([name]) => apiSkills.includes(name) || name === 'React.js' || name === 'Tailwind') // fallback mapping
+    .filter(([name]) => {
+      const lowerName = name.toLowerCase();
+      return normalizedApiSkills.includes(lowerName) || manualWhitelist.includes(lowerName);
+    })
     .map(([name, data]) => ({ name, ...data }));
 
   // Fallback to static if empty
