@@ -3,8 +3,8 @@ import Header from "./index";
 import { getPortfolioData } from "@/lib/portfolio";
 
 export default async function ServerHeader() {
-  const data = await getPortfolioData();
-  const navItems = data?.NAV_ITEMS || [
+  const result = await getPortfolioData();
+  const navItems = (result.ok && result.data?.NAV_ITEMS) ? result.data.NAV_ITEMS : [
     { href: "/", label: "Home" },
     { href: "/experience", label: "Experience" },
     { href: "/projects", label: "Projects" },

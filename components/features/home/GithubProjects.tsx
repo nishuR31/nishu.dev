@@ -194,7 +194,7 @@ const GithubProjects: React.FC<GithubProjectsProps> = ({ initialRepos = [], port
   }, [filteredRepos, page]);
 
   return (
-    <section className="py-20 relative cv-auto">
+    <section className="py-20 relative">
       <div className="w-full">
         <div className="container mx-auto px-4 sm:px-6 md:px-8">
           <div className="space-y-8 sm:space-y-12">

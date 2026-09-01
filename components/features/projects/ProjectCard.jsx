@@ -93,7 +93,7 @@ export const ProjectCard = ({ project, index }) => {
                 className="flex items-center gap-1.5"
               >
                 <Github className="w-3 h-3" />
-                Code
+                GitHub
               </a>
             </Button>
           )}
