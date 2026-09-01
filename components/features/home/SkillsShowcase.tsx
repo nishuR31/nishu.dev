@@ -73,7 +73,7 @@ const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
 
   // Normalize API skills to lowercase for resilient matching
   const normalizedApiSkills = apiSkills.map((s: string) => s.toLowerCase());
-  const manualWhitelist = ["react native", "postgresql", "vercel", "render", "redis", "bun.js", "react", "tailwindcss", "typescript", "redux", "postman", "bruno", "mongo"];
+  const manualWhitelist = Object.keys(presentationMap).map((s: string) => s.toLowerCase());
 
   // Filter presentation map for skills that exist in API (case-insensitive) or are whitelisted
   const displayedSkills = Object.entries(presentationMap)
