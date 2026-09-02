@@ -15,7 +15,7 @@ import { Suspense } from "react";
 const ProjectsContent = async () => {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : null;
-  const projects = portfolioData?.projects ?? [];
+  const projects = (portfolioData?.projects ?? []).filter((p: any) => p.visible !== false);
   const additionalProjects = portfolioData?.additionalProjects ?? [];
   const githubUser = portfolioData?.social?.github ?? "nishuR31";
 

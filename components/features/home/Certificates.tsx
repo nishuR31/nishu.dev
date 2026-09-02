@@ -10,6 +10,8 @@ interface CertInfo {
   issuer?: string;
   category?: string;
   issuedAt?: string;
+  issueDate?: string;
+  expirationDate?: string;
   featured?: boolean;
   isImage: boolean;
   isPdf: boolean;
@@ -20,8 +22,11 @@ const getCertificateInfo = (cert: any): CertInfo => {
   return {
     ...cert,
     title: cert.title || "Certificate",
-    isImage: cert.type === "image",
-    isPdf: cert.type === "pdf",
+    issueDate: cert.issueDate ? new Date(cert.issueDate).toLocaleDateString() : undefined,
+    expirationDate: cert.expirationDate ? new Date(cert.expirationDate).toLocaleDateString() : undefined,
+    issuer: cert.issuer,
+    isImage: cert.type === "image" || cert.type?.toLowerCase().includes("image") || cert.url?.match(/\.(jpeg|jpg|gif|png|webp)$/i),
+    isPdf: cert.type === "pdf" || cert.type?.toLowerCase().includes("pdf") || cert.url?.endsWith(".pdf"),
     url: cert.url || ""
   };
 };
@@ -46,7 +51,7 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({ portfolioData
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  const rawCertificates = portfolioData?.certificates ?? [];
+  const rawCertificates = (portfolioData?.certificates ?? []).filter((c: any) => c.visible !== false);
   const certificates: CertInfo[] = rawCertificates.map(getCertificateInfo);
 
   if (certificates.length === 0) {
@@ -151,6 +156,12 @@ const CertificatesSection: React.FC<CertificatesSectionProps> = ({ portfolioData
                         <h3 className="text-base font-semibold text-foreground line-clamp-2 min-h-[3rem] flex items-center leading-snug font-outfit">
                           {cert.title}
                         </h3>
+                        {(cert.issuer || cert.issueDate) && (
+                          <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-zinc-500/10">
+                            {cert.issuer && <span className="font-medium text-foreground truncate max-w-[50%]">{cert.issuer}</span>}
+                            {cert.issueDate && <span>Issued: {cert.issueDate}</span>}
+                          </div>
+                        )}
                         <div className="flex gap-2">
                           <button
                             onClick={(e) => { e.stopPropagation(); setSelectedCert(cert); }}

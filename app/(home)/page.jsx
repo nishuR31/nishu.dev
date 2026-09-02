@@ -8,6 +8,9 @@ import { CertificatesSkeleton } from "@/components/ui/skeletons";
 
 import GithubProjectsWrapper from "@/components/features/home/GithubProjectsWrapper";
 import CertificatesSection from "@/components/features/home/Certificates";
+import ServicesSection from "@/components/features/home/Services";
+import TestimonialsSection from "@/components/features/home/Testimonials";
+import EducationSection from "@/components/features/home/Education";
 
 
 import Link from "next/link";
@@ -69,23 +72,48 @@ const HomeContent = async () => {
       <RevealOnScroll>
         <HeroSection portfolioData={portfolioData} />
       </RevealOnScroll>
-      <RevealOnScroll delay={80}>
-        <AboutSection portfolioData={portfolioData} />
-      </RevealOnScroll>
-      <RevealOnScroll delay={120}>
-        <ExperienceSection portfolioData={portfolioData} />
-      </RevealOnScroll>
-      <RevealOnScroll delay={120}>
-        <Suspense fallback={<div className="h-40 flex flex-col items-center justify-center text-muted-foreground"><Loader2 className="w-8 h-8 animate-spin mb-4" />Loading projects...</div>}>
-          <GithubProjectsWrapper username={social.github} portfolioData={portfolioData} />
-        </Suspense>
-      </RevealOnScroll>
-      <RevealOnScroll delay={160}>
-        <SkillsSection portfolioData={portfolioData} />
-      </RevealOnScroll>
-      <RevealOnScroll delay={120}>
-        <CertificatesSection portfolioData={portfolioData} />
-      </RevealOnScroll>
+      {portfolioData?.showAbout !== false && (
+        <RevealOnScroll delay={80}>
+          <AboutSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showServices !== false && (
+        <RevealOnScroll delay={120}>
+          <ServicesSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showExperience !== false && (
+        <RevealOnScroll delay={120}>
+          <ExperienceSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showEducation !== false && (
+        <RevealOnScroll delay={120}>
+          <EducationSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showProjects !== false && (
+        <RevealOnScroll delay={120}>
+          <Suspense fallback={<div className="h-40 flex flex-col items-center justify-center text-muted-foreground"><Loader2 className="w-8 h-8 animate-spin mb-4" />Loading projects...</div>}>
+            <GithubProjectsWrapper username={social.github} portfolioData={portfolioData} />
+          </Suspense>
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showSkills !== false && (
+        <RevealOnScroll delay={160}>
+          <SkillsSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showCertificates !== false && (
+        <RevealOnScroll delay={120}>
+          <CertificatesSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
+      {portfolioData?.showTestimonials !== false && (
+        <RevealOnScroll delay={140}>
+          <TestimonialsSection portfolioData={portfolioData} />
+        </RevealOnScroll>
+      )}
 
       {/* Footer CTAs */}
       <section className="py-16 pb-24">

@@ -15,6 +15,9 @@ interface Experience {
   achievements?: string[];
   technologies?: string[];
   location?: string;
+  isCurrent?: boolean;
+  companyUrl?: string;
+  companyLogo?: string;
 }
 
 const TimelineConnector: React.FC<{ height: number }> = ({ height }) => {
@@ -52,7 +55,7 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection: React.FC<ExperienceSectionProps> = ({ portfolioData }) => {
-  const experiences: Experience[] = portfolioData?.experiences ?? [];
+  const experiences: Experience[] = (portfolioData?.experiences ?? []).filter((e: any) => e.visible !== false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [connectorHeight, setConnectorHeight] = React.useState(0);
 
@@ -131,15 +134,27 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ portfolioData }) 
                           <div className="relative z-10 pl-3">
                             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                               <div>
-                                <h3 className="text-xl font-bold text-foreground mb-1 font-outfit">
+                                <h3 className="text-xl font-bold text-foreground mb-1 font-outfit flex items-center gap-2">
+                                  {exp.companyLogo && (
+                                    <img src={exp.companyLogo} alt={exp.company} className="w-6 h-6 rounded-sm object-contain bg-white" />
+                                  )}
                                   {exp.title || exp.role || exp.position}
                                 </h3>
-                                <p className="text-zinc-400/90 font-medium">{exp.organization || exp.company}</p>
+                                {exp.companyUrl ? (
+                                  <a href={exp.companyUrl} target="_blank" rel="noreferrer" className="text-zinc-400/90 font-medium hover:text-white transition-colors hover:underline">
+                                    {exp.organization || exp.company}
+                                  </a>
+                                ) : (
+                                  <p className="text-zinc-400/90 font-medium">{exp.organization || exp.company}</p>
+                                )}
                               </div>
-                              <div className="flex flex-col gap-1 items-start md:items-end text-sm text-muted-foreground">
+                              <div className="flex flex-col gap-1 items-start md:items-end text-sm text-muted-foreground mt-2 md:mt-0">
                                 <div className="flex items-center gap-2">
                                   <Calendar className="w-4 h-4" />
-                                  <span>{typeof exp.period === "string" ? exp.period : `${exp.period?.start} - ${exp.period?.end || "Present"}`}</span>
+                                  <span className={exp.isCurrent ? "text-amber-500 font-semibold" : ""}>
+                                    {typeof exp.period === "string" ? exp.period : `${exp.period?.start} - ${exp.period?.end || "Present"}`}
+                                    {exp.isCurrent && " (Current)"}
+                                  </span>
                                 </div>
                                 {exp.location && (
                                   <div className="flex items-center gap-2">

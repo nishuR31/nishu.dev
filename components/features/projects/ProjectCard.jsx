@@ -45,17 +45,27 @@ export const ProjectCard = ({ project, index }) => {
       <div className="flex flex-col justify-between py-2 md:w-2/3 lg:w-1/2">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-primary">
+            <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
               {project.title}
+              {project.status === "In Progress" && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-amber-500/10 text-amber-500 border border-amber-500/20 whitespace-nowrap">
+                  In Progress
+                </span>
+              )}
             </h3>
             <span className="text-xs text-muted-foreground">
               #{String(index + 1).padStart(2, "0")}
             </span>
           </div>
 
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {project.description}
-          </p>
+          <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+            {project.company && (
+              <span className="font-medium text-foreground opacity-80 text-xs flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-primary" /> {project.company}
+              </span>
+            )}
+            <p className="line-clamp-2">{project.description}</p>
+          </div>
 
           <div className="flex flex-wrap gap-1.5">
             {project.technologies.map((tech, idx) => (
