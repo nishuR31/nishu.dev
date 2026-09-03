@@ -75,23 +75,43 @@ const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
     );
   }
 
+  const getDynamicSize = (index: number): string => {
+    const sizes = [
+      "col-span-2 sm:col-span-2 md:col-span-2 md:row-span-1", // Wide
+      "col-span-1 sm:col-span-1 md:col-span-1 md:row-span-2", // Tall
+      "col-span-1 sm:col-span-1 md:col-span-1 md:row-span-1", // Square
+      "col-span-2 sm:col-span-1 md:col-span-2 md:row-span-1", // Wide
+      "col-span-1 sm:col-span-1 md:col-span-1 md:row-span-2", // Tall
+      "col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2", // Large
+      "col-span-1 sm:col-span-1 md:col-span-1 md:row-span-1", // Square
+      "col-span-2 sm:col-span-1 md:col-span-1 md:row-span-1", // Square
+    ];
+    return sizes[index % sizes.length];
+  };
+
   // Extract flat list of skills from API mapping
   const apiSkills = portfolioData?.skills?.flatMap((cat: any) => cat.skills.map((s: any) => s.name)) || [];
 
-  // Normalize API skills to lowercase for resilient matching
-  const normalizedApiSkills = apiSkills.map((s: string) => s.toLowerCase());
-  const manualWhitelist = Object.keys(presentationMap).map((s: string) => s.toLowerCase());
-
-  // Filter presentation map for skills that exist in API (case-insensitive) or are whitelisted
-  const displayedSkills = Object.entries(presentationMap)
-    .filter(([name]) => {
-      const lowerName = name.toLowerCase();
-      return normalizedApiSkills.includes(lowerName) || manualWhitelist.includes(lowerName);
-    })
-    .map(([name, data]) => ({ name, ...data }));
-
-  // Fallback to static if empty
-  const finalSkills = displayedSkills.length > 0 ? displayedSkills : Object.entries(presentationMap).map(([name, data]) => ({ name, ...data }));
+  // Map the API skills (or fallback map) to dynamic sizes and consistent icons
+  const finalSkills = apiSkills.length > 0 ? apiSkills.map((skillName: string, index: number) => {
+    const mapEntry = Object.entries(presentationMap).find(([key]) => key.toLowerCase() === skillName.toLowerCase());
+    const matchedData = mapEntry ? mapEntry[1] : null;
+    
+    // Assign a consistent fallback color based on the skill name hash
+    const hash = skillName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const colors = ["#f7df1e", "#3178c6", "#38bdf8", "#8cc84b", "#f97316", "#ff0000", "#5a67d8", "#2496ed", "#10b981", "#a855f7", "#ec4899", "#14b8a6"];
+    
+    return {
+      name: skillName,
+      icon: matchedData?.icon || <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />,
+      size: getDynamicSize(index),
+      accentColor: matchedData?.accentColor || colors[hash % colors.length]
+    };
+  }) : Object.entries(presentationMap).map(([name, data], index) => ({ 
+    name, 
+    ...data,
+    size: getDynamicSize(index)
+  }));
 
   return (
     <div className="w-full mt-20">
