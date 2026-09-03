@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-export type PortfolioResult = 
+export type PortfolioResult =
   | { ok: true; data: any }
   | { ok: false; error: string };
 
@@ -20,7 +20,7 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
         signal: controller.signal,
         next: {
           revalidate: 3600,
-          tags: ["portfolio"],
+          tags: ["portfolio-v2"], // Changed tag to bust Vercel's persistent cache
         },
       });
 
