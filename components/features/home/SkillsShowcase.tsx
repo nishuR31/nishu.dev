@@ -128,7 +128,7 @@ const SkillsShowcase: React.FC<SkillsShowcaseProps> = ({ portfolioData }) => {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 w-full"
           style={{ gridAutoRows: "minmax(90px, auto)", gridAutoFlow: "row dense" }}
         >
-          {finalSkills.map((skill, index) => {
+          {finalSkills.map((skill: any, index: number) => {
             const accent = (isLight && skill.accentColor === "#ffffff") ? "#333333" : (skill.accentColor || "#a855f7");
 
             return (
