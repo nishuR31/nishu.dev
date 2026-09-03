@@ -16,7 +16,7 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
       // 8 second timeout per attempt
       const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-      const res = await fetch(`${api}/portfolio`, {
+      const res = await fetch(`${api}/api/portfolio`, {
         signal: controller.signal,
         next: {
           revalidate: 3600,

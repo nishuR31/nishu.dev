@@ -7,7 +7,7 @@ const FRONTEND_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfo
 async function generateSitemap() {
   try {
     console.log("Fetching portfolio data to generate sitemap...");
-    const res = await fetch(`${API_URL}/portfolio`);
+    const res = await fetch(`${API_URL}/api/portfolio`);
     const data = await res.json();
     const portfolioData = data?.data || data;
 
