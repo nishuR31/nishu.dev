@@ -166,10 +166,6 @@ interface GithubProjectsProps {
 }
 
 const GithubProjects: React.FC<GithubProjectsProps> = ({ initialRepos = [], portfolioData }) => {
-  const FEATURED_REPOS = useMemo(() => new Set(
-    (portfolioData?.featuredProjects || []).map((name: string) => name.trim().toLowerCase())
-  ), [portfolioData?.featuredProjects]);
-  
   const social = portfolioData?.social ?? {};
   
   const [page, setPage] = useState(1);
@@ -177,17 +173,10 @@ const GithubProjects: React.FC<GithubProjectsProps> = ({ initialRepos = [], port
 
   const filteredRepos = useMemo(() => {
     return initialRepos
-      .filter(
-        (p) =>
-          !p.fork &&
-          !p.private &&
-          (p.name.trim().toLowerCase().includes("portfolio") ||
-            FEATURED_REPOS.has(p.name.trim().toLowerCase()) ||
-            (p.topics && p.topics.some((t) => t.trim().toLowerCase().includes("portfolio"))))
-      )
+      .filter((p) => !p.fork && !p.private)
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .map((p, index) => ({ ...p, size: getProjectSize(index) }));
-  }, [initialRepos, FEATURED_REPOS]);
+  }, [initialRepos]);
 
   const projects = useMemo(() => {
     return filteredRepos.slice(0, ITEMS_PER_PAGE * page);
