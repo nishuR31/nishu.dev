@@ -20,7 +20,7 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
         signal: controller.signal,
         next: {
           revalidate: 3600,
-          tags: ["portfolio-v2"], // Changed tag to bust Vercel's persistent cache
+          tags: ["portfolio-v3"], // Changed tag to bust Vercel's persistent cache
         },
       });
 
