@@ -33,7 +33,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ portfolioData
               What People Say
             </h2>
             <p className="text-lg text-muted-foreground">
-              Testimonials from clients and colleagues I've had the pleasure of working with
+              Testimonials from clients and colleagues I&apos;ve had the pleasure of working with
             </p>
           </div>
         </div>
@@ -55,11 +55,12 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ portfolioData
               </div>
               
               <p className="text-muted-foreground italic leading-relaxed mb-8 flex-1 relative z-10">
-                "{testimonial.content}"
+                &quot;{testimonial.content}&quot;
               </p>
               
               <div className="flex items-center gap-4 pt-6 border-t border-border/50 relative z-10">
                 {testimonial.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img 
                     src={testimonial.avatarUrl} 
                     alt={testimonial.authorName} 

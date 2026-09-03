@@ -136,6 +136,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ portfolioData }) 
                               <div>
                                 <h3 className="text-xl font-bold text-foreground mb-1 font-outfit flex items-center gap-2">
                                   {exp.companyLogo && (
+                                    // eslint-disable-next-line @next/next/no-img-element
                                     <img src={exp.companyLogo} alt={exp.company} className="w-6 h-6 rounded-sm object-contain bg-white" />
                                   )}
                                   {exp.title || exp.role || exp.position}
