@@ -28,6 +28,13 @@ const ContactContent = async () => {
 
   const developer = portfolioData.developer ?? {};
   const social = portfolioData.social ?? {};
+  const socialStats = portfolioData.socialStats ?? {};
+
+  const formatUrl = (baseUrl: string, handle: string | undefined) => {
+    if (!handle) return '#';
+    if (handle.startsWith('http://') || handle.startsWith('https://')) return handle;
+    return `${baseUrl}${handle}`;
+  };
 
   const contactLinks = [
     {
@@ -43,16 +50,20 @@ const ContactContent = async () => {
       name: "GitHub",
       value: social.github || "loading...",
       icon: <Github className="w-6 h-6" />,
-      href: `https://github.com/${social.github || "loading..."}`,
+      href: formatUrl("https://github.com/", social.github),
       color: "text-zinc-800 dark:text-zinc-200",
       bg: "bg-zinc-500/10",
       border: "border-zinc-500/20",
+      stats: socialStats?.github ? [
+        { label: "Followers", value: socialStats.github.followers },
+        { label: "Repos", value: socialStats.github.public_repos }
+      ] : null
     },
     {
       name: "LinkedIn",
       value: social.linkedin || "loading...",
       icon: <Linkedin className="w-6 h-6" />,
-      href: `https://linkedin.com/in/${social.linkedin || "loading..."}`,
+      href: formatUrl("https://linkedin.com/in/", social.linkedin),
       color: "text-blue-500",
       bg: "bg-blue-500/10",
       border: "border-blue-500/20",
@@ -73,7 +84,7 @@ const ContactContent = async () => {
       name: "Twitter",
       value: social.twitter,
       icon: <Twitter className="w-6 h-6" />,
-      href: `https://twitter.com/${social.twitter}`,
+      href: formatUrl("https://twitter.com/", social.twitter),
       color: "text-sky-500",
       bg: "bg-sky-500/10",
       border: "border-sky-500/20",
@@ -84,10 +95,14 @@ const ContactContent = async () => {
       name: "LeetCode",
       value: social.leetcode ?? "loading...",
       icon: <Code className="w-6 h-6" />,
-      href: `https://leetcode.com/u/${social.leetcode ?? "loading..."}`,
+      href: formatUrl("https://leetcode.com/u/", social.leetcode),
       color: "text-orange-500",
       bg: "bg-orange-500/10",
       border: "border-orange-500/20",
+      stats: socialStats?.leetcode ? [
+        { label: "Solved", value: socialStats.leetcode.solved },
+        { label: "Rank", value: socialStats.leetcode.ranking }
+      ] : null
     });
   }
   if (social.hackerone) {
@@ -95,7 +110,7 @@ const ContactContent = async () => {
       name: "HackerOne",
       value: social.hackerone ?? "loading...",
       icon: <Bug className="w-6 h-6" />,
-      href: `https://hackerone.com/${social.hackerone ?? "loading..."}`,
+      href: formatUrl("https://hackerone.com/", social.hackerone),
       color: "text-yellow-500",
       bg: "bg-yellow-500/10",
       border: "border-yellow-500/20",
@@ -131,6 +146,16 @@ const ContactContent = async () => {
                 <p className="text-sm text-muted-foreground text-center truncate w-full group-hover:text-foreground transition-colors duration-300">
                   {link.value}
                 </p>
+                {(link as any).stats && (
+                  <div className="flex gap-4 mt-4 pt-4 border-t border-border/50 w-full justify-center">
+                    {(link as any).stats.map((stat: any, i: number) => (
+                      <div key={i} className="flex flex-col items-center">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{stat.label}</span>
+                        <span className="text-sm font-semibold text-foreground">{stat.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </Link>
           ))}
