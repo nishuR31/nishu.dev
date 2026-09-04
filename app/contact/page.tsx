@@ -28,7 +28,6 @@ const ContactContent = async () => {
 
   const developer = portfolioData.developer ?? {};
   const social = portfolioData.social ?? {};
-  const socialStats = portfolioData.socialStats ?? {};
 
   const formatUrl = (baseUrl: string, handle: string | undefined) => {
     if (!handle) return '#';
@@ -54,9 +53,9 @@ const ContactContent = async () => {
       color: "text-zinc-800 dark:text-zinc-200",
       bg: "bg-zinc-500/10",
       border: "border-zinc-500/20",
-      stats: socialStats?.github ? [
-        { label: "Followers", value: socialStats.github.followers },
-        { label: "Repos", value: socialStats.github.public_repos }
+      stats: social?.githubFollowers ? [
+        { label: "Followers", value: social.githubFollowers },
+        { label: "Repos", value: social.githubRepos }
       ] : null
     },
     {
@@ -99,9 +98,9 @@ const ContactContent = async () => {
       color: "text-orange-500",
       bg: "bg-orange-500/10",
       border: "border-orange-500/20",
-      stats: socialStats?.leetcode ? [
-        { label: "Solved", value: socialStats.leetcode.solved },
-        { label: "Rank", value: socialStats.leetcode.ranking }
+      stats: social?.leetcodeSolved ? [
+        { label: "Solved", value: social.leetcodeSolved },
+        { label: "Rank", value: social.leetcodeRanking }
       ] : null
     });
   }
