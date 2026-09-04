@@ -11,6 +11,9 @@ import Footer from "@/components/layout/Footer";
 import Providers from "@/components/reduxProvider";
 import ServerAssistant from "@/components/features/home/ServerAssistant";
 
+import { getPortfolioData } from "@/lib/portfolio";
+import MaintenanceOverlay from "@/components/ui/maintenance-overlay";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -104,7 +107,9 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const result = await getPortfolioData();
+  const maintenanceMode = result.ok ? result.data?.maintenanceMode : false;
   const developer = { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
   const social = { github: "nishuR31", linkedin: "nishan-rajak" };
 
@@ -182,6 +187,7 @@ export default function RootLayout({ children }) {
               "[mask-image:linear-gradient(to_bottom,white,transparent)]"
             )}
           />
+          <MaintenanceOverlay active={maintenanceMode} />
         </Providers>
       </body>
     </html>
