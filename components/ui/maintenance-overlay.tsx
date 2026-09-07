@@ -18,12 +18,12 @@ export default function MaintenanceOverlay({ active }: { active: boolean }) {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-[60vh] z-[9999] pointer-events-auto overflow-hidden animate-in fade-in duration-1000">
+    <div className="fixed inset-0 h-screen w-screen z-[9999] pointer-events-auto overflow-hidden animate-in fade-in duration-1000">
       {/* Background Gradient & Blur */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-transparent backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-0 bg-background/95 backdrop-blur-md pointer-events-none" />
       
       {/* Content overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center justify-end pb-24 h-full pointer-events-auto">
+      <div className="absolute inset-0 p-8 flex flex-col items-center justify-center h-full pointer-events-auto">
         <div className="bg-card/80 backdrop-blur-xl border border-border/50 shadow-2xl p-8 rounded-3xl max-w-lg w-full flex flex-col items-center text-center transform hover:scale-[1.02] transition-transform duration-500">
           <div className="p-4 bg-orange-500/10 text-orange-500 rounded-full mb-6">
             <AlertTriangle className="w-10 h-10" />
