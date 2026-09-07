@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+
 import { AlertTriangle } from "lucide-react";
 
 export default function MaintenanceOverlay({ active }: { active: boolean }) {
@@ -34,11 +34,11 @@ export default function MaintenanceOverlay({ active }: { active: boolean }) {
           <p className="text-muted-foreground mb-8 text-lg">
             This portfolio is currently undergoing scheduled updates. Some features may be temporarily unavailable.
           </p>
-          <Link href="/contact" className="w-full">
+          <a href="mailto:nishan.developer.dev@gmail.com" className="w-full">
             <button className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-3 group">
               Contact Developer Directly
             </button>
-          </Link>
+          </a>
         </div>
       </div>
     </div>
