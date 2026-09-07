@@ -27,87 +27,88 @@ const outfit = Outfit({
   display: "swap",
 });
 
-export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app"),
-  title: {
-    default: "Nishan Rajak | Backend Engineer Portfolio",
-    template: "%s | Nishan Rajak",
-  },
-  description:
-    "Portfolio of Nishan Rajak — backend-focused software engineering student building scalable APIs, authentication systems, and modular backend architectures.",
-  keywords: [
-    "Nishan Rajak",
-    "backend developer",
-    "Node.js",
-    "Express",
-    "REST API",
-    "JWT authentication",
-    "MongoDB",
-    "software engineering student",
-  ],
-  authors: [
-    { name: "Nishan Rajak", url: "https://nishudevportfolio.vercel.app" },
-  ],
-  creator: "Nishan Rajak",
-  publisher: "Nishan Rajak",
-  applicationName: "Nishan Portfolio",
-  category: "technology",
-  referrer: "origin-when-cross-origin",
-  formatDetection: {
-    email: true,
-    address: false,
-    telephone: true,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata() {
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app";
+  let siteName = "Nishan Portfolio";
+  try {
+    const portfolio = await getPortfolioData();
+    if (portfolio?.siteName && portfolio.siteName !== "nishudevportfolio") {
+      siteUrl = portfolio.siteName.startsWith("http") ? portfolio.siteName : `https://${portfolio.siteName}`;
+      siteName = portfolio.name + " Portfolio";
+    }
+  } catch (e) {}
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: "Nishan Rajak | Backend Engineer Portfolio",
+      template: "%s | Nishan Rajak",
+    },
+    description: "Portfolio of Nishan Rajak — backend-focused software engineering student building scalable APIs, authentication systems, and modular backend architectures.",
+    keywords: [
+      "Nishan Rajak", "backend developer", "Node.js", "Express", "REST API", "JWT authentication", "MongoDB", "software engineering student",
+    ],
+    authors: [
+      { name: "Nishan Rajak", url: siteUrl },
+    ],
+    creator: "Nishan Rajak",
+    publisher: "Nishan Rajak",
+    applicationName: siteName,
+    category: "technology",
+    referrer: "origin-when-cross-origin",
+    formatDetection: {
+      email: true,
+      address: false,
+      telephone: true,
+    },
+    openGraph: {
+      title: "Nishan Rajak | Backend Engineer Portfolio",
+      description: "Portfolio of Nishan Rajak — backend-focused software engineering student.",
+      url: siteUrl,
+      siteName: siteName,
+      type: "website",
+      images: [
+        {
+          url: "/homepage.avif",
+          width: 1200,
+          height: 630,
+          alt: "Homepage preview - Nishan Rajak Portfolio",
+        },
+      ],
+      locale: "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Nishan Rajak | Backend Developer",
+      description: "Backend-focused software engineering student building scalable APIs.",
+      images: ["/homepage.avif"],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "Nishan Rajak | Backend Engineer Portfolio",
-    description:
-      "Explore backend engineering projects, API architecture work, and software engineering experience by Nishan Rajak.",
-    url: "https://nishudevportfolio.vercel.app",
-    siteName: "Nishan Portfolio",
-    type: "website",
-    images: [
-      {
-        url: "/homepage.avif",
-        width: 1200,
-        height: 630,
-        alt: "Homepage preview - Nishan Rajak Portfolio",
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Nishan Rajak | Backend Engineer Portfolio",
-    description:
-      "Backend-focused portfolio with projects, experience, and interactive UI by Nishan Rajak.",
-    images: ["/homepage.avif"],
-    creator: "@nishuR31",
-  },
-  icons: {
-    icon: "/logo.avif",
-    shortcut: "/logo.avif",
-    apple: "/logo.avif",
-  },
-};
+    },
+  };
+}
 
 export const viewport = {
   themeColor: "#000000",
 };
 
 export default async function RootLayout({ children }) {
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app";
+  try {
+    const portfolio = await getPortfolioData();
+    if (portfolio?.siteName && portfolio.siteName !== "nishudevportfolio") {
+      siteUrl = portfolio.siteName.startsWith("http") ? portfolio.siteName : `https://${portfolio.siteName}`;
+    }
+  } catch(e) {}
   const result = await getPortfolioData();
   const maintenanceMode = result.ok ? result.data?.maintenanceMode : false;
   const developer = { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
@@ -129,7 +130,7 @@ export default async function RootLayout({ children }) {
           }}
         />
         <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app"}`} />
+        
         <style
           dangerouslySetInnerHTML={{
             __html:
@@ -144,12 +145,12 @@ export default async function RootLayout({ children }) {
               "@graph": [
                 {
                   "@type": "Person",
-                  "@id": "https://nishudevportfolio.vercel.app/#person",
+                  "@id": `${siteUrl}/#person`,
                   name: developer.name,
-                  url: "https://nishudevportfolio.vercel.app",
+                  url: siteUrl,
                   email: developer.email,
                   jobTitle: "Backend Developer",
-                  image: "https://nishudevportfolio.vercel.app/logo.avif",
+                  image: `${siteUrl}/logo.avif`,
                   sameAs: [
                     `https://github.com/${social.github}`,
                     `https://linkedin.com/in/${social.linkedin}`,
@@ -157,11 +158,11 @@ export default async function RootLayout({ children }) {
                 },
                 {
                   "@type": "WebSite",
-                  "@id": "https://nishudevportfolio.vercel.app/#website",
+                  "@id": `${siteUrl}/#website`,
                   name: developer.name + " Portfolio",
-                  url: "https://nishudevportfolio.vercel.app",
+                  url: siteUrl,
                   publisher: {
-                    "@id": "https://nishudevportfolio.vercel.app/#person",
+                    "@id": `${siteUrl}/#person`,
                   },
                 },
               ],
