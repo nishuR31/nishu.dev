@@ -172,23 +172,28 @@ export default async function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.className} ${outfit.variable} antialiased`}>
         <Providers>
-          <AppEnhancements />
-          <PageTopLoader />
-          <Header />
-          <main id="main">{children}</main>
-          <ServerAssistant />
-          <Footer />
-          <SonnerToaster />
-          <GridPattern
-            width={200}
-            height={200}
-            x={-1}
-            y={-1}
-            className={cn(
-              "[mask-image:linear-gradient(to_bottom,white,transparent)]"
-            )}
-          />
-          <MaintenanceOverlay active={maintenanceMode} />
+          {maintenanceMode ? (
+            <MaintenanceOverlay active={true} />
+          ) : (
+            <>
+              <AppEnhancements />
+              <PageTopLoader />
+              <Header />
+              <main id="main">{children}</main>
+              <ServerAssistant />
+              <Footer />
+              <SonnerToaster />
+              <GridPattern
+                width={200}
+                height={200}
+                x={-1}
+                y={-1}
+                className={cn(
+                  "[mask-image:linear-gradient(to_bottom,white,transparent)]"
+                )}
+              />
+            </>
+          )}
         </Providers>
       </body>
     </html>
