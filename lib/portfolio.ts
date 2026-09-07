@@ -20,6 +20,7 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
         signal: controller.signal,
         next: {
           tags: ["portfolio-v3"],
+          revalidate: 30,
         },
       });
 
