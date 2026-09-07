@@ -38,7 +38,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ portfolioData }) => {
             ref={portraitWrapRef}
             className="pt-4 hero-portrait-wrap sm:pt-6 animate-in fade-in slide-in-from-bottom-4 zoom-in-95 duration-700"
           >
-            <div className="relative mx-auto w-52 h-72 sm:w-64 sm:h-80 floating-gravity rounded-2xl overflow-hidden dark:drop-shadow-2xl dark:shadow-2xl">
+            <div className="relative mx-auto w-40 h-56 sm:w-48 sm:h-64 floating-gravity rounded-2xl overflow-hidden dark:drop-shadow-2xl dark:shadow-2xl">
               <Image
                 src={photoFrames}
                 loading="eager"

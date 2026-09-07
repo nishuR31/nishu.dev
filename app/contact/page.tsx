@@ -53,7 +53,7 @@ const ContactContent = async () => {
       color: "text-zinc-800 dark:text-zinc-200",
       bg: "bg-zinc-500/10",
       border: "border-zinc-500/20",
-      stats: social?.githubFollowers ? [
+      stats: typeof social?.githubFollowers === 'number' ? [
         { label: "Followers", value: social.githubFollowers },
         { label: "Repos", value: social.githubRepos }
       ] : null
@@ -98,7 +98,7 @@ const ContactContent = async () => {
       color: "text-orange-500",
       bg: "bg-orange-500/10",
       border: "border-orange-500/20",
-      stats: social?.leetcodeSolved ? [
+      stats: typeof social?.leetcodeSolved === 'number' ? [
         { label: "Solved", value: social.leetcodeSolved },
         { label: "Rank", value: social.leetcodeRanking }
       ] : null

@@ -10,6 +10,7 @@ export default function ImageWithAvif({
   className,
   loading,
   priority,
+  ...props
 }) {
   const avifSrc = src.replace(/\.(png|jpe?g|webp)$/i, ".avif");
 
@@ -24,6 +25,7 @@ export default function ImageWithAvif({
         className={className}
         loading={loading}
         priority={priority}
+        {...props}
       />
     </picture>
   );

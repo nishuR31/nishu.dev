@@ -40,9 +40,9 @@ html {
     --chart-5: 27 87% 67%;
   }
   .dark {
-    --background: 0 0% 3%;       /* Sleek dark, almost black */
+    --background: 222 20% 7%;       /* Deep navy/slate */
     --foreground: 0 0% 88%;      /* Soft white */
-    --card: 0 0% 5%;
+    --card: 222 18% 10%;
     --card-foreground: 0 0% 88%;
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 88%;
@@ -77,9 +77,9 @@ html {
     @apply bg-background text-foreground;
   }
   
-  /* Smooth theme transitions for all color-related properties */
-  *, *::before, *::after {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow;
+  /* Smooth theme transitions for specific interactive elements */
+  button, a, .card, [data-hover] {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, transform, opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
@@ -93,10 +93,10 @@ html {
   }
 
   .glass-panel-strong {
-    @apply border border-input text-card-foreground backdrop-blur-xl shadow-2xl;
+    @apply border border-input text-card-foreground shadow-2xl;
     background-color: hsl(var(--card) / 0.72);
-    -webkit-backdrop-filter: saturate(180%) blur(10px);
-    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
 
   /* Premium glass: saturated for vivid blurs */
@@ -402,12 +402,12 @@ body::before {
   z-index: 0;
   background:
     radial-gradient(
-      circle at 18% 24%,
-      rgba(139, 92, 246, 0.1),
+      circle at 15% 10%,
+      rgba(99, 102, 241, 0.05),
       transparent 30%
     ),
-    radial-gradient(circle at 84% 78%, rgba(34, 211, 238, 0.08), transparent 34%);
-  animation: bg-breathe 9s ease-in-out infinite;
+    radial-gradient(circle at 85% 70%, rgba(14, 165, 233, 0.04), transparent 32%);
+  /* Reduced bg animation */
 }
 
 @media (max-width: 768px) {

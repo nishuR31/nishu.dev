@@ -11,39 +11,31 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
     "https://nishu-dev-api.onrender.com",
   ].filter((api, index, candidates): api is string => Boolean(api) && candidates.indexOf(api) === index);
 
-  // Maximum 2 attempts (1 initial + 1 retry)
   for (const api of apiCandidates) {
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        const controller = new AbortController();
-        // 8 second timeout per attempt
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 12000); // Allow 12s total
 
-        const res = await fetch(`${api}/api/portfolio`, {
-          signal: controller.signal,
-          next: {
-            revalidate: 0,
-            tags: ["portfolio-v3"],
-          },
-        });
+      const res = await fetch(`${api}/api/portfolio`, {
+        signal: controller.signal,
+        next: {
+          tags: ["portfolio-v3"],
+        },
+      });
 
-        clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
 
-        if (!res.ok) {
-          throw new Error(`Portfolio API returned ${res.status}`);
-        }
-        const json = await res.json();
-        const data = json.data ?? json;
-        if (data?.developer?.name) {
-          return { ok: true, data };
-        }
-        throw new Error("Invalid portfolio data received from API");
-      } catch (error) {
-        console.warn(`API fetch attempt ${attempt} failed for ${api}:`, error);
-        if (attempt < 2) {
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-        }
+      if (!res.ok) {
+        throw new Error(`Portfolio API returned ${res.status}`);
       }
+      const json = await res.json();
+      const data = json.data ?? json;
+      if (data?.developer?.name) {
+        return { ok: true, data };
+      }
+      throw new Error("Invalid portfolio data received from API");
+    } catch (error) {
+      console.warn(`API fetch failed for ${api}:`, error);
     }
   }
 
