@@ -107,9 +107,9 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-export default function RootLayout({ children }) {
-  // const result = await getPortfolioData();
-  const maintenanceMode = false; // result.ok ? result.data?.maintenanceMode : false;
+export default async function RootLayout({ children }) {
+  const result = await getPortfolioData();
+  const maintenanceMode = result.ok ? result.data?.maintenanceMode : false;
   const developer = { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
   const social = { github: "nishuR31", linkedin: "nishan-rajak" };
 

@@ -63,9 +63,11 @@ API_DATA_SCHEMA (nishu-dev-api.onrender.com/portfolio → { success, data: {...}
   skills[4]: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }
   experiences[2]: { position, company, period, location, description, responsibilities[], technologies[] }
   contactInfo[]: { iconKey, label, value, link }
-  certificates[30]: { url }
+  certificates[30]: { url, category, type }
   additionalProjects: string[]
   strengths: string[]
+  maintenanceMode: boolean
+  siteName: string
 
 KEY_COMPONENTS:
   components/reduxProvider.jsx: Minimal Provider wrapper for Theme state.
