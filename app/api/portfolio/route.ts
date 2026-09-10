@@ -5,7 +5,7 @@ const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://nishu-dev-api.onr
 export async function GET() {
   try {
     const response = await fetch(`${backendUrl.replace(/\/$/, "")}/api/portfolio`, {
-      next: { revalidate: 0, tags: ["portfolio-v3"] },
+      next: { revalidate: 0, tags: ["portfolio"] },
     });
 
     if (!response.ok) {
