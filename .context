@@ -1,0 +1,90 @@
+# nishu.dev Project Context (LLM Token-Optimized)
+# Format: Compact YAML-like DSL | Version: 2.1.0 | Updated: 2026-08-31
+
+PROJECT:
+  name: nishu.dev
+  type: Next.js 14 Portfolio Web App (App Router, JS/TS hybrid)
+  owner: Nishan Rajak (Backend-Focused Software Engineering Student @ ICFAI Univ Jharkhand)
+  repo: nishuR31/nishu.dev
+  live_url: https://nishudevportfolio.vercel.app
+  api_default: https://nishu-dev-api.onrender.com
+  branch_active: test-branch (deployed to Vercel; push test-branch:main to promote to prod)
+
+TECH_STACK:
+  framework: Next.js 14.2.15 (App Router, Static Site Generation + SSR)
+  react: 18.3.1
+  typescript: 5.6.2 (in dependencies — NOT devDependencies, required for Vercel build)
+  state: Redux Toolkit 2.12.0 + react-redux 9.3.0 (ONLY used for Theme now)
+  styling: TailwindCSS 3.4.14 + styled-components 6.5.1 + tailwindcss-animate
+  fonts: GeistVF (local), Outfit (Google Fonts)
+  image_format: AVIF (logo.avif, logo-84.avif, logo-180.avif, iitSitting.avif, projects/*.avif)
+  package_manager: bun (authoritative bun.lock; package-lock.json removed)
+  build_cmd: "bun run build" (runs: rm -rf .next && next build)
+
+ENV_VARS:
+  NEXT_PUBLIC_API_URL: Backend API root (optional; default: https://nishu-dev-api.onrender.com)
+  NEXT_PUBLIC_BACKEND: Alias for API URL (optional fallback)
+  NEXT_PUBLIC_FRONTEND_URL: Site canonical root (default: https://nishudevportfolio.vercel.app)
+  NEXT_PUBLIC_SERVICE_ID: EmailJS service key
+  NEXT_PUBLIC_TEMPLATE_ID: EmailJS template key
+  NEXT_PUBLIC_PUBLIC_KEY: EmailJS public key
+
+ROUTING_STRUCTURE:
+  app/layout.js: Root layout — No longer fetches portfolio data; renders static shell and Redux Provider for Theme.
+  app/(home)/page.jsx: Home (/) — SSR getPortfolioData() → props passed to Hero, About, Experience, GithubProjects, Skills, Certificates, Assistant sections.
+  app/experience/page.tsx: /experience — SSR timeline + full write-up via getPortfolioData().
+  app/(projects)/projects/page.tsx: /projects — SSR getPortfolioData().
+  app/(projects)/projects/[slug]/page.tsx: /projects/[slug] — SSR initial project via getPortfolioData().
+  app/(certificates)/certificates/page.tsx: /certificates — SSR getPortfolioData().
+  app/contact/page.tsx: /contact — SSR getPortfolioData().
+  app/settings/page.tsx: /settings — Theme settings.
+  app/not-found.tsx: 404 handler
+  app/error.tsx: Runtime error boundary
+
+STATE_MANAGEMENT:
+  store/configStore.ts: Redux store setup (themeSlice only, portfolioSlice effectively deprecated/removed).
+  store/index.ts: Custom hooks — useTheme. (usePortfolio is fully removed).
+  slices/themeSlice.ts: "dark" | "light" | "system" theme.
+
+DATA_SEEDING_FLOW:
+  1. Next.js Server Components call `getPortfolioData()` via `lib/portfolio.ts`.
+  2. Data is cached automatically by Next.js data cache mechanism.
+  3. Parent pages pass data down as props (`portfolioData` or explicit fields) to child feature components.
+  4. Explicit error handling via `result.ok` check. If API fails, UI degrades gracefully or shows inline error.
+  5. Redux is completely bypassed for portfolio data, eliminating hydration conflicts.
+
+API_DATA_SCHEMA (nishu-dev-api.onrender.com/portfolio → { success, data: {...} }):
+  developer: { name, shortName, role, tagline, bio, location, email, about[] }
+  featuredProjects: string[]
+  social: { email, github, discord, linkedin, leetcode, hackerone, twitter }
+  NAV_ITEMS: { href, label }[]
+  recentTracks: boolean
+  projects[12]: { id, title, description, image, technologies[], github, demo, problem, solution, role, timeline, highlights[], categories[] }
+  skills[4]: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }
+  experiences[2]: { position, company, period, location, description, responsibilities[], technologies[] }
+  contactInfo[]: { iconKey, label, value, link }
+  certificates[30]: { url, category, type }
+  additionalProjects: string[]
+  strengths: string[]
+  maintenanceMode: boolean
+  siteName: string
+
+KEY_COMPONENTS:
+  components/reduxProvider.jsx: Minimal Provider wrapper for Theme state.
+  components/features/home/*: All sections refactored to accept portfolioData as props instead of Redux.
+  components/layout/Header/index.tsx: Static nav items and theme toggle, no Redux dependencies.
+  components/layout/Footer/index.jsx: Static fallback strings, removed Redux.
+  components/ui/skeletons.jsx: Fallback loaders.
+  lib/portfolio.ts: Server-side getPortfolioData() — Configured with fast retries (5-8s timeout, 1 retry) and returns a typed discriminated union (`{ok, data} | {ok, error}`).
+
+VERCEL_DEPLOYMENT:
+  vercel.json: { framework: nextjs, buildCommand: "bun run build", installCommand: "rm -rf node_modules && bun install", outputDirectory: ".next" }
+  KNOWN_ISSUE: Vercel build cache can corrupt node_modules; vercel.json installCommand forces wipe
+  KNOWN_ISSUE: Render free tier cold-starts (30-50s); lib/portfolio.ts uses 8s timeout with 1 retry max.
+  ACTIVE_BRANCH: test-branch → push to main to trigger production build
+
+BUILD_STATS:
+  Stage 1 (Rendering & Hydration Fixes): Completed. All components decouple from Redux `usePortfolio`.
+  Stage 2 (Architectural Optimization): Completed. GitHub project fetching is decoupled from the homepage via Suspense boundary to prevent blocking.
+  Stage 3 (Data Fetching Resilience): Fixed Next.js `Unexpected end of JSON input` bug by removing incompatible `@fastify/compress` from the backend (Bun zlib streaming bug). Data is successfully fetched and rendered.
+  Build completes successfully.
