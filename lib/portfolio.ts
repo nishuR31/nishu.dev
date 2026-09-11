@@ -14,7 +14,7 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
   try {
     const res = await fetch(`${api}/api/portfolio`, {
       signal: controller.signal,
-      next: { tags: ["portfolio"], revalidate: 300 },
+      next: { tags: ["portfolio"], revalidate: 0 },
     });
     if (!res.ok) throw new Error(`Portfolio API returned ${res.status}`);
     const json = await res.json();

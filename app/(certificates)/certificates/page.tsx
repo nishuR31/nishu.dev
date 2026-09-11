@@ -6,10 +6,26 @@ export const metadata = {
 };
 export default async function CertificatesPage() {
   const result = await getPortfolioData();
+  const showCertificates = result.ok ? result.data.showCertificates !== false : true;
+
+  if (!showCertificates) {
+    return (
+      <section className="site-width collection-page">
+        <p className="eyebrow section-index">LEARNING IS PART OF THE WORK</p>
+        <h1>
+          Currently <span className="hero-serif">unavailable.</span>
+        </h1>
+        <p className="section-description">
+          This section is currently hidden by the developer.
+        </p>
+      </section>
+    );
+  }
+
   const certificates = result.ok
     ? (result.data.certificates || []).filter(
-        (certificate: any) => certificate.visible !== false && certificate.url,
-      )
+      (certificate: any) => certificate.visible !== false && certificate.url,
+    )
     : [];
   return (
     <section className="site-width collection-page">
