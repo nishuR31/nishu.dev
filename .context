@@ -71,7 +71,8 @@ API_DATA_SCHEMA (nishu-dev-api.onrender.com/portfolio → { success, data: {...}
 
 KEY_COMPONENTS:
   components/reduxProvider.jsx: Minimal Provider wrapper for Theme state.
-  components/features/home/*: All sections refactored to accept portfolioData as props instead of Redux.
+  components/Providers/SocketProvider.jsx: Connects to backend Socket.io, listens to 'portfolio:updated', and triggers router.refresh().
+  components/features/home/*: All sections refactored to accept portfolioData as props instead of Redux. (Includes visible property filtering).
   components/layout/Header/index.tsx: Static nav items and theme toggle, no Redux dependencies.
   components/layout/Footer/index.jsx: Static fallback strings, removed Redux.
   components/ui/skeletons.jsx: Fallback loaders.

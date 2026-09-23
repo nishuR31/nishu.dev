@@ -10,6 +10,7 @@ import Header from "@/components/layout/Header/ServerHeader";
 import Footer from "@/components/layout/Footer";
 import Providers from "@/components/reduxProvider";
 import ServerAssistant from "@/components/features/home/ServerAssistant";
+import SocketProvider from "@/components/Providers/SocketProvider";
 
 import { getPortfolioData } from "@/lib/portfolio";
 import MaintenanceOverlay from "@/components/ui/maintenance-overlay";
@@ -177,6 +178,7 @@ export default async function RootLayout({ children }) {
           ) : (
             <>
               <AppEnhancements />
+              <SocketProvider />
               <PageTopLoader />
               <Header />
               <main id="main">{children}</main>

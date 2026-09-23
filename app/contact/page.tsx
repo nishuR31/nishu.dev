@@ -35,19 +35,24 @@ const ContactContent = async () => {
     return `${baseUrl}${handle}`;
   };
 
-  const contactLinks = [
-    {
+  const contactLinks = [];
+  
+  if (developer.email && social.emailVisible !== false) {
+    contactLinks.push({
       name: "Email",
-      value: developer.email || "loading...",
+      value: developer.email,
       icon: <Mail className="w-6 h-6" />,
-      href: `mailto:${developer.email || "loading..."}`,
+      href: `mailto:${developer.email}`,
       color: "text-rose-500",
       bg: "bg-rose-500/10",
       border: "border-rose-500/20",
-    },
-    {
+    });
+  }
+
+  if (social.github && social.githubVisible !== false) {
+    contactLinks.push({
       name: "GitHub",
-      value: social.github || "loading...",
+      value: social.github,
       icon: <Github className="w-6 h-6" />,
       href: formatUrl("https://github.com/", social.github),
       color: "text-zinc-800 dark:text-zinc-200",
@@ -57,28 +62,32 @@ const ContactContent = async () => {
         { label: "Followers", value: social.githubFollowers },
         { label: "Repos", value: social.githubRepos }
       ] : null
-    },
-    {
+    });
+  }
+
+  if (social.linkedin && social.linkedinVisible !== false) {
+    contactLinks.push({
       name: "LinkedIn",
-      value: social.linkedin || "loading...",
+      value: social.linkedin,
       icon: <Linkedin className="w-6 h-6" />,
       href: formatUrl("https://linkedin.com/in/", social.linkedin),
       color: "text-blue-500",
       bg: "bg-blue-500/10",
       border: "border-blue-500/20",
-    },
-    {
-      name: "Website",
-      value: "Nishan Portfolio",
-      icon: <Globe className="w-6 h-6" />,
-      href: process.env.NEXT_PUBLIC_SITE_URL || "loading...",
-      color: "text-emerald-500",
-      bg: "bg-emerald-500/10",
-      border: "border-emerald-500/20",
-    },
-  ];
+    });
+  }
 
-  if (social.twitter) {
+  contactLinks.push({
+    name: "Website",
+    value: "Nishan Portfolio",
+    icon: <Globe className="w-6 h-6" />,
+    href: process.env.NEXT_PUBLIC_SITE_URL || "loading...",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-500/20",
+  });
+
+  if (social.twitter && social.twitterVisible !== false) {
     contactLinks.push({
       name: "Twitter",
       value: social.twitter,
@@ -89,7 +98,7 @@ const ContactContent = async () => {
       border: "border-sky-500/20",
     });
   }
-  if (social.leetcode) {
+  if (social.leetcode && social.leetcodeVisible !== false) {
     contactLinks.push({
       name: "LeetCode",
       value: social.leetcode ?? "loading...",
@@ -104,7 +113,7 @@ const ContactContent = async () => {
       ] : null
     });
   }
-  if (social.hackerone) {
+  if (social.hackerone && social.hackeroneVisible !== false) {
     contactLinks.push({
       name: "HackerOne",
       value: social.hackerone ?? "loading...",
