@@ -1,0 +1,23 @@
+# SEO & Google Indexing Issue Log (.error)
+
+## Logged Issues & Mitigations
+
+### 1. Static `public/robots.txt` and `public/sitemap.xml` Conflict
+- **Issue**: Static files in `public/` override App Router route handlers (`app/robots.ts` and `app/sitemap.ts`) in Next.js.
+- **Impact**: Dynamic updates, automated sitemap generation for dynamic projects, and clean metadata routing are bypassed.
+- **Resolution**: Deprecate and remove static `public/robots.txt` and `public/sitemap.xml`. Generate both dynamically via Next.js App Router conventions.
+
+### 2. Client Component Metadata Constraint in `/settings`
+- **Issue**: `app/settings/page.tsx` is marked `"use client"`. Next.js throws an error if `export const metadata` is defined directly in a Client Component.
+- **Impact**: Direct addition of metadata in `page.tsx` causes build failure.
+- **Resolution**: Create `app/settings/layout.tsx` as a Server Component to host `export const metadata = { robots: { index: false, follow: true } }`, leaving `app/settings/page.tsx` completely untouched.
+
+### 3. Deprecated Next.js 13 `head.js` Usage
+- **Issue**: `app/(home)/head.js` and `app/(projects)/projects/head.js` are deprecated conventions that conflict with Next.js 14 App Router Metadata API.
+- **Impact**: Generates duplicate tags, partial tags, or unmanaged `<script type="application/ld+json">` blocks.
+- **Resolution**: Remove both `head.js` files. Consolidate metadata into `export const metadata` / `generateMetadata` and unified JSON-LD in `layout.js` / page components.
+
+### 4. Fragmented Person Entity & Missing `ProfilePage` Structured Data
+- **Issue**: `layout.js` had incomplete `sameAs` links (hardcoded partial object, missing LeetCode, X, HackerOne), missing `alternateName`, and no `ProfilePage` schema.
+- **Impact**: Google Knowledge Graph and identity linking struggled to unify search queries for "Nishan Rajak" across GitHub, LinkedIn, and the portfolio.
+- **Resolution**: Implement Schema.org `@graph` with explicit `ProfilePage` and comprehensive `Person` entity containing verified `sameAs` array and canonical identifiers.

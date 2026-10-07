@@ -6,9 +6,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Experience",
+  title: "Experience | Nishan Rajak",
   description:
     "Professional experience, education, and engineering track record of Nishan Rajak — backend-focused software engineering student.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
@@ -38,11 +42,10 @@ const ExperienceContent = async () => {
                 {/* Timeline node */}
                 <div className="flex-shrink-0 relative z-10 hidden md:flex flex-col items-center">
                   <div
-                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 ${
-                      isBTech
+                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 ${isBTech
                         ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
                         : "bg-primary/10 border-primary/20 text-primary"
-                    }`}
+                      }`}
                   >
                     {isBTech ? (
                       <GraduationCap className="w-5 h-5" />
@@ -57,11 +60,10 @@ const ExperienceContent = async () => {
                   <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 backdrop-blur-md p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] group-hover:-translate-y-0.5">
                     {/* Top accent */}
                     <div
-                      className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${
-                        isBTech
+                      className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${isBTech
                           ? "bg-gradient-to-b from-blue-500 to-blue-500/40"
                           : "bg-gradient-to-b from-primary to-primary/40"
-                      }`}
+                        }`}
                     />
 
                     <div className="pl-3">

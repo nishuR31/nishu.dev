@@ -87,6 +87,9 @@ export async function generateMetadata() {
       description: "Backend-focused software engineering student building scalable APIs.",
       images: ["/homepage.avif"],
     },
+    alternates: {
+      canonical: siteUrl,
+    },
     robots: {
       index: true,
       follow: true,
@@ -107,24 +110,80 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app";
-  try {
-    const portfolio = await getPortfolioData();
-    if (
-      portfolio.ok &&
-      portfolio.data?.siteName &&
-      portfolio.data.siteName !== "nishudevportfolio"
-    ) {
-      siteUrl = portfolio.data.siteName.startsWith("http")
-        ? portfolio.data.siteName
-        : `https://${portfolio.data.siteName}`;
-    }
-  } catch (e) {}
   const result = await getPortfolioData();
-  const maintenanceMode = result.ok ? result.data?.maintenanceMode : false;
-  const developer = result.ok
-    ? result.data.developer
-    : { name: "Nishan Rajak", email: "nishan.developer.dev@gmail.com" };
-  const social = { github: "nishuR31", linkedin: "nishan-rajak-98b2ab3b8" };
+  const portfolioData = result.ok ? result.data : {};
+  if (
+    portfolioData?.siteName &&
+    portfolioData.siteName !== "nishudevportfolio"
+  ) {
+    siteUrl = portfolioData.siteName.startsWith("http")
+      ? portfolioData.siteName
+      : `https://${portfolioData.siteName}`;
+  }
+
+  const maintenanceMode = portfolioData?.maintenanceMode || false;
+  const developer = portfolioData?.developer || {
+    name: "Nishan Rajak",
+    shortName: "Nishu",
+    role: "Backend-Focused Software Engineering Student",
+    bio: "Software engineering student focused on backend systems, scalable APIs, distributed systems, and production software engineering.",
+    email: "nishan.developer.dev@gmail.com",
+  };
+  const rawSocial = portfolioData?.social || {};
+
+  const formatUrl = (val, base) => {
+    if (!val || val === "#") return null;
+    return val.startsWith("http") ? val : `${base}${val}`;
+  };
+
+  const sameAsProfiles = [
+    formatUrl(rawSocial.github || "nishuR31", "https://github.com/"),
+    formatUrl(rawSocial.linkedin || "nishan-rajak-98b2ab3b8", "https://linkedin.com/in/"),
+    formatUrl(rawSocial.leetcode || "nishanr_19", "https://leetcode.com/u/"),
+    formatUrl(rawSocial.twitter || "nishuR31", "https://x.com/"),
+    formatUrl(rawSocial.hackerone || "nishur", "https://hackerone.com/"),
+  ].filter(Boolean);
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${siteUrl}/#profilepage`,
+        url: siteUrl,
+        name: `${developer.name || "Nishan Rajak"} | Backend Engineer Portfolio`,
+        isPartOf: {
+          "@id": `${siteUrl}/#website`,
+        },
+        mainEntity: {
+          "@id": `${siteUrl}/#person`,
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": `${siteUrl}/#person`,
+        name: developer.name || "Nishan Rajak",
+        alternateName: [developer.shortName || "Nishu", "nishuR31"].filter(Boolean),
+        url: siteUrl,
+        jobTitle: developer.role || "Backend-focused Software Engineer",
+        description:
+          developer.bio ||
+          "Software engineering student focused on backend systems, scalable APIs, distributed systems, and production software engineering.",
+        image: `${siteUrl}/logo.avif`,
+        email: developer.email || "nishan.developer.dev@gmail.com",
+        sameAs: sameAsProfiles,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: `${developer.name || "Nishan Rajak"} Portfolio`,
+        url: siteUrl,
+        publisher: {
+          "@id": `${siteUrl}/#person`,
+        },
+      },
+    ],
+  };
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
@@ -143,33 +202,7 @@ export default async function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "Person",
-                  "@id": `${siteUrl}/#person`,
-                  name: developer.name,
-                  url: siteUrl,
-                  email: developer.email,
-                  jobTitle: "Backend Developer",
-                  image: `${siteUrl}/logo.avif`,
-                  sameAs: [
-                    `https://github.com/${social.github}`,
-                    `https://linkedin.com/in/${social.linkedin}`,
-                  ],
-                },
-                {
-                  "@type": "WebSite",
-                  "@id": `${siteUrl}/#website`,
-                  name: developer.name + " Portfolio",
-                  url: siteUrl,
-                  publisher: {
-                    "@id": `${siteUrl}/#person`,
-                  },
-                },
-              ],
-            }).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
       </head>

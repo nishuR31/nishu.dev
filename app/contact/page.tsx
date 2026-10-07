@@ -2,10 +2,16 @@ import { Github, Linkedin, ArrowUpRight, MapPin } from "lucide-react";
 import ContactActions from "@/components/features/home/ContactActions";
 import ResumeCarousel from "@/components/features/home/ResumeCarousel";
 import { getPortfolioData } from "@/lib/portfolio";
-export const metadata = {
-  title: "Contact",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | Nishan Rajak",
   description:
     "Get in touch with Nishan Rajak about projects and software engineering opportunities.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 export default async function ContactPage() {
   const result = await getPortfolioData();

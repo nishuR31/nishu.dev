@@ -12,10 +12,15 @@ import {
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Tech Stack",
+export const metadata: Metadata = {
+  title: "Tech Stack | Nishan Rajak",
   description: "Tools, languages, and technologies I work with.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default async function TechStackPage() {

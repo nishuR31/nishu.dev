@@ -83,8 +83,36 @@ VERCEL_DEPLOYMENT:
   KNOWN_ISSUE: Render free tier cold-starts (30-50s); lib/portfolio.ts uses 8s timeout with 1 retry max.
   ACTIVE_BRANCH: test-branch → push to main to trigger production build
 
+SEO_AND_INDEXING_ARCHITECTURE:
+  robots:
+    handler: app/robots.ts (Next.js MetadataRoute.Robots)
+    rules: { userAgent: "*", allow: "/" }
+    sitemap: "https://nishudevportfolio.vercel.app/sitemap.xml"
+  sitemap:
+    handler: app/sitemap.ts (Next.js MetadataRoute.Sitemap)
+    indexable_pages: ["/", "/projects", "/experience", "/certificates", "/projects/[slug]"]
+    excluded_pages: ["/settings", "/socials", "/techstack", "/contact", "/hire"]
+  noindex_directives:
+    /settings: app/settings/layout.tsx ({ index: false, follow: true })
+    /socials: app/socials/page.tsx ({ index: false, follow: true })
+    /techstack: app/techstack/page.tsx ({ index: false, follow: true })
+  indexable_directives:
+    /contact: app/contact/page.tsx ({ index: true, follow: true })
+    /hire: app/hire/page.tsx ({ index: true, follow: true })
+    /projects: app/projects/page.tsx ({ index: true, follow: true })
+    /projects/[slug]: app/projects/[slug]/page.tsx ({ index: true, follow: true })
+    /experience: app/experience/page.tsx ({ index: true, follow: true })
+    /certificates: app/certificates/page.tsx ({ index: true, follow: true })
+  structured_data:
+    schemas: ["ProfilePage", "Person", "WebSite", "CollectionPage"]
+    entity_id: "https://nishudevportfolio.vercel.app/#person"
+    sameAs: [GitHub, LinkedIn, LeetCode, X/Twitter, HackerOne]
+  legacy_cleanup:
+    removed: [public/robots.txt, public/sitemap.xml, app/(home)/head.js, app/(projects)/projects/head.js]
+
 BUILD_STATS:
   Stage 1 (Rendering & Hydration Fixes): Completed. All components decouple from Redux `usePortfolio`.
   Stage 2 (Architectural Optimization): Completed. GitHub project fetching is decoupled from the homepage via Suspense boundary to prevent blocking.
   Stage 3 (Data Fetching Resilience): Fixed Next.js `Unexpected end of JSON input` bug by removing incompatible `@fastify/compress` from the backend (Bun zlib streaming bug). Data is successfully fetched and rendered.
+  Stage 4 (SEO & Google Identity Architecture): Completed. Migrated to App Router robots.ts & sitemap.ts, added noindex directives to utility routes, consolidated metadata API, strengthened Person & ProfilePage JSON-LD schemas.
   Build completes successfully.

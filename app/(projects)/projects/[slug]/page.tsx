@@ -38,6 +38,10 @@ export async function generateMetadata({
   return {
     title: project.title,
     description: project.description,
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

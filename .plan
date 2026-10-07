@@ -1,0 +1,56 @@
+# SEO & Google Identity Alignment Plan
+
+## Objective
+Establish a clean, robust indexing and identity recognition architecture for Nishan Rajak (`nishu.dev` / `https://nishudevportfolio.vercel.app`) without modifying existing UI/UX structure, styles, or page layouts.
+
+## Identified Requirements
+1. **Robots Configuration**:
+   - Modernize from static/overly complex robots rules to Next.js App Router `app/robots.ts`.
+   - Remove legacy `public/robots.txt` so it does not shadow `app/robots.ts`.
+   - Allow crawling across all standard routes; rely on `robots` metadata directives for index control.
+   - Reference sitemap: `https://nishudevportfolio.vercel.app/sitemap.xml`.
+
+2. **Sitemap Modernization**:
+   - Create dynamic Next.js App Router `app/sitemap.ts`.
+   - Exclude utility/non-essential standalone pages (`/settings`, `/socials`, `/techstack`).
+   - Keep `/contact` and `/hire` out of sitemap for focused indexing priority.
+   - Include core canonical landing pages:
+     - `/` (priority 1.0, monthly)
+     - `/projects` (priority 0.9, monthly)
+     - `/experience` (priority 0.8, monthly)
+     - `/certificates` (priority 0.7, monthly)
+     - `/projects/[slug]` (dynamically populated from portfolio data, priority 0.7)
+   - Remove legacy `public/sitemap.xml`.
+
+3. **Page-Specific Indexing Directives**:
+   - `/settings`: Set `robots: { index: false, follow: true }` via `app/settings/layout.tsx` (server layout to preserve `page.tsx` client component).
+   - `/socials`: Set `robots: { index: false, follow: true }` via `app/socials/page.tsx` metadata.
+   - `/techstack`: Set `robots: { index: false, follow: true }` via `app/techstack/page.tsx` metadata.
+   - `/contact` & `/hire`: Ensure indexable (`index: true, follow: true`) via metadata.
+
+4. **Retire Deprecated `head.js` Conventions**:
+   - Remove `app/(home)/head.js` and `app/(projects)/projects/head.js`.
+   - Consolidate all metadata using standard Next.js 14 Metadata API (`metadata` / `generateMetadata`).
+
+5. **Entity & Identity Graph Strengthening (`Person` & `ProfilePage`)**:
+   - In `app/layout.js`, enhance Schema.org JSON-LD graph.
+   - Define canonical `Person` entity:
+     - Name: Nishan Rajak
+     - Alternate Names: ["Nishu", "nishuR31"]
+     - URL: Canonical site URL
+     - JobTitle: Backend-focused Software Engineer
+     - Description: Matching portfolio bio & backend focus
+     - Image: Canonical image/logo
+     - sameAs: Direct links to verified profiles:
+       - GitHub: `https://github.com/nishuR31`
+       - LinkedIn: `https://linkedin.com/in/nishan-rajak-98b2ab3b8`
+       - LeetCode: `https://leetcode.com/u/nishanr_19`
+       - X / Twitter: `https://x.com/nishuR31`
+       - HackerOne: `https://hackerone.com/nishur`
+   - Define canonical `ProfilePage` entity referencing `#person` as `mainEntity`.
+   - Define canonical `WebSite` entity referencing `#person` as `publisher`.
+
+6. **Validation & Verification**:
+   - Ensure clean Next.js build (`bun run build`).
+   - Validate robots.txt and sitemap.xml endpoints output.
+   - Validate that no UI/UX, styles, or page components were altered.

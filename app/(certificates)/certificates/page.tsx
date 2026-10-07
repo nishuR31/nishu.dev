@@ -1,8 +1,14 @@
 import { ArrowUpRight, FileText, Award } from "lucide-react";
 import { getPortfolioData } from "@/lib/portfolio";
-export const metadata = {
-  title: "Certificates",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Certificates | Nishan Rajak",
   description: "Courses, workshops, and continued learning by Nishan Rajak.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 export default async function CertificatesPage() {
   const result = await getPortfolioData();

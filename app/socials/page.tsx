@@ -2,9 +2,15 @@ import { Github, Linkedin, ArrowUpRight, Mail, Code, BarChart2 } from "lucide-re
 import { getPortfolioData } from "@/lib/portfolio";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Socials & Stats",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Social Profiles | Nishan Rajak",
   description: "Social links and coding platform statistics for Nishan Rajak.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default async function SocialsPage() {

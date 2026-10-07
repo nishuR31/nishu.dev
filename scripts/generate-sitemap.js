@@ -11,28 +11,32 @@ async function generateSitemap() {
     const data = await res.json();
     const portfolioData = data?.data || data;
 
-    const navItems = [
-      { href: "/projects" },
-      { href: "/certificates" },
-      { href: "/contact" },
-      { href: "/settings" },
-      { href: "/experience" },
-      { href: "/hire" },
-    ];
-
     const staticRoutes = [
-      "",
-      ...navItems.map((item) => item.href).filter((href) => !href.includes("#")),
+      { href: "", priority: 1.0, changefreq: "monthly" },
+      { href: "/projects", priority: 0.9, changefreq: "monthly" },
+      { href: "/experience", priority: 0.8, changefreq: "monthly" },
+      { href: "/certificates", priority: 0.7, changefreq: "monthly" },
+      { href: "/contact", priority: 0.7, changefreq: "monthly" },
+      { href: "/hire", priority: 0.7, changefreq: "monthly" },
     ];
 
-    const urls = staticRoutes.map((route) => {
-      const url = `${FRONTEND_URL}${route}`;
+    const projectRoutes = (portfolioData?.projects || [])
+      .map((p) => {
+        const slug = p.slug || (p.title ? p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") : null);
+        return slug ? { href: `/projects/${slug}`, priority: 0.7, changefreq: "monthly" } : null;
+      })
+      .filter(Boolean);
+
+    const allRoutes = [...staticRoutes, ...projectRoutes];
+
+    const urls = allRoutes.map((route) => {
+      const url = `${FRONTEND_URL}${route.href}`;
       return `
   <url>
     <loc>${url}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>${route === "" ? "yearly" : "monthly"}</changefreq>
-    <priority>${route === "" ? 1.0 : 0.8}</priority>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
   </url>`;
     });
 
