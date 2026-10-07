@@ -115,4 +115,5 @@ BUILD_STATS:
   Stage 2 (Architectural Optimization): Completed. GitHub project fetching is decoupled from the homepage via Suspense boundary to prevent blocking.
   Stage 3 (Data Fetching Resilience): Fixed Next.js `Unexpected end of JSON input` bug by removing incompatible `@fastify/compress` from the backend (Bun zlib streaming bug). Data is successfully fetched and rendered.
   Stage 4 (SEO & Google Identity Architecture): Completed. Migrated to App Router robots.ts & sitemap.ts, added noindex directives to utility routes, consolidated metadata API, strengthened Person & ProfilePage JSON-LD schemas.
+  Stage 5 (Interactive Visuals): Implemented Option A dual-layer ASCII-to-Photo hover reveal effect for about-photo using public/nishur31.svg and /iitSitting.avif.
   Build completes successfully.
