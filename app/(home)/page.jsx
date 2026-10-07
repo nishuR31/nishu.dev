@@ -122,13 +122,28 @@ export default async function Home() {
       )}
       {data.showAbout !== false && (
         <section className="about-section site-width" id="about">
-          <div className="about-photo">
+          <div
+            className="about-photo"
+            tabIndex={0}
+            role="figure"
+            aria-label="Portrait of Nishan Rajak"
+          >
             <span className="portrait-note">THE PERSON BEHIND THE CODE ↘</span>
             <Image
               src="/iitSitting.avif"
               alt="Portrait of Nishan Rajak"
               fill
+              className="portrait-image"
               sizes="(max-width: 700px) 90vw, 360px"
+            />
+            <Image
+              src="/nishur31.svg"
+              alt="ASCII Portrait of Nishan Rajak"
+              fill
+              unoptimized
+              className="portrait-ascii"
+              sizes="(max-width: 700px) 90vw, 360px"
+              priority
             />
             <span className="photo-caption">
               NISHAN RAJAK <span>DEVELOPER & CONSTANT LEARNER</span>
