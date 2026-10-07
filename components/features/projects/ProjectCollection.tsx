@@ -28,6 +28,7 @@ export default function ProjectCollection({
         <div className="project-filters" aria-label="Filter projects">
           {filters.map((f) => (
             <button
+              type="button"
               key={f}
               aria-pressed={filter === f}
               onClick={() => setFilter(f)}

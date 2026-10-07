@@ -1,6 +1,10 @@
 import React from "react";
-import AssistantWidget from "./Assistant";
+import dynamic from "next/dynamic";
 import { getPortfolioData } from "@/lib/portfolio";
+
+const AssistantWidget = dynamic(() => import("./Assistant"), {
+  ssr: false,
+});
 
 export default async function ServerAssistant() {
   const result = await getPortfolioData();

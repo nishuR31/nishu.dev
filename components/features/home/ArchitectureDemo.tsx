@@ -82,7 +82,12 @@ export default function ArchitectureDemo() {
       </div>
       <div className="demo-tabs" role="group" aria-label="Explore architecture concepts">
         {examples.map(({ label, icon: Icon }, i) => (
-          <button key={label} aria-pressed={active === i} onClick={() => setActive(i)}>
+          <button
+            type="button"
+            key={label}
+            aria-pressed={active === i}
+            onClick={() => setActive(i)}
+          >
             <Icon size={14} />
             {label}
           </button>

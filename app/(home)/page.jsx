@@ -143,7 +143,6 @@ export default async function Home() {
               unoptimized
               className="portrait-ascii"
               sizes="(max-width: 700px) 90vw, 360px"
-              priority
             />
             <span className="photo-caption">
               NISHAN RAJAK <span>DEVELOPER & CONSTANT LEARNER</span>

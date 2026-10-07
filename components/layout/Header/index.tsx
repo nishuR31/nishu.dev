@@ -14,26 +14,37 @@ export default function Header() {
       setActiveSection("");
       return;
     }
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const ids = ["work", "about", "experience", "contact"];
-        const current = ids
-          .filter((id) => {
-            const section = document.getElementById(id);
-            return section && section.getBoundingClientRect().top <= 180;
-          })
-          .pop();
-        setActiveSection(current || "");
-      });
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-    };
+    const ids = ["work", "about", "experience", "contact"];
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (elements.length === 0) return;
+
+    const visibleSections = new Map<string, number>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleSections.set(entry.target.id, entry.intersectionRatio);
+          } else {
+            visibleSections.delete(entry.target.id);
+          }
+        });
+
+        const active = ids.find((id) => visibleSections.has(id));
+        if (active) {
+          setActiveSection(active);
+        } else if (window.scrollY < 200) {
+          setActiveSection("");
+        }
+      },
+      { rootMargin: "-10% 0px -60% 0px", threshold: [0, 0.2] },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, [pathname]);
   useEffect(() => {
     setOpen(false);

@@ -1,56 +1,34 @@
-# SEO & Google Identity Alignment Plan
+# SEO, Identity, Performance & Accessibility Plan
 
 ## Objective
-Establish a clean, robust indexing and identity recognition architecture for Nishan Rajak (`nishu.dev` / `https://nishudevportfolio.vercel.app`) without modifying existing UI/UX structure, styles, or page layouts.
+Establish a clean, robust indexing and identity recognition architecture, eliminate Total Blocking Time (TBT) / main-thread overhead, prevent forced reflows, optimize oversized media, and achieve 100/100 accessibility without altering UI/UX structure, styles, or page layouts.
 
-## Identified Requirements
-1. **Robots Configuration**:
-   - Modernize from static/overly complex robots rules to Next.js App Router `app/robots.ts`.
-   - Remove legacy `public/robots.txt` so it does not shadow `app/robots.ts`.
-   - Allow crawling across all standard routes; rely on `robots` metadata directives for index control.
-   - Reference sitemap: `https://nishudevportfolio.vercel.app/sitemap.xml`.
+## Completed Milestones
 
-2. **Sitemap Modernization**:
-   - Create dynamic Next.js App Router `app/sitemap.ts`.
-   - Exclude utility/non-essential standalone pages (`/settings`, `/socials`, `/techstack`).
-   - Keep `/contact` and `/hire` out of sitemap for focused indexing priority.
-   - Include core canonical landing pages:
-     - `/` (priority 1.0, monthly)
-     - `/projects` (priority 0.9, monthly)
-     - `/experience` (priority 0.8, monthly)
-     - `/certificates` (priority 0.7, monthly)
-     - `/projects/[slug]` (dynamically populated from portfolio data, priority 0.7)
-   - Remove legacy `public/sitemap.xml`.
+### 1. Technical SEO & Indexing (P3)
+- **Robots Configuration**: `app/robots.ts` serving canonical `userAgent: "*", allow: "/"` and sitemap pointer. Legacy `public/robots.txt` deleted.
+- **Sitemap Architecture**: `app/sitemap.ts` dynamically listing `/`, `/projects`, `/experience`, `/certificates`, and dynamic project paths. Excluded non-essential utilities (`/settings`, `/socials`, `/techstack`, `/contact`, `/hire`). Legacy `public/sitemap.xml` deleted.
+- **Directives**:
+  - `noindex, follow`: Set on `/settings` (via `app/settings/layout.tsx`), `/socials`, and `/techstack`.
+  - `index, follow`: Set on `/`, `/projects`, `/experience`, `/certificates`, `/contact`, and `/hire`.
+- **Entity & Identity Graph**: Injected Schema.org `@graph` JSON-LD in `app/layout.js`:
+  - `ProfilePage` (`#profilepage`) with `mainEntity: #person`.
+  - `Person` (`#person`) with Nishan Rajak, alternate names (`Nishu`, `nishuR31`), and verified `sameAs` links (GitHub, LinkedIn, LeetCode, X, HackerOne).
+  - `WebSite` (`#website`) with `publisher: #person`.
 
-3. **Page-Specific Indexing Directives**:
-   - `/settings`: Set `robots: { index: false, follow: true }` via `app/settings/layout.tsx` (server layout to preserve `page.tsx` client component).
-   - `/socials`: Set `robots: { index: false, follow: true }` via `app/socials/page.tsx` metadata.
-   - `/techstack`: Set `robots: { index: false, follow: true }` via `app/techstack/page.tsx` metadata.
-   - `/contact` & `/hire`: Ensure indexable (`index: true, follow: true`) via metadata.
+### 2. Main-Thread & TBT Optimization (P0)
+- **Forced Reflow Elimination**: Replaced window scroll listener + synchronous `getBoundingClientRect()` in `components/layout/Header/index.tsx` with high-performance `IntersectionObserver`.
+- **Client Hydration Deferral**: Loaded `AssistantWidget` via `next/dynamic({ ssr: false })` in `ServerAssistant.tsx`, preventing floating chat drawer from executing during critical initial page hydration.
+- **ThemeController DOM Mutation Throttling**: Throttled DOM operations in `ThemeController.tsx` to prevent redundant class toggling on initial mount.
 
-4. **Retire Deprecated `head.js` Conventions**:
-   - Remove `app/(home)/head.js` and `app/(projects)/projects/head.js`.
-   - Consolidate all metadata using standard Next.js 14 Metadata API (`metadata` / `generateMetadata`).
+### 3. Media & Asset Optimization (P1)
+- **Portrait Resizing**: Resized `public/iitSitting.avif` from 2701×4096 down to 1000px width. Reduced file size from ~78 KiB to ~20.9 KiB (~75% reduction) with zero perceptual quality loss.
+- **Project Screenshot Resizing**: Resized all project images in `public/projects/*.avif` from ~1300px down to 900px width.
+- **Priority Attribution**: Removed eager `priority` from below-the-fold portrait ASCII image to reserve main-thread bandwidth for above-the-fold Hero content.
 
-5. **Entity & Identity Graph Strengthening (`Person` & `ProfilePage`)**:
-   - In `app/layout.js`, enhance Schema.org JSON-LD graph.
-   - Define canonical `Person` entity:
-     - Name: Nishan Rajak
-     - Alternate Names: ["Nishu", "nishuR31"]
-     - URL: Canonical site URL
-     - JobTitle: Backend-focused Software Engineer
-     - Description: Matching portfolio bio & backend focus
-     - Image: Canonical image/logo
-     - sameAs: Direct links to verified profiles:
-       - GitHub: `https://github.com/nishuR31`
-       - LinkedIn: `https://linkedin.com/in/nishan-rajak-98b2ab3b8`
-       - LeetCode: `https://leetcode.com/u/nishanr_19`
-       - X / Twitter: `https://x.com/nishuR31`
-       - HackerOne: `https://hackerone.com/nishur`
-   - Define canonical `ProfilePage` entity referencing `#person` as `mainEntity`.
-   - Define canonical `WebSite` entity referencing `#person` as `publisher`.
-
-6. **Validation & Verification**:
-   - Ensure clean Next.js build (`bun run build`).
-   - Validate robots.txt and sitemap.xml endpoints output.
-   - Validate that no UI/UX, styles, or page components were altered.
+### 4. Accessibility & Form Semantics (P1 & P2)
+- **Failing Button Fixed**: Fixed `Assistant.tsx` close button (`<button class="text-muted-foreground hover:text-foreground p-2 ...">`) by adding `type="button"` and `aria-label="Close Assistant"`.
+- **Send Button Accessible Name**: Added `aria-label="Send message"` to the chat submit button in `Assistant.tsx`.
+- **Carousel Controls**: Added `type="button"` and `aria-label="Previous resume"` / `aria-label="Next resume"` to `ResumeCarousel.tsx`.
+- **Button Semantics**: Added explicit `type="button"` across `ArchitectureDemo.tsx`, `ProjectCollection.tsx`, `ContactActions.tsx`, and `maintenance-overlay.tsx`.
+- **Link Disambiguation**: Verified and ensured all project links contain descriptive anchor text or distinct `aria-label` attributes.

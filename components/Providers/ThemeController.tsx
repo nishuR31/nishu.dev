@@ -34,12 +34,12 @@ export default function ThemeController() {
         if (stored === "dark" || stored === "light" || stored === "system") selected = stored;
       } catch {}
       const resolved = selected === "system" ? (media.matches ? "dark" : "light") : selected;
-      document.documentElement.classList.toggle("dark", resolved === "dark");
-      document.documentElement.classList.toggle("light", resolved === "light");
-      document.documentElement.style.colorScheme = resolved;
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", resolved === "dark" ? "#111210" : "#f6f5ef");
+      const isDark = resolved === "dark";
+      if (document.documentElement.classList.contains("dark") !== isDark) {
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+        document.documentElement.style.colorScheme = resolved;
+      }
     };
     apply();
     media.addEventListener("change", apply);

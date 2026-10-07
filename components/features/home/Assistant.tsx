@@ -142,10 +142,12 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
             </div>
           </div>
           <button
+            type="button"
+            aria-label="Close Assistant"
             onClick={() => setIsOpen(false)}
             className="text-muted-foreground hover:text-foreground p-2 rounded-full hover:bg-secondary/50 transition-colors"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -198,10 +200,11 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
             />
             <button
               type="submit"
+              aria-label="Send message"
               disabled={!input.trim() || isTyping || !isOnline}
               className="bg-primary text-primary-foreground p-2.5 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4" aria-hidden="true" />
             </button>
           </form>
 

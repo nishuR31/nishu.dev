@@ -36,7 +36,10 @@ export default function MaintenanceOverlay({ active }: { active: boolean }) {
             temporarily unavailable.
           </p>
           <Link href="/contact" className="w-full">
-            <button className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-3 group">
+            <button
+              type="button"
+              className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:scale-105 transition-transform flex items-center justify-center gap-3 group"
+            >
               Contact Developer Directly
             </button>
           </Link>

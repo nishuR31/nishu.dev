@@ -84,16 +84,20 @@ export default function ResumeCarousel({ cvs = [] }: { cvs?: CV[] }) {
           {cvs.length > 1 && (
             <>
               <button 
+                type="button"
+                aria-label="Previous resume"
                 onClick={prevSlide}
                 className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/40 text-white border border-white/10 hover:bg-black/60 transition-colors backdrop-blur-md z-10"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={18} aria-hidden="true" />
               </button>
               <button 
+                type="button"
+                aria-label="Next resume"
                 onClick={nextSlide}
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/40 text-white border border-white/10 hover:bg-black/60 transition-colors backdrop-blur-md z-10"
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={18} aria-hidden="true" />
               </button>
             </>
           )}

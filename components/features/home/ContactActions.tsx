@@ -17,7 +17,7 @@ export default function ContactActions({ email }: { email: string }) {
         <a className="button button-orange" href={`mailto:${email}`}>
           Let’s talk <ArrowUpRight size={18} />
         </a>
-        <button className="button button-outline" onClick={copy}>
+        <button type="button" className="button button-outline" onClick={copy}>
           {status === "Email copied!" ? <Check size={16} /> : <Copy size={16} />} Copy email
         </button>
       </div>
