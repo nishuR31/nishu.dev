@@ -93,8 +93,8 @@ export default async function SocialsPage() {
               <Linkedin size={24} />
               <ArrowUpRight size={18} className="social-arrow" />
             </div>
-            <h2>Hacker Rank</h2>
-            <p>Professional Network</p>
+            <h2>HackerRank</h2>
+              <p>Coding Challenges</p>
           </a>
         )}
 
