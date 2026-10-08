@@ -82,6 +82,22 @@ export default async function SocialsPage() {
           </a>
         )}
 
+        {social.hackerrank && (
+          <a
+            href={url(social.hackerrank, "https://www.hackerrank.com/profile/")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-card"
+          >
+            <div className="social-top">
+              <Linkedin size={24} />
+              <ArrowUpRight size={18} className="social-arrow" />
+            </div>
+            <h2>Hacker Rank</h2>
+            <p>Professional Network</p>
+          </a>
+        )}
+
         {social.leetcode && (
           <a
             href={url(social.leetcode, "https://leetcode.com/u/")}
