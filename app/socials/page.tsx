@@ -90,7 +90,7 @@ export default async function SocialsPage() {
             className="social-card"
           >
             <div className="social-top">
-              <Linkedin size={24} />
+              <BarChart2 size={24} />
               <ArrowUpRight size={18} className="social-arrow" />
             </div>
             <h2>HackerRank</h2>
