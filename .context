@@ -1,0 +1,126 @@
+# nishu.dev Project Context (LLM Token-Optimized)
+# Format: Compact YAML-like DSL | Version: 2.2.0 | Updated: 2026-11-01
+
+PROJECT:
+  name: nishu.dev
+  type: Next.js 14 Portfolio Web App (App Router, JS/TS hybrid)
+  owner: Nishan Rajak (Backend-Focused Software Engineering Student @ ICFAI Univ Jharkhand)
+  repo: nishuR31/nishu.dev
+  live_url: https://nishudevportfolio.vercel.app
+  api_default: https://nishu-dev-api.onrender.com
+  branch_active: test-branch (deployed to Vercel; push test-branch:main to promote to prod)
+
+TECH_STACK:
+  framework: Next.js 14.2.15 (App Router, Static Site Generation + SSR + ISR)
+  react: 18.3.1
+  typescript: 5.6.2 (in dependencies — NOT devDependencies, required for Vercel build)
+  state: Redux Toolkit 2.12.0 + react-redux 9.3.0 (ONLY used for Theme now)
+  styling: TailwindCSS 3.4.14 + styled-components 6.5.1 + tailwindcss-animate
+  fonts: GeistVF (local), Outfit (Google Fonts)
+  image_format: AVIF (logo.avif, logo-84.avif, logo-180.avif, iitSitting.avif, projects/*.avif)
+  package_manager: bun (authoritative bun.lock; package-lock.json removed)
+  build_cmd: "bun run build" (runs: rm -rf .next && next build)
+
+ENV_VARS:
+  NEXT_PUBLIC_API_URL: Backend API root (optional; default: https://nishu-dev-api.onrender.com)
+  NEXT_PUBLIC_BACKEND: Alias for API URL (optional fallback)
+  NEXT_PUBLIC_FRONTEND_URL: Site canonical root (default: https://nishudevportfolio.vercel.app)
+  NEXT_PUBLIC_SERVICE_ID: EmailJS service key
+  NEXT_PUBLIC_TEMPLATE_ID: EmailJS template key
+  NEXT_PUBLIC_PUBLIC_KEY: EmailJS public key
+
+ROUTING_STRUCTURE:
+  app/layout.js: Root layout — Static shell + Redux Theme Provider + Schema.org JSON-LD; exports revalidate = 120.
+  app/(home)/page.jsx: Home (/) — SSR getPortfolioData() → props passed to Hero, About, Experience, GithubProjects, Skills, Certificates, Assistant sections.
+  app/experience/page.tsx: /experience — SSR timeline + full write-up via getPortfolioData().
+  app/(projects)/projects/page.tsx: /projects — Static prerendered (○), ISR revalidate = 120s via getPortfolioData(). Renders static preview card & toolbar immediately; dynamically imports FlexCarousel with skeleton.
+  app/(projects)/projects/[slug]/page.tsx: /projects/[slug] — SSG (●) prerendered for 40 project slugs via generateStaticParams(), ISR revalidate = 120s, dynamicParams = true.
+  app/api/portfolio/route.ts: /api/portfolio — Next.js Route Handler with Cache-Control (s-maxage=120, stale-while-revalidate=300), backed by getPortfolioData() with timeout fallback.
+  app/(certificates)/certificates/page.tsx: /certificates — SSR getPortfolioData().
+  app/contact/page.tsx: /contact — SSR getPortfolioData().
+  app/settings/page.tsx: /settings — Theme settings.
+  app/not-found.tsx: 404 handler
+  app/error.tsx: Runtime error boundary
+
+STATE_MANAGEMENT:
+  store/configStore.ts: Redux store setup (themeSlice only, portfolioSlice effectively deprecated/removed).
+  store/index.ts: Custom hooks — useTheme. (usePortfolio is fully removed).
+  slices/themeSlice.ts: "dark" | "light" | "system" theme.
+
+DATA_SEEDING_FLOW:
+  1. Next.js Server Components call `getPortfolioData()` via `lib/portfolio.ts`.
+  2. Data is cached automatically via Next.js Data Cache (revalidate = 120s, tag: "portfolio").
+  3. lib/portfolio.ts enforces 3.5s AbortController timeout (`FETCH_TIMEOUT_MS = 3500`) to prevent blocking on Render free-tier cold starts.
+  4. In-memory caching (`memoryCachedData`) and automatic fallback to `portfolio-fallback.ts` guarantee instant response even if backend is sleeping or unreachable.
+  5. React `cache()` provides per-request deduplication between page rendering and metadata generation.
+  6. Redux is completely bypassed for portfolio data, eliminating hydration conflicts.
+
+API_DATA_SCHEMA (nishu-dev-api.onrender.com/portfolio → { success, data: {...} }):
+  developer: { name, shortName, role, tagline, bio, location, email, about[] }
+  featuredProjects: string[]
+  social: { email, github, discord, linkedin, leetcode, hackerone, twitter }
+  NAV_ITEMS: { href, label }[]
+  recentTracks: boolean
+  projects[12]: { id, title, description, image, technologies[], github, demo, problem, solution, role, timeline, highlights[], categories[] }
+  skills[4]: { title, iconKey, description, bgClass, iconClass, skills: { name, level, hot? }[] }
+  experiences[2]: { position, company, period, location, description, responsibilities[], technologies[] }
+  contactInfo[]: { iconKey, label, value, link }
+  certificates[30]: { url, category, type }
+  additionalProjects: string[]
+  strengths: string[]
+  maintenanceMode: boolean
+  siteName: string
+
+KEY_COMPONENTS:
+  components/reduxProvider.jsx: Minimal Provider wrapper for Theme state.
+  components/features/home/*: All sections refactored to accept portfolioData as props instead of Redux.
+  components/features/projects/ProjectCollection.tsx: SSR project grid/carousel layout, category filters, and active card preview with next/dynamic deferred FlexCarousel and FlexCarouselSkeleton.
+  components/features/projects/FlexCarousel.jsx: WebGL visual carousel with GLSL shaders. Features prioritized ring image loading (active item high priority, adjacent next, idle background), module-level image cache, shared probe canvas, unblocked intro animation (<350ms), WebGL context-loss recovery, CSS glassmorphism fallback (.flex-carousel-fallback), and paused rAF loop when off-screen or tab is hidden.
+  components/layout/Header/index.tsx: Static nav items and theme toggle, no Redux dependencies.
+  components/layout/Footer/index.jsx: Static fallback strings, removed Redux.
+  components/ui/skeletons.jsx: Fallback loaders.
+  lib/portfolio.ts: Server-side getPortfolioData() — Configured with PORTFOLIO_REVALIDATE_SECONDS = 120, 3.5s timeout, stale memory caching, and fallback snapshot.
+
+VERCEL_DEPLOYMENT:
+  vercel.json: { framework: nextjs, buildCommand: "bun run build", installCommand: "rm -rf node_modules && bun install", outputDirectory: ".next" }
+  KNOWN_ISSUE: Vercel build cache can corrupt node_modules; vercel.json installCommand forces wipe.
+  RENDER_BACKEND: Render free-tier cold-starts (30-50s) are fully neutralized via ISR (120s), in-memory cache, 3.5s timeout, and offline fallback.
+  ACTIVE_BRANCH: test-branch → push to main to trigger production build
+
+SEO_AND_INDEXING_ARCHITECTURE:
+  robots:
+    handler: app/robots.ts (Next.js MetadataRoute.Robots)
+    rules: { userAgent: "*", allow: "/" }
+    sitemap: "https://nishudevportfolio.vercel.app/sitemap.xml"
+  sitemap:
+    handler: app/sitemap.ts (Next.js MetadataRoute.Sitemap)
+    indexable_pages: ["/", "/projects", "/experience", "/certificates", "/projects/[slug]"]
+    excluded_pages: ["/settings", "/socials", "/techstack", "/contact", "/hire"]
+  noindex_directives:
+    /settings: app/settings/layout.tsx ({ index: false, follow: true })
+    /socials: app/socials/page.tsx ({ index: false, follow: true })
+    /techstack: app/techstack/page.tsx ({ index: false, follow: true })
+  indexable_directives:
+    /contact: app/contact/page.tsx ({ index: true, follow: true })
+    /hire: app/hire/page.tsx ({ index: true, follow: true })
+    /projects: app/projects/page.tsx ({ index: true, follow: true })
+    /projects/[slug]: app/projects/[slug]/page.tsx ({ index: true, follow: true })
+    /experience: app/experience/page.tsx ({ index: true, follow: true })
+    /certificates: app/certificates/page.tsx ({ index: true, follow: true })
+  structured_data:
+    schemas: ["ProfilePage", "Person", "WebSite", "CollectionPage"]
+    entity_id: "https://nishudevportfolio.vercel.app/#person"
+    sameAs: [GitHub, LinkedIn, LeetCode, X/Twitter, HackerOne]
+  legacy_cleanup:
+    removed: [public/robots.txt, public/sitemap.xml, app/(home)/head.js, app/(projects)/projects/head.js]
+
+BUILD_STATS:
+  Stage 1 (Rendering & Hydration Fixes): Completed. All components decouple from Redux `usePortfolio`.
+  Stage 2 (Architectural Optimization): Completed. GitHub project fetching is decoupled from the homepage via Suspense boundary to prevent blocking.
+  Stage 3 (Data Fetching Resilience): Fixed Next.js `Unexpected end of JSON input` bug by removing incompatible `@fastify/compress` from the backend (Bun zlib streaming bug). Data is successfully fetched and rendered.
+  Stage 4 (SEO & Google Identity Architecture): Completed. Migrated to App Router robots.ts & sitemap.ts, added noindex directives to utility routes, consolidated metadata API, strengthened Person & ProfilePage JSON-LD schemas.
+  Stage 5 (Interactive Visuals): Implemented Option A dual-layer ASCII-to-Photo hover reveal effect for about-photo using public/nishur31.svg and /iitSitting.avif.
+  Stage 6 (Performance, TBT & Accessibility Hardening): Replaced Header scroll forced reflows with IntersectionObserver, deferred assistant chat drawer to dynamic non-SSR import, throttled ThemeController DOM mutations, resized oversized media assets (portrait and project screenshots), and added comprehensive accessible names (aria-label) and button types across all interactive controls.
+  Stage 7 (Projects Page 30s Loading Elimination & WebGL Performance Hardening): Resolved 30-50s Render cold-start hangs by introducing Next.js ISR (revalidate = 120s) on /projects and /projects/[slug] (56/56 static pages prerendered), 3.5s fetch timeout with in-memory & disk fallback, request deduplication via React cache(), and public Cache-Control headers on /api/portfolio. Dynamic non-SSR import of FlexCarousel with responsive skeleton. In FlexCarousel: prioritized active-first image loading, shared offscreen canvas, module image cache, instant intro animation gate (<350ms), WebGL context-loss resilience + CSS glassmorphism fallback, and visibility/IntersectionObserver paused rAF loop. Warm TTFB dropped from ~30s to 14.4ms.
+  Stage 8 (Lanyard Card Portrait HD Clarity & University Info Removal): Enhanced 3D Lanyard card portrait sharpness and presence by cropping directly to head and shoulders (removing top 150px empty transparent margin), applying Lanczos3 kernel downsampling, unsharp mask sharpening (sigma: 1.15), and adding a studio radial glow backdrop. Enabled 16x anisotropic filtering, mipmap generation, and high-quality canvas image smoothing in Lanyard.jsx. Removed all university and college information ("ICFAI UNIV JHARKHAND", "B.TECH ENG • COMPUTER SCIENCE") from the badge front and verified cardback, replacing them with professional developer credentials ("FULL STACK & BACKEND", "DISTRIBUTED SYSTEMS • APIS").
+  Build completes successfully.

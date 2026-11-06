@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "bun run build",
+  "installCommand": "rm -rf node_modules && bun install",
+  "outputDirectory": ".next"
+}

@@ -1,0 +1,43 @@
+# SEO & Google Indexing Issue Log (.error)
+
+## Logged Issues & Mitigations
+
+### 1. Static `public/robots.txt` and `public/sitemap.xml` Conflict
+- **Issue**: Static files in `public/` override App Router route handlers (`app/robots.ts` and `app/sitemap.ts`) in Next.js.
+- **Impact**: Dynamic updates, automated sitemap generation for dynamic projects, and clean metadata routing are bypassed.
+- **Resolution**: Deprecate and remove static `public/robots.txt` and `public/sitemap.xml`. Generate both dynamically via Next.js App Router conventions.
+
+### 2. Client Component Metadata Constraint in `/settings`
+- **Issue**: `app/settings/page.tsx` is marked `"use client"`. Next.js throws an error if `export const metadata` is defined directly in a Client Component.
+- **Impact**: Direct addition of metadata in `page.tsx` causes build failure.
+- **Resolution**: Create `app/settings/layout.tsx` as a Server Component to host `export const metadata = { robots: { index: false, follow: true } }`, leaving `app/settings/page.tsx` completely untouched.
+
+### 3. Deprecated Next.js 13 `head.js` Usage
+- **Issue**: `app/(home)/head.js` and `app/(projects)/projects/head.js` are deprecated conventions that conflict with Next.js 14 App Router Metadata API.
+- **Impact**: Generates duplicate tags, partial tags, or unmanaged `<script type="application/ld+json">` blocks.
+- **Resolution**: Remove both `head.js` files. Consolidate metadata into `export const metadata` / `generateMetadata` and unified JSON-LD in `layout.js` / page components.
+
+### 4. Fragmented Person Entity & Missing `ProfilePage` Structured Data
+- **Issue**: `layout.js` had incomplete `sameAs` links (hardcoded partial object, missing LeetCode, X, HackerOne), missing `alternateName`, and no `ProfilePage` schema.
+- **Impact**: Google Knowledge Graph and identity linking struggled to unify search queries for "Nishan Rajak" across GitHub, LinkedIn, and the portfolio.
+- **Resolution**: Implement Schema.org `@graph` with explicit `ProfilePage` and comprehensive `Person` entity containing verified `sameAs` array and canonical identifiers.
+
+### 5. Forced Reflow & Layout Thrashing via Scroll Handlers
+- **Issue**: `components/layout/Header/index.tsx` attached a synchronous `scroll` event listener that polled `section.getBoundingClientRect().top` on every scroll frame.
+- **Impact**: Triggered continuous forced reflows (Style & Layout work totaled ~835ms in PageSpeed audit) and contributed to long tasks.
+- **Resolution**: Refactored section tracking to an asynchronous `IntersectionObserver`, eliminating synchronous DOM querying on the main scroll thread.
+
+### 6. Client Component Hydration Overhead & TBT Long Tasks
+- **Issue**: Heavy client components (such as the interactive chat drawer `Assistant.tsx`) were bundled directly into the initial SSR/hydration bundle.
+- **Impact**: Caused 540ms Total Blocking Time (TBT) with 6 long tasks and 2.1s total main-thread execution time.
+- **Resolution**: Dynamically imported `AssistantWidget` via `next/dynamic({ ssr: false })` in `ServerAssistant.tsx`, removing chat widget scripts from critical hydration.
+
+### 7. Oversized Image Dimensions & Decoding Overhead
+- **Issue**: `public/iitSitting.avif` had source dimensions of 2701×4096 px (78.4 KiB) displayed at only ~655×993 px. Project screenshots in `public/projects/` were ~1300 px wide for ~580 px display boxes.
+- **Impact**: Unnecessary decode latency, main thread CPU overhead during image decode, and extra byte transfer.
+- **Resolution**: Resized `iitSitting.avif` to 1000px width (~75% reduction to 20.9 KiB) and project screenshots to 900px width. Removed premature `priority` flag on below-the-fold portrait image.
+
+### 8. Icon-Only Buttons Missing Accessible Names
+- **Issue**: Icon-only `<button>` tags (such as Assistant drawer toggle/close button `<button class="text-muted-foreground hover:text-foreground p-2 ...">`, chat send button, carousel arrows) had no `aria-label` or inner text.
+- **Impact**: Failed Lighthouse Accessibility audit (score capped at 94) and failed automated Agentic Browsing audits.
+- **Resolution**: Added explicit `aria-label` attributes (e.g. `aria-label="Close Assistant"`, `aria-label="Send message"`, `aria-label="Next resume"`) and `type="button"` across all icon buttons.

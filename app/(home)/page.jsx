@@ -1,0 +1,35 @@
+import { getPortfolioData } from "@/lib/portfolio";
+import HeroSection from "@/components/features/home/HeroSection";
+import StackStrip from "@/components/features/home/StackStrip";
+import WorkSection from "@/components/features/home/WorkSection";
+import AboutSection from "@/components/features/home/About";
+import CapabilitiesSection from "@/components/features/home/CapabilitiesSection";
+import ExperienceSection from "@/components/features/home/Experience";
+import ContactSection from "@/components/features/home/ContactSection";
+
+export default async function Home() {
+  const result = await getPortfolioData();
+  const data = result.ok ? result.data : {};
+  const developer = data.developer || {};
+  const projects = data.projects || [];
+  const github = data.social?.github?.startsWith("http")
+    ? data.social.github
+    : `https://github.com/${data.social?.github || "nishuR31"}`;
+  const linkedin = data.social?.linkedin?.startsWith("http")
+    ? data.social.linkedin
+    : `https://linkedin.com/in/${data.social?.linkedin || ""}`;
+
+  return (
+    <div className="portfolio-home">
+      <HeroSection developer={developer} github={github} linkedin={linkedin} />
+      <StackStrip />
+      {data.showProjects !== false && <WorkSection projects={projects} />}
+      {data.showAbout !== false && <AboutSection developer={developer} github={github} />}
+      {data.showSkills !== false && <CapabilitiesSection />}
+      {data.showExperience !== false && (
+        <ExperienceSection experiences={data.experiences} />
+      )}
+      <ContactSection email={developer.email || "nishan.developer.dev@gmail.com"} />
+    </div>
+  );
+}

@@ -1,0 +1,34 @@
+# SEO, Identity, Performance & Accessibility Plan
+
+## Objective
+Establish a clean, robust indexing and identity recognition architecture, eliminate Total Blocking Time (TBT) / main-thread overhead, prevent forced reflows, optimize oversized media, and achieve 100/100 accessibility without altering UI/UX structure, styles, or page layouts.
+
+## Completed Milestones
+
+### 1. Technical SEO & Indexing (P3)
+- **Robots Configuration**: `app/robots.ts` serving canonical `userAgent: "*", allow: "/"` and sitemap pointer. Legacy `public/robots.txt` deleted.
+- **Sitemap Architecture**: `app/sitemap.ts` dynamically listing `/`, `/projects`, `/experience`, `/certificates`, and dynamic project paths. Excluded non-essential utilities (`/settings`, `/socials`, `/techstack`, `/contact`, `/hire`). Legacy `public/sitemap.xml` deleted.
+- **Directives**:
+  - `noindex, follow`: Set on `/settings` (via `app/settings/layout.tsx`), `/socials`, and `/techstack`.
+  - `index, follow`: Set on `/`, `/projects`, `/experience`, `/certificates`, `/contact`, and `/hire`.
+- **Entity & Identity Graph**: Injected Schema.org `@graph` JSON-LD in `app/layout.js`:
+  - `ProfilePage` (`#profilepage`) with `mainEntity: #person`.
+  - `Person` (`#person`) with Nishan Rajak, alternate names (`Nishu`, `nishuR31`), and verified `sameAs` links (GitHub, LinkedIn, LeetCode, X, HackerOne).
+  - `WebSite` (`#website`) with `publisher: #person`.
+
+### 2. Main-Thread & TBT Optimization (P0)
+- **Forced Reflow Elimination**: Replaced window scroll listener + synchronous `getBoundingClientRect()` in `components/layout/Header/index.tsx` with high-performance `IntersectionObserver`.
+- **Client Hydration Deferral**: Loaded `AssistantWidget` via `next/dynamic({ ssr: false })` in `ServerAssistant.tsx`, preventing floating chat drawer from executing during critical initial page hydration.
+- **ThemeController DOM Mutation Throttling**: Throttled DOM operations in `ThemeController.tsx` to prevent redundant class toggling on initial mount.
+
+### 3. Media & Asset Optimization (P1)
+- **Portrait Resizing**: Resized `public/iitSitting.avif` from 2701×4096 down to 1000px width. Reduced file size from ~78 KiB to ~20.9 KiB (~75% reduction) with zero perceptual quality loss.
+- **Project Screenshot Resizing**: Resized all project images in `public/projects/*.avif` from ~1300px down to 900px width.
+- **Priority Attribution**: Removed eager `priority` from below-the-fold portrait ASCII image to reserve main-thread bandwidth for above-the-fold Hero content.
+
+### 4. Accessibility & Form Semantics (P1 & P2)
+- **Failing Button Fixed**: Fixed `Assistant.tsx` close button (`<button class="text-muted-foreground hover:text-foreground p-2 ...">`) by adding `type="button"` and `aria-label="Close Assistant"`.
+- **Send Button Accessible Name**: Added `aria-label="Send message"` to the chat submit button in `Assistant.tsx`.
+- **Carousel Controls**: Added `type="button"` and `aria-label="Previous resume"` / `aria-label="Next resume"` to `ResumeCarousel.tsx`.
+- **Button Semantics**: Added explicit `type="button"` across `ArchitectureDemo.tsx`, `ProjectCollection.tsx`, `ContactActions.tsx`, and `maintenance-overlay.tsx`.
+- **Link Disambiguation**: Verified and ensured all project links contain descriptive anchor text or distinct `aria-label` attributes.
