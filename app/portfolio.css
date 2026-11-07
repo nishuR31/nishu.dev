@@ -1584,7 +1584,7 @@ h2 {
 }
 .experience-section {
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
+  grid-template-columns: 0.9fr 1.5fr;
   gap: 85px;
   border-top: 1px solid var(--line);
   padding-block: 85px 95px;
@@ -1681,6 +1681,298 @@ h2 {
   gap: 13px;
   align-items: center;
   font-size: 12px;
+}
+.experience-education-link {
+  display: inline-flex;
+  margin-left: 18px;
+}
+.journey-subheading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.education-timeline {
+  display: grid;
+  gap: 18px;
+}
+.education-card {
+  display: flex;
+  gap: 17px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.education-card:hover {
+  border-color: var(--strong-line);
+  transform: translateY(-2px);
+}
+.education-card__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  color: var(--green);
+  border: 1px solid color-mix(in srgb, var(--green) 35%, var(--line));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--green) 8%, transparent);
+}
+.education-card__content {
+  min-width: 0;
+}
+.education-card__period {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--green);
+  font: 10px monospace;
+  letter-spacing: 0.4px;
+}
+.education-card h3 {
+  margin-top: 11px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+}
+.education-card__field,
+.education-card__institution {
+  margin-top: 5px;
+  color: var(--subtle);
+  font-size: 13px;
+}
+.education-card__institution {
+  color: var(--ink);
+}
+.education-card__grade {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--quiet);
+  font: 10px monospace;
+}
+.education-timeline--compact {
+  gap: 12px;
+}
+.education-timeline--compact .education-card {
+  padding: 16px;
+}
+.education-timeline--compact .education-card h3 {
+  font-size: 16px;
+}
+.journey-education {
+  margin-top: 88px;
+  padding-top: 55px;
+  border-top: 1px solid var(--line);
+}
+.journey-subheading {
+  align-items: flex-end;
+}
+.journey-subheading .section-index {
+  margin: 0;
+}
+.journey-subheading h2 {
+  margin-left: auto;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -1.2px;
+}
+.journey-page__content {
+  padding-block: 70px 110px;
+}
+.journey-page__header {
+  max-width: 720px;
+  margin: 65px auto 70px;
+  text-align: center;
+}
+.journey-page__split-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  align-items: center;
+  gap: 55px;
+  margin: 65px auto 70px;
+}
+.journey-page__split-header .journey-page__header {
+  margin: 0;
+}
+.journey-switcher {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+}
+.journey-switcher__label {
+  color: var(--green);
+  font: 10px monospace;
+  letter-spacing: 1px;
+}
+.journey-switcher p {
+  margin-top: 12px;
+  color: var(--subtle);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.journey-switcher__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+.journey-switcher__link svg:last-child {
+  margin-left: auto;
+}
+.journey-switcher__home {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--quiet);
+  font-size: 11px;
+}
+.journey-page .testimonials-section {
+  width: 100%;
+  padding-top: 60px;
+  border-top: 0;
+}
+.journey-page__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green);
+  font: 10px monospace;
+  letter-spacing: 1.4px;
+}
+.journey-page__header h1 {
+  margin-top: 20px;
+  font-size: clamp(52px, 8vw, 88px);
+  letter-spacing: -4px;
+  line-height: 0.95;
+}
+.journey-page__header p {
+  max-width: 580px;
+  margin: 24px auto 0;
+  color: var(--subtle);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.journey-page__header .text-link {
+  justify-content: center;
+  margin-top: 27px;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--subtle);
+  font-size: 12px;
+}
+.journey-empty {
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--subtle);
+  text-align: center;
+}
+.services-section,
+.testimonials-section {
+  border-top: 1px solid var(--line);
+  padding-block: 85px 95px;
+}
+.section-mark {
+  color: var(--quiet);
+  font: 10px monospace;
+  letter-spacing: 1.1px;
+}
+.services-grid,
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 48px;
+}
+.service-card,
+.testimonial-card {
+  position: relative;
+  min-height: 230px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.service-card {
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.service-card:hover {
+  border-color: var(--strong-line);
+  transform: translateY(-3px);
+}
+.service-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--green);
+}
+.service-card__index {
+  color: var(--quiet);
+  font: 10px monospace;
+}
+.service-card h3 {
+  margin-top: 35px;
+  font-size: 21px;
+  font-weight: 500;
+}
+.service-card p {
+  margin-top: 12px;
+  color: var(--subtle);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.service-card__pricing {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--green);
+  font: 10px monospace;
+}
+.service-card__arrow {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  color: var(--quiet);
+}
+.testimonial-card {
+  min-height: 245px;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+}
+.testimonial-card__quote {
+  color: var(--green);
+}
+.testimonial-card blockquote {
+  margin-top: 24px;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.testimonial-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 27px;
+  color: var(--subtle);
+  font-size: 12px;
+}
+.testimonial-card figcaption strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.testimonial-card figcaption span {
+  color: var(--quiet);
+  font-size: 11px;
 }
 .contact-section {
   position: relative;
@@ -2142,6 +2434,10 @@ h2 {
   .experience-section h2 {
     font-size: 38px;
   }
+  .services-grid,
+  .testimonials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .site-footer {
     flex-wrap: wrap;
   }
@@ -2394,6 +2690,50 @@ h2 {
     grid-template-columns: 1fr;
     gap: 38px;
     padding-block: 60px;
+  }
+  .experience-education-link {
+    margin-left: 0;
+    margin-top: 16px;
+  }
+  .journey-subheading {
+    display: block;
+  }
+  .journey-subheading h2 {
+    margin: 14px 0 0;
+    font-size: 30px;
+  }
+  .services-section,
+  .testimonials-section {
+    padding-block: 60px;
+  }
+  .services-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    margin-top: 35px;
+  }
+  .section-mark {
+    display: none;
+  }
+  .journey-page__content {
+    width: calc(100% - 48px);
+    padding-block: 40px 75px;
+  }
+  .journey-page__header {
+    margin-block: 55px 50px;
+  }
+  .journey-page__split-header {
+    display: block;
+    margin-block: 55px 50px;
+  }
+  .journey-page__split-header .journey-page__header {
+    margin-bottom: 35px;
+  }
+  .journey-switcher {
+    max-width: 340px;
+    margin-inline: auto;
+  }
+  .journey-page__header h1 {
+    letter-spacing: -2px;
   }
   .contact-section {
     padding: 42px 24px 33px;

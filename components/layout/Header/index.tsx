@@ -62,7 +62,8 @@ export default function Header() {
   const links = [
     { href: "/#work", label: "Work" },
     { href: "/#about", label: "About" },
-    { href: "/#experience", label: "Experience" },
+    { href: "/experience", label: "Experience" },
+    { href: "/education", label: "Education" },
     { href: "/techstack", label: "Tech Stack" },
     { href: "/certificates", label: "Certificates" },
     { href: "/socials", label: "Socials" },

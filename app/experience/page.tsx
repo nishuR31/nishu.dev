@@ -1,7 +1,14 @@
 import React from "react";
 import { getPortfolioData } from "@/lib/portfolio";
 import BackgroundEffects from "@/components/ui/background-effects";
-import { Briefcase, GraduationCap, Calendar, MapPin, ArrowLeft } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Calendar,
+  Code2,
+  GraduationCap,
+  MapPin,
+  ArrowLeft,
+} from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -16,53 +23,52 @@ export const metadata: Metadata = {
 };
 
 import { ExperienceSkeleton } from "@/components/ui/skeletons";
+import JourneySwitcher from "@/components/features/journey/JourneySwitcher";
 import { Suspense } from "react";
 
 const ExperienceContent = async () => {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : null;
   const experiences = portfolioData?.experiences ?? [];
-  const developer = portfolioData?.developer ?? {};
-
   return (
     <div className="relative">
       {/* Vertical line */}
-      <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-border to-transparent hidden md:block" />
+      <div className="absolute left-6 top-0 bottom-0 z-0 w-px bg-gradient-to-b from-primary/25 via-border/60 to-transparent hidden md:block" />
 
       <div className="space-y-10">
         {experiences.length > 0 ? (
           experiences.map((exp: any, index: number) => {
-            const isFirst = index === 0;
             const isBTech =
               (exp.position || exp.title || "").toLowerCase().includes("b.tech") ||
               (exp.company || exp.organization || "").toLowerCase().includes("icfai");
+            const TimelineIcon = isBTech
+              ? GraduationCap
+              : index === 0
+                ? Code2
+                : BriefcaseBusiness;
 
             return (
               <div key={index} className="flex gap-6 group">
                 {/* Timeline node */}
                 <div className="flex-shrink-0 relative z-10 hidden md:flex flex-col items-center">
                   <div
-                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-105 ${isBTech
-                        ? "bg-blue-500/10 border-blue-500/30 text-blue-400"
-                        : "bg-primary/10 border-primary/20 text-primary"
+                    className={`w-11 h-11 rounded-xl border flex items-center justify-center shadow-lg ${isBTech
+                        ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                        : "bg-primary/10 border-primary/15 text-primary"
                       }`}
                   >
-                    {isBTech ? (
-                      <GraduationCap className="w-5 h-5" />
-                    ) : (
-                      <Briefcase className="w-5 h-5" />
-                    )}
+                    <TimelineIcon className="w-5 h-5" />
                   </div>
                 </div>
 
                 {/* Card */}
                 <div className="flex-1 pb-2">
-                  <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 backdrop-blur-md p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] group-hover:-translate-y-0.5">
+                  <div className="relative overflow-hidden rounded-2xl border-2 border-border/60 bg-card/70 backdrop-blur-md p-6">
                     {/* Top accent */}
                     <div
                       className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${isBTech
-                          ? "bg-gradient-to-b from-blue-500 to-blue-500/40"
-                          : "bg-gradient-to-b from-primary to-primary/40"
+                          ? "bg-gradient-to-b from-blue-500/80 to-blue-500/25"
+                          : "bg-gradient-to-b from-primary/80 to-primary/25"
                         }`}
                     />
 
@@ -171,17 +177,20 @@ export default function ExperiencePage() {
         </div>
 
         {/* Page Header */}
-        <div className="text-center space-y-4 mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-foreground text-sm font-medium">
-            <Briefcase className="w-4 h-4" />
-            Experience & Education
+        <div className="journey-page__split-header">
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-foreground text-sm font-medium">
+              <BriefcaseBusiness className="w-4 h-4" />
+              Experience
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold font-outfit gradient-heading">
+              My Journey
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              A timeline of my professional growth and engineering practice.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold font-outfit gradient-heading">
-            My Journey
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            A timeline of my professional growth, engineering practice, and academic foundation.
-          </p>
+          <JourneySwitcher current="experience" />
         </div>
 
         <Suspense fallback={<ExperienceSkeleton />}>

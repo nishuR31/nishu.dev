@@ -7,6 +7,8 @@ import WorkSection from "@/components/features/home/WorkSection";
 import AboutSection from "@/components/features/home/About";
 import CapabilitiesSection from "@/components/features/home/CapabilitiesSection";
 import ExperienceSection from "@/components/features/home/Experience";
+import ServicesSection from "@/components/features/home/ServicesSection";
+import TestimonialsSection from "@/components/features/home/TestimonialsSection";
 import ContactSection from "@/components/features/home/ContactSection";
 
 export default async function Home() {
@@ -30,7 +32,14 @@ export default async function Home() {
       {data.showAbout !== false && <AboutSection developer={developer} github={github} />}
       {data.showSkills !== false && <CapabilitiesSection />}
       {data.showExperience !== false && (
-        <ExperienceSection experiences={data.experiences} />
+        <ExperienceSection
+          experiences={data.experiences}
+          showExperience={data.showExperience !== false}
+        />
+      )}
+      {data.showServices !== false && <ServicesSection services={data.services} />}
+      {data.showTestimonials !== false && (
+        <TestimonialsSection testimonials={data.testimonials} />
       )}
       <ContactSection email={developer.email || "nishan.developer.dev@gmail.com"} />
     </div>

@@ -11,13 +11,15 @@ interface ExperienceItem {
 
 interface ExperienceSectionProps {
   experiences?: ExperienceItem[];
+  showExperience?: boolean;
 }
 
 export default function ExperienceSection({
   experiences = [],
+  showExperience = true,
 }: ExperienceSectionProps) {
   const visibleExperiences = experiences
-    .filter((e) => e.visible !== false)
+    .filter((e) => showExperience && e.visible !== false)
     .slice(0, 3);
 
   return (
@@ -31,6 +33,9 @@ export default function ExperienceSection({
         </h2>
         <Link href="/experience" className="text-link">
           More about my experience <ArrowUpRight size={16} />
+        </Link>
+        <Link href="/education" className="text-link experience-education-link">
+          View education <ArrowUpRight size={16} />
         </Link>
         <div
           className="experience-photo hidden md:block"
