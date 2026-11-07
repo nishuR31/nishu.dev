@@ -1801,39 +1801,29 @@ h2 {
   margin: 0;
 }
 .journey-switcher {
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
-}
-.journey-switcher__label {
-  color: var(--green);
-  font: 10px monospace;
-  letter-spacing: 1px;
-}
-.journey-switcher p {
-  margin-top: 12px;
-  color: var(--subtle);
-  font-size: 13px;
-  line-height: 1.65;
+  justify-self: end;
 }
 .journey-switcher__link {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 18px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid var(--strong-line);
+  border-radius: 999px;
   color: var(--ink);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
   font-size: 12px;
   font-weight: 500;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.journey-switcher__link:hover {
+  border-color: var(--orange);
+  background: var(--raised);
+  transform: translateY(-2px);
 }
 .journey-switcher__link svg:last-child {
   margin-left: auto;
-}
-.journey-switcher__home {
-  display: inline-block;
-  margin-top: 16px;
-  color: var(--quiet);
-  font-size: 11px;
 }
 .journey-page .testimonials-section {
   width: 100%;
@@ -2731,6 +2721,7 @@ h2 {
   .journey-switcher {
     max-width: 340px;
     margin-inline: auto;
+    justify-self: center;
   }
   .journey-page__header h1 {
     letter-spacing: -2px;
