@@ -1,5 +1,7 @@
 import { Github, Linkedin, ArrowUpRight, Mail, Code, BarChart2 } from "lucide-react";
 import { getPortfolioData } from "@/lib/portfolio";
+import { getGithubContributions, getLeetCodeContributions } from "@/lib/contributions";
+import CustomHeatmap from "@/components/features/home/CustomHeatmap";
 import Link from "next/link";
 
 import type { Metadata } from "next";
@@ -14,7 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default async function SocialsPage() {
-  const result = await getPortfolioData();
+  const [result, githubContribs, leetcodeContribs] = await Promise.all([
+    getPortfolioData(),
+    getGithubContributions(),
+    getLeetCodeContributions(),
+  ]);
   const data = result.ok ? result.data : {};
   const social = data.social || {};
   const url = (value: string, base: string) =>
@@ -52,8 +58,9 @@ export default async function SocialsPage() {
             href={url(social.github, "https://github.com/")}
             target="_blank"
             rel="noopener noreferrer"
-            className="social-card"
+            className="social-card has-heatmap group"
           >
+            <CustomHeatmap days={githubContribs} mode="github" />
             <div className="social-top">
               <Github size={24} />
               <ArrowUpRight size={18} className="social-arrow" />
@@ -103,8 +110,9 @@ export default async function SocialsPage() {
             href={url(social.leetcode, "https://leetcode.com/u/")}
             target="_blank"
             rel="noopener noreferrer"
-            className="social-card"
+            className="social-card has-heatmap group"
           >
+            <CustomHeatmap days={leetcodeContribs} mode="leetcode" />
             <div className="social-top">
               <Code size={24} />
               <ArrowUpRight size={18} className="social-arrow" />
@@ -171,6 +179,8 @@ export default async function SocialsPage() {
           gap: 20px;
         }
         .social-card {
+          position: relative;
+          overflow: hidden;
           display: flex;
           flex-direction: column;
           padding: 27px;
@@ -180,6 +190,13 @@ export default async function SocialsPage() {
           color: var(--ink);
           border: 1px solid var(--line);
           transition: border-color 0.25s, transform 0.25s;
+        }
+        .social-card.has-heatmap {
+          background-color: var(--surface);
+        }
+        .social-card > * {
+          position: relative;
+          z-index: 2;
         }
         .social-card:hover {
           border-color: var(--strong-line);

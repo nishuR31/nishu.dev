@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, Github, Code2, Grid2X2, RectangleHorizontal } from "lucide-react";
+import { ArrowUpRight, Github, Grid2X2, RectangleHorizontal } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getProjectSlugs } from "@/lib/slug-utils";
+import { getProjectImage, PROJECT_IMAGE_FALLBACK } from "@/lib/project-images";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
 function FlexCarouselSkeleton() {
@@ -27,6 +28,10 @@ function FlexCarouselSkeleton() {
   );
 }
 
+function getProjectPreviewImage(project: any, mobile = false) {
+  return getProjectImage(project, { preferSecondary: mobile });
+}
+
 const FlexCarousel = dynamic(() => import("./FlexCarousel"), {
   ssr: false,
   loading: () => <FlexCarouselSkeleton />,
@@ -43,6 +48,15 @@ export default function ProjectCollection({
   const [filter, setFilter] = useState("All projects");
   const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
   const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 700px)");
+    const updateViewport = () => setIsMobile(mediaQuery.matches);
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+    return () => mediaQuery.removeEventListener("change", updateViewport);
+  }, []);
 
   const filters = ["All projects", "Full-stack", "Backend", "Frontend"];
 
@@ -52,7 +66,7 @@ export default function ProjectCollection({
       .filter(
         (p) =>
           filter === "All projects" ||
-          (p.categories || []).some((c: string) => c.toLowerCase() === filter.toLowerCase())
+          (p.categories || []).some((c: string) => c.toLowerCase() === filter.toLowerCase()),
       );
   }, [projects, filter]);
 
@@ -64,8 +78,7 @@ export default function ProjectCollection({
     const baseItems = list.map((p, index) => {
       const slugs = getProjectSlugs(p);
       const slug = slugs[0] || String(p.id);
-      const fallbackImg = `/projects/project-${(index % 8) + 1}.avif`;
-      const imgSrc = p.image || fallbackImg;
+      const imgSrc = getProjectPreviewImage(p, isMobile);
       const subtitle =
         p.categories?.slice(0, 2).join(" • ") ||
         p.technologies?.slice(0, 3).join(" • ") ||
@@ -73,6 +86,7 @@ export default function ProjectCollection({
 
       return {
         src: imgSrc,
+        fallbackSrc: PROJECT_IMAGE_FALLBACK,
         alt: `${p.title} - ${p.description || "Portfolio project"}`,
         title: p.title,
         subtitle: subtitle,
@@ -86,7 +100,7 @@ export default function ProjectCollection({
       return [...baseItems, ...baseItems, ...baseItems];
     }
     return baseItems;
-  }, [visible, projects]);
+  }, [visible, projects, isMobile]);
 
   const currentItem =
     carouselItems.length > 0
@@ -181,16 +195,16 @@ export default function ProjectCollection({
           </div>
 
           <div
-            style={{ width: "100%", height: "520px", position: "relative" }}
+            style={{ width: "100%", height: "calc(100vh - 10rem)", position: "relative" }}
             className="project-carousel-viewport relative z-10"
           >
             <FlexCarousel
               items={carouselItems}
               preset="ribbon"
               intro="deal"
-              cardHeight={0.5}
+              cardHeight={0.4}
               gap={12}
-              squeeze={0.2}
+              squeeze={0.1}
               focusOnClick
               captions
               fit="natural"
@@ -230,9 +244,7 @@ export default function ProjectCollection({
                   </span>
                   <div className="project-meta">
                     <span>{currentProject.categories?.[0] || "Development"}</span>
-                    <span>
-                      {currentProject.timeline?.split(" — ")[0] || "Selected work"}
-                    </span>
+                    <span>{currentProject.timeline?.split(" — ")[0] || "Selected work"}</span>
                   </div>
                   <h3>
                     <Link href={`/projects/${currentSlug}`}>
@@ -288,6 +300,7 @@ export default function ProjectCollection({
               project={p}
               index={i}
               featured={compact && i === 0}
+              mobile={isMobile}
             />
           ))}
         </div>
@@ -300,13 +313,20 @@ function ProjectTile({
   project: p,
   index,
   featured,
+  mobile,
 }: {
   project: any;
   index: number;
   featured?: boolean;
+  mobile: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   const href = `/projects/${getProjectSlugs(p)[0]}`;
+  const imgSrc = getProjectPreviewImage(p, mobile);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [imgSrc]);
   return (
     <article className={`project-tile ${featured ? "featured-project" : ""}`}>
       <Link
@@ -315,9 +335,9 @@ function ProjectTile({
         aria-label={`Explore ${p.title}`}
       >
         <span className="preview-number">0{index + 1} / PROJECT</span>
-        {p.image && !failed ? (
+        {imgSrc && !failed ? (
           <Image
-            src={p.image}
+            src={imgSrc}
             alt={`${p.title} interface`}
             fill
             sizes="(max-width: 700px) 90vw, 55vw"
@@ -326,8 +346,10 @@ function ProjectTile({
             className="project-screenshot"
           />
         ) : (
-          <div className="project-placeholder">
-            <Code2 size={40} />
+          <div className="project-placeholder" aria-label={`${p.title} preview unavailable`}>
+            <span className="project-placeholder-loader" aria-hidden="true">
+              <Image src="/logo.avif" alt="" width={76} height={76} />
+            </span>
             <strong>{p.title}</strong>
             <span>{p.technologies?.slice(0, 3).join(" / ")}</span>
           </div>

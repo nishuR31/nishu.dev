@@ -1,4 +1,5 @@
 import { getPortfolioData, PORTFOLIO_REVALIDATE_SECONDS } from "@/lib/portfolio";
+import { getProjectImageUrl, withUsableImages } from "@/lib/project-images-server";
 import ProjectCollection from "@/components/features/projects/ProjectCollection";
 import type { Metadata } from "next";
 
@@ -21,7 +22,8 @@ export default async function ProjectsPage() {
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : {};
   const developer = portfolioData?.developer ?? {};
-  const projects = portfolioData?.projects ?? [];
+  // Drop image paths whose local files no longer exist before they reach the client.
+  const projects = (portfolioData?.projects ?? []).map((p: any) => withUsableImages(p));
   const title = `Projects — ${developer?.name || "Nishan Rajak"}`;
   const description = `Selected projects and demos by ${developer?.name || "Nishan Rajak"}. Explore backend and full-stack work.`;
 
@@ -31,7 +33,7 @@ export default async function ProjectsPage() {
       name: p.title,
       description: p.description,
       url: p.demo || p.github,
-      image: p.image,
+      image: getProjectImageUrl(p),
     })) || [];
 
   const jsonLd = {

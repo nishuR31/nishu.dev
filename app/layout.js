@@ -10,6 +10,7 @@ import Providers from "@/components/reduxProvider";
 import ServerAssistant from "@/components/features/home/ServerAssistant";
 
 import { getPortfolioData, PORTFOLIO_REVALIDATE_SECONDS } from "@/lib/portfolio";
+import { withUsableImages } from "@/lib/project-images-server";
 import MaintenanceOverlay from "@/components/ui/maintenance-overlay";
 
 export const revalidate = PORTFOLIO_REVALIDATE_SECONDS;
@@ -64,7 +65,7 @@ export async function generateMetadata() {
     referrer: "origin-when-cross-origin",
     formatDetection: {
       email: true,
-      address: false,
+      address: true,
       telephone: true,
     },
     openGraph: {
@@ -124,6 +125,15 @@ export default async function RootLayout({ children }) {
   }
 
   const maintenanceMode = portfolioData?.maintenanceMode || false;
+  // Never hydrate the client store with dead local image paths.
+  const initialData = result.ok
+    ? {
+        ...portfolioData,
+        projects: Array.isArray(portfolioData?.projects)
+          ? portfolioData.projects.map((p) => withUsableImages(p))
+          : portfolioData?.projects,
+      }
+    : undefined;
   const developer = portfolioData?.developer || {
     name: "Nishan Rajak",
     shortName: "Nishu",
@@ -209,7 +219,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.className} ${geistSans.variable} antialiased`}>
-        <Providers initialData={result.ok ? result.data : undefined}>
+        <Providers initialData={initialData}>
           <ThemeController />
           {maintenanceMode ? (
             <MaintenanceOverlay active={true} />

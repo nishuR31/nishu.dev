@@ -1,6 +1,7 @@
 import React from "react";
 import { getPortfolioData, PORTFOLIO_REVALIDATE_SECONDS } from "@/lib/portfolio";
 import ProjectDetailView from "@/components/features/projects/ProjectDetailView";
+import { withUsableImages } from "@/lib/project-images-server";
 import { getProjectSlugs } from "@/lib/slug-utils";
 import type { Metadata } from "next";
 
@@ -51,7 +52,10 @@ export default async function ProjectDetail({ params }: { params: { slug: string
   const projects = result.ok ? (result.data?.projects ?? []) : [];
   const targetSlug = params.slug.toLowerCase();
 
-  const initialProject = projects.find((p: any) => getProjectSlugs(p).includes(targetSlug));
+  // Sanitize image references so dead local assets fall back to the AVIF placeholder.
+  const initialProject = withUsableImages(
+    projects.find((p: any) => getProjectSlugs(p).includes(targetSlug)),
+  );
 
   return <ProjectDetailView initialProject={initialProject} slug={params.slug} />;
 }

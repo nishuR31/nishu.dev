@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle, Plane, Texture, RenderTarget } from 'ogl';
 
+import { PROJECT_IMAGE_FALLBACK } from '@/lib/project-images';
 import './FlexCarousel.css';
 
 // Module-level image cache across slots and renders
@@ -35,9 +36,29 @@ function computeImageColor(img) {
   return [0.5, 0.5, 0.5];
 }
 
-function fetchCachedImage(src, priority, callback) {
+const FIT_ASPECT = { portrait: 0.75, square: 1, landscape: 4 / 3 };
+
+const FAILED_IMAGE = {
+  failed: true,
+  color: [0.5, 0.5, 0.5],
+  image: null,
+  aspect: FIT_ASPECT.landscape,
+  dims: [4, 3]
+};
+
+function fetchCachedImage(src, priority, callback, fallbackSrc) {
+  // A missing/broken image should never leave an empty grey card behind:
+  // retry once with the provided fallback before giving up.
+  const fail = () => {
+    if (fallbackSrc && fallbackSrc !== src) {
+      fetchCachedImage(fallbackSrc, priority, callback);
+      return;
+    }
+    callback(FAILED_IMAGE);
+  };
+
   if (!src) {
-    callback({ failed: true, color: [0.5, 0.5, 0.5], image: null, aspect: 0.8, dims: [1, 1] });
+    fail();
     return;
   }
 
@@ -54,20 +75,20 @@ function fetchCachedImage(src, priority, callback) {
       return;
     }
     if (existing.status === 'error') {
-      callback({ failed: true, color: [0.5, 0.5, 0.5], image: null, aspect: 0.8, dims: [1, 1] });
+      fail();
       return;
     }
-    existing.listeners.push(callback);
+    existing.listeners.push({ callback, priority, fallbackSrc });
     return;
   }
 
   const entry = {
     status: 'loading',
     image: null,
-    aspect: 0.8,
+    aspect: FIT_ASPECT.landscape,
     color: [0.5, 0.5, 0.5],
     dims: [1, 1],
-    listeners: [callback]
+    listeners: [{ callback, priority, fallbackSrc }]
   };
   imageCache.set(src, entry);
 
@@ -89,8 +110,8 @@ function fetchCachedImage(src, priority, callback) {
 
     const listeners = entry.listeners.slice();
     entry.listeners = [];
-    listeners.forEach(cb =>
-      cb({
+    listeners.forEach(({ callback }) =>
+      callback({
         loaded: true,
         image: entry.image,
         aspect: entry.aspect,
@@ -104,15 +125,13 @@ function fetchCachedImage(src, priority, callback) {
     entry.status = 'error';
     const listeners = entry.listeners.slice();
     entry.listeners = [];
-    listeners.forEach(cb =>
-      cb({
-        failed: true,
-        color: [0.5, 0.5, 0.5],
-        image: null,
-        aspect: 0.8,
-        dims: [1, 1]
-      })
-    );
+    listeners.forEach(({ callback, priority: p, fallbackSrc: fb }) => {
+      if (fb && fb !== src) {
+        fetchCachedImage(fb, p, callback);
+      } else {
+        callback(FAILED_IMAGE);
+      }
+    });
   };
 
   img.src = src;
@@ -173,7 +192,6 @@ const BEND_PRESETS = {
   }
 };
 
-const FIT_ASPECT = { portrait: 0.75, square: 1, landscape: 4 / 3 };
 const TAPS = 12;
 const PIXEL_BUDGET = 4.5e6;
 const INTRO_DURATION = { rise: 2.1, bloom: 1.6, spin: 2.2, deal: 1.5, fade: 0.35 };
@@ -561,7 +579,7 @@ const FlexCarousel = ({
         item,
         index,
         texture,
-        aspect: 0.8,
+        aspect: FIT_ASPECT.landscape,
         loaded: false,
         failed: false,
         requested: false,
@@ -601,7 +619,7 @@ const FlexCarousel = ({
         }
         dirty = true;
         start();
-      });
+      }, slot.item.fallbackSrc || PROJECT_IMAGE_FALLBACK);
     };
 
     let idleTimer = null;

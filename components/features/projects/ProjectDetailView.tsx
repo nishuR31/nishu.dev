@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { getProjectSlugs } from "@/lib/slug-utils";
+import { getProjectImage, PROJECT_IMAGE_FALLBACK } from "@/lib/project-images";
 
 /* ── Skeleton shown while client-side data loads ─────────────────────── */
 const DetailSkeleton = () => (
@@ -93,11 +94,15 @@ export default function ProjectDetailView({
   slug: string;
 }) {
   const project = initialProject;
+  const [heroFailed, setHeroFailed] = React.useState(false);
 
   if (!project) return <NotFound slug={slug} />;
 
   const demoUrl = project.demo || project.links?.live;
   const githubUrl = project.github || project.links?.github;
+  // Use the project's own image when present; if that URL is dead (e.g. a
+  // local asset that no longer exists) fall back to the AVIF placeholder.
+  const heroImage = heroFailed ? PROJECT_IMAGE_FALLBACK : getProjectImage(project);
 
   return (
     <div className="min-h-screen py-24 relative overflow-hidden">
@@ -175,15 +180,16 @@ export default function ProjectDetailView({
           </div>
 
           {/* ── Hero Image ─────────────────────────────────────────── */}
-          {project.image && (
+          {heroImage && (
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border/50 glass-premium shadow-2xl">
               <Image
-                src={project.image}
+                src={heroImage}
                 alt={project.title}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 priority
+                onError={() => setHeroFailed(true)}
               />
             </div>
           )}

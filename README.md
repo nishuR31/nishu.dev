@@ -105,7 +105,7 @@ The browser check uses installed Google Chrome. Set `CHROME_PATH` for another Ch
 ### Content and styling
 
 - `lib/portfolio.ts`: fetches CMS data with a bounded timeout and 5-minute revalidation.
-- `lib/portfolio-fallback.ts`: local snapshot from the existing API seed, used if the API is unavailable; update this alongside major content changes. Sample employment entries are excluded.
+- `.fallback`: local portfolio snapshot generated manually from the API when needed; it is ignored by git.
 - `app/portfolio.css`: semantic light/dark tokens and the responsive visual system.
 - `components/Providers/ThemeController.tsx`: theme initialization, OS changes, and cross-tab synchronization.
 - `components/features/home/ArchitectureDemo.tsx`: accessible API, authentication, and data-layer illustration.
