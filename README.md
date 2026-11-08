@@ -1,6 +1,6 @@
 # Nishan Rajak
 
-![logo](public/logo.avif)
+![logo](public/logo-180.avif)
 
 ![Homepage preview](public/homepage.avif)
 
