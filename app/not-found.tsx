@@ -152,14 +152,14 @@ export default function NotFound() {
 
 
 
-const handleRev=(e)=>{
+const handleRev=(e:any)=>{
 const icon=e.currentTarget;
 icon.classList.remove("animate-spin","animate-spin-rev");
 void icon.getBoundingClientRect();
 icon.classList.add("animate-spin-rev");
 };
 
-const handleAnimationEnd=(e)=>{
+const handleAnimationEnd=(e:any)=>{
 const icon=e.currentTarget;
 if(icon.classList.contains("animate-spin-rev")){
 icon.classList.remove("animate-spin-rev");
