@@ -1,0 +1,22 @@
+# Nishan Rajak Portfolio - Complete LLM Knowledge Base
+Version: 1.0.0
+Website: https://nishudevportfolio.vercel.app
+Source: https://github.com/nishur31
+
+## Bio
+Nishan Rajak (Nishu) is a full-stack engineer and distributed systems builder with deep expertise in TypeScript, Next.js, Fastify/Bun, PostgreSQL, Prisma, Redis, Docker, and AI/LLM integrations.
+
+## Architecture
+- Frontend: Next.js 14 App Router, React 18, Redux Toolkit, TailwindCSS, KaTeX, Framer Motion
+- Backend: Bun, Fastify 4, Prisma ORM, PostgreSQL, Upstash Redis, WebAuthn Passkeys
+- Testimonials Collection System:
+  - Verification challenge workflow preventing spam
+  - Cryptographically signed single-use invitation tokens
+  - Strict human moderation approval gate before publishing
+  - Allowlisted public DTO ensuring privacy (no email or audit metadata exposure)
+
+## Public Testimonial Submission
+Visitors and collaborators can submit testimonials directly at:
+https://nishudevportfolio.vercel.app/testimonials/submit
+All submissions enter PENDING status and are moderated by Nishan before appearing on the portfolio.
+

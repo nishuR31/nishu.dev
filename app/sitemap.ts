@@ -19,6 +19,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/testimonials`,
+      lastModified: new Date(),
+      changeFrequency: "Monthly",
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/experience`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -63,9 +69,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           project.slug?.toLowerCase() ||
           (project.title
             ? project.title
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/^-+|-+$/g, "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")
             : slugs[0]);
 
         if (canonicalSlug && !addedSlugs.has(canonicalSlug)) {

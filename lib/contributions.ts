@@ -103,8 +103,7 @@ export const getLeetCodeContributions = cache(
       }
 
       const json = await res.json();
-      const rawCalendar =
-        json?.data?.matchedUser?.userCalendar?.submissionCalendar;
+      const rawCalendar = json?.data?.matchedUser?.userCalendar?.submissionCalendar;
       if (!rawCalendar) {
         throw new Error("No userCalendar found");
       }
@@ -116,9 +115,7 @@ export const getLeetCodeContributions = cache(
       memoryCachedLeetCode = days;
       return days;
     } catch {
-      const fallbackDays = transformLeetCodeCalendarToDays(
-        FALLBACK_LEETCODE_CALENDAR,
-      );
+      const fallbackDays = transformLeetCodeCalendarToDays(FALLBACK_LEETCODE_CALENDAR);
       return memoryCachedLeetCode || fallbackDays;
     } finally {
       clearTimeout(timeoutId);
@@ -129,9 +126,7 @@ export const getLeetCodeContributions = cache(
 /**
  * Build 1-year timeline (approx 365 days up to today) from LeetCode timestamp map.
  */
-function transformLeetCodeCalendarToDays(
-  calendar: Record<string, number>,
-): HeatmapDay[] {
+function transformLeetCodeCalendarToDays(calendar: Record<string, number>): HeatmapDay[] {
   const countByDate = new Map<string, number>();
 
   for (const [timestampStr, count] of Object.entries(calendar)) {
@@ -167,4 +162,3 @@ function transformLeetCodeCalendarToDays(
 
   return days;
 }
-

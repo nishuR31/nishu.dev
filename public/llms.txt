@@ -1,0 +1,24 @@
+# Nishan Rajak (nishu.dev)
+> Full-Stack Systems Engineer & Developer. Building high-performance distributed systems, intuitive interfaces, and AI workflows.
+
+- **Website**: https://nishudevportfolio.vercel.app
+- **Repository**: https://github.com/nishur31
+- **API Base**: https://nishu-dev.onrender.com
+- **Version**: 1.0.0
+
+## Key Pages & Sections
+- [Home](https://nishudevportfolio.vercel.app/): Main portfolio showcasing featured projects, architecture demos, experience, and skills.
+- [Projects](https://nishudevportfolio.vercel.app/projects): Directory of featured and experimental software projects.
+- [Experience](https://nishudevportfolio.vercel.app/experience): Career track and software engineering milestones.
+- [Testimonials](https://nishudevportfolio.vercel.app/testimonials): Authentic recommendations from clients and collaborators.
+- [Submit Testimonial](https://nishudevportfolio.vercel.app/testimonials/submit): Public testimonial submission portal.
+- [Settings](https://nishudevportfolio.vercel.app/settings): Application state and cache preferences.
+
+## Developer Profile
+- **Name**: Nishan Rajak (Nishu)
+- **Role**: Full Stack & Systems Developer
+- **Core Skills**: TypeScript, Next.js, Node.js, Bun, Fastify, Python, PostgreSQL, Prisma, Redis, Docker, System Architecture, Distributed Systems.
+- **Contact / Social**:
+  - GitHub: https://github.com/nishur31
+  - LinkedIn: https://linkedin.com/in/nishur31
+  - Email: nishan.developer.dev@gmail.com

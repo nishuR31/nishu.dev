@@ -15,9 +15,7 @@ export default function Header() {
       return;
     }
     const ids = ["work", "about", "experience", "contact"];
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
+    const elements = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
     if (elements.length === 0) return;
 

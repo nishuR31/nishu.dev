@@ -37,10 +37,16 @@ export const getPortfolioData = cache(async (): Promise<PortfolioResult> => {
     return { ok: true, data };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown portfolio API error";
-    console.error("Portfolio API request failed:", message);
-    throw new Error(`Portfolio data unavailable: ${message}`);
+    console.warn("Portfolio API request failed, falling back to local snapshot:", message);
+
+    try {
+      const fallback = await import("./fallback-portfolio.json");
+      const data = fallback.default?.data ?? fallback.default;
+      return { ok: true, data };
+    } catch {
+      throw new Error(`Portfolio data unavailable: ${message}`);
+    }
   } finally {
     clearTimeout(timeoutId);
   }
 });
-

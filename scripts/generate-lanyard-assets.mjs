@@ -23,7 +23,7 @@ async function generateAssets() {
   // 2. Prepare high-definition, razor-sharp portrait image from public/iitSitting.avif
   const portraitPath = path.resolve("public/iitSitting.avif");
   const portraitSize = 530;
-  
+
   // Studio backdrop gradient behind portrait cutout
   const portraitBackdrop = Buffer.from(`
     <svg width="${portraitSize}" height="${portraitSize}" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +42,7 @@ async function generateAssets() {
   const portraitMask = Buffer.from(
     `<svg width="${portraitSize}" height="${portraitSize}">
       <rect x="0" y="0" width="${portraitSize}" height="${portraitSize}" rx="28" ry="28" fill="#fff" />
-    </svg>`
+    </svg>`,
   );
 
   // Subtle inner glass edge border
@@ -347,7 +347,7 @@ async function generateAssets() {
   console.log("All Lanyard assets successfully updated!");
 }
 
-generateAssets().catch(err => {
+generateAssets().catch((err) => {
   console.error("Error generating assets:", err);
   process.exit(1);
 });

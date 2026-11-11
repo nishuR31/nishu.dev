@@ -22,7 +22,14 @@ async function generateSitemap() {
 
     const projectRoutes = (portfolioData?.projects || [])
       .map((p) => {
-        const slug = p.slug || (p.title ? p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") : null);
+        const slug =
+          p.slug ||
+          (p.title
+            ? p.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")
+            : null);
         return slug ? { href: `/projects/${slug}`, priority: 0.7, changefreq: "monthly" } : null;
       })
       .filter(Boolean);

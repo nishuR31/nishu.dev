@@ -38,9 +38,7 @@ export default async function Home() {
         />
       )}
       {data.showServices !== false && <ServicesSection services={data.services} />}
-      {data.showTestimonials !== false && (
-        <TestimonialsSection testimonials={data.testimonials} />
-      )}
+      {data.showTestimonials !== false && <TestimonialsSection testimonials={data.testimonials} />}
       <ContactSection email={developer.email || "nishan.developer.dev@gmail.com"} />
     </div>
   );

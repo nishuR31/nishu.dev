@@ -1,0 +1,1271 @@
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Portfolio fetched successfully",
+  "data": {
+    "cvs": [
+      {
+        "id": "9440186a-75a0-4a88-849e-2ee6cb8b76b1",
+        "url": "#",
+        "cvId": "2aab6426-cbce-4514-8ba3-5329681aedf6",
+        "title": "Backend Engineer Resume",
+        "description": "Backend-focused resume covering API architecture, authentication, databases, caching, background processing, payments, DevOps, and production-oriented systems.",
+        "lastUpdated": "2026",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "36aac34a-8ee6-4da8-9dad-75e291968e29",
+        "url": "#",
+        "cvId": "be695531-2710-47cf-abee-a0ebd67295f1",
+        "title": "Full-Stack Developer Resume",
+        "description": "Full-stack resume covering backend systems, React applications, database-backed platforms, integrations, authentication, and deployment.",
+        "lastUpdated": "2026",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      }
+    ],
+    "skills": [
+      {
+        "id": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+        "title": "Frontend",
+        "skills": [
+          {
+            "id": "db3fc8a1-da79-4dff-ab88-27bddf0419e9",
+            "hot": false,
+            "name": "React",
+            "level": "Intermediate",
+            "skillCategoryId": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "b1d2c6cc-1302-407a-bb93-66575163c297",
+            "hot": false,
+            "name": "HTML",
+            "level": "Intermediate",
+            "skillCategoryId": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "af203241-b2b7-4d32-b4c0-64b446e507b1",
+            "hot": false,
+            "name": "TailwindCSS",
+            "level": "Intermediate",
+            "skillCategoryId": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "584bf21b-3242-47d9-9b8a-a4cf97d2cf65",
+            "hot": true,
+            "name": "JavaScript",
+            "level": "Advanced",
+            "skillCategoryId": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "0e86512f-a944-45b3-baeb-db63de8d6093",
+            "hot": true,
+            "name": "TypeScript",
+            "level": "Advanced",
+            "skillCategoryId": "f4d3bc3f-f7c5-4525-8ba6-d6dfa8daae5b",
+            "yearsOfExperience": 1
+          }
+        ],
+        "bgClass": "bg-blue-500/10",
+        "iconKey": "frontend",
+        "iconClass": "text-blue-500",
+        "description": "React interfaces, state management, and modern web applications",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+        "title": "Backend",
+        "skills": [
+          {
+            "id": "c03ccd25-0d4d-4c6e-a1b5-a22e6869dfe5",
+            "hot": true,
+            "name": "Node.js",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "c659848d-35fd-41e3-82e9-4fe2ed79e760",
+            "hot": true,
+            "name": "Bun",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "e88fdd67-9350-4e0e-b384-fbe6827b92e6",
+            "hot": true,
+            "name": "Express.js",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "c0bdfd6a-79c4-4753-85f7-b295570a308a",
+            "hot": true,
+            "name": "Fastify",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "7c578319-b4e3-4668-baed-62dfb6dafac4",
+            "hot": false,
+            "name": "FastAPI",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "4a9ccfd6-1bd2-4447-bc20-0fbb184c2d4b",
+            "hot": false,
+            "name": "Queueing",
+            "level": "Intermediate",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "bc22b44a-9b98-41c5-b9c9-326ab105e906",
+            "hot": false,
+            "name": "REST APIs",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "d245c6a6-0983-43f1-b331-0a06c5fdce42",
+            "hot": true,
+            "name": "MVC Architecture",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "bb23a344-a38c-4369-941a-3abd1e4f48ec",
+            "hot": true,
+            "name": "JWT Authentication",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "58431578-f808-496f-9a73-8f2f50d8abb9",
+            "hot": false,
+            "name": "Mongoose",
+            "level": "Intermediate",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "0a033d58-ee04-4b16-9486-53e85e218b42",
+            "hot": true,
+            "name": "Prisma",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "e602e7a6-4cbd-48d4-894b-879609638c92",
+            "hot": false,
+            "name": "Error Handling",
+            "level": "Advanced",
+            "skillCategoryId": "74ed7add-2da1-4669-9b25-eabb841f5f30",
+            "yearsOfExperience": 1
+          }
+        ],
+        "bgClass": "bg-emerald-500/10",
+        "iconKey": "backend",
+        "iconClass": "text-emerald-500",
+        "description": "API architecture, authentication, validation, and backend systems",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+        "title": "Databases & Tools",
+        "skills": [
+          {
+            "id": "15cb69cc-bf0f-4f15-b2de-38436ddae3b8",
+            "hot": true,
+            "name": "MongoDB",
+            "level": "Intermediate",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "2ec3651f-2a81-41ce-95ed-de82b9e42c19",
+            "hot": false,
+            "name": "MySQL",
+            "level": "Intermediate",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "b27a49b3-a9fc-4982-98f2-62d978999342",
+            "hot": true,
+            "name": "Postman",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "f0325c78-3964-43a5-bd28-546661163f9c",
+            "hot": false,
+            "name": "Git",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "39f087a6-87fb-4dec-b8c1-bbaab0d252b6",
+            "hot": false,
+            "name": "GitHub",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "45f35d58-cc49-4447-98dd-a4700ad22b90",
+            "hot": false,
+            "name": "VS Code",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "a61f8e7c-8ab7-4c0d-b4da-5c959c4892d1",
+            "hot": false,
+            "name": "VS Code Stable",
+            "level": "Beginner",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "c9f7af4c-67c2-4960-a81a-be59a5bcf533",
+            "hot": false,
+            "name": "Antigravity",
+            "level": "Beginner",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "435b3fcb-6447-4cea-876e-15a8d839cd72",
+            "hot": false,
+            "name": "Python",
+            "level": "Intermediate",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "cf113a6b-5a45-4778-83ae-54bea449dbf4",
+            "hot": false,
+            "name": "SQL",
+            "level": "Intermediate",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "a1ea3757-4ca1-4a13-bb33-88d70b8cd4a2",
+            "hot": true,
+            "name": "PostgreSQL",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "7fe16f98-6a69-464f-9f15-59c9f1f1f27f",
+            "hot": true,
+            "name": "Redis",
+            "level": "Advanced",
+            "skillCategoryId": "93170ee8-9c7a-42f9-bd6b-47d2205514d9",
+            "yearsOfExperience": 1
+          }
+        ],
+        "bgClass": "bg-orange-500/10",
+        "iconKey": "tools",
+        "iconClass": "text-orange-500",
+        "description": "Databases, caching, development, testing, and engineering tooling",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "51c8cc1f-3efb-4f61-8a45-d5dcbe4b0a01",
+        "title": "Additional Technologies",
+        "skills": [
+          {
+            "id": "2112005b-68e4-4db5-9794-e3755b53fb31",
+            "hot": false,
+            "name": "Asp.Net",
+            "level": "Beginner",
+            "skillCategoryId": "51c8cc1f-3efb-4f61-8a45-d5dcbe4b0a01",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "08adc8c7-bda5-4d04-8283-c3b5314df341",
+            "hot": false,
+            "name": "Php",
+            "level": "Beginner",
+            "skillCategoryId": "51c8cc1f-3efb-4f61-8a45-d5dcbe4b0a01",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "acb06f49-080b-486f-9774-0793269e160b",
+            "hot": false,
+            "name": "Termux",
+            "level": "Beginner",
+            "skillCategoryId": "51c8cc1f-3efb-4f61-8a45-d5dcbe4b0a01",
+            "yearsOfExperience": 1
+          },
+          {
+            "id": "d353ca1d-8c1d-48b4-92f5-b53d3810ceb3",
+            "hot": false,
+            "name": "Data Communication",
+            "level": "Beginner",
+            "skillCategoryId": "51c8cc1f-3efb-4f61-8a45-d5dcbe4b0a01",
+            "yearsOfExperience": 1
+          }
+        ],
+        "bgClass": "bg-red-500/10",
+        "iconKey": "terminal",
+        "iconClass": "text-red-500",
+        "description": "Additional Technologies",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      }
+    ],
+    "social": {
+      "id": "b341683e-c7dd-46e7-aefc-eae9a89800a6",
+      "email": "nishan.developer.dev@gmail.com",
+      "github": "nishuR31",
+      "discord": "#",
+      "twitter": "https://x.com/nishuR31",
+      "leetcode": "nishanr_19",
+      "linkedin": "nishan-rajak-b50617439",
+      "hackerone": "nishur",
+      "hackerrank": "dreamgf691",
+      "githubRepos": 125,
+      "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+      "leetcodeSolved": 55,
+      "statsUpdatedAt": "2026-10-10T14:40:31.804Z",
+      "githubFollowers": 56,
+      "leetcodeRanking": 2596504
+    },
+    "keywords": "portfolio,developer",
+    "projects": [
+      {
+        "id": 76,
+        "demo": "https://stilltime-app.vercel.app/",
+        "role": "Developer, Designer, Builder",
+        "slug": "stillTime",
+        "stars": null,
+        "title": "Still Time ",
+        "github": "https://github.com/nishur31/stillTime",
+        "status": "Completed",
+        "company": null,
+        "problem": "Solving the repetitive task of settings -> display -> Screen timeout to perform a screen contactless task out of a sudden and again going same to revert back, long, irritative repeating task.",
+        "visible": true,
+        "featured": false,
+        "solution": "Created an android app StillTime that reduces the interface between user and that settings making user usefully change screen timeout supporting lock mode for occasional longer screen timeouts.",
+        "timeline": "1 Month",
+        "categories": ["App", "Android App", "screen timeout", "Stilltime", "expo", "bun", "Ts"],
+        "highlights": [
+          "Modular component-driven architecture using react native",
+          "Using system permission for writing screen timeout time",
+          "Don't ask for other permissions and is not possess security issues."
+        ],
+        "description": "Android buries it under Settings → Display. Stilltime puts a dial on it — 15 seconds to 1 hour, the whole circle — writes the value through the documented system API, then reads it back to prove it stuck.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": ["MVCP", "System Based"],
+        "technologies": ["React Native", "Typescript", "Bun", "Android SDK"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/bbf1da4f-87d1-413a-9aa6-2f19a05f0e6d.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/bbf1da4f-87d1-413a-9aa6-2f19a05f0e6d.avif"
+        ]
+      },
+      {
+        "id": 66,
+        "demo": "https://mathematics-for-all.vercel.app",
+        "role": "Lead developer — built the full-stack application, integrated Google OAuth, designed the content schema, and delivered the complete production deployment.",
+        "slug": null,
+        "stars": null,
+        "title": "Mathematics for All",
+        "github": "https://github.com/nishuR31/mathematicsForAll",
+        "status": "Completed",
+        "company": null,
+        "problem": "Dr. Samir Kumar Pandey needed a professional online platform to share curated mathematical resources, lecture notes, and educational content with students and the public.",
+        "visible": true,
+        "featured": false,
+        "solution": "Designed and built a full-stack educational website with a CMS-backed content structure, Google authentication for admin access, and an animated, accessible frontend to present mathematical resources clearly.",
+        "timeline": "2024 — Client Project",
+        "categories": ["Full-Stack", "Client Project", "Education"],
+        "highlights": [
+          "Google OAuth integration for secure admin content management",
+          "Dynamic content rendering from MongoDB for easy updates",
+          "Accessible",
+          "animated frontend optimized for academic audiences"
+        ],
+        "description": "A curated mathematics resource website built for Dr. Samir Kumar Pandey.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": [
+          "Node.js",
+          "React",
+          "JavaScript",
+          "MongoDB",
+          "Google Console",
+          "TailwindCSS",
+          "Animation"
+        ],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f2710314-7bc6-48d4-b9a1-bfacfc13adf0.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f2710314-7bc6-48d4-b9a1-bfacfc13adf0.avif"
+        ]
+      },
+      {
+        "id": 63,
+        "demo": "https://baksy.vercel.app",
+        "role": "Full-stack developer — built the API, database schema, frontend components, and deployment pipeline.",
+        "slug": null,
+        "stars": null,
+        "title": "Baksy",
+        "github": "https://github.com/nishuR31/baksy",
+        "status": "Completed",
+        "company": null,
+        "problem": "Building a full-stack product requires balancing a clean frontend UX with a performant, scalable backend API — a challenge that requires disciplined architecture from day one.",
+        "visible": true,
+        "featured": false,
+        "solution": "Developed a complete full-stack application with a React frontend, Express REST API, and MongoDB database, applying MVC architecture and modular route organization throughout.",
+        "timeline": "2024",
+        "categories": ["Full-Stack", "Backend", "API"],
+        "highlights": [
+          "Clean MVC separation of concerns across backend modules",
+          "RESTful API with proper error handling and input validation",
+          "MongoDB schema design with Mongoose models"
+        ],
+        "description": "Full-stack web application with modular MVC backend architecture, request validation, and database persistence.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["React", "Node.js", "Express", "JavaScript", "MongoDB", "REST API"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/9a1d1d86-46ec-45f8-94a4-19994e32aebe.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/9a1d1d86-46ec-45f8-94a4-19994e32aebe.avif"
+        ]
+      },
+      {
+        "id": 73,
+        "demo": "https://valor-fitness.vercel.app",
+        "role": "Backend and full-stack developer — designed Fastify backend with Prisma/PostgreSQL, shared TypeScript contracts, and gym management domains.",
+        "slug": null,
+        "stars": null,
+        "title": "Valor Fitness",
+        "github": "https://github.com/nishuR31/gymManagement",
+        "status": "Completed",
+        "company": null,
+        "problem": "Gym operations lack unified digital systems across web, mobile, attendance, membership subscriptions, billing, and workout tracking.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a gym management ecosystem spanning backend APIs, web dashboard, mobile application, shared TypeScript contracts, and operational workflows.",
+        "timeline": "2024 — Ongoing",
+        "categories": ["Backend", "Full-Stack", "Mobile", "TypeScript"],
+        "highlights": [
+          "Fastify backend with Prisma/PostgreSQL persistence",
+          "Shared TypeScript contracts across application components",
+          "JWT/RBAC",
+          "validation",
+          "Redis caching and rate limiting",
+          "Backend domains covering members",
+          "attendance",
+          "memberships",
+          "payments",
+          "inventory",
+          "staff",
+          "workouts",
+          "diet plans",
+          "notifications",
+          "reporting",
+          "and audit workflows"
+        ],
+        "description": "Gym management ecosystem spanning backend APIs, web dashboard, mobile application, shared TypeScript contracts, and operational workflows.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": [
+          "TypeScript",
+          "Fastify",
+          "Prisma",
+          "PostgreSQL",
+          "Redis",
+          "React",
+          "React Native",
+          "Expo",
+          "Docker"
+        ],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/a4b1867a-8e7b-43a8-9ef7-fc906aa3c052.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/a4b1867a-8e7b-43a8-9ef7-fc906aa3c052.avif"
+        ]
+      },
+      {
+        "id": 64,
+        "demo": "https://lunarity-xi.vercel.app",
+        "role": "Solo developer — designed and built the entire animation system, mathematical rendering layer, and UI component architecture.",
+        "slug": null,
+        "stars": null,
+        "title": "Lunarity",
+        "github": "https://github.com/nishuR31/lunarity",
+        "status": "Completed",
+        "company": null,
+        "problem": "Interactive canvas playground implementing procedural mathematical rendering, trigonometric curves, and custom animation primitives without external UI libraries.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built an experimental UI playground that combines mathematical rendering with polished animation systems, using TypeScript for type-safe component design and TailwindCSS for a consistent design language.",
+        "timeline": "2024",
+        "categories": ["Frontend", "UI/UX", "Experimental"],
+        "highlights": [
+          "Custom animation primitives built without animation libraries",
+          "Mathematical functions rendered visually in the browser",
+          "Full TypeScript type coverage across all components"
+        ],
+        "description": "Experimental project focused on modern UI systems, interaction polish, and modular architecture.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["TypeScript", "React", "Mathematics", "TailwindCSS", "Animation"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/cf610f27-1028-43a5-a3d2-d5fc96c856a1.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/cf610f27-1028-43a5-a3d2-d5fc96c856a1.avif"
+        ]
+      },
+      {
+        "id": 65,
+        "demo": "https://focus-mode-on.vercel.app",
+        "role": "Full-stack developer and product designer — built the session tracking logic, state management, and analytics UI.",
+        "slug": null,
+        "stars": null,
+        "title": "FocusMode",
+        "github": "https://github.com/nishuR31/focusMode",
+        "status": "Completed",
+        "company": null,
+        "problem": "Developers lose significant deep-work time to untracked interruptions and fragmented focus sessions with no data to understand or improve the pattern.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a focus-mode tracker that logs work sessions, visualizes interruption patterns, and provides session summaries, helping users understand and optimize their productivity rhythm.",
+        "timeline": "2024",
+        "categories": ["Full-Stack", "Productivity", "UX"],
+        "highlights": [
+          "Session-based focus tracking with interruption logging",
+          "State management architecture that persists sessions across reloads",
+          "Clean analytics dashboard for reviewing work patterns"
+        ],
+        "description": "Focus and productivity tracking system designed to reduce interruptions and improve workflow quality.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["React", "Node.js", "TypeScript", "State Management", "UX"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/573b634a-c7c7-4d7e-a7ff-3d612c5b6ec3.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/573b634a-c7c7-4d7e-a7ff-3d612c5b6ec3.avif"
+        ]
+      },
+      {
+        "id": 62,
+        "demo": "https://gh-ctrl.vercel.app",
+        "role": "Sole developer — designed the API architecture, integrated the GitHub API, set up BullMQ job queues with Redis, and built the full dashboard UI.",
+        "slug": null,
+        "stars": null,
+        "title": "Gh Control",
+        "github": "https://github.com/nishuR31/ghControl",
+        "status": "Completed",
+        "company": null,
+        "problem": "Managing GitHub repos, PRs, webhooks, and CI jobs requires jumping between multiple interfaces, slowing down development operations for power users.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a centralized command center that uses the GitHub REST API via personal access tokens to aggregate repo metadata, PR queues, webhook events, and job status into a single dashboard, with BullMQ handling webhook event queuing.",
+        "timeline": "2024",
+        "categories": ["Backend", "DevTools", "API Integration"],
+        "highlights": [
+          "GitHub API integration through Octokit",
+          "Redis caching for frequently accessed GitHub data",
+          "BullMQ workers for asynchronous jobs",
+          "retries",
+          "backoff",
+          "and webhook processing",
+          "Centralized dashboard for repositories",
+          "issues",
+          "pull requests",
+          "releases",
+          "Actions",
+          "and automation"
+        ],
+        "description": "GitHub management and automation platform for repository operations, pull requests, Actions, webhooks, notifications, and developer workflows.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": [
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "MongoDB",
+          "Redis",
+          "BullMQ",
+          "Octokit",
+          "REST API"
+        ],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/0a531b77-c77e-47da-99c0-2c2f62e60c5b.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/0a531b77-c77e-47da-99c0-2c2f62e60c5b.avif"
+        ]
+      },
+      {
+        "id": 61,
+        "demo": "https://devclip-hub.vercel.app",
+        "role": "Full-stack developer and designer — built the entire frontend architecture, component library, and UX flow from scratch.",
+        "slug": null,
+        "stars": null,
+        "title": "Devclip Hub",
+        "github": "https://github.com/nishuR31/devclip-hub",
+        "status": "Completed",
+        "company": null,
+        "problem": "Developers constantly switch between multiple disconnected tools — clipboard managers, snippet stores, and productivity dashboards — losing flow and wasting time.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a unified developer utility hub with a modular Next.js frontend, combining clipboard management, code snippet storage, and productivity widgets in a single fast-loading interface.",
+        "timeline": "2024 — Ongoing",
+        "categories": ["Frontend", "Productivity", "Tooling"],
+        "highlights": [
+          "Modular component-driven architecture for snippet storage",
+          "clipboard history",
+          "and productivity utilities",
+          "Sub-2s initial page load with Next.js SSG and AVIF image optimization",
+          "TailwindCSS design system with dark/light mode support"
+        ],
+        "description": "Developer-focused utility hub with modular frontend architecture and productivity-driven developer tooling.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["Next.js", "React", "JavaScript", "TailwindCSS", "UI/UX"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/7dd3f419-ee3a-4a50-bda4-85f755edb0f7.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/7dd3f419-ee3a-4a50-bda4-85f755edb0f7.avif"
+        ]
+      },
+      {
+        "id": 71,
+        "demo": "https://guardiannest.vercel.app",
+        "role": "Full-stack developer — architected the real-time event system, built the WebSocket server, and designed the monitoring dashboard.",
+        "slug": null,
+        "stars": 0,
+        "title": "GuardianNest",
+        "github": "https://github.com/nishuR31/guardiannest",
+        "status": "Completed",
+        "company": null,
+        "problem": "Parents and home security users lack a simple, real-time monitoring solution that can stream and log surveillance events without requiring expensive proprietary hardware or cloud subscriptions.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built an event-driven surveillance control hub using Socket.io for real-time event streaming, a TypeScript Express backend for device event ingestion, and a React dashboard for live monitoring and historical event review.",
+        "timeline": "2024",
+        "categories": ["Full-Stack", "Real-Time", "IoT", "TypeScript"],
+        "highlights": [
+          "Real-time bi-directional event streaming with Socket.io WebSockets",
+          "Event-driven backend architecture for scalable device connections",
+          "Full TypeScript coverage for both server and client"
+        ],
+        "description": "Smart surveillance and parental safety control hub built with event-driven Socket.io streaming.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["TypeScript", "Node.js", "Express", "Socket.io", "React", "TailwindCSS"],
+        "images": ["/projects/project-11.avif", "/projects/project-11.avif"]
+      },
+      {
+        "id": 68,
+        "demo": "https://scafeakasahu.vercel.app",
+        "role": "Lead developer — delivered the entire product from design to production deployment for the client.",
+        "slug": null,
+        "stars": null,
+        "title": "Scafe",
+        "github": "https://github.com/nishuR31/scafe",
+        "status": "Completed",
+        "company": null,
+        "problem": "Scafe café had no digital menu or online ordering system, forcing customers to order in person only and limiting the café's reach and operational efficiency.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a service-oriented café management platform covering authentication, menu management, events, offers, promotions, caching, and asynchronous background processing.",
+        "timeline": "2024 — Client Project",
+        "categories": ["Full-Stack", "Backend", "Management Platform"],
+        "highlights": [
+          "Modular backend architecture for menu",
+          "events",
+          "offers",
+          "authentication",
+          "and related workflows",
+          "BullMQ and Redis for asynchronous background jobs and queue-based processing",
+          "Database-backed content management with PostgreSQL/Prisma and MongoDB components where applicable",
+          "Production deployment and client-facing responsive frontend"
+        ],
+        "description": "Service-oriented café management platform covering authentication, menu management, events, offers, promotions, caching, and asynchronous background processing.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": [
+          "TypeScript",
+          "Node.js",
+          "PostgreSQL",
+          "Prisma",
+          "MongoDB",
+          "Redis",
+          "BullMQ",
+          "React",
+          "TailwindCSS"
+        ],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f910352b-8f79-44be-9f9c-2cddd609c8af.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f910352b-8f79-44be-9f9c-2cddd609c8af.avif"
+        ]
+      },
+      {
+        "id": 67,
+        "demo": "https://nmoh.vercel.app",
+        "role": "Full-stack developer — built the API, frontend interface, and internal deployment for the team.",
+        "slug": null,
+        "stars": null,
+        "title": "Nmoh",
+        "github": "https://github.com/nishuR31/nmoh",
+        "status": "Completed",
+        "company": null,
+        "problem": "Small teams managing shared inventory lack affordable internal tools, relying on spreadsheets that are error-prone and difficult to share.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a lightweight internal warehouse tool that allows the team to track inventory, log movements, and visualize stock levels through a clean React interface backed by a Node.js API.",
+        "timeline": "2024 — Internal Tool",
+        "categories": ["Full-Stack", "Internal Tool", "Backend"],
+        "highlights": [
+          "Lightweight Node.js REST API with no unnecessary dependencies",
+          "Inventory state tracking with movement history logs",
+          "Responsive TailwindCSS UI suitable for mobile warehouse use"
+        ],
+        "description": "A team-internal warehouse management tool for inventory and logistics.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["Node.js", "React", "JavaScript", "TailwindCSS", "Animation"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/014cc3d4-f276-49f8-a556-e7a9b284fa4d.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/014cc3d4-f276-49f8-a556-e7a9b284fa4d.avif"
+        ]
+      },
+      {
+        "id": 70,
+        "demo": "https://solfinder.vercel.app",
+        "role": "Full-stack developer — designed the calculation engine, built the REST API, and delivered the complete frontend UI.",
+        "slug": null,
+        "stars": null,
+        "title": "Solfinder",
+        "github": "https://github.com/nishuR31/solfinder",
+        "status": "Completed",
+        "company": null,
+        "problem": "Assessing solar radiation feasibility for a given location requires manual calculations using complex meteorological data, which is time-consuming and inaccessible to non-specialists.",
+        "visible": true,
+        "featured": false,
+        "solution": "Built a web application that automates solar radiation calculations, taking geographic and environmental parameters as inputs and returning feasibility reports with computed solar energy potential, presented through a clean TypeScript React frontend.",
+        "timeline": "2024",
+        "categories": ["Full-Stack", "Engineering", "TypeScript"],
+        "highlights": [
+          "Automated solar radiation feasibility analysis from location parameters",
+          "Full TypeScript type safety across frontend and backend",
+          "REST API designed for potential integration with third-party GIS tools"
+        ],
+        "description": "Solar feasibility calculator and automated solar radiation analysis tool for environmental engineering.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["TypeScript", "React", "Node.js", "TailwindCSS", "REST API"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/13340c41-e7bd-4cf3-849b-9b39653b489f.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/13340c41-e7bd-4cf3-849b-9b39653b489f.avif"
+        ]
+      },
+      {
+        "id": 74,
+        "demo": "https://memory-web2.vercel.app",
+        "role": "AI & backend developer — designed retrieval and reasoning workflows combining graph retrieval, vector stores, and LLM reasoning.",
+        "slug": null,
+        "stars": 0,
+        "title": "MemoryWeb / Memory-Web2",
+        "github": "https://github.com/nishuR31/Memory-Web2",
+        "status": "Completed",
+        "company": null,
+        "problem": "Traditional search and RAG pipelines struggle to uncover complex multi-hop relationships across large financial filings and entity graphs.",
+        "visible": true,
+        "featured": false,
+        "solution": "GraphRAG intelligence system combining graph retrieval, vector retrieval, and LLM reasoning for financial-crime relationship analysis.",
+        "timeline": "2024",
+        "categories": ["AI/ML", "GraphRAG", "Backend", "Data Engineering"],
+        "highlights": [
+          "Combined TigerGraph graph retrieval with ChromaDB/FAISS vector retrieval",
+          "Used SEC EDGAR data as part of the intelligence pipeline",
+          "Hackathon evaluation reported 96.4% token reduction and 0.9521 BERTScore F1 on the project benchmark",
+          "Designed retrieval and reasoning workflow around structured relationships and semantic context"
+        ],
+        "description": "GraphRAG intelligence system combining graph retrieval, vector retrieval, and LLM reasoning for financial-crime relationship analysis.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["Gemini", "TigerGraph", "ChromaDB", "FAISS", "GraphRAG", "SEC EDGAR"],
+        "images": ["/projects/project-2.avif", "/projects/project-2.avif"]
+      },
+      {
+        "id": 75,
+        "demo": "https://boardvault.vercel.app",
+        "role": "Full-stack developer — designed Fastify API, PostgreSQL/Prisma schemas, and Flutter mobile client.",
+        "slug": null,
+        "stars": null,
+        "title": "BoardVault",
+        "github": "https://github.com/nishuR31/boardVault",
+        "status": "Completed",
+        "company": null,
+        "problem": "Developers and makers struggle to find unified, structured pinouts, specs, and reference documentation for single-board computers and microcontrollers.",
+        "visible": true,
+        "featured": false,
+        "solution": "Cross-platform reference platform for single-board computers and microcontrollers with structured technical resources, board information, and FAQs.",
+        "timeline": "2024",
+        "categories": ["Mobile", "Backend", "IoT", "Flutter"],
+        "highlights": [
+          "Flutter/Dart client with TypeScript/Fastify backend integration",
+          "Structured board and technical-resource data",
+          "PostgreSQL/Prisma-backed API architecture",
+          "Designed for technical reference and embedded-development workflows"
+        ],
+        "description": "Cross-platform reference platform for single-board computers and microcontrollers with structured technical resources, board information, and FAQs.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": ["Flutter", "Dart", "TypeScript", "Fastify", "PostgreSQL", "Prisma"],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f28e2b3c-7cd6-437a-b474-e13dae84ebed.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/f28e2b3c-7cd6-437a-b474-e13dae84ebed.avif"
+        ]
+      },
+      {
+        "id": 72,
+        "demo": "https://ranchikart.vercel.app",
+        "role": "Backend-focused full-stack developer — designed and implemented backend workflows, API architecture, authentication, database operations, integrations, and deployment.",
+        "slug": null,
+        "stars": null,
+        "title": "RanchiKart — Hyper-local E-Commerce Platform",
+        "github": "https://github.com/nishuR31/ranchiKart",
+        "status": "Completed",
+        "company": null,
+        "problem": "Local vendors in Ranchi lack accessible, affordable digital storefronts, limiting their reach to walk-in customers only while larger e-commerce platforms ignore local commerce.",
+        "visible": true,
+        "featured": true,
+        "solution": "Built a production-oriented e-commerce platform for local commerce with catalog, variants, carts, checkout, coupons, reviews, wishlists, orders, payments, and administration.",
+        "timeline": "2024 — Ongoing",
+        "categories": ["Backend", "Full-Stack", "E-Commerce", "DevOps"],
+        "highlights": [
+          "Structured REST API covering catalog",
+          "cart",
+          "checkout",
+          "orders",
+          "payments",
+          "reviews",
+          "wishlist",
+          "coupons",
+          "and admin workflows",
+          "Multi-method authentication with password",
+          "Google OAuth 2.0",
+          "magic links",
+          "TOTP",
+          "and WebAuthn/passkeys",
+          "Redis-backed caching and rate limiting with validation",
+          "RBAC",
+          "and protected sessions",
+          "Razorpay payment verification",
+          "image processing",
+          "Dockerized services",
+          "and production deployment workflows"
+        ],
+        "description": "Production-oriented e-commerce platform for local commerce with catalog, variants, carts, checkout, coupons, reviews, wishlists, orders, payments, and administration.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "architecture": [],
+        "technologies": [
+          "Bun",
+          "Fastify",
+          "TypeScript",
+          "PostgreSQL",
+          "Prisma",
+          "Redis",
+          "Docker",
+          "Razorpay",
+          "React"
+        ],
+        "images": [
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/a56bb843-5178-4d8b-93c5-eb017edabd1c.avif",
+          "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/project/crm-uploads/a56bb843-5178-4d8b-93c5-eb017edabd1c.avif"
+        ]
+      }
+    ],
+    "services": [],
+    "NAV_ITEMS": [
+      {
+        "id": "f37711ea-d50a-412d-a2e5-6b61d3652d15",
+        "href": "/",
+        "label": "Home",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "914e11e7-9305-4d9c-a5db-aac58fb7697b",
+        "href": "/experience",
+        "label": "Experience",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "40c03451-69f2-4682-b02d-b63101208402",
+        "href": "/projects",
+        "label": "Projects",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "d0063669-17a7-425f-831a-5c758ad4e344",
+        "href": "/certificates",
+        "label": "Certificates",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "42b2fefb-e537-4eaa-9259-46881880cfb4",
+        "href": "/contact",
+        "label": "Contact",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      }
+    ],
+    "developer": {
+      "bio": "Computer Science undergraduate focused on backend engineering, TypeScript, API architecture, authentication, databases, caching, asynchronous processing, and production-oriented software systems.",
+      "name": "Nishan Rajak",
+      "role": "Backend Engineer | TypeScript | DevOps",
+      "about": [
+        "I am a Computer Science undergraduate focused on backend engineering and production-oriented software development.",
+        "I build REST APIs and full-stack systems using TypeScript, Node.js, Bun, Fastify, PostgreSQL, Prisma, Redis, and Docker.",
+        "My work focuses on API architecture, authentication and authorization, database-backed systems, caching, background processing, integrations, testing, and deployment.",
+        "I enjoy understanding systems at the implementation level and improving reliability, performance, maintainability, and failure handling.",
+        "My recent work includes e-commerce, GitHub automation, GraphRAG, gym management, IoT/embedded applications, and other full-stack systems."
+      ],
+      "email": "nishan.developer.dev@gmail.com",
+      "tagline": "Building reliable backend systems with TypeScript, APIs, databases, authentication, caching, and production-oriented infrastructure.",
+      "location": "Raghunathpur, Purulia, West Bengal",
+      "shortName": "Nishu"
+    },
+    "education": [
+      {
+        "id": "019d5cbf-85c3-4b01-babd-f81c19b45664",
+        "field": "Courses",
+        "grade": "90",
+        "degree": "Matriculation",
+        "endDate": "2021-03-31T00:00:00.000Z",
+        "visible": true,
+        "startDate": "2020-04-01T00:00:00.000Z",
+        "institution": "Kendriya Vidyalaya Adra",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      },
+      {
+        "id": "89b0bbd2-67b4-4d14-a193-0f624791a9ba",
+        "field": "PCM+CS",
+        "grade": "86",
+        "degree": "Intermediate",
+        "endDate": "2023-03-31T00:00:00.000Z",
+        "visible": true,
+        "startDate": "2022-04-01T00:00:00.000Z",
+        "institution": "Kendriya Vidyalaya No.2 AFS Tezpur",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9"
+      }
+    ],
+    "showAbout": true,
+    "showSkills": true,
+    "experiences": [
+      {
+        "id": "766225e8-1180-44ea-8922-19d8bf8a2214",
+        "period": "Ongoing",
+        "company": "Self-driven Engineering Track",
+        "visible": true,
+        "location": "Remote",
+        "position": "Backend Development Practice",
+        "isCurrent": false,
+        "companyUrl": null,
+        "companyLogo": null,
+        "description": "Independent backend engineering practice focused on designing, implementing, testing, and deploying production-oriented software systems.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": [
+          "Node.js",
+          "Bun",
+          "Fastify",
+          "TypeScript",
+          "JavaScript",
+          "Express",
+          "JWT",
+          "PostgreSQL",
+          "Prisma",
+          "Redis",
+          "Docker",
+          "MongoDB",
+          "Postman",
+          "Git"
+        ],
+        "responsibilities": [
+          "Built modular REST APIs using controller/service/repository patterns, request validation, centralized error handling, and database persistence.",
+          "Implemented authentication and authorization using JWT, HTTP-only cookies, RBAC, token refresh workflows, and protected routes.",
+          "Worked with PostgreSQL, MongoDB, Prisma, Redis caching, rate limiting, BullMQ background jobs, webhooks, and Docker-based services.",
+          "Tested API behavior and failure paths using Postman/Bruno and maintained Git-based workflows across multiple repositories."
+        ]
+      },
+      {
+        "id": "5613d0ad-d425-405f-af2c-d27fe471c994",
+        "period": "Summer 2025",
+        "company": "RVWeb",
+        "visible": true,
+        "location": "Remote",
+        "position": "Full-Stack Developer Intern",
+        "isCurrent": false,
+        "companyUrl": "https://www.rvweb.in/",
+        "companyLogo": "https://www.rvweb.in/img/logo.png",
+        "description": "Worked on full-stack application development with backend/API integration, authentication, content workflows, frontend state, debugging, and deployment.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": [
+          "React",
+          "Node.js",
+          "Express",
+          "JavaScript",
+          "REST API",
+          "Vercel",
+          "Render"
+        ],
+        "responsibilities": [
+          "Built and integrated backend/API functionality for the Nubloq full-stack blogging application.",
+          "Worked across authentication",
+          "content workflows",
+          "media handling",
+          "API integration",
+          "and frontend state.",
+          "Debugged end-to-end application behavior and deployed application components using Vercel and Render."
+        ]
+      },
+      {
+        "id": "6f86c1b8-6278-4c47-aa6c-65448f7a3d8e",
+        "period": "April 2025",
+        "company": "ISM IIT Dhanbad",
+        "visible": true,
+        "location": "IIT Dhanbad",
+        "position": "Participant of HackFest 2025",
+        "isCurrent": false,
+        "companyUrl": "https://unstop.com/hackathons/hackfest-25-indian-institute-of-technology-indian-school-of-mines-iit-ism-dhanbad-1413387",
+        "companyLogo": "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67c5e9e5d60c8_hf_logo.jpg?d=200x200",
+        "description": "Developed an AI power mail SAAS for Atom Mail,",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": ["Google APIs", "Llms", "Langgraph and Langchains", "FastAPI"],
+        "responsibilities": [
+          "Architected the real-time event streaming pipeline using Socket.io and Redis.",
+          "Led backend integration and deployment processes under tight deadlines."
+        ]
+      },
+      {
+        "id": "3fd7455a-c83b-4764-8966-24b7482e101a",
+        "period": "May 2026",
+        "company": "Tiger Graph",
+        "visible": true,
+        "location": "Remote",
+        "position": "Participant of Tiger Graph Hackathon ",
+        "isCurrent": false,
+        "companyUrl": "https://unstop.com/p/graphrag-inference-hackathon-by-tigergraph-tigergraph-1678762",
+        "companyLogo": "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-69e94122634cc_screenshot_2026-04-23_031342.png?d=200x200",
+        "description": "Developed FastAPI APIs and GraphRAG pipelines for financial crime intelligence, integrated TigerGraph with NetworkX fallback, ChromaDB and FAISS for graph and vector retrieval, SEC EDGAR data ingestion, Gemini 1.5 Flash inference, benchmark evaluation, Docker containerization, and deployment configuration",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": [
+          "Python",
+          "FastAPI",
+          "TigerGraph",
+          "NetworkX",
+          "GraphRAG",
+          "ChromaDB",
+          "FAISS",
+          "Gemini 1.5 Flash",
+          "SEC EDGAR",
+          "Docker",
+          "Hugging Face Spaces."
+        ],
+        "responsibilities": [
+          "Backend API development",
+          "TigerGraph integration",
+          "GraphRAG pipeline integration",
+          "Docker-based deployment",
+          "environment configuration",
+          "deployment troubleshooting",
+          "pipeline testing",
+          "benchmark automation",
+          "and LLM response evaluation using BERTScore and an LLM judge."
+        ]
+      },
+      {
+        "id": "8236858b-2e90-4655-bc89-05abf00d2e69",
+        "period": "Summer 2026",
+        "company": "SolFinder",
+        "visible": true,
+        "location": "Remote",
+        "position": "Backend DevOps Intern",
+        "isCurrent": false,
+        "companyUrl": "https://solfinder.wixsite.com/solfinder",
+        "companyLogo": null,
+        "description": "RanchiKart is a location-focused e-commerce platform serving Ranchi, Jharkhand, built with a focus on performance, maintainability, and scalable architecture.\n\n- Backend: Developed modular MVCP-based REST APIs using Bun and Fastify, with Prisma ORM and PostgreSQL for data persistence.\n- Performance & Security: Integrated Redis for caching and rate limiting; implemented JWT-based cookie authentication, authorization, and password hashing.\n- E-commerce & Integrations: Built product, inventory, and order workflows; integrated Razorpay (test mode), OAuth authentication, and ImgBB media uploads using Multer.\n\nDevOps & Deployment: Utilized Docker multi-stage (builder/starter) architecture and deployed services on Vercel and Render, with environment-based configuration and separated application components.\n\nDeployed on Vercel and Render.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": [
+          "Bun",
+          "Fastify",
+          "Prisma ORM",
+          "PostgreSQL",
+          "Redis",
+          "Docker",
+          "JWT",
+          "Razorpay",
+          "OAuth",
+          "ImgBB",
+          "Multer",
+          "REST APIs",
+          "and cloud deployment infrastructure."
+        ],
+        "responsibilities": [
+          "Integration of frontend with backend API endpoints",
+          "proper security and injection of environment variables",
+          "proper schema and type safe structures",
+          "deployment and hosting."
+        ]
+      },
+      {
+        "id": "ee02ec8a-4a02-40b2-bffc-7b043e45f800",
+        "period": "January 2026",
+        "company": "GDG Ranchi",
+        "visible": true,
+        "location": "Remote",
+        "position": "Participant of Ranchi Hacks",
+        "isCurrent": false,
+        "companyUrl": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://hack2skill.com/event/ranchihacks",
+        "companyLogo": "https://h2svision.github.io/publicAssets/vision/H2S_Gradient_Logo.png",
+        "description": "Developed a cybercrime network intelligence engine using Python, FastAPI, Neo4j, and graph analytics to identify fraud rings, influential entities, suspicious transaction patterns, and behavioral anomalies. Implemented REST APIs, CSV-based ETL pipelines, graph-based intelligence analysis using NetworkX, PageRank, and centrality algorithms, and risk-scoring workflows. Configured deployment using Render, Vercel, and deployment manifests, with environment-based configuration and backend testing.",
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "technologies": [
+          "Python",
+          "FastAPI",
+          "Neo4j",
+          "NetworkX",
+          "PyTorch",
+          "PyTorch Geometric",
+          "Pandas",
+          "Scikit-learn",
+          "TypeScript",
+          "Render",
+          "Vercel."
+        ],
+        "responsibilities": [
+          "FastAPI REST APIs",
+          "Neo4j graph integration",
+          "CSV ETL pipelines",
+          "NetworkX graph analytics",
+          "fraud-ring detection",
+          "risk scoring",
+          "anomaly detection",
+          "application configuration",
+          "backend testing",
+          "Render and Vercel deployment."
+        ]
+      }
+    ],
+    "certificates": [
+      {
+        "id": "d419b23a-0544-4dd4-8b2e-409e21e3579e",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/Learn%20Javascript%20Programming%20Language%20With%20Practical%20Interaction.pdf",
+        "type": "pdf",
+        "title": "Learn Javascript Programming Language With Practical Interaction",
+        "certId": "c0462e22-26e9-42f8-a55f-845049449d50",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "d3f7e78d-aff9-4443-adb0-34898b9e59b0",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/certificate-zn269pmhqc4t-1773898986.pdf",
+        "type": "pdf",
+        "title": "Hackerrank Certificate",
+        "certId": "aab6489b-c2ce-4c53-b9fd-e0a2eebd83fe",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "a3196b17-3c3b-4a0c-8da7-d57a2c3635a9",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/12.png",
+        "type": "image",
+        "title": "Certificate Of Appreciation",
+        "certId": "416a3219-bd33-4660-b592-2bb537b7e4a6",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "dd0c4209-56f6-46ab-aaf2-bb8e6dc7a48f",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/git.pdf",
+        "type": "pdf",
+        "title": "Git",
+        "certId": "73251872-3169-40f7-84e1-0156181b540a",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "164e37b8-f7d3-4316-ab78-037b2837d0a9",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/Picsart_25-05-17_14-08-00-215.png",
+        "type": "image",
+        "title": "Workshop Certificate",
+        "certId": "d4571259-5ee5-4d50-87bf-bcfd948ca349",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "f14d3012-4ad4-4089-a2aa-55cf29ab05f9",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/tsc.pdf",
+        "type": "pdf",
+        "title": "Tsc",
+        "certId": "ae8c78f5-653e-405e-9827-b9d8e710ff1f",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      },
+      {
+        "id": "f173d75f-6537-400e-9420-de696e327c1b",
+        "url": "https://dzrkiprblxcrdaijnuaf.supabase.co/storage/v1/object/public/certificates/WebDevSeminar.pdf",
+        "type": "pdf",
+        "title": "Webdevseminar",
+        "certId": "4e7fc177-f144-4d64-a263-095d0dc5ab47",
+        "issuer": null,
+        "visible": true,
+        "category": "Other",
+        "issueDate": null,
+        "portfolioId": "578a5f36-a47f-48ed-a205-a27cf8a679b9",
+        "expirationDate": null
+      }
+    ],
+    "recentTracks": true,
+    "showProjects": true,
+    "showServices": true,
+    "testimonials": [],
+    "showEducation": true,
+    "showExperience": true,
+    "maintenanceMode": false,
+    "featuredProjects": ["RanchiKart — Hyper-local E-Commerce Platform"],
+    "showCertificates": true,
+    "showTestimonials": true
+  }
+}

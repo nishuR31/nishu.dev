@@ -43,24 +43,30 @@ export default {
             backgroundPosition: "-200% 0",
           },
         },
+	"spin-rev":{
+	   "0%":{ transform:"rotate(0deg)"},
+ 	   "40%":{transform:"rotate(-50deg)"},
+	   "100%":{transform:"rotate(360deg)"},
+	},
         fadeOut: {
-          "0%":   { opacity: "1" },
-          "70%":  { opacity: "1" },
+          "0%": { opacity: "1" },
+          "70%": { opacity: "1" },
           "100%": { opacity: "0", visibility: "hidden" },
         },
         nudgeLeft: {
           "0%, 100%": { transform: "translateX(0)" },
-          "50%":       { transform: "translateX(-3px)" },
+          "50%": { transform: "translateX(-3px)" },
         },
         nudgeRight: {
           "0%, 100%": { transform: "translateX(0)" },
-          "50%":       { transform: "translateX(3px)" },
+          "50%": { transform: "translateX(3px)" },
         },
       },
       animation: {
+	"spin-rev":"spin-rev 0.45s  cubic-bezier(0.34, 1.54, 0.64, 1)",
         shine: "shine 8s ease-in-out infinite",
         fadeOut: "fadeOut 3s ease-in-out 1.5s forwards",
-        nudgeLeft:  "nudgeLeft 1s ease-in-out infinite",
+        nudgeLeft: "nudgeLeft 1s ease-in-out infinite",
         nudgeRight: "nudgeRight 1s ease-in-out infinite",
       },
       colors: {

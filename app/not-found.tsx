@@ -4,13 +4,12 @@ import Link from "next/link";
 import { Search, ArrowLeft, Home, Settings, ChevronRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 
+
 const SITE_LINKS = [
-  { title: "Home", url: "/", description: "Back to the main portfolio page" },
-  { title: "Projects", url: "/projects", description: "View my open source and side projects" },
   {
-    title: "Certificates",
-    url: "/certificates",
-    description: "View my certifications and achievements",
+    title: "Home",
+    url: "/",
+    description: "Back to the main portfolio page",
   },
   {
     title: "About Me",
@@ -18,30 +17,61 @@ const SITE_LINKS = [
     description: "Learn more about my background and philosophy",
   },
   {
+    title: "Projects",
+    url: "/projects",
+    description: "Explore my open-source and personal projects",
+  },
+  {
     title: "Experience",
+    url: "/experience",
+    description: "Explore my professional experience and work history",
+  },
+  {
+    title: "Experience Section",
     url: "/#experience",
-    description: "My work history and professional experience",
-  },
-  { title: "Contact", url: "/contact", description: "Get in touch with me" },
-  {
-    title: "Project: Devclip Hub",
-    url: "/projects/devclip-hub",
-    description: "Developer-focused utility hub",
+    description: "View my experience section on the homepage",
   },
   {
-    title: "Project: GH Control",
-    url: "/projects/ghcontrol",
-    description: "Power-user GitHub command center",
+    title: "Education",
+    url: "/education",
+    description: "My educational qualifications",
   },
   {
-    title: "Project: Maa Tara Sweets",
-    url: "/projects/maatarasweets",
-    description: "Multi-database e-commerce platform",
+    title: "Certificates",
+    url: "/certificates",
+    description: "View my certifications and achievements",
   },
   {
-    title: "Project: FocusMode",
-    url: "/projects/focusmode",
-    description: "Focus and productivity tracking system",
+    title: "Testimonials",
+    url: "/testimonials",
+    description: "See what colleagues, collaborators, and partners say about me",
+  },
+  {
+    title: "Socials",
+    url: "/socials",
+    description: "Explore my social media and developer profiles",
+  },
+  {
+    title: "Tech Stack",
+    url: "/techstack",
+    description: "Explore my development tools and technologies",
+  },
+  {
+    title: "Contact",
+    url: "/contact",
+    description: "Get in touch with me",
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    description: "Minimalist platform settings",
+  },
+
+  // Projects
+  {
+    title: "Project: StillTime",
+    url: "/projects/stilltime",
+    description: "StillTime project overview and details",
   },
   {
     title: "Project: Baksy",
@@ -49,9 +79,69 @@ const SITE_LINKS = [
     description: "Product-focused full-stack application",
   },
   {
+    title: "Project: Mathematics for All",
+    url: "/projects/mathematics-for-all",
+    description: "Making mathematics more accessible",
+  },
+  {
+    title: "Project: Valor Fitness",
+    url: "/projects/valor-fitness",
+    description: "Fitness and workout-focused platform",
+  },
+  {
+    title: "Project: Scafe",
+    url: "/projects/scafe",
+    description: "Full-stack application with modern backend architecture",
+  },
+  {
     title: "Project: RanchiKart",
-    url: "/projects/ranchikart",
-    description: "Local e-commerce platform",
+    url: "/projects/ranchikart-hyper-local-e-commerce-platform",
+    description: "Hyperlocal e-commerce platform",
+  },
+  {
+    title: "Project: Lunarity",
+    url: "/projects/lunarity",
+    description: "Lunarity project overview and details",
+  },
+  {
+    title: "Project: FocusMode",
+    url: "/projects/focusmode",
+    description: "Focus and productivity tracking system",
+  },
+  {
+    title: "Project: Devclip Hub",
+    url: "/projects/devclip-hub",
+    description: "Developer-focused utility hub",
+  },
+  {
+    title: "Project: GH Control",
+    url: "/projects/gh-control",
+    description: "Power-user GitHub command center",
+  },
+  {
+    title: "Project: GuardianNest",
+    url: "/projects/guardiannest",
+    description: "GuardianNest project overview and details",
+  },
+  {
+    title: "Project: NMOH",
+    url: "/projects/nmoh",
+    description: "NMOH project overview and details",
+  },
+  {
+    title: "Project: SolFinder",
+    url: "/projects/solfinder",
+    description: "SolFinder project overview and details",
+  },
+  {
+    title: "Project: MemoryWeb",
+    url: "/projects/memoryweb-memory-web2",
+    description: "GraphRAG-powered financial crime intelligence project",
+  },
+  {
+    title: "Project: BoardVault",
+    url: "/projects/boardvault",
+    description: "Explore the BoardVault project",
   },
 ];
 
@@ -60,6 +150,22 @@ export default function NotFound() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
+
+
+const handleRev=(e)=>{
+const icon=e.currentTarget;
+icon.classList.remove("animate-spin","animate-spin-rev");
+void icon.getBoundingClientRect();
+icon.classList.add("animate-spin-rev");
+};
+
+const handleAnimationEnd=(e)=>{
+const icon=e.currentTarget;
+if(icon.classList.contains("animate-spin-rev")){
+icon.classList.remove("animate-spin-rev");
+icon.classList.add("animate-spin");
+};
+};
   // Debounce the search query
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -74,6 +180,7 @@ export default function NotFound() {
     const lowerQuery = debouncedQuery.toLowerCase();
     return SITE_LINKS.filter(
       (link) =>
+	link.url.toLowerCase().includes(lowerQuery) ||
         link.title.toLowerCase().includes(lowerQuery) ||
         link.description.toLowerCase().includes(lowerQuery),
     );
@@ -83,6 +190,7 @@ export default function NotFound() {
       {/* Subtle ambient glows for the background */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-zinc-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-zinc-500/5 rounded-full blur-3xl pointer-events-none" />
+
 
       <div className="container px-6 mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16 max-w-6xl mx-auto">
@@ -212,9 +320,11 @@ export default function NotFound() {
               </svg>
 
               {/* Spinning Gear for '0' */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
                 <Settings
-                  className="w-24 h-24 sm:w-32 sm:h-32 text-zinc-500/30 dark:text-zinc-500/60  "
+                  className="w-24 cursor-pointer animate-spin h-24 sm:w-32 sm:h-32 text-zinc-500/30 dark:text-zinc-500/60  "
+		onAnimationEnd={handleAnimationEnd}
+		onClick={handleRev}
                   strokeWidth={1.5}
                 />
               </div>

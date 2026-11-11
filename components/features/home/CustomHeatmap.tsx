@@ -12,11 +12,7 @@ interface CustomHeatmapProps {
  * Designed to sit behind stats card copy with muted colors and subtle opacity,
  * ensuring high legibility while giving the card a rich, personalized identity.
  */
-export default function CustomHeatmap({
-  days,
-  mode,
-  className = "",
-}: CustomHeatmapProps) {
+export default function CustomHeatmap({ days, mode, className = "" }: CustomHeatmapProps) {
   if (!days || days.length === 0) return null;
 
   // Render the last 147 days (21 weeks * 7 days)
@@ -104,8 +100,7 @@ export default function CustomHeatmap({
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(to right, var(--surface) 20%, transparent 80%)",
+          background: "linear-gradient(to right, var(--surface) 20%, transparent 80%)",
           opacity: 0.8,
         }}
       />

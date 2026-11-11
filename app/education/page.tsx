@@ -37,7 +37,9 @@ export default async function EducationPage() {
             <div className="journey-page__kicker">
               <GraduationCap size={16} /> ACADEMIC FOUNDATION
             </div>
-            <h1>Education<span className="orange-text">.</span></h1>
+            <h1>
+              Education<span className="orange-text">.</span>
+            </h1>
             <p>
               The formal foundation behind the systems I build and the engineering practice I keep
               developing.

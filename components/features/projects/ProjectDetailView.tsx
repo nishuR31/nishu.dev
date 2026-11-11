@@ -16,9 +16,9 @@ import {
   Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { getProjectSlugs } from "@/lib/slug-utils";
-import { getProjectImage, PROJECT_IMAGE_FALLBACK } from "@/lib/project-images";
+import { getProjectImage } from "@/lib/project-images";
+import ProjectDeviceShowcase from "@/components/features/projects/ProjectDeviceShowcase";
 
 /* ── Skeleton shown while client-side data loads ─────────────────────── */
 const DetailSkeleton = () => (
@@ -94,15 +94,17 @@ export default function ProjectDetailView({
   slug: string;
 }) {
   const project = initialProject;
-  const [heroFailed, setHeroFailed] = React.useState(false);
 
   if (!project) return <NotFound slug={slug} />;
 
   const demoUrl = project.demo || project.links?.live;
   const githubUrl = project.github || project.links?.github;
-  // Use the project's own image when present; if that URL is dead (e.g. a
-  // local asset that no longer exists) fall back to the AVIF placeholder.
-  const heroImage = heroFailed ? PROJECT_IMAGE_FALLBACK : getProjectImage(project);
+  // Use the project's own desktop image, plus the phone shot when it is a
+  // genuinely different asset (some records reuse the desktop screenshot).
+  const desktopImage = getProjectImage(project);
+  const secondaryImage = getProjectImage(project, { preferSecondary: true });
+  const mobileImage =
+    secondaryImage && secondaryImage !== desktopImage ? secondaryImage : undefined;
 
   return (
     <div className="min-h-screen py-24 relative overflow-hidden">
@@ -179,19 +181,13 @@ export default function ProjectDetailView({
             )}
           </div>
 
-          {/* ── Hero Image ─────────────────────────────────────────── */}
-          {heroImage && (
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border/50 glass-premium shadow-2xl">
-              <Image
-                src={heroImage}
-                alt={project.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                priority
-                onError={() => setHeroFailed(true)}
-              />
-            </div>
+          {/* ── Hero showcase ──────────────────────────────────────── */}
+          {desktopImage && (
+            <ProjectDeviceShowcase
+              desktopSrc={desktopImage}
+              mobileSrc={mobileImage}
+              title={project.title}
+            />
           )}
 
           {/* ── Rich write-up grid ─────────────────────────────────── */}

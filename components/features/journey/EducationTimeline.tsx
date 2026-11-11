@@ -33,7 +33,8 @@ export default function EducationTimeline({
       {entries.map((item, index) => {
         const start = formatYear(item.startDate);
         const end = formatYear(item.endDate);
-        const period = start || end ? `${start || "Earlier"} — ${end || "Present"}` : "Academic track";
+        const period =
+          start || end ? `${start || "Earlier"} — ${end || "Present"}` : "Academic track";
 
         return (
           <article className="education-card" key={`${item.institution}-${item.degree}-${index}`}>

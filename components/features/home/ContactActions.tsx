@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -35,14 +33,14 @@ export default function ContactActions({ email }: { email: string }) {
         <a className="button button-orange" href={`mailto:${email}`}>
           Let’s talk <ArrowUpRight size={18} />
         </a>
-        <button 
-          type="button" 
-          className="button button-outline" 
+        <button
+          type="button"
+          className="button button-outline"
           onClick={copy}
           aria-label={isCopied ? "Email copied to clipboard" : "Copy email address"}
         >
           <div className="flex items-center gap-2" aria-hidden="true">
-            {isCopied ? <Check size={16} /> : <Copy size={16} />} 
+            {isCopied ? <Check size={16} /> : <Copy size={16} />}
             {isCopied ? "Email copied!" : "Copy email"}
           </div>
         </button>

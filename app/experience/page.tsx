@@ -1,14 +1,7 @@
 import React from "react";
 import { getPortfolioData } from "@/lib/portfolio";
 import BackgroundEffects from "@/components/ui/background-effects";
-import {
-  BriefcaseBusiness,
-  Calendar,
-  Code2,
-  GraduationCap,
-  MapPin,
-  ArrowLeft,
-} from "lucide-react";
+import { BriefcaseBusiness, Calendar, Code2, GraduationCap, MapPin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -41,21 +34,18 @@ const ExperienceContent = async () => {
             const isBTech =
               (exp.position || exp.title || "").toLowerCase().includes("b.tech") ||
               (exp.company || exp.organization || "").toLowerCase().includes("icfai");
-            const TimelineIcon = isBTech
-              ? GraduationCap
-              : index === 0
-                ? Code2
-                : BriefcaseBusiness;
+            const TimelineIcon = isBTech ? GraduationCap : index === 0 ? Code2 : BriefcaseBusiness;
 
             return (
               <div key={index} className="flex gap-6 group">
                 {/* Timeline node */}
                 <div className="flex-shrink-0 relative z-10 hidden md:flex flex-col items-center">
                   <div
-                    className={`w-11 h-11 rounded-xl border flex items-center justify-center shadow-lg ${isBTech
+                    className={`w-11 h-11 rounded-xl border flex items-center justify-center shadow-lg ${
+                      isBTech
                         ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
                         : "bg-primary/10 border-primary/15 text-primary"
-                      }`}
+                    }`}
                   >
                     <TimelineIcon className="w-5 h-5" />
                   </div>
@@ -66,10 +56,11 @@ const ExperienceContent = async () => {
                   <div className="relative overflow-hidden rounded-2xl border-2 border-border/60 bg-card/70 backdrop-blur-md p-6">
                     {/* Top accent */}
                     <div
-                      className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${isBTech
+                      className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-l-2xl ${
+                        isBTech
                           ? "bg-gradient-to-b from-blue-500/80 to-blue-500/25"
                           : "bg-gradient-to-b from-primary/80 to-primary/25"
-                        }`}
+                      }`}
                     />
 
                     <div className="pl-3">

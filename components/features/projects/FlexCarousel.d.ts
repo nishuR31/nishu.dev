@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export interface FlexCarouselItem {
   src: string;
@@ -10,19 +10,19 @@ export interface FlexCarouselItem {
 
 export interface FlexCarouselProps {
   items?: FlexCarouselItem[];
-  preset?: 'liquid' | 'ribbon' | 'vortex' | 'arch' | string;
-  intro?: 'rise' | 'bloom' | 'spin' | 'deal' | 'none' | 'fade' | string;
+  preset?: "liquid" | "ribbon" | "vortex" | "arch" | string;
+  intro?: "rise" | "bloom" | "spin" | "deal" | "none" | "fade" | string;
   cardHeight?: number;
   gap?: number;
   radius?: number;
-  fit?: 'natural' | 'portrait' | 'square' | 'landscape' | string;
+  fit?: "natural" | "portrait" | "square" | "landscape" | string;
   lensWidth?: number;
   lensHeight?: number;
   tilt?: number;
   roundness?: number;
   bend?: number;
   reach?: number;
-  curl?: 'twist' | 'rise' | 'fall' | string;
+  curl?: "twist" | "rise" | "fall" | string;
   dispersion?: number;
   liquid?: number;
   followCursor?: boolean;

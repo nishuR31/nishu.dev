@@ -13,11 +13,11 @@
   background: transparent;
 }
 
-.flex-carousel[data-hover='open'] {
+.flex-carousel[data-hover="open"] {
   cursor: zoom-in;
 }
 
-.flex-carousel[data-hover='close'] {
+.flex-carousel[data-hover="close"] {
   cursor: zoom-out;
 }
 
@@ -185,7 +185,9 @@
   background: var(--surface);
   border: 1px solid var(--line);
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .flex-carousel-fallback-card.active {
@@ -209,4 +211,3 @@
   font-size: 14px;
   font-weight: 600;
 }
-

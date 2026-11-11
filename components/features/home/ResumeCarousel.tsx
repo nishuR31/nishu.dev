@@ -52,7 +52,10 @@ export default function ResumeCarousel({ cvs = [] }: { cvs?: CV[] }) {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {cvs.map((resume, index) => (
-              <div key={resume.id} className="min-w-full h-full flex items-center justify-center p-8 relative">
+              <div
+                key={resume.id}
+                className="min-w-full h-full flex items-center justify-center p-8 relative"
+              >
                 <Image
                   src={getThumbnail(index)}
                   alt={resume.title}

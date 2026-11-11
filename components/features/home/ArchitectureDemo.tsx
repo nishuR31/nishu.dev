@@ -169,9 +169,7 @@ export default function ArchitectureDemo() {
         <div className="demo-orbit animate-pulse" />
         <div className="demo-orbit orbit-inner animate-pulse" />
         <div className="demo-connector" />
-        <span className="demo-endpoint endpoint-left">
-          {example.endpointLeft}
-        </span>
+        <span className="demo-endpoint endpoint-left">{example.endpointLeft}</span>
         <div
           className="demo-chip"
           style={{
@@ -198,18 +196,18 @@ export default function ArchitectureDemo() {
           <span className="file-badge">
             <span
               className="file-indicator"
-            // style={{ background: example.accentColor }}
+              // style={{ background: example.accentColor }}
             />
             {example.file}
           </span>
           <span className="code-lang">
             <span
               className="request-badge"
-            // style={{
-            //   color: example.accentColor,
-            //   borderColor: `${example.accentColor}55`,
-            //   background: `${example.accentColor}18`,
-            // }}
+              // style={{
+              //   color: example.accentColor,
+              //   borderColor: `${example.accentColor}55`,
+              //   background: `${example.accentColor}18`,
+              // }}
             >
               {example.request}
             </span>
@@ -235,11 +233,11 @@ export default function ArchitectureDemo() {
           </span>
           <span
             className="status-badge"
-          // style={{
-          //   color: example.accentColor,
-          //   borderColor: `${example.accentColor}55`,
-          //   background: `${example.accentColor}18`,
-          // }}
+            // style={{
+            //   color: example.accentColor,
+            //   borderColor: `${example.accentColor}55`,
+            //   background: `${example.accentColor}18`,
+            // }}
           >
             {example.statusBadge}
           </span>

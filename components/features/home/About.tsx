@@ -56,14 +56,14 @@ export default function About({
           <span className="orange-text">.</span>
         </h2>
         <p>
-          I’m {developer.shortName || "Nishu"}, a software engineering student fascinated by
-          what happens behind the screen. The logic, the data, the small decisions that make a
-          system work beautifully.
+          I’m {developer.shortName || "Nishu"}, a software engineering student fascinated by what
+          happens behind the screen. The logic, the data, the small decisions that make a system
+          work beautifully.
         </p>
         <p>
-          I focus on backend development — designing APIs, untangling authentication, and
-          bringing structure to complex applications. I learn by building, and every project is
-          a chance to do it a little better.
+          I focus on backend development — designing APIs, untangling authentication, and bringing
+          structure to complex applications. I learn by building, and every project is a chance to
+          do it a little better.
         </p>
         <div className="about-bottom">
           <span>

@@ -92,7 +92,10 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
       setIsTyping(false);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: "I'm having trouble connecting to my brain right now. Please try again later!" },
+        {
+          role: "bot",
+          text: "I'm having trouble connecting to my brain right now. Please try again later!",
+        },
       ]);
     }
   };
@@ -177,9 +180,18 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
                   <Bot className="w-4 h-4" />
                 </div>
                 <div className="p-3 rounded-2xl max-w-[80%] text-sm leading-relaxed shadow-sm bg-card border border-border/50 text-foreground rounded-tl-sm flex space-x-1.5 items-center">
-                  <div className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div
+                    className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce"
+                    style={{ animationDelay: "0ms" }}
+                  />
+                  <div
+                    className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce"
+                    style={{ animationDelay: "150ms" }}
+                  />
+                  <div
+                    className="w-1.5 h-1.5 bg-primary/50 rounded-full animate-bounce"
+                    style={{ animationDelay: "300ms" }}
+                  />
                 </div>
               </div>
             )}
@@ -195,7 +207,13 @@ export default function AssistantWidget({ portfolioData }: AssistantWidgetProps)
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isTyping || !isOnline}
-              placeholder={!isOnline ? "Chat unavailable" : isTyping ? "AI is typing..." : "Ask me about Nishan..."}
+              placeholder={
+                !isOnline
+                  ? "Chat unavailable"
+                  : isTyping
+                    ? "AI is typing..."
+                    : "Ask me about Nishan..."
+              }
               className="flex-1 bg-secondary/50 border border-border/50 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-muted-foreground disabled:opacity-50"
             />
             <button

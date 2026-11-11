@@ -21,17 +21,15 @@ export default async function CertificatesPage() {
         <h1>
           Currently <span className="hero-serif">unavailable.</span>
         </h1>
-        <p className="section-description">
-          This section is currently hidden by the developer.
-        </p>
+        <p className="section-description">This section is currently hidden by the developer.</p>
       </section>
     );
   }
 
   const certificates = result.ok
     ? (result.data.certificates || []).filter(
-      (certificate: any) => certificate.visible !== false && certificate.url,
-    )
+        (certificate: any) => certificate.visible !== false && certificate.url,
+      )
     : [];
   return (
     <section className="site-width collection-page">

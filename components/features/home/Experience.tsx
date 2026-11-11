@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import Image from "next/image"
+import Image from "next/image";
 interface ExperienceItem {
   period?: string;
   position?: string;

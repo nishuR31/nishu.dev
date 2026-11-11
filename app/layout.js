@@ -115,10 +115,7 @@ export default async function RootLayout({ children }) {
   let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nishudevportfolio.vercel.app";
   const result = await getPortfolioData();
   const portfolioData = result.ok ? result.data : {};
-  if (
-    portfolioData?.siteName &&
-    portfolioData.siteName !== "nishudevportfolio"
-  ) {
+  if (portfolioData?.siteName && portfolioData.siteName !== "nishudevportfolio") {
     siteUrl = portfolioData.siteName.startsWith("http")
       ? portfolioData.siteName
       : `https://${portfolioData.siteName}`;

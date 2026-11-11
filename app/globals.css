@@ -1,4 +1,6 @@
+
 @tailwind base;
+
 @tailwind components;
 @tailwind utilities;
 
@@ -90,7 +92,25 @@ html {
   }
 }
 
+
+    @keyframes spin-rev{
+           0%{ transform:rotate(0deg);}
+           40%{transform:rotate(-50deg);}
+           100%{transform:rotate(360deg);}
+        }
+
+  .animate-spin-rev{animation:spin-rev 0.45s  cubic-bezier(0.34, 1.54, 0.64, 1);}
+
+
+
 @layer components {
+
+
+  .animate-spin-rev{animation:spin-rev 0.45s  cubic-bezier(0.34, 1.54, 0.64, 1);}
+
+
+
+
   /* ── Glass panels ── */
   .glass-panel {
     @apply border border-input text-card-foreground backdrop-blur-md shadow-xl;
@@ -104,7 +124,7 @@ html {
     backdrop-filter: blur(8px);
   }
 
-  /* Premium glass: saturated for vivid blurs */
+    /* Premium glass: saturated for vivid blurs */
   .glass-premium {
     background: hsl(var(--card) / 0.55);
     -webkit-backdrop-filter: saturate(200%) blur(12px);
@@ -445,7 +465,8 @@ body::before {
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
   border-radius: 0.375rem;
 }
-  ::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

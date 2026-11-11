@@ -62,7 +62,7 @@ export default async function ContactPage() {
             </span>
           </div>
         </div>
-        
+
         {/* Resume Carousel on the side for desktop, below for mobile */}
         <div className="flex-1 w-full flex justify-center md:justify-end md:pr-10 lg:pr-16">
           <ResumeCarousel cvs={cvs} />
